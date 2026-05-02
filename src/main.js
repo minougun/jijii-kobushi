@@ -541,6 +541,9 @@ function setPhase(phase) {
   state.phase = phase;
   if (phase !== "battle") state.paused = false;
   document.documentElement.dataset.phase = phase;
+  if (typeof window !== "undefined") {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }
   state.phaseStartedAt = performance.now();
   state.phaseElapsed = 0;
   state.battleTimeMs = -1;
