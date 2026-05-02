@@ -155,27 +155,10 @@ html[data-phase="endingVideo"] .gameSurface {
   align-items: start;
 }
 
-.eyebrow {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: #e3bf55;
-  text-shadow: 0 1px 0 #000;
-}
-
-h1 {
-  margin: 0;
-  font-size: clamp(24px, 4vw, 40px);
-  line-height: 1.1;
-  font-weight: 600;
-  color: #fff8e8;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.7);
-}
-
 .topbarTitleRow {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 10px;
   flex-wrap: wrap;
   min-width: 0;
@@ -1727,15 +1710,6 @@ html.comfort-hud .inputZone strong {
   .topbarTitleRow {
     align-items: center;
     flex-wrap: nowrap;
-  }
-
-  .eyebrow {
-    font-size: 10px;
-  }
-
-  h1 {
-    font-size: 24px;
-    line-height: 1;
   }
 
   .phaseBadge {
