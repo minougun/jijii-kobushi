@@ -3122,7 +3122,19 @@ export function createRenderer(canvas, ctx, state) {
 
   function getRhythmPanelChrome(showRhythmGuide, layout) {
     const { panelX, panelY, panelW, panelH, stripX, stripY, stripW, stripH, callY, repeatY } = layout;
-    const key = showRhythmGuide ? "guide" : "compact";
+    const key = [
+      showRhythmGuide ? "guide" : "compact",
+      panelX,
+      panelY,
+      panelW,
+      panelH,
+      stripX,
+      stripY,
+      stripW,
+      stripH,
+      callY,
+      repeatY,
+    ].join(":");
     if (rhythmChromeCache.has(key)) return rhythmChromeCache.get(key);
     const chrome = makeCanvas();
     const c = chrome.getContext("2d");
@@ -3167,19 +3179,23 @@ export function createRenderer(canvas, ctx, state) {
   function drawCanvasRhythmBar() {
     if (state.phase !== "battle") return;
     const next = state.nextNote;
-    const showRhythmGuide = state.stageIndex === 0;
-    const panelX = 48;
-    const panelY = 352;
+    const isMobilePortrait =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
+    const showRhythmGuide = state.stageIndex === 0 && !isMobilePortrait;
+    const panelX = isMobilePortrait ? 24 : 48;
+    const panelY = isMobilePortrait ? 334 : 352;
     const panelW = W - panelX * 2;
-    const panelH = 170;
-    const infoW = showRhythmGuide ? 124 : 82;
-    const stripX = panelX + infoW + 18;
-    const stripY = panelY + 22;
-    const stripW = panelW - infoW - 48;
-    const stripH = panelH - 66;
-    const hitX = stripX + stripW * 0.42;
-    const repeatY = stripY + 68;
-    const callY = stripY + 26;
+    const panelH = isMobilePortrait ? 186 : 170;
+    const infoW = showRhythmGuide ? 124 : isMobilePortrait ? 58 : 82;
+    const stripX = panelX + infoW + (isMobilePortrait ? 10 : 18);
+    const stripY = panelY + (isMobilePortrait ? 16 : 22);
+    const stripW = panelW - infoW - (isMobilePortrait ? 22 : 48);
+    const stripH = panelH - (isMobilePortrait ? 56 : 66);
+    const hitX = stripX + stripW * (isMobilePortrait ? 0.44 : 0.42);
+    const repeatY = stripY + (isMobilePortrait ? 66 : 68);
+    const callY = stripY + (isMobilePortrait ? 24 : 26);
     const portraitCx = panelX + 78;
     const portraitCy = panelY + 92;
     const markerRange = 2500;
@@ -3259,7 +3275,7 @@ export function createRenderer(canvas, ctx, state) {
     }
 
     const callText = next?.enemyCue ? "相手の合図" : next?.phraseLabel ?? "曲の拍";
-    const callW = Math.min(210, Math.max(108, 18 + callText.length * 14));
+    const callW = Math.min(isMobilePortrait ? 176 : 210, Math.max(isMobilePortrait ? 90 : 108, 18 + callText.length * 14));
     const callX = stripX + (showRhythmGuide ? 66 : 24);
     ctx.fillStyle = next?.enemyCue ? "#ef5b4f" : "rgba(255, 247, 210, 0.78)";
     ctx.beginPath();

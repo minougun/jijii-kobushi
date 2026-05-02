@@ -1,5 +1,5 @@
 import { createAudioEngine } from "./audio.js?v=20260430-1125";
-import { createRenderer } from "./renderer.js?v=20260503-0201";
+import { createRenderer } from "./renderer.js?v=20260503-mobile1";
 import {
   DIFFICULTIES,
   STAGES,
@@ -53,6 +53,7 @@ const ctx = canvas.getContext("2d", { alpha: false });
 const settingsRoot = document.querySelector(".settings");
 
 const dom = {
+  shell: document.querySelector(".shell"),
   gameSurface: document.querySelector(".gameSurface"),
   hpMeter: document.querySelector("#hpMeter"),
   enemyHpMeter: document.querySelector("#enemyHpMeter"),
@@ -1870,6 +1871,30 @@ function onInputUp(event) {
   state.inputHint = "次の拍へ";
 }
 
+function isMobileBattleViewport() {
+  return (
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches
+  );
+}
+
+function shouldUseMobileBlankTapArea(event) {
+  if (state.phase !== "battle" || state.paused || !isMobileBattleViewport()) return false;
+  const target = event.target;
+  if (!(target instanceof Element)) return false;
+  return !target.closest(".topbar, .gameSurface, .settings, .helpGuide, .overlay, .pauseMenu, button, input, select, textarea, a");
+}
+
+function onMobileBlankTapDown(event) {
+  if (!shouldUseMobileBlankTapArea(event)) return;
+  onInputDown(event);
+}
+
+function onMobileBlankTapUp(event) {
+  if (!shouldUseMobileBlankTapArea(event)) return;
+  onInputUp(event);
+}
+
 function updateNotes() {
   if (state.phase !== "battle" || state.paused) return;
   if (!state.battleClockReady) {
@@ -2215,6 +2240,9 @@ dom.inputZone.addEventListener("pointercancel", onInputUp);
 canvas.addEventListener("pointerdown", onInputDown);
 canvas.addEventListener("pointerup", onInputUp);
 canvas.addEventListener("pointercancel", onInputUp);
+dom.shell.addEventListener("pointerdown", onMobileBlankTapDown);
+dom.shell.addEventListener("pointerup", onMobileBlankTapUp);
+dom.shell.addEventListener("pointercancel", onMobileBlankTapUp);
 window.addEventListener("keydown", (event) => {
   if (event.code === "Escape") {
     if (state.paused) void resumeGame();

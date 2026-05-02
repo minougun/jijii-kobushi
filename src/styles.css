@@ -1947,6 +1947,14 @@ html.comfort-hud .inputZone strong {
 }
 
 @media (max-width: 720px) and (orientation: portrait) {
+  html[data-phase="battle"],
+  html[data-phase="battle"] body {
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+    overflow: hidden;
+  }
+
   html[data-phase="endingVideo"] .gameSurface {
     aspect-ratio: auto;
     height: min(88svh, 720px);
@@ -1954,18 +1962,48 @@ html.comfort-hud .inputZone strong {
   }
 
   html[data-phase="battle"] .shell {
-    width: min(100%, calc(100% - 4px));
-    padding: 4px 2px;
-    gap: 5px;
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+    padding: 4px;
+    gap: 4px;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    align-content: start;
+    overflow: hidden;
+  }
+
+  html[data-phase="battle"] .shell::after {
+    content: "";
+    display: block;
+    min-height: 0;
+    border: 2px solid rgba(23, 23, 23, 0.72);
+    border-radius: 8px;
+    background:
+      repeating-linear-gradient(0deg, rgba(227, 191, 85, 0.12) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(90deg, rgba(39, 68, 93, 0.07) 0 2px, transparent 2px 28px),
+      linear-gradient(180deg, rgba(255, 247, 210, 0.9), rgba(251, 247, 239, 0.96));
+    box-shadow:
+      inset 0 0 0 3px rgba(255, 255, 255, 0.5),
+      0 8px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  html[data-phase="battle"] .settings,
+  html[data-phase="battle"] .helpGuide {
+    display: none;
   }
 
   html[data-phase="battle"] .topbar {
-    gap: 5px;
-    padding: 7px 6px 8px;
+    gap: 4px;
+    padding: 5px 5px 6px;
+    border-radius: 7px;
   }
 
   html[data-phase="battle"] .topbarTitleRow {
     display: none;
+  }
+
+  html[data-phase="battle"] .topbarTop {
+    gap: 4px;
   }
 
   html[data-phase="battle"] .hudNumbers {
@@ -1975,42 +2013,78 @@ html.comfort-hud .inputZone strong {
     text-align: left;
   }
 
-  html[data-phase="battle"] .duelHud {
-    grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1fr);
-    gap: 5px;
-  }
-
-  html[data-phase="battle"] .duelVs {
-    width: 34px;
-    height: 34px;
+  html[data-phase="battle"] .hudNumbers span {
     font-size: 10px;
   }
 
+  html[data-phase="battle"] .hudNumbers strong {
+    font-size: 17px;
+  }
+
+  html[data-phase="battle"] .duelHud {
+    grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr);
+    gap: 3px;
+  }
+
+  html[data-phase="battle"] .duelVs {
+    width: 28px;
+    height: 28px;
+    font-size: 9px;
+  }
+
   html[data-phase="battle"] .duelCol {
-    padding: 5px 6px 6px;
+    gap: 3px;
+    padding: 4px 5px 5px;
+    clip-path: none;
+    border-radius: 5px;
   }
 
   html[data-phase="battle"] .duelColHead {
-    font-size: 11px;
+    gap: 4px;
+    font-size: 10px;
+    line-height: 1.1;
   }
 
   html[data-phase="battle"] .duelHpNums {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   html[data-phase="battle"] .meterTrack--duel {
-    height: 13px;
+    height: 10px;
   }
 
   html[data-phase="battle"] .spiritRow {
-    grid-template-columns: 34px 1fr;
-    padding: 4px 6px;
-    font-size: 11px;
+    grid-template-columns: 30px 1fr;
+    gap: 5px;
+    padding: 3px 5px;
+    font-size: 10px;
+  }
+
+  html[data-phase="battle"] .spiritRow .meterTrack {
+    height: 8px;
   }
 
   html[data-phase="battle"] .gameSurface {
     aspect-ratio: 16 / 9;
-    max-height: min(52svh, 460px);
+    max-height: none;
+  }
+
+  html[data-phase="battle"] .quickSaveButton,
+  html[data-phase="battle"] .pauseButton {
+    top: 8px;
+    min-width: 64px;
+    min-height: 38px;
+    padding: 6px 9px;
+    font-size: 13px;
+    opacity: 0.94;
+  }
+
+  html[data-phase="battle"] .gameSurface.hasPauseButton .quickSaveButton {
+    right: 82px;
+  }
+
+  html[data-phase="battle"] .pauseButton {
+    right: 8px;
   }
 
   html[data-phase="battle"].doodle-loop .duelHpNums {
