@@ -316,8 +316,8 @@ function updatePortraitHint() {
     if (dom.portraitHint) dom.portraitHint.hidden = true;
     return;
   }
-  const landscapePhone = window.matchMedia("(max-width: 900px) and (orientation: landscape)").matches;
-  dom.portraitHint.hidden = !landscapePhone;
+  const portraitPhone = window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches;
+  dom.portraitHint.hidden = !portraitPhone;
   requestRender();
 }
 

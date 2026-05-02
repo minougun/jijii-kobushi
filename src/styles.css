@@ -1946,6 +1946,171 @@ html.comfort-hud .inputZone strong {
 
 }
 
+@media (max-width: 900px) and (orientation: landscape) {
+  html[data-phase="battle"],
+  html[data-phase="battle"] body {
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+    overflow: hidden;
+    background: #171717;
+  }
+
+  html[data-phase="battle"] .shell {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+    display: grid;
+    grid-template-rows: 1fr;
+    place-items: center;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #171717;
+  }
+
+  html[data-phase="battle"] .settings,
+  html[data-phase="battle"] .helpGuide {
+    display: none;
+  }
+
+  html[data-phase="battle"] .topbar {
+    position: absolute;
+    z-index: 11;
+    top: max(4px, env(safe-area-inset-top, 0px));
+    left: 50%;
+    width: min(100vw, calc(100svh * 16 / 9));
+    max-width: 100%;
+    transform: translateX(-50%);
+    gap: 3px;
+    padding: 4px 160px 5px 7px;
+    border-radius: 0 0 8px 8px;
+    background:
+      linear-gradient(180deg, rgba(17, 18, 22, 0.92), rgba(17, 18, 22, 0.66)),
+      linear-gradient(90deg, rgba(184, 59, 41, 0.28), transparent 35%, rgba(74, 42, 110, 0.28));
+    box-shadow:
+      0 0 0 1px rgba(227, 191, 85, 0.42),
+      0 8px 18px rgba(0, 0, 0, 0.22);
+    pointer-events: none;
+  }
+
+  html[data-phase="battle"] .topbar::after {
+    display: none;
+  }
+
+  html[data-phase="battle"] .topbarTitleRow {
+    display: none;
+  }
+
+  html[data-phase="battle"] .topbarTop {
+    gap: 4px;
+  }
+
+  html[data-phase="battle"] .hudNumbers {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    text-align: left;
+  }
+
+  html[data-phase="battle"] .hudNumbers span {
+    font-size: 9px;
+  }
+
+  html[data-phase="battle"] .hudNumbers strong {
+    font-size: 14px;
+  }
+
+  html[data-phase="battle"] .duelHud {
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  html[data-phase="battle"] .duelVs {
+    width: 24px;
+    height: 24px;
+    font-size: 8px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.28),
+      0 0 0 1px #07080a,
+      0 0 0 2px rgba(227, 191, 85, 0.34);
+  }
+
+  html[data-phase="battle"] .duelCol {
+    gap: 2px;
+    padding: 3px 5px 4px;
+    clip-path: none;
+    border-radius: 4px;
+  }
+
+  html[data-phase="battle"] .duelColHead {
+    gap: 4px;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  html[data-phase="battle"] .duelLabel,
+  html[data-phase="battle"] .duelHpNums {
+    font-size: 9px;
+  }
+
+  html[data-phase="battle"] .meterTrack--duel {
+    height: 7px;
+  }
+
+  html[data-phase="battle"] .spiritRow {
+    grid-template-columns: 24px 1fr;
+    gap: 4px;
+    padding: 2px 5px;
+    font-size: 8px;
+  }
+
+  html[data-phase="battle"] .spiritRow .meterTrack {
+    height: 6px;
+  }
+
+  html[data-phase="battle"] .gameSurface {
+    width: min(100vw, calc(100svh * 16 / 9));
+    height: min(100svh, calc(100vw * 9 / 16));
+    max-width: 100vw;
+    max-height: 100svh;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+  }
+
+  html[data-phase="battle"] canvas {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  html[data-phase="battle"] .quickSaveButton,
+  html[data-phase="battle"] .pauseButton {
+    top: max(6px, env(safe-area-inset-top, 0px));
+    z-index: 12;
+    min-width: 62px;
+    min-height: 32px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    line-height: 1.1;
+    opacity: 0.94;
+  }
+
+  html[data-phase="battle"] .gameSurface.hasPauseButton .quickSaveButton {
+    right: 88px;
+  }
+
+  html[data-phase="battle"] .pauseButton {
+    min-width: 76px;
+  }
+
+  html[data-phase="battle"] .pauseButton {
+    right: max(6px, env(safe-area-inset-right, 0px));
+  }
+}
+
 @media (max-width: 720px) and (orientation: portrait) {
   html[data-phase="battle"],
   html[data-phase="battle"] body {

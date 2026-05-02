@@ -66,7 +66,7 @@ const JA = {
     na: "—",
   },
   portrait: {
-    text: "スマホでは縦向き推奨。親指が判定ラインを隠しにくくなります。",
+    text: "スマホでは横向き推奨。判定ラインとノーツが見やすくなります。",
     dismiss: "了解",
   },
   help: {
@@ -163,7 +163,7 @@ const EN = {
     na: "—",
   },
   portrait: {
-    text: "On phones, portrait is recommended so your thumb hides the lane less.",
+    text: "On phones, landscape is recommended so the timing line and notes stay readable.",
     dismiss: "OK",
   },
   help: {
