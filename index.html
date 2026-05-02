@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ja" data-ui-lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fbf7ef" />
+    <title>爺コブシ</title>
+    <link rel="stylesheet" href="./src/styles.css?v=20260430-1450" />
+  </head>
+  <body>
+    <main class="shell" aria-label="爺コブシ">
+      <section class="topbar" aria-label="状況">
+        <div class="topbarTop">
+          <div class="topbarTitleRow">
+            <div>
+              <p class="eyebrow">JII KOBUSHI</p>
+              <h1>爺コブシ</h1>
+            </div>
+            <p id="phaseBadge" class="phaseBadge" role="status" aria-live="polite">タイトル</p>
+          </div>
+          <div class="hudNumbers">
+            <span id="stageLabel">商店街</span>
+            <strong id="scoreLabel">0</strong>
+          </div>
+        </div>
+        <section class="duelHud" aria-label="体力ゲージ">
+          <div class="duelCol duelCol--player">
+            <div class="duelColHead">
+              <span id="playerHpLabel" class="duelLabel">立石小次郎</span>
+              <span id="playerHpValue" class="duelHpNums" aria-live="polite">12 / 12</span>
+            </div>
+            <div class="meterTrack meterTrack--duel meterTrack--playerHp">
+              <i id="hpMeter"></i>
+            </div>
+          </div>
+          <div class="duelVs" aria-hidden="true">VS</div>
+          <div class="duelCol duelCol--enemy">
+            <div class="duelColHead">
+              <span id="enemyNameLabel" class="duelLabel">敵</span>
+              <span id="enemyHpValue" class="duelHpNums" aria-live="polite">860 / 860</span>
+            </div>
+            <div class="meterTrack meterTrack--duel meterTrack--enemyHp">
+              <i id="enemyHpMeter"></i>
+            </div>
+          </div>
+        </section>
+        <div class="spiritRow" aria-label="気合ゲージ">
+          <span id="spiritLabel" class="spiritLabel">気合</span>
+          <div class="meterTrack meterTrack--spiritRow spirit">
+            <i id="spiritMeter"></i>
+          </div>
+        </div>
+      </section>
+
+      <section class="gameSurface">
+        <canvas id="game" width="960" height="540" aria-label="ゲーム画面"></canvas>
+        <button id="quickSaveButton" class="quickSaveButton" type="button" hidden>セーブ</button>
+        <button id="pauseButton" class="pauseButton" type="button" hidden>一時停止</button>
+        <section class="rhythmPanel" aria-label="リズム入力">
+          <div class="beatHeader">
+            <div>
+              <span id="modeLabel">見る場所: 金の判定線</span>
+              <strong id="nextNoteLabel">TAP</strong>
+              <span id="timingReadout" class="timingReadout" hidden aria-live="polite">—</span>
+            </div>
+            <p id="judgeLabel">金の判定線を見る</p>
+          </div>
+          <div class="beatLane" aria-hidden="true">
+            <i id="beatFill"></i>
+            <b id="hitWindow"></b>
+            <em id="noteMarker">T</em>
+          </div>
+          <button id="inputZone" class="inputZone" type="button">
+            <span id="inputIcon">拍</span>
+            <strong id="inputText">タップ / 長押し</strong>
+          </button>
+        </section>
+        <div id="overlay" class="overlay">
+          <p class="overlayKicker">演歌風タイミング活劇</p>
+          <img id="openingArtwork" class="openingArtwork" src="./assets/images/op-title-kakizome-hanshi-v1.png?v=20260430-1429" alt="木製フローリングの上に置かれた書き初め用の縦長半紙へ筆字で書かれた爺コブシ" hidden />
+          <h2 id="overlayTitle">孫を取り戻せ</h2>
+          <p id="overlayText">
+            最初に難易度を選ぶ。戦闘中はノーツが金の判定線に重なった瞬間に押す。演歌の拍と効果音が合図。細かく続く拍は長押しではなく、間隔を見てタップで捌く。
+          </p>
+          <div id="difficultySelect" class="difficultySelect" aria-label="難易度選択">
+            <button type="button" data-difficulty="easy">
+              <strong>イージー</strong>
+              <span>気楽に救出</span>
+            </button>
+            <button type="button" data-difficulty="normal" aria-pressed="true">
+              <strong>ノーマル</strong>
+              <span>標準勝負</span>
+            </button>
+            <button type="button" data-difficulty="hard">
+              <strong>ハード</strong>
+              <span>上級者向け</span>
+            </button>
+          </div>
+          <div class="overlayActions">
+            <button id="primaryButton" type="button">タップで開始</button>
+            <button id="skipButton" type="button" class="secondary">会話を送る</button>
+          </div>
+          <div id="titleSaveSlots" class="saveSlotPanel" hidden>
+            <p class="saveSlotTitle">セーブデータ</p>
+            <div class="saveSlotActions">
+              <button id="loadFirstButton" type="button" class="secondary">1周目をロード</button>
+              <button id="loadLoopPlusButton" type="button" class="secondary">2周目以降をロード</button>
+            </div>
+          </div>
+        </div>
+        <div id="pauseMenu" class="pauseMenu" hidden role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+          <p class="pauseKicker">PAUSE</p>
+          <h2 id="pauseTitle">一時停止</h2>
+          <p id="pauseText">現在のステージ冒頭から再開できるように保存できます。</p>
+          <div class="pauseActions">
+            <button id="resumeButton" type="button">再開</button>
+            <button id="saveRunButton" type="button" class="secondary">現在の周回をセーブ</button>
+            <button id="pauseLoadFirstButton" type="button" class="secondary">1周目をロード</button>
+            <button id="pauseLoadLoopPlusButton" type="button" class="secondary">2周目以降をロード</button>
+            <button id="returnTitleButton" type="button" class="danger">タイトルへ戻る</button>
+          </div>
+        </div>
+        <div id="endingVideoLayer" class="endingVideoLayer" hidden role="dialog" aria-modal="true" aria-label="エンディング動画">
+          <video id="endingVideo" class="endingVideo" src="./assets/video/ending.mp4" preload="metadata" playsinline></video>
+          <canvas id="endingBonusPanel" class="endingRhythmCanvas" width="960" height="170" aria-label="EDリズム入力"></canvas>
+          <div class="endingVideoChrome">
+            <p id="endingVideoStatus">ED再生中</p>
+            <button id="endingVideoSkip" type="button">結果へ進む</button>
+          </div>
+        </div>
+      </section>
+
+      <details class="settings" aria-label="設定">
+        <summary>設定</summary>
+        <div class="settingsBody">
+          <button id="muteButton" type="button">音 ON</button>
+          <label>
+            入力補正
+            <input id="offsetRange" type="range" min="-120" max="120" step="5" value="0" />
+            <span id="offsetLabel">0ms</span>
+          </label>
+          <button id="motionButton" type="button">動き 自動</button>
+          <div class="settingsLangRow" role="group" aria-label="表示言語">
+            <button id="langJaButton" type="button" class="secondary" aria-pressed="true">日本語</button>
+            <button id="langEnButton" type="button" class="secondary" aria-pressed="false">English</button>
+          </div>
+          <button id="comfortButton" type="button" class="secondary" aria-pressed="false">表示 大きめ</button>
+          <button id="resetButton" type="button" class="danger">記録リセット</button>
+        </div>
+      </details>
+
+      <details id="helpGuide" class="helpGuide">
+        <summary>操作ガイド（初回は開いておく）</summary>
+        <div class="helpBody">
+          <div class="helpCol helpColJa">
+            <h3>基本</h3>
+            <ul>
+              <li><strong>TAP</strong>：ノーツが金の判定線に重なった瞬間にタップ。</li>
+              <li><strong>HOLD</strong>：金の「長押」で押し続け、白い「離す」が判定線に来たら離す。</li>
+              <li><strong>連打</strong>：赤い枠が出ているあいだ、目標回数まで連打。多すぎるとランクが落ちる。失敗しても体力は減らない。</li>
+              <li><strong>細かいTAP</strong>：同じレーンで短く続くノーツはすべてタップ。長押しではない。</li>
+              <li><strong>連撃</strong>：5連、10連で追撃。短いTAPをつなぐほど敵体力を大きく削れる。</li>
+            </ul>
+            <h3>便利機能</h3>
+            <ul>
+              <li>入力補正：音や画面の遅れに合わせて ms でずらせます。</li>
+              <li>表示 大きめ：タイミング読み（次の拍までの ms）と文字を大きくします。</li>
+              <li>セーブ：プレイ中は画面右上の「セーブ」で周回別に保存できます。</li>
+              <li>一時停止：戦闘中に画面右上の「一時停止」または Esc。</li>
+            </ul>
+          </div>
+          <div class="helpCol helpColEn">
+            <h3>Basics</h3>
+            <ul>
+              <li><strong>TAP</strong> when the note meets the gold judgment line.</li>
+              <li><strong>HOLD</strong>: hold on the gold long-hold marker, then release when the white release marker reaches the line.</li>
+              <li>
+                <strong>MASH</strong>: while the marker is in the window, mash to the target count—wild overspam lowers rank. Mash misses do not cost HP.
+              </li>
+              <li><strong>Dense TAP</strong>: quick taps on the same lane are still taps—release between each one, not a hold.</li>
+              <li><strong>Combo strikes</strong>: 5- and 10-hit chains add pursuit damage, so dense taps matter.</li>
+            </ul>
+            <h3>Comfort</h3>
+            <ul>
+              <li>Input offset (ms) fixes audio/video lag.</li>
+              <li>Comfort / larger: shows “ms to next beat” and bumps type size.</li>
+              <li>Save: use the top-right <strong>Save</strong> button during a run. Saves are split by first loop and loop 2+.</li>
+              <li>Pause: top-right <strong>Pause</strong> or <kbd>Esc</kbd> during battle.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </main>
+
+    <div id="portraitHint" class="portraitHint" hidden>
+      <p class="portraitHintText">スマホでは縦向き推奨。親指が判定ラインを隠しにくくなります。</p>
+      <button id="portraitDismiss" type="button" class="secondary">了解</button>
+    </div>
+
+    <script type="module" src="./src/main.js?v=20260430-1607"></script>
+  </body>
+</html>

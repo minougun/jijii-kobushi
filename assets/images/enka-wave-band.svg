@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 192" width="960" height="192" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="192" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#253140"/>
+      <stop offset="0.54" stop-color="#141b24"/>
+      <stop offset="1" stop-color="#090a0d"/>
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="45%" r="58%">
+      <stop offset="0" stop-color="#d8ad4a" stop-opacity="0.18"/>
+      <stop offset="0.46" stop-color="#fff7d2" stop-opacity="0.07"/>
+      <stop offset="1" stop-color="#fff7d2" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="seigaiha" width="96" height="56" patternUnits="userSpaceOnUse">
+      <path d="M-48 42 C-24 16 24 16 48 42 C72 16 120 16 144 42" fill="none" stroke="#fff7d2" stroke-width="2" stroke-opacity="0.13" stroke-linecap="round"/>
+      <path d="M-48 28 C-24 2 24 2 48 28 C72 2 120 2 144 28" fill="none" stroke="#d8ad4a" stroke-width="2.4" stroke-opacity="0.18" stroke-linecap="round"/>
+      <path d="M-48 56 C-24 30 24 30 48 56 C72 30 120 30 144 56" fill="none" stroke="#d8ad4a" stroke-width="1.7" stroke-opacity="0.1" stroke-linecap="round"/>
+    </pattern>
+    <pattern id="flowLines" width="168" height="84" patternUnits="userSpaceOnUse">
+      <path d="M-28 22 Q14 2 56 22 T140 22 T224 22" fill="none" stroke="#f6d95f" stroke-width="3" stroke-opacity="0.15" stroke-linecap="round"/>
+      <path d="M-48 58 Q-6 38 36 58 T120 58 T204 58" fill="none" stroke="#fff7d2" stroke-width="2" stroke-opacity="0.13" stroke-linecap="round"/>
+      <path d="M28 80 Q70 60 112 80 T196 80" fill="none" stroke="#70c7ff" stroke-width="1.6" stroke-opacity="0.08" stroke-linecap="round"/>
+    </pattern>
+    <linearGradient id="topShade" x1="0" y1="0" x2="0" y2="30">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bottomShade" x1="0" y1="118" x2="0" y2="192">
+      <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.34"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="192" fill="url(#base)"/>
+  <rect width="960" height="192" fill="url(#seigaiha)"/>
+  <rect width="960" height="192" fill="url(#flowLines)"/>
+  <rect width="960" height="192" fill="url(#centerGlow)"/>
+  <rect width="960" height="30" fill="url(#topShade)"/>
+  <rect y="118" width="960" height="74" fill="url(#bottomShade)"/>
+  <rect y="0" width="960" height="2" fill="#fff7d2" opacity="0.18"/>
+  <rect y="10" width="960" height="1" fill="#000000" opacity="0.36"/>
+</svg>
