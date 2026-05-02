@@ -2123,6 +2123,7 @@ html.comfort-hud .inputZone strong {
     height: 100svh;
     padding: max(6px, env(safe-area-inset-top, 0px)) 6px max(8px, env(safe-area-inset-bottom, 0px));
     gap: 6px;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto minmax(0, 1fr);
     align-content: start;
     overflow: hidden;
@@ -2221,10 +2222,17 @@ html.comfort-hud .inputZone strong {
   }
 
   html[data-phase="battle"] .gameSurface {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: auto;
+    height: min(32svh, 270px);
     max-height: none;
     width: 100%;
     min-height: 0;
+    overflow: hidden;
+  }
+
+  html[data-phase="battle"] canvas {
+    object-fit: cover;
+    object-position: left center;
   }
 
   html[data-phase="battle"] .quickSaveButton,
