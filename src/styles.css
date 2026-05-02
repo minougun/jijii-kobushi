@@ -1949,6 +1949,8 @@ html.comfort-hud .inputZone strong {
 }
 
 @media (max-width: 1100px) and (orientation: landscape) {
+  html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]),
+  html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) body,
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]),
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) body,
   html[data-phase="battle"],
@@ -1960,6 +1962,7 @@ html.comfort-hud .inputZone strong {
     background: #171717;
   }
 
+  html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .shell,
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell,
   html[data-phase="battle"] .shell {
     position: relative;
@@ -1973,6 +1976,51 @@ html.comfort-hud .inputZone strong {
     padding: 0;
     overflow: hidden;
     background: #171717;
+  }
+
+  html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .gameSurface {
+    width: min(100vw, calc(100svh * 16 / 9));
+    height: min(100svh, calc(100vw * 9 / 16));
+    max-width: 100vw;
+    max-height: 100svh;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+  }
+
+  html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) canvas {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  html:is([data-phase="opening"], [data-phase="title"]) .overlay.openingOverlay {
+    gap: clamp(6px, 2svh, 10px);
+    padding: max(10px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+  }
+
+  html:is([data-phase="opening"], [data-phase="title"]) .overlay.openingOverlay p:not(.overlayKicker) {
+    width: min(100%, 680px);
+    max-height: min(34svh, 138px);
+    padding: 10px 12px;
+    overflow: auto;
+    font-size: clamp(13px, 3.2svh, 17px);
+    line-height: 1.55;
+  }
+
+  html:is([data-phase="opening"], [data-phase="title"]) .overlay.openingOverlay .overlayActions button {
+    min-height: 44px;
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  html[data-phase="title"] .overlay.openingOverlay.titleOverlay .difficultySelect {
+    width: min(100%, 560px);
+    padding: 7px;
+  }
+
+  html[data-phase="title"] .overlay.openingOverlay.titleOverlay .difficultySelect button {
+    min-width: 116px;
+    min-height: 44px;
+    padding: 6px 10px;
   }
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .settings,
