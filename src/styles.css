@@ -2133,7 +2133,8 @@ html.comfort-hud .inputZone strong {
   html[data-phase="battle"] .shell::after {
     content: "";
     display: block;
-    min-height: 0;
+    height: min(28svh, 236px);
+    min-height: 180px;
     width: 100%;
     border: 2px solid rgba(23, 23, 23, 0.78);
     border-radius: 8px;
@@ -2147,6 +2148,15 @@ html.comfort-hud .inputZone strong {
       inset 0 0 0 3px rgba(255, 255, 255, 0.5),
       inset 0 16px 28px rgba(255, 255, 255, 0.45),
       0 8px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  html[data-phase="battle"] .shell:active::after {
+    background:
+      radial-gradient(circle at 50% 54%, rgba(207, 53, 41, 0.34) 0 14px, transparent 15px 40px, rgba(227, 191, 85, 0.34) 41px 47px, transparent 48px 86px),
+      radial-gradient(circle at 50% 54%, transparent 0 108px, rgba(23, 23, 23, 0.12) 109px 112px, transparent 113px),
+      repeating-linear-gradient(0deg, rgba(227, 191, 85, 0.14) 0 2px, transparent 2px 24px),
+      repeating-linear-gradient(90deg, rgba(39, 68, 93, 0.08) 0 2px, transparent 2px 30px),
+      linear-gradient(180deg, rgba(255, 247, 210, 0.94), rgba(251, 247, 239, 0.98));
   }
 
   html[data-phase="battle"] .settings,
@@ -2223,7 +2233,7 @@ html.comfort-hud .inputZone strong {
 
   html[data-phase="battle"] .gameSurface {
     aspect-ratio: auto;
-    height: min(32svh, 270px);
+    height: min(36svh, 300px);
     max-height: none;
     width: 100%;
     min-height: 0;
@@ -2232,7 +2242,7 @@ html.comfort-hud .inputZone strong {
 
   html[data-phase="battle"] canvas {
     object-fit: cover;
-    object-position: left center;
+    object-position: 10% center;
   }
 
   html[data-phase="battle"] .quickSaveButton,

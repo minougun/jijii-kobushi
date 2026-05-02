@@ -3182,13 +3182,13 @@ export function createRenderer(canvas, ctx, state) {
     const isMobilePortrait =
       typeof window !== "undefined" &&
       typeof window.matchMedia === "function" &&
-      window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
+      window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches;
     const showRhythmGuide = state.stageIndex === 0 && !isMobilePortrait;
     const panelX = isMobilePortrait ? 24 : 48;
     const panelY = isMobilePortrait ? 334 : 352;
     const panelW = W - panelX * 2;
     const panelH = isMobilePortrait ? 186 : 170;
-    const infoW = showRhythmGuide ? 124 : isMobilePortrait ? 58 : 82;
+    const infoW = showRhythmGuide ? 124 : isMobilePortrait ? 102 : 82;
     const stripX = panelX + infoW + (isMobilePortrait ? 10 : 18);
     const stripY = panelY + (isMobilePortrait ? 16 : 22);
     const stripW = panelW - infoW - (isMobilePortrait ? 22 : 48);
@@ -3234,9 +3234,55 @@ export function createRenderer(canvas, ctx, state) {
     ctx.fillStyle = "#171717";
     ctx.font = `600 12px ${CANVAS_FONT}`;
     ctx.textAlign = "left";
-    ctx.fillText(showRhythmGuide ? "次の操作" : "次", panelX + 18, panelY + 26);
-    ctx.font = `600 26px ${CANVAS_FONT}`;
-    ctx.fillText(next ? nextNoteLabel(next) : "待機", panelX + 18, panelY + 56);
+    if (isMobilePortrait && !showRhythmGuide) {
+      const buttonX = panelX + 10;
+      const buttonY = panelY + 18;
+      const buttonW = infoW - 12;
+      const buttonH = 112;
+      const actionText = next ? nextNoteLabel(next) : "待機";
+      const buttonPulse = state.reducedMotion ? 0.45 : Math.sin(state.elapsed / 180) * 0.12 + 0.42;
+      const buttonGradient = ctx.createLinearGradient(buttonX, buttonY, buttonX, buttonY + buttonH);
+      buttonGradient.addColorStop(0, "rgba(255, 247, 210, 0.98)");
+      buttonGradient.addColorStop(0.48, "rgba(246, 217, 95, 0.96)");
+      buttonGradient.addColorStop(1, "rgba(227, 191, 85, 0.98)");
+      ctx.save();
+      ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 5;
+      ctx.fillStyle = "#171717";
+      ctx.beginPath();
+      ctx.roundRect(buttonX + 4, buttonY + 5, buttonW, buttonH, 12);
+      ctx.fill();
+      ctx.shadowColor = "transparent";
+      ctx.fillStyle = buttonGradient;
+      ctx.beginPath();
+      ctx.roundRect(buttonX, buttonY, buttonW, buttonH, 12);
+      ctx.fill();
+      ctx.strokeStyle = "#171717";
+      ctx.lineWidth = 4;
+      ctx.stroke();
+      ctx.globalAlpha = 0.32 + buttonPulse;
+      ctx.strokeStyle = "#fff7d2";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.roundRect(buttonX + 8, buttonY + 8, buttonW - 16, buttonH - 16, 9);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#171717";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "alphabetic";
+      ctx.font = `600 12px ${CANVAS_FONT}`;
+      ctx.fillText("入力", buttonX + buttonW / 2, buttonY + 24);
+      ctx.font = `600 ${actionText.length >= 3 ? 24 : 30}px ${CANVAS_FONT}`;
+      ctx.fillText(actionText, buttonX + buttonW / 2, buttonY + 62);
+      ctx.font = `600 11px ${CANVAS_FONT}`;
+      ctx.fillText("拍", buttonX + buttonW / 2, buttonY + 92);
+      ctx.restore();
+    } else {
+      ctx.fillText(showRhythmGuide ? "次の操作" : "次", panelX + 18, panelY + 26);
+      ctx.font = `600 26px ${CANVAS_FONT}`;
+      ctx.fillText(next ? nextNoteLabel(next) : "待機", panelX + 18, panelY + 56);
+    }
     if (showRhythmGuide) {
       ctx.font = `500 12px ${CANVAS_FONT}`;
       ctx.fillText(nextActionHint(next), panelX + 18, panelY + 78);
