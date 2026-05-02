@@ -71,14 +71,15 @@
             <strong id="inputText">タップ / 長押し</strong>
           </button>
         </section>
-        <div id="overlay" class="overlay">
+        <div id="overlay" class="overlay openingOverlay">
           <p class="overlayKicker">演歌風タイミング活劇</p>
-          <img id="openingArtwork" class="openingArtwork" src="./assets/images/op-title-kakizome-hanshi-v1.png?v=20260430-1429" alt="木製フローリングの上に置かれた書き初め用の縦長半紙へ筆字で書かれた爺コブシ" hidden />
-          <h2 id="overlayTitle">孫を取り戻せ</h2>
+          <img id="openingArtwork" class="openingArtwork" src="./assets/images/op-title-kakizome-hanshi-v1.png?v=20260430-1429" alt="木製フローリングの上に置かれた書き初め用の縦長半紙へ筆字で書かれた爺コブシ" />
+          <h2 id="overlayTitle">爺コブシ</h2>
           <p id="overlayText">
-            最初に難易度を選ぶ。戦闘中はノーツが金の判定線に重なった瞬間に押す。演歌の拍と効果音が合図。細かく続く拍は長押しではなく、間隔を見てタップで捌く。
+            爺コブシ。
+            この物語は、立石小次郎と、その仲間たちが巻き起こす一大感動巨編である…！
           </p>
-          <div id="difficultySelect" class="difficultySelect" aria-label="難易度選択">
+          <div id="difficultySelect" class="difficultySelect" aria-label="難易度選択" hidden>
             <button type="button" data-difficulty="easy">
               <strong>イージー</strong>
               <span>気楽に救出</span>
@@ -93,8 +94,8 @@
             </button>
           </div>
           <div class="overlayActions">
-            <button id="primaryButton" type="button">タップで開始</button>
-            <button id="skipButton" type="button" class="secondary">会話を送る</button>
+            <button id="primaryButton" type="button">ゲームへ進む</button>
+            <button id="skipButton" type="button" class="secondary" hidden>会話を送る</button>
           </div>
           <div id="titleSaveSlots" class="saveSlotPanel" hidden>
             <p class="saveSlotTitle">セーブデータ</p>
