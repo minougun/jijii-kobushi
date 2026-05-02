@@ -327,7 +327,7 @@ function requestLandscapeOrientation() {
   if (!phoneLike || typeof lock !== "function") return;
   lock.call(window.screen.orientation, "landscape").catch(() => {
     // Some mobile browsers reject orientation lock unless installed/fullscreen.
-    // CSS below still forces a landscape game surface in portrait-locked browsers.
+    // Portrait-locked devices keep a dedicated vertical battle layout.
   });
 }
 
@@ -1840,7 +1840,6 @@ function spawnPetals(count, burst = false) {
 function onInputDown(event) {
   event.preventDefault();
   if (state.paused) return;
-  requestLandscapeOrientation();
   void resumeAudioForInput();
   if (event.pointerId !== undefined && event.currentTarget?.setPointerCapture) {
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -1885,7 +1884,7 @@ function onInputUp(event) {
 function isMobileBattleViewport() {
   return (
     typeof window.matchMedia === "function" &&
-    window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches
+    window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches
   );
 }
 
