@@ -1948,7 +1948,7 @@ html.comfort-hud .inputZone strong {
 
 }
 
-@media (max-width: 900px) and (orientation: landscape) {
+@media (max-width: 1100px) and (orientation: landscape) {
   html[data-phase="battle"],
   html[data-phase="battle"] body {
     width: 100%;
