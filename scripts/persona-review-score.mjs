@@ -136,13 +136,29 @@ function numericMatch(pattern) {
   return match ? Number(match[1]) : NaN;
 }
 
+function desktopTernaryConst(name) {
+  return numericMatch(new RegExp(`const ${name} = isMobilePortrait \\? [0-9.]+ : ([0-9.]+);`));
+}
+
+function compactDesktopInfoW() {
+  return numericMatch(/const infoW = showRhythmGuide \? [0-9.]+ : isMobilePortrait \? [0-9.]+ : ([0-9.]+);/);
+}
+
+function desktopTernaryOffset(expression) {
+  return numericMatch(new RegExp(`${expression} \\+ \\(isMobilePortrait \\? [0-9.]+ : ([0-9.]+)\\);`));
+}
+
+function desktopTernarySubtrahend(expression) {
+  return numericMatch(new RegExp(`${expression} - \\(isMobilePortrait \\? [0-9.]+ : ([0-9.]+)\\);`));
+}
+
 function rhythmHitLineCheck() {
   const canvasW = numericMatch(/const W = ([0-9.]+);/);
-  const panelX = numericMatch(/drawCanvasRhythmBar\(\) \{[\s\S]*?const panelX = ([0-9.]+);/);
-  const normalInfoW = numericMatch(/drawCanvasRhythmBar\(\) \{[\s\S]*?const infoW = showRhythmGuide \? [0-9.]+ : ([0-9.]+);/);
-  const normalStripXOffset = numericMatch(/drawCanvasRhythmBar\(\) \{[\s\S]*?const stripX = panelX \+ infoW \+ ([0-9.]+);/);
-  const normalStripWOffset = numericMatch(/drawCanvasRhythmBar\(\) \{[\s\S]*?const stripW = panelW - infoW - ([0-9.]+);/);
-  const normalHitRatio = numericMatch(/drawCanvasRhythmBar\(\) \{[\s\S]*?const hitX = stripX \+ stripW \* ([0-9.]+);/);
+  const panelX = desktopTernaryConst("panelX");
+  const normalInfoW = compactDesktopInfoW();
+  const normalStripXOffset = desktopTernaryOffset("panelX \\+ infoW");
+  const normalStripWOffset = desktopTernarySubtrahend("panelW - infoW");
+  const normalHitRatio = numericMatch(/const hitX = stripX \+ stripW \* \(isMobilePortrait \? [0-9.]+ : ([0-9.]+)\);/);
   const doodlePanelX = numericMatch(/drawDoodleRhythmBar\(\) \{[\s\S]*?const panelX = ([0-9.]+);/);
   const doodleHitRatio = numericMatch(/drawDoodleRhythmBar\(\) \{[\s\S]*?const hitX = panelX \+ panelW \* ([0-9.]+);/);
 
