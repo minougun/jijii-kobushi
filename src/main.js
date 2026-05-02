@@ -312,13 +312,23 @@ function refreshOpeningOverlay() {
 }
 
 function updatePortraitHint() {
-  if (!dom.portraitHint || state.portraitHintDismissed) {
-    if (dom.portraitHint) dom.portraitHint.hidden = true;
-    return;
-  }
-  const portraitPhone = window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches;
-  dom.portraitHint.hidden = !portraitPhone;
+  if (dom.portraitHint) dom.portraitHint.hidden = true;
   requestRender();
+}
+
+function syncViewportVars() {
+  document.documentElement.style.setProperty("--app-vw", `${window.innerWidth}px`);
+  document.documentElement.style.setProperty("--app-vh", `${window.innerHeight}px`);
+}
+
+function requestLandscapeOrientation() {
+  const phoneLike = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+  const lock = window.screen?.orientation?.lock;
+  if (!phoneLike || typeof lock !== "function") return;
+  lock.call(window.screen.orientation, "landscape").catch(() => {
+    // Some mobile browsers reject orientation lock unless installed/fullscreen.
+    // CSS below still forces a landscape game surface in portrait-locked browsers.
+  });
 }
 
 function save() {
@@ -1830,6 +1840,7 @@ function spawnPetals(count, burst = false) {
 function onInputDown(event) {
   event.preventDefault();
   if (state.paused) return;
+  requestLandscapeOrientation();
   void resumeAudioForInput();
   if (event.pointerId !== undefined && event.currentTarget?.setPointerCapture) {
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -2136,6 +2147,7 @@ dom.difficultySelect.addEventListener("click", (event) => {
 
 dom.primaryButton.addEventListener("click", async () => {
   if (dom.primaryButton.disabled) return;
+  requestLandscapeOrientation();
   dom.primaryButton.disabled = true;
   try {
     await ensureAudioReady();
@@ -2321,10 +2333,17 @@ const handleReducedMotionChange = (event) => {
 if (reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener("change", handleReducedMotionChange);
 else reducedMotionQuery.addListener?.(handleReducedMotionChange);
 window.addEventListener("resize", () => {
+  syncViewportVars();
   resizeCanvasForDpr();
   updatePortraitHint();
 });
 window.visualViewport?.addEventListener("resize", () => {
+  syncViewportVars();
+  resizeCanvasForDpr();
+  updatePortraitHint();
+});
+window.addEventListener("orientationchange", () => {
+  syncViewportVars();
   resizeCanvasForDpr();
   updatePortraitHint();
 });
@@ -2351,6 +2370,7 @@ dom.portraitDismiss?.addEventListener("click", () => {
 });
 
 async function boot() {
+  syncViewportVars();
   syncSettings();
   updatePortraitHint();
   if (dom.helpGuide && !localStorage.getItem("jiiKobushi:onboarding:v1")) {
