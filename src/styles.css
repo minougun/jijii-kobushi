@@ -115,7 +115,7 @@ html[data-phase="endingVideo"] .gameSurface {
     height: 100svh;
     display: grid;
     grid-template-rows: 1fr;
-    place-items: center;
+    place-items: start center;
     gap: 0;
     padding: 0;
     overflow: hidden;
@@ -132,11 +132,11 @@ html[data-phase="endingVideo"] .gameSurface {
     z-index: 11;
     top: max(8px, env(safe-area-inset-top, 0px));
     left: 50%;
-    width: min(100vw, calc(100svh * 16 / 9));
+    width: min(100vw, calc(100svh * 16 / 9), 1920px);
     max-width: 100%;
     transform: translateX(-50%);
     gap: 5px;
-    padding: 6px 176px 7px 10px;
+    padding: 6px 10px 7px;
     border-radius: 0 0 8px 8px;
     background:
       linear-gradient(180deg, rgba(17, 18, 22, 0.92), rgba(17, 18, 22, 0.66)),
@@ -207,8 +207,8 @@ html[data-phase="endingVideo"] .gameSurface {
   }
 
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .gameSurface {
-    width: min(100vw, calc(100svh * 16 / 9));
-    height: min(100svh, calc(100vw * 9 / 16));
+    width: min(100vw, calc(100svh * 16 / 9), 1920px);
+    height: min(100svh, calc(100vw * 9 / 16), 1080px);
     max-width: 100vw;
     max-height: 100svh;
     aspect-ratio: 16 / 9;
@@ -222,7 +222,7 @@ html[data-phase="endingVideo"] .gameSurface {
 
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .quickSaveButton,
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton {
-    top: max(8px, env(safe-area-inset-top, 0px));
+    top: max(96px, calc(8px + env(safe-area-inset-top, 0px)));
     z-index: 12;
     min-width: 78px;
     min-height: 44px;
@@ -234,12 +234,13 @@ html[data-phase="endingVideo"] .gameSurface {
   }
 
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .gameSurface.hasPauseButton .quickSaveButton {
-    right: 102px;
+    right: max(10px, env(safe-area-inset-right, 0px));
   }
 
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton {
     min-width: 88px;
-    right: max(8px, env(safe-area-inset-right, 0px));
+    top: max(146px, calc(58px + env(safe-area-inset-top, 0px)));
+    right: max(10px, env(safe-area-inset-right, 0px));
   }
 }
 
