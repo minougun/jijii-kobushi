@@ -71,7 +71,7 @@ namespace JijiiKobushi.Stage1Prototype
         public string Cue { get; set; }
         public string Track { get; set; }
         public double Gain { get; set; }
-        public int Lead { get; set; }
+        public double Lead { get; set; }
         public string AssetKey { get; set; }
         public string AssetSrc { get; set; }
         public double TrackVolume { get; set; }

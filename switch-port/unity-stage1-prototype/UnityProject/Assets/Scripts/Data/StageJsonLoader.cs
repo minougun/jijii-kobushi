@@ -72,7 +72,7 @@ namespace JijiiKobushi.Stage1Prototype
                     Cue = GetString(bgm, "cue"),
                     Track = GetString(bgm, "track"),
                     Gain = GetDouble(bgm, "gain"),
-                    Lead = GetInt(bgm, "lead"),
+                    Lead = GetDouble(bgm, "lead"),
                     AssetKey = GetString(bgm, "assetKey"),
                     AssetSrc = GetString(bgm, "assetSrc"),
                     TrackVolume = GetDouble(bgm, "trackVolume")

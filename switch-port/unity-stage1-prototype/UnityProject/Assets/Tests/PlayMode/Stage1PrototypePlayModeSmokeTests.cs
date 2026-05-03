@@ -99,5 +99,33 @@ namespace JijiiKobushi.Stage1Prototype
 
             Object.Destroy(runnerObject);
         }
+
+        [UnityTest]
+        public IEnumerator PlaceholderRendererCanLoadStageThreeWithFractionalBgmLead()
+        {
+            var runnerObject = new GameObject("Stage3 PlayMode Smoke Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            runner.DebugLoadStageNumber(3);
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded && runner.DebugBgmFileExists) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.AreEqual("伊藤道場", runner.DebugStageTitle);
+            Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
+
+            Object.Destroy(runnerObject);
+        }
     }
 }

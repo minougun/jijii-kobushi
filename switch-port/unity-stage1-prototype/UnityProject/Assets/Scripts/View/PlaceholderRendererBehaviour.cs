@@ -86,6 +86,15 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
+        public string DebugStageTitle
+        {
+            get
+            {
+                if (stage == null || stage.Stage == null) return "";
+                return stage.Stage.Title;
+            }
+        }
+
         public bool DebugBgmFileExists
         {
             get
@@ -472,8 +481,8 @@ namespace JijiiKobushi.Stage1Prototype
             get
             {
                 if (stage == null || stage.Stage == null) return "誘拐の朝 / うさぎ公園";
-                var location = string.IsNullOrEmpty(stage.Stage.LocationName) ? "うさぎ公園" : stage.Stage.LocationName;
-                return stage.Stage.Title + " / " + location;
+                if (string.IsNullOrEmpty(stage.Stage.LocationName)) return stage.Stage.Title;
+                return stage.Stage.Title + " / " + stage.Stage.LocationName;
             }
         }
 
