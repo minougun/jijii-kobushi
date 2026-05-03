@@ -254,7 +254,7 @@ namespace JijiiKobushi.Stage1Prototype
             StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
             GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), StageHeading, strongStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 54, panel.width - 48, 42), IntroPreview, panelLabelStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 98, 960, 24), "Space/Z/A: tap or mash    X/J/B: hold    P/Esc/Select: pause    Enter/Start: restart", panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 98, 960, 24), "Space/Z/A: tap or mash    X/J/B: hold down, release at HOLD END    P/Esc/Select: pause    Enter/Start: restart", panelLabelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 122, panel.width - 48, 24), "current: " + CurrentNoteLabel, panelLabelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 146, panel.width - 48, 24), status + "  " + audioStatus, panelLabelStyle);
         }
@@ -281,7 +281,7 @@ namespace JijiiKobushi.Stage1Prototype
                     if (delta < -pastMs || delta > lookAheadMs) continue;
 
                     var x = hitX + (delta / lookAheadMs) * (lane.width - 210);
-                    DrawNoteMarker(note, x, lane);
+                    DrawNoteMarker(note, x, lane, hitX, lookAheadMs);
                 }
             }
 
@@ -291,18 +291,20 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
-        private void DrawNoteMarker(NoteData note, float x, Rect lane)
+        private void DrawNoteMarker(NoteData note, float x, Rect lane, float hitX, float lookAheadMs)
         {
             var y = lane.y + 58;
             var color = new Color(0.09f, 0.42f, 0.88f);
             var label = "TAP";
             var width = 54f;
+            var endX = x;
 
             if (note.Type == "hold")
             {
                 color = new Color(0.55f, 0.28f, 0.86f);
                 label = "HOLD";
-                width = Mathf.Max(70f, note.DurationMs * 0.12f);
+                endX = hitX + ((note.TimeMs + note.DurationMs - session.BattleClockMs) / lookAheadMs) * (lane.width - 210);
+                width = Mathf.Max(70f, endX - x);
             }
             else if (note.Type == "mash")
             {
@@ -315,6 +317,15 @@ namespace JijiiKobushi.Stage1Prototype
             FillRect(rect, color);
             StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 2);
             GUI.Label(rect, label, noteStyle);
+
+            if (note.Type == "hold")
+            {
+                var releaseX = Mathf.Clamp(endX, lane.x + 8, lane.x + lane.width - 10);
+                FillRect(new Rect(releaseX - 3, y - 10, 6, 54), new Color(1f, 0.92f, 0.24f));
+                StrokeRect(new Rect(releaseX - 8, y - 14, 16, 62), new Color(0.05f, 0.05f, 0.05f), 2);
+                GUI.Label(new Rect(releaseX - 44, y - 34, 88, 22), "RELEASE", noteStyle);
+                GUI.Label(new Rect(releaseX - 28, y + 38, 56, 22), "END", noteStyle);
+            }
         }
 
         private void DrawJudgePanel(Rect mainRect)
@@ -535,7 +546,10 @@ namespace JijiiKobushi.Stage1Prototype
                 var note = session.CurrentNote;
                 if (note == null) return "complete";
 
-                return note.Id + " type=" + note.Type + " battleMs=" + note.TimeMs + " virtualMs=" + (session.CountInMs + note.TimeMs);
+                var release = note.Type == "hold"
+                    ? " releaseAt=" + (note.TimeMs + note.DurationMs) + "ms"
+                    : "";
+                return note.Id + " type=" + note.Type + " battleMs=" + note.TimeMs + release + " virtualMs=" + (session.CountInMs + note.TimeMs);
             }
         }
 
