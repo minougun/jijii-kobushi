@@ -17,6 +17,7 @@ This keeps the Stage 1 prototype close to the port pack while avoiding large gen
 - Placeholder rendering is acceptable
 - JSON-driven chart and metadata
 - Audio-clock-driven judgement
+- Local BGM playback for the Stage 1 track when `assets/audio/koiwazurai.mp3` is available
 - Automated parity tests against the Stage 1 portable runner
 
 Out of scope:
@@ -78,6 +79,8 @@ Unity-facing files:
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, result panel, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line.
 
+In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.
+
 `Assets/Editor/Stage1PrototypeSceneSetup.cs` adds the `Jijii Kobushi > Setup Stage 1 Prototype Scene` editor menu. It makes `Stage1Prototype.unity` visible in Scene view by adding a Main Camera, Directional Light, placeholder stage board, gold hit line, and Tap/Hold/Mash marker cubes.
 
 The Stage 1 JSON uses dictionary-shaped objects and profile keys such as `mash-weak`, so the prototype does not use Unity `JsonUtility` for these files. It uses a small dependency-free loader in `StageJsonLoader.cs` and maps only the fields needed by the Stage 1 prototype.
@@ -98,6 +101,7 @@ The local prototype is ready for the next decision gate when it can:
 6. Produce score, rank, maxCombo, judge counts, HP, and clear.
 7. Match `../stage1/expected-results.json` for `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy`.
 8. Allow manual local play in `Stage1Prototype.unity` with keyboard or placeholder OnGUI buttons.
+9. Load the Stage 1 BGM locally and keep the manual timeline synced to the audio clock when available.
 
 ## Recommended Local Verification
 
@@ -114,6 +118,9 @@ Unity test output should be compared to `../stage1/expected-results.json`, not h
 Manual Play Mode controls:
 
 - `Space` or `Z`: tap / mash
+- Gamepad `A` / Submit: tap / mash
 - `X` or `J`: hold down / hold release
+- Gamepad `B`: hold down / hold release
 - `Enter`: restart
+- Gamepad `Start`: restart
 - On-screen `Tap / Mash`, `Hold`, `Restart`, and difficulty buttons provide the same local placeholder controls.

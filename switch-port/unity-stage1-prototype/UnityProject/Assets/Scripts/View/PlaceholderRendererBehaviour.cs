@@ -1,7 +1,10 @@
 #if UNITY_5_3_OR_NEWER
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace JijiiKobushi.Stage1Prototype
 {
@@ -9,6 +12,7 @@ namespace JijiiKobushi.Stage1Prototype
     {
         [SerializeField] private string difficulty = "normal";
         [SerializeField] private float playbackSpeed = 1f;
+        [SerializeField] private bool useAudioClock = true;
 
         private readonly PlaceholderRenderer placeholderRenderer = new PlaceholderRenderer();
         private StageExport stage;
@@ -17,8 +21,15 @@ namespace JijiiKobushi.Stage1Prototype
         private string stageJsonPath = "";
         private string expectedJsonPath = "";
         private string status = "Not loaded";
+        private string audioStatus = "BGM not loaded";
         private string error = "";
         private bool holdButtonWasDown;
+        private AudioSource audioSource;
+        private double audioStartedDspTime;
+        private bool audioReady;
+        private bool audioStarted;
+        private bool audioFallbackClock;
+        private Coroutine audioLoadRoutine;
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
         private GUIStyle strongStyle;
@@ -33,8 +44,22 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (session == null || session.IsComplete) return;
 
-            var deltaMs = (int)Math.Round(Time.deltaTime * 1000.0f * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
-            session.AdvanceMs(deltaMs);
+            if (audioStarted)
+            {
+                var elapsedMs = (int)Math.Round((AudioSettings.dspTime - audioStartedDspTime) * 1000.0 * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
+                session.SeekElapsedMs(elapsedMs);
+            }
+            else if (useAudioClock && !audioFallbackClock)
+            {
+                PollKeyboardInput();
+                return;
+            }
+            else
+            {
+                var deltaMs = (int)Math.Round(Time.deltaTime * 1000.0f * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
+                session.AdvanceMs(deltaMs);
+            }
+
             PollKeyboardInput();
         }
 
@@ -78,7 +103,7 @@ namespace JijiiKobushi.Stage1Prototype
             var result = session != null ? session.BuildResult() : null;
             var titleRect = new Rect(mainRect.x + 24, mainRect.y + 18, 420, 42);
             GUI.Label(titleRect, "JII KOBUSHI STAGE 1", titleStyle);
-            GUI.Label(new Rect(mainRect.x + 26, mainRect.y + 58, 460, 24), "phase=" + Phase + "  difficulty=" + difficulty + "  speed=" + playbackSpeed + "x", labelStyle);
+            GUI.Label(new Rect(mainRect.x + 26, mainRect.y + 58, 720, 24), "phase=" + Phase + "  difficulty=" + difficulty + "  speed=" + playbackSpeed + "x  clock=" + ClockMode, labelStyle);
 
             var hpRect = new Rect(mainRect.x + mainRect.width - 340, mainRect.y + 24, 290, 26);
             DrawMeter(hpRect, session != null ? session.RemainingHp : 0, session != null ? session.MaxHp : 1, new Color(0.08f, 0.66f, 0.28f), "HP");
@@ -91,9 +116,9 @@ namespace JijiiKobushi.Stage1Prototype
             FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
             StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
             GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), StageHeading, strongStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 56, 600, 24), "Space/Z: tap or mash    X/J: hold    Enter: restart", labelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 56, 900, 24), "Space/Z/A: tap or mash    X/J/B: hold    Enter/Start: restart", labelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 88, panel.width - 48, 24), "current: " + CurrentNoteLabel, labelStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 114, panel.width - 48, 24), status, labelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 114, panel.width - 48, 24), status + "  " + audioStatus, labelStyle);
         }
 
         private void DrawRhythmLane(Rect mainRect)
@@ -202,7 +227,9 @@ namespace JijiiKobushi.Stage1Prototype
                 chart = stage.Charts[difficulty];
                 session = new InteractiveBattleSession(stage, difficulty);
                 holdButtonWasDown = false;
+                StopBgm();
                 status = "Loaded Stage 1 and parity tests passed. First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
+                PrepareBgm();
             }
             catch (Exception ex)
             {
@@ -220,19 +247,24 @@ namespace JijiiKobushi.Stage1Prototype
                 return;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.JoystickButton0) || GetButtonDownSafe("Submit"))
             {
                 session.Tap();
             }
 
-            if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.JoystickButton1))
             {
                 session.HoldDown();
             }
 
-            if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.J))
+            if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.JoystickButton1))
             {
                 session.HoldUp();
+            }
+
+            if (Input.GetKeyDown(KeyCode.JoystickButton7))
+            {
+                LoadAndStart();
             }
         }
 
@@ -285,6 +317,136 @@ namespace JijiiKobushi.Stage1Prototype
                 if (stage == null || stage.Stage == null) return "誘拐の朝 / うさぎ公園";
                 var location = string.IsNullOrEmpty(stage.Stage.LocationName) ? "うさぎ公園" : stage.Stage.LocationName;
                 return stage.Stage.Title + " / " + location;
+            }
+        }
+
+        private string ClockMode
+        {
+            get
+            {
+                if (!useAudioClock) return "delta";
+                if (audioStarted) return "audio";
+                if (audioReady) return "audio-ready";
+                if (audioFallbackClock) return "delta-fallback";
+                return "audio-loading";
+            }
+        }
+
+        private void PrepareBgm()
+        {
+            audioReady = false;
+            audioStarted = false;
+            audioFallbackClock = !useAudioClock;
+            audioStatus = useAudioClock ? "BGM loading..." : "BGM disabled";
+            if (!useAudioClock || stage == null || stage.Audio == null || stage.Audio.Bgm == null) return;
+
+            if (audioLoadRoutine != null)
+            {
+                StopCoroutine(audioLoadRoutine);
+                audioLoadRoutine = null;
+            }
+
+            audioLoadRoutine = StartCoroutine(LoadBgmClip());
+        }
+
+        private IEnumerator LoadBgmClip()
+        {
+            var bgmPath = ResolveRepoRelativePath(stage.Audio.Bgm.AssetSrc);
+            if (string.IsNullOrEmpty(bgmPath))
+            {
+                audioStatus = "BGM file not found: " + stage.Audio.Bgm.AssetSrc;
+                audioFallbackClock = true;
+                yield break;
+            }
+
+            using (var request = UnityWebRequestMultimedia.GetAudioClip(ToFileUri(bgmPath), AudioType.MPEG))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    audioStatus = "BGM load failed: " + request.error;
+                    audioFallbackClock = true;
+                    yield break;
+                }
+
+                var clip = DownloadHandlerAudioClip.GetContent(request);
+                if (clip == null)
+                {
+                    audioStatus = "BGM load failed: empty clip";
+                    audioFallbackClock = true;
+                    yield break;
+                }
+
+                if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.clip = clip;
+                audioSource.playOnAwake = false;
+                audioSource.loop = false;
+                audioSource.volume = Mathf.Clamp01((float)(stage.Audio.Bgm.TrackVolume * stage.Audio.Bgm.Gain));
+                audioSource.pitch = Mathf.Max(0.1f, playbackSpeed);
+                audioReady = true;
+                audioStatus = "BGM ready: " + Path.GetFileName(bgmPath);
+                StartBgm();
+            }
+        }
+
+        private void StartBgm()
+        {
+            if (!useAudioClock || !audioReady || audioSource == null || audioSource.clip == null) return;
+            audioSource.Stop();
+            audioStartedDspTime = AudioSettings.dspTime;
+            audioSource.Play();
+            audioStarted = true;
+            audioFallbackClock = false;
+            audioStatus = "BGM playing: " + stage.Audio.Bgm.Track;
+        }
+
+        private void StopBgm()
+        {
+            if (audioLoadRoutine != null)
+            {
+                StopCoroutine(audioLoadRoutine);
+                audioLoadRoutine = null;
+            }
+
+            if (audioSource != null) audioSource.Stop();
+            audioReady = false;
+            audioStarted = false;
+            audioFallbackClock = false;
+            audioStatus = "BGM not loaded";
+        }
+
+        private static string ResolveRepoRelativePath(string assetSrc)
+        {
+            if (string.IsNullOrEmpty(assetSrc)) return "";
+            var normalized = assetSrc.Replace('\\', '/');
+            if (normalized.StartsWith("./", StringComparison.Ordinal)) normalized = normalized.Substring(2);
+
+            var current = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (current != null)
+            {
+                var candidate = Path.Combine(current.FullName, normalized.Replace('/', Path.DirectorySeparatorChar));
+                if (File.Exists(candidate)) return candidate;
+                current = current.Parent;
+            }
+
+            return "";
+        }
+
+        private static string ToFileUri(string path)
+        {
+            return new Uri(Path.GetFullPath(path)).AbsoluteUri;
+        }
+
+        private static bool GetButtonDownSafe(string buttonName)
+        {
+            try
+            {
+                return Input.GetButtonDown(buttonName);
+            }
+            catch (ArgumentException)
+            {
+                return false;
             }
         }
 

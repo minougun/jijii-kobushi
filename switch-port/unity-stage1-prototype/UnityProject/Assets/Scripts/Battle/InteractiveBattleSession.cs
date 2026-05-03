@@ -144,6 +144,13 @@ namespace JijiiKobushi.Stage1Prototype
             ResolveExpiredNotes();
         }
 
+        public void SeekElapsedMs(int elapsedMs)
+        {
+            if (IsComplete) return;
+            clock.SeekElapsedMs(elapsedMs);
+            ResolveExpiredNotes();
+        }
+
         public void SeekBattleClockMs(int battleClockMs)
         {
             clock.SeekElapsedMs(clock.CountInMs + Math.Max(0, battleClockMs));

@@ -1,7 +1,11 @@
 {
   "name": "JijiiKobushi.Stage1Prototype",
   "rootNamespace": "",
-  "references": [],
+  "references": [
+    "UnityEngine.AudioModule",
+    "UnityEngine.UnityWebRequestModule",
+    "UnityEngine.UnityWebRequestAudioModule"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
