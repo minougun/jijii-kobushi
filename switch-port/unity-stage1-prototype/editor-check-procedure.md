@@ -73,7 +73,8 @@ Generated `unity-*-results.xml` and `*.log` files are local verification artifac
 1. Open `Assets/Scenes/Stage1Prototype.unity`.
 2. Confirm the scene contains `Stage1PlaceholderRunner`.
 3. Confirm `Stage1PlaceholderRunner` has `PlaceholderRendererBehaviour`.
-4. Press Play.
+4. Confirm Scene view shows the temporary stage board, gold hit line, and Tap/Hold/Mash marker cubes.
+5. Press Play.
 
 Expected Play Mode behavior:
 
@@ -91,6 +92,14 @@ Expected Play Mode behavior:
 - Shows Result with clear, score, rank, maxCombo, HP, and judge stats after the chart finishes or HP reaches zero.
 
 The scene still uses placeholder `OnGUI` rendering. Final art, animation, audio playback, and production UI migration are intentionally out of scope.
+
+If the scene looks empty, run this editor menu and reopen the scene:
+
+```text
+Jijii Kobushi > Setup Stage 1 Prototype Scene
+```
+
+The menu recreates `Stage1PlaceholderRunner`, `Main Camera`, `Directional Light`, the visible placeholder board, the gold hit line, and note marker cubes. It also resets `difficulty=normal` and `playbackSpeed=1` on the runner.
 
 ## 4. If Console Errors Appear
 
