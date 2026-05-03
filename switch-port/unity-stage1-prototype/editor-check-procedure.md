@@ -43,7 +43,7 @@ If Unity asks to upgrade the project version, accept only for this local prototy
 1. Open `Window > General > Test Runner`.
 2. Select `EditMode`.
 3. Run `Stage1PortableParityTests`.
-4. Expected result: `ProfilesMatchExpectedResults` passes.
+4. Expected result: all `Stage1PortableParityTests` pass.
 
 The test loads:
 
@@ -52,7 +52,7 @@ The test loads:
 ../stage1/expected-results.json
 ```
 
-It validates count-in, first note virtual time, judgement boundaries, mash grace/dedup, and all six profile results for Easy, Normal, and Hard.
+It validates count-in, first note virtual time, judgement boundaries, mash grace/dedup, all six profile results for Easy, Normal, and Hard, plus manual-session parity for a perfect interactive run and a timeout miss/damage case.
 
 CLI equivalent:
 
@@ -81,11 +81,14 @@ Expected Play Mode behavior:
 - Runs parity validation against `switch-port/stage1/expected-results.json`.
 - Starts count-in at `3000ms`.
 - Shows the first note virtual timeline as `4200ms`.
-- Advances the Stage 1 battle timeline.
+- Advances the Stage 1 battle timeline at `playbackSpeed`.
 - Shows current note id, note type, battle time, and virtual time.
-- Shows Result with clear, score, rank, maxCombo, and judge stats after the simulated chart finishes.
+- Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `Enter` for restart.
+- Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Restart`, and Easy/Normal/Hard.
+- Applies miss timeout and enemy damage for missed tap/hold notes.
+- Shows Result with clear, score, rank, maxCombo, HP, and judge stats after the chart finishes or HP reaches zero.
 
-The scene uses placeholder `OnGUI` text only. Rendering migration is intentionally out of scope.
+The scene uses placeholder `OnGUI` text/buttons only. Rendering migration is intentionally out of scope.
 
 ## 4. If Console Errors Appear
 

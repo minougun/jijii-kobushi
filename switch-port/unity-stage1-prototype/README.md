@@ -60,8 +60,9 @@ Key files:
 - `Rhythm/RhythmJudge.cs`
 - `Audio/AudioClock.cs`
 - `Battle/BattleSimulator.cs`
+- `Battle/InteractiveBattleSession.cs`
 - `Tests/ProfileTestRunner.cs`
-- `Tests/Stage1PortableParityTests.cs`
+- `UnityProject/Assets/Tests/EditMode/Stage1PortableParityTests.cs`
 - `View/PlaceholderRenderer.cs`
 - `View/PlaceholderRendererBehaviour.cs`
 
@@ -72,6 +73,8 @@ Unity-facing files:
 - `UnityProject/Assets/Scenes/Stage1Prototype.unity`
 
 `ProfileTestRunner` locates the tracked Stage 1 pack (`switch-port/stage1/shotengai.stage.json` and `switch-port/stage1/expected-results.json`), simulates `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy` for Easy, Normal, and Hard, then compares clear, score, rank, maxCombo, judge counts, miss-by-type, and HP.
+
+`InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 
 The Stage 1 JSON uses dictionary-shaped objects and profile keys such as `mash-weak`, so the prototype does not use Unity `JsonUtility` for these files. It uses a small dependency-free loader in `StageJsonLoader.cs` and maps only the fields needed by the Stage 1 prototype.
 
@@ -90,6 +93,7 @@ The local prototype is ready for the next decision gate when it can:
 5. Judge tap, hold, and mash according to `../stage1/unity-spec.md`.
 6. Produce score, rank, maxCombo, judge counts, HP, and clear.
 7. Match `../stage1/expected-results.json` for `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy`.
+8. Allow manual local play in `Stage1Prototype.unity` with keyboard or placeholder OnGUI buttons.
 
 ## Recommended Local Verification
 
@@ -102,3 +106,10 @@ npm run check:switch-stage1
 ```
 
 Unity test output should be compared to `../stage1/expected-results.json`, not hand-entered chart constants.
+
+Manual Play Mode controls:
+
+- `Space` or `Z`: tap / mash
+- `X` or `J`: hold down / hold release
+- `Enter`: restart
+- On-screen `Tap / Mash`, `Hold`, `Restart`, and difficulty buttons provide the same local placeholder controls.

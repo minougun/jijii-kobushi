@@ -257,7 +257,7 @@ namespace JijiiKobushi.Stage1Prototype
             return counts;
         }
 
-        private static int CalculateStageScore(List<ResolvedNote> notes, int totalNotes, int maxCombo, int hp, int maxHp)
+        public static int CalculateStageScore(List<ResolvedNote> notes, int totalNotes, int maxCombo, int hp, int maxHp)
         {
             var total = totalNotes > 0 ? totalNotes : Math.Max(1, notes.Count);
             var judgePoints = 0;
@@ -275,7 +275,7 @@ namespace JijiiKobushi.Stage1Prototype
             return (int)Math.Floor(Math.Max(0, Math.Min(10000, score)) + 0.5);
         }
 
-        private static string RankScore(int score)
+        public static string RankScore(int score)
         {
             if (score >= 8400) return "S";
             if (score >= 7000) return "A";

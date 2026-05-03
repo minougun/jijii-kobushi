@@ -8,19 +8,17 @@ namespace JijiiKobushi.Stage1Prototype
     public sealed class PlaceholderRendererBehaviour : MonoBehaviour
     {
         [SerializeField] private string difficulty = "normal";
-        [SerializeField] private string profile = "perfect";
-        [SerializeField] private float playbackSpeed = 24f;
+        [SerializeField] private float playbackSpeed = 1f;
 
         private readonly PlaceholderRenderer placeholderRenderer = new PlaceholderRenderer();
         private StageExport stage;
-        private BattleRunResult result;
-        private AudioClock clock;
+        private InteractiveBattleSession session;
         private List<NoteData> chart;
-        private int currentNoteIndex;
         private string stageJsonPath = "";
         private string expectedJsonPath = "";
         private string status = "Not loaded";
         private string error = "";
+        private bool holdButtonWasDown;
 
         private void Start()
         {
@@ -29,11 +27,11 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void Update()
         {
-            if (clock == null || result == null || IsComplete) return;
+            if (session == null || session.IsComplete) return;
 
             var deltaMs = (int)Math.Round(Time.deltaTime * 1000.0f * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
-            clock.AdvanceMs(deltaMs);
-            UpdateCurrentNote();
+            session.AdvanceMs(deltaMs);
+            PollKeyboardInput();
         }
 
         private void OnGUI()
@@ -42,7 +40,7 @@ namespace JijiiKobushi.Stage1Prototype
             var top = 16;
             GUI.Label(new Rect(left, top, 1000, 24), "Jijii Kobushi Stage 1 Unity Prototype");
             top += 24;
-            GUI.Label(new Rect(left, top, 1000, 24), "phase=" + Phase + " difficulty=" + difficulty + " profile=" + profile + " speed=" + playbackSpeed + "x");
+            GUI.Label(new Rect(left, top, 1000, 24), "phase=" + Phase + " difficulty=" + difficulty + " speed=" + playbackSpeed + "x");
             top += 24;
 
             if (!string.IsNullOrEmpty(error))
@@ -50,7 +48,7 @@ namespace JijiiKobushi.Stage1Prototype
                 GUI.Label(new Rect(left, top, 1200, 120), error);
                 top += 124;
             }
-            else if (clock != null && result != null)
+            else if (session != null)
             {
                 var frame = BuildFrame();
                 GUI.Label(new Rect(left, top, 1000, 24), placeholderRenderer.FormatDebugLine(frame));
@@ -61,11 +59,16 @@ namespace JijiiKobushi.Stage1Prototype
                 top += 24;
                 GUI.Label(new Rect(left, top, 1000, 24), "currentNote=" + CurrentNoteLabel);
                 top += 24;
+                GUI.Label(new Rect(left, top, 1000, 24), "input: Space/Z = Tap or Mash, X/J = Hold, Enter = Restart");
+                top += 24;
+                GUI.Label(new Rect(left, top, 1000, 24), "judge=" + session.LastJudgeText + " combo=" + session.Combo + " notes=" + session.ResolvedCount + "/" + session.TotalNotes);
+                top += 24;
                 GUI.Label(new Rect(left, top, 1000, 24), status);
                 top += 24;
 
                 if (IsComplete)
                 {
+                    var result = session.BuildResult();
                     GUI.Label(new Rect(left, top, 1000, 24), "RESULT clear=" + result.Clear + " score=" + result.Score + " rank=" + result.Rank + " maxCombo=" + result.MaxCombo);
                     top += 24;
                     GUI.Label(new Rect(left, top, 1000, 24), "stats perfect/good/bad/miss=" + result.Stats.Perfect + "/" + result.Stats.Good + "/" + result.Stats.Bad + "/" + result.Stats.Miss);
@@ -78,10 +81,15 @@ namespace JijiiKobushi.Stage1Prototype
                 top += 24;
             }
 
-            if (GUI.Button(new Rect(left, top + 8, 120, 32), "Restart"))
+            DrawDifficultyButtons(left, top + 8);
+            top += 46;
+
+            if (GUI.Button(new Rect(left, top + 8, 120, 44), "Restart"))
             {
                 LoadAndStart();
             }
+
+            DrawInputButtons(left + 136, top + 8);
         }
 
         private void LoadAndStart()
@@ -96,14 +104,10 @@ namespace JijiiKobushi.Stage1Prototype
                 stage = StageJsonLoader.LoadStage(stageJsonPath);
 
                 if (!stage.Charts.ContainsKey(difficulty)) difficulty = "normal";
-                if (!IsKnownProfile(profile)) profile = "perfect";
                 chart = stage.Charts[difficulty];
-                result = BattleSimulator.Simulate(stage, difficulty, profile);
-
-                var countInMs = (int)Math.Round(stage.Audio.Timing.CountInLeadSeconds * 1000.0, MidpointRounding.AwayFromZero);
-                clock = new AudioClock(countInMs);
-                currentNoteIndex = 0;
-                status = "Loaded Stage 1 and parity tests passed. First note virtual timeline is " + clock.ToVirtualTimelineMs(chart[0].TimeMs) + "ms.";
+                session = new InteractiveBattleSession(stage, difficulty);
+                holdButtonWasDown = false;
+                status = "Loaded Stage 1 and parity tests passed. First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
             }
             catch (Exception ex)
             {
@@ -113,53 +117,55 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
-        private void UpdateCurrentNote()
+        private void PollKeyboardInput()
         {
-            if (chart == null) return;
-
-            var battleMs = clock.BattleClockMs;
-            while (currentNoteIndex < chart.Count)
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                var note = chart[currentNoteIndex];
-                if (battleMs < note.TimeMs + note.DurationMs) return;
-                currentNoteIndex += 1;
-            }
-        }
-
-        private static bool IsKnownProfile(string profileName)
-        {
-            for (var i = 0; i < BattleSimulator.Profiles.Length; i += 1)
-            {
-                if (BattleSimulator.Profiles[i] == profileName) return true;
+                LoadAndStart();
+                return;
             }
 
-            return false;
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z))
+            {
+                session.Tap();
+            }
+
+            if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.J))
+            {
+                session.HoldDown();
+            }
+
+            if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.J))
+            {
+                session.HoldUp();
+            }
         }
 
         private PlaceholderFrame BuildFrame()
         {
+            var result = session.BuildResult();
             return new PlaceholderFrame
             {
-                TimelineMs = clock.ElapsedMs,
-                BattleClockMs = clock.BattleClockMs,
-                RemainingHp = IsComplete ? result.RemainingHp : result.MaxHp,
-                MaxCombo = IsComplete ? result.MaxCombo : 0,
-                Stats = IsComplete ? result.Stats : new JudgeStats(),
+                TimelineMs = session.ElapsedMs,
+                BattleClockMs = session.BattleClockMs,
+                RemainingHp = session.RemainingHp,
+                MaxCombo = session.MaxCombo,
+                Stats = result.Stats,
                 RecentNotes = result.Samples
             };
         }
 
         private bool IsComplete
         {
-            get { return clock != null && result != null && clock.ElapsedMs >= result.FinishTimelineMs; }
+            get { return session != null && session.IsComplete; }
         }
 
         private string Phase
         {
             get
             {
-                if (clock == null) return "Boot";
-                if (clock.CountInRemainingMs > 0) return "CountIn " + clock.CountInRemainingMs + "ms";
+                if (session == null) return "Boot";
+                if (session.CountInRemainingMs > 0) return "CountIn " + session.CountInRemainingMs + "ms";
                 if (IsComplete) return "Result";
                 return "Battle";
             }
@@ -169,11 +175,56 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
-                if (chart == null || chart.Count == 0) return "none";
-                if (currentNoteIndex >= chart.Count) return "complete";
+                if (session == null || chart == null || chart.Count == 0) return "none";
+                var note = session.CurrentNote;
+                if (note == null) return "complete";
 
-                var note = chart[currentNoteIndex];
-                return note.Id + " type=" + note.Type + " battleMs=" + note.TimeMs + " virtualMs=" + clock.ToVirtualTimelineMs(note.TimeMs);
+                return note.Id + " type=" + note.Type + " battleMs=" + note.TimeMs + " virtualMs=" + (session.CountInMs + note.TimeMs);
+            }
+        }
+
+        private void DrawDifficultyButtons(int left, int top)
+        {
+            GUI.Label(new Rect(left, top, 100, 28), "Difficulty");
+            DrawDifficultyButton("easy", left + 92, top);
+            DrawDifficultyButton("normal", left + 176, top);
+            DrawDifficultyButton("hard", left + 278, top);
+        }
+
+        private void DrawDifficultyButton(string id, int left, int top)
+        {
+            var label = difficulty == id ? "[" + id + "]" : id;
+            if (GUI.Button(new Rect(left, top, 84, 32), label))
+            {
+                difficulty = id;
+                LoadAndStart();
+            }
+        }
+
+        private void DrawInputButtons(int left, int top)
+        {
+            if (session == null) return;
+
+            if (GUI.Button(new Rect(left, top, 160, 64), "Tap / Mash"))
+            {
+                session.Tap();
+            }
+
+            var holdRect = new Rect(left + 172, top, 160, 64);
+            GUI.RepeatButton(holdRect, "Hold");
+
+            var currentEvent = Event.current;
+            if (currentEvent.type == EventType.MouseDown && holdRect.Contains(currentEvent.mousePosition) && !holdButtonWasDown)
+            {
+                session.HoldDown();
+                holdButtonWasDown = true;
+                currentEvent.Use();
+            }
+            else if (currentEvent.type == EventType.MouseUp && holdButtonWasDown)
+            {
+                session.HoldUp();
+                holdButtonWasDown = false;
+                currentEvent.Use();
             }
         }
     }
