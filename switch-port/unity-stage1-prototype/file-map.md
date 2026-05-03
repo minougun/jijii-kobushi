@@ -1,6 +1,6 @@
 # Unity Stage 1 Prototype File Map
 
-This is the proposed file layout for a future normal Unity local prototype. These files are not created yet. Create them only after the lightweight plan is accepted and a Unity project directory is intentionally initialized.
+This is the proposed and partially implemented file layout for a normal Unity local prototype. The repo now tracks portable C# source under `UnityProject/Assets/Scripts/`, while generated Unity folders remain ignored.
 
 ## Proposed Unity Project Root
 
@@ -24,13 +24,7 @@ switch-port/stage1/
 
 ```text
 Assets/Scripts/Data/StageData.cs
-Assets/Scripts/Data/AudioData.cs
-Assets/Scripts/Data/PlayerData.cs
-Assets/Scripts/Data/EnemyData.cs
-Assets/Scripts/Data/DifficultyData.cs
-Assets/Scripts/Data/NoteData.cs
 Assets/Scripts/Data/StageJsonLoader.cs
-Assets/Scripts/Data/ExpectedResultsData.cs
 ```
 
 Purpose:
@@ -42,13 +36,7 @@ Purpose:
 ## Rhythm
 
 ```text
-Assets/Scripts/Rhythm/JudgeRank.cs
-Assets/Scripts/Rhythm/NoteType.cs
-Assets/Scripts/Rhythm/JudgeResult.cs
 Assets/Scripts/Rhythm/RhythmJudge.cs
-Assets/Scripts/Rhythm/HoldJudge.cs
-Assets/Scripts/Rhythm/MashJudge.cs
-Assets/Scripts/Rhythm/RhythmInputEvent.cs
 ```
 
 Purpose:
@@ -61,8 +49,6 @@ Purpose:
 
 ```text
 Assets/Scripts/Audio/AudioClock.cs
-Assets/Scripts/Audio/AudioPlaybackAdapter.cs
-Assets/Scripts/Audio/AudioDriftMonitor.cs
 ```
 
 Purpose:
@@ -90,11 +76,7 @@ Purpose:
 ## Battle
 
 ```text
-Assets/Scripts/Battle/BattleState.cs
-Assets/Scripts/Battle/BattleController.cs
-Assets/Scripts/Battle/StageRunState.cs
-Assets/Scripts/Battle/PendingNoteTracker.cs
-Assets/Scripts/Battle/SaveSnapshot.cs
+Assets/Scripts/Battle/BattleSimulator.cs
 ```
 
 Purpose:
@@ -119,12 +101,9 @@ Purpose:
 ## Tests
 
 ```text
-Assets/Scripts/Tests/Stage1PortableTestRunner.cs
-Assets/Scripts/Tests/ProfileInputFactory.cs
-Assets/Scripts/Tests/JudgementBoundaryTests.cs
-Assets/Scripts/Tests/MashTimingTests.cs
-Assets/Scripts/Tests/HoldTimingTests.cs
-Assets/Scripts/Tests/CountInTimelineTests.cs
+Assets/Scripts/Tests/ProfileTestRunner.cs
+Assets/Scripts/Tests/Stage1PortableParityTests.cs
+Assets/Scripts/Tests/Stage1PortableCli.cs
 ```
 
 Purpose:
@@ -138,9 +117,6 @@ Purpose:
 
 ```text
 Assets/Scripts/View/PlaceholderRenderer.cs
-Assets/Scripts/View/DebugHudView.cs
-Assets/Scripts/View/ResultView.cs
-Assets/Scripts/View/DifficultySelectView.cs
 ```
 
 Purpose:

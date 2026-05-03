@@ -1,6 +1,6 @@
 # Unity Stage 1 Prototype Implementation Plan
 
-This plan prepares a small Unity local prototype for Stage 1. It should be implemented after the Stage 1 port pack is reviewed. Do not create a large Unity project skeleton until this plan is accepted.
+This plan prepares a small Unity local prototype for Stage 1. The first implementation pass now tracks portable C# source and Unity-facing tests under `UnityProject/Assets/Scripts/` without committing generated Unity folders.
 
 ## Inputs
 
@@ -41,6 +41,8 @@ Acceptance:
 - First note battle time is `1200ms`.
 - BGM metadata loads as path `./assets/audio/koiwazurai.mp3`, gain `0.74`, track volume `0.78`, lead `220`.
 
+Status: implemented in `UnityProject/Assets/Scripts/Data/StageData.cs` and `StageJsonLoader.cs`.
+
 ## Phase 2: Clock And Input
 
 Implement `AudioClock` and `InputAdapter`.
@@ -58,6 +60,8 @@ Acceptance:
 - The first note virtual timestamp is `3000 + 1200 = 4200ms`.
 - Pause/resume keeps pending note deadlines stable.
 - Input events are timestamped with battle-clock milliseconds.
+
+Status: implemented as the prototype `AudioClock` and simulated profile input in `BattleSimulator`.
 
 ## Phase 3: Rhythm Judgement
 
@@ -81,6 +85,8 @@ Acceptance:
 - Mash ignores taps closer than `70ms` to the last counted tap.
 - Mash over-count above `targetCount + 2` downgrades one rank.
 
+Status: implemented in `UnityProject/Assets/Scripts/Rhythm/RhythmJudge.cs`.
+
 ## Phase 4: Battle Runtime
 
 Implement `BattleController`.
@@ -101,6 +107,8 @@ Acceptance:
 - Diagnostic test mode can continue resolving the full chart after HP reaches `0` to compare expected results.
 - Chart completion with HP above `0` enters Result.
 
+Status: implemented as deterministic full-chart simulation in `UnityProject/Assets/Scripts/Battle/BattleSimulator.cs`.
+
 ## Phase 5: Result Calculation
 
 Implement `ResultCalculator`.
@@ -118,6 +126,8 @@ Acceptance:
 - Rank thresholds are `S >= 8400`, `A >= 7000`, `B >= 5400`, otherwise `C`.
 - `maxCombo` resets only on Miss.
 - Result includes score, rank, maxCombo, Perfect/Good/Bad/Miss counts, HP, and clear.
+
+Status: implemented in `BattleSimulator` result calculation.
 
 ## Phase 6: Automated Parity Tests
 
@@ -144,6 +154,8 @@ Acceptance:
 - `mash-heavy` produces overmash Good results with Miss 0.
 - Test output is deterministic and does not require final rendering.
 
+Status: implemented in `UnityProject/Assets/Scripts/Tests/ProfileTestRunner.cs` and `Stage1PortableParityTests.cs`.
+
 ## Phase 7: Placeholder Runtime View
 
 Implement `PlaceholderRenderer`.
@@ -162,6 +174,8 @@ Acceptance:
 - Rendering is a consumer of battle state, not the clock authority.
 - Judgement remains driven by `AudioClock` and timestamped input events.
 - Placeholder visuals can be replaced later without changing the portable core.
+
+Status: placeholder debug formatting is implemented in `UnityProject/Assets/Scripts/View/PlaceholderRenderer.cs`; no final renderer work is included.
 
 ## Stop Condition
 

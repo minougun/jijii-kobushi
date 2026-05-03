@@ -1,6 +1,14 @@
 # Unity Stage 1 Local Prototype
 
-This directory is a lightweight preparation area for a normal Unity local prototype. It is not a generated Unity project yet. The goal is to define the minimum file layout and implementation sequence before creating large Unity project assets.
+This directory is a lightweight preparation area for a normal Unity local prototype. The tracked repo contents intentionally stop at portable C# source, Unity-facing test code, and local planning docs. Unity-generated folders such as `Library/`, `Temp/`, `Obj/`, and `UserSettings/` must stay untracked.
+
+Recommended placement:
+
+- Keep the prototype source in this repo under `UnityProject/Assets/Scripts/`.
+- Create or open the actual Unity editor project locally from `UnityProject/` only when needed.
+- Do not copy SDK, NDA, portal, certificate, key, or platform-specific files into this tree.
+
+This keeps the Stage 1 prototype close to the port pack while avoiding large generated Unity project churn in Git.
 
 ## Scope
 
@@ -36,6 +44,29 @@ Reference source paths:
 - Web URL: `https://minougun.github.io/jijii-kobushi/`
 - GitHub: `https://github.com/minougun/jijii-kobushi`
 - Handoff: `/mnt/c/Users/minou/jii-kobushi/docs/switch-port-handoff-2026-05-03.md`
+
+## Implemented Prototype Core
+
+The current prototype body lives under:
+
+```text
+UnityProject/Assets/Scripts/
+```
+
+Key files:
+
+- `Data/StageData.cs`
+- `Data/StageJsonLoader.cs`
+- `Rhythm/RhythmJudge.cs`
+- `Audio/AudioClock.cs`
+- `Battle/BattleSimulator.cs`
+- `Tests/ProfileTestRunner.cs`
+- `Tests/Stage1PortableParityTests.cs`
+- `View/PlaceholderRenderer.cs`
+
+`ProfileTestRunner` locates the tracked Stage 1 pack (`switch-port/stage1/shotengai.stage.json` and `switch-port/stage1/expected-results.json`), simulates `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy` for Easy, Normal, and Hard, then compares clear, score, rank, maxCombo, judge counts, miss-by-type, and HP.
+
+The Stage 1 JSON uses dictionary-shaped objects and profile keys such as `mash-weak`, so the prototype does not use Unity `JsonUtility` for these files. It uses a small dependency-free loader in `StageJsonLoader.cs` and maps only the fields needed by the Stage 1 prototype.
 
 ## Prototype Success Criteria
 
