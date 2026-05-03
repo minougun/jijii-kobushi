@@ -84,6 +84,8 @@ Unity-facing files:
 
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 
+It also supports the first pause/resume path: pause freezes the battle clock and note expiry, suspends rhythm input consumption, and pauses BGM playback when an `AudioSource` is active.
+
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, result panel, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line.
@@ -111,6 +113,7 @@ The local prototype is ready for the next decision gate when it can:
 7. Match `../stage1/expected-results.json` for `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy`.
 8. Allow manual local play in `Stage1Prototype.unity` with keyboard or placeholder OnGUI buttons.
 9. Load the Stage 1 BGM locally and keep the manual timeline synced to the audio clock when available.
+10. Pause and resume the local run without advancing note deadlines or leaving BGM playing.
 
 ## Recommended Local Verification
 
@@ -130,6 +133,8 @@ Manual Play Mode controls:
 - Gamepad `A` / Submit: tap / mash
 - `X` or `J`: hold down / hold release
 - Gamepad `B`: hold down / hold release
+- `P` or `Esc`: pause / resume
 - `Enter`: restart
+- Gamepad `Select`: pause / resume
 - Gamepad `Start`: restart
-- On-screen `Tap / Mash`, `Hold`, `Restart`, and difficulty buttons provide the same local placeholder controls.
+- On-screen `Tap / Mash`, `Hold`, `Pause/Resume`, `Restart`, and difficulty buttons provide the same local placeholder controls.

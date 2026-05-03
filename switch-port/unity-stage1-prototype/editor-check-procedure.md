@@ -104,9 +104,10 @@ Expected Play Mode behavior:
 - Shows current note id, note type, battle time, and virtual time.
 - Shows a placeholder HUD with HP, score, rank, current combo, judge counts, and a rhythm lane.
 - Draws upcoming `TAP`, `HOLD`, and `MASH` notes moving toward the gold hit line.
-- Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `Enter` for restart.
-- Accepts default gamepad-style input: `A`/Submit for tap or mash, `B` for hold down/up, `Start` for restart.
-- Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Restart`, and Easy/Normal/Hard.
+- Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `P`/`Esc` for pause/resume, `Enter` for restart.
+- Accepts default gamepad-style input: `A`/Submit for tap or mash, `B` for hold down/up, `Select` for pause/resume, `Start` for restart.
+- Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Pause/Resume`, `Restart`, and Easy/Normal/Hard.
+- Pauses BGM and freezes note deadlines while paused, then resumes from the preserved clock position.
 - Applies miss timeout and enemy damage for missed tap/hold notes.
 - Shows Result with clear, score, rank, maxCombo, HP, and judge stats after the chart finishes or HP reaches zero.
 

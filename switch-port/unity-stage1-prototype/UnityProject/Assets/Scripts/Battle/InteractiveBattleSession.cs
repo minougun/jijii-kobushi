@@ -7,6 +7,7 @@ namespace JijiiKobushi.Stage1Prototype
     {
         CountIn,
         Battle,
+        Paused,
         Result
     }
 
@@ -118,6 +119,7 @@ namespace JijiiKobushi.Stage1Prototype
             get
             {
                 if (IsComplete) return InteractiveBattlePhase.Result;
+                if (clock.IsPaused) return InteractiveBattlePhase.Paused;
                 if (clock.CountInRemainingMs > 0) return InteractiveBattlePhase.CountIn;
                 return InteractiveBattlePhase.Battle;
             }
@@ -137,28 +139,54 @@ namespace JijiiKobushi.Stage1Prototype
             get { return hp <= 0 || currentNoteIndex >= chart.Count; }
         }
 
-        public void AdvanceMs(int deltaMs)
+        public bool IsPaused
+        {
+            get { return clock.IsPaused; }
+        }
+
+        public void Pause()
         {
             if (IsComplete) return;
+            clock.Pause();
+            lastJudgeText = "Paused";
+        }
+
+        public void Resume()
+        {
+            if (IsComplete) return;
+            clock.Resume();
+            lastJudgeText = "Resume";
+        }
+
+        public void AdvanceMs(int deltaMs)
+        {
+            if (IsComplete || clock.IsPaused) return;
             clock.AdvanceMs(deltaMs);
             ResolveExpiredNotes();
         }
 
         public void SeekElapsedMs(int elapsedMs)
         {
-            if (IsComplete) return;
+            if (IsComplete || clock.IsPaused) return;
             clock.SeekElapsedMs(elapsedMs);
             ResolveExpiredNotes();
         }
 
         public void SeekBattleClockMs(int battleClockMs)
         {
+            if (clock.IsPaused) return;
             clock.SeekElapsedMs(clock.CountInMs + Math.Max(0, battleClockMs));
             ResolveExpiredNotes();
         }
 
         public JudgeResult Tap()
         {
+            if (clock.IsPaused)
+            {
+                lastJudgeText = "Paused";
+                return null;
+            }
+
             if (Phase == InteractiveBattlePhase.CountIn)
             {
                 lastJudgeText = "Count-in";
@@ -207,6 +235,12 @@ namespace JijiiKobushi.Stage1Prototype
 
         public void HoldDown()
         {
+            if (clock.IsPaused)
+            {
+                lastJudgeText = "Paused";
+                return;
+            }
+
             if (Phase == InteractiveBattlePhase.CountIn)
             {
                 lastJudgeText = "Count-in";
@@ -240,6 +274,12 @@ namespace JijiiKobushi.Stage1Prototype
 
         public JudgeResult HoldUp()
         {
+            if (clock.IsPaused)
+            {
+                lastJudgeText = "Paused";
+                return null;
+            }
+
             if (activeHoldIndex < 0 || activeHoldIndex >= chart.Count)
             {
                 lastJudgeText = "No active hold";

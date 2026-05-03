@@ -6,6 +6,7 @@ namespace JijiiKobushi.Stage1Prototype
         public bool TapOrMashDown { get; set; }
         public bool HoldDown { get; set; }
         public bool HoldUp { get; set; }
+        public bool PauseDown { get; set; }
         public bool RestartDown { get; set; }
     }
 }

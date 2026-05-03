@@ -6,6 +6,7 @@ namespace JijiiKobushi.Stage1Prototype
         TapOrMash,
         HoldDown,
         HoldUp,
+        Pause,
         Restart
     }
 }

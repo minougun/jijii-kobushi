@@ -23,6 +23,10 @@ namespace JijiiKobushi.Stage1Prototype
                     Input.GetKeyUp(KeyCode.X) ||
                     Input.GetKeyUp(KeyCode.J) ||
                     Input.GetKeyUp(KeyCode.JoystickButton1),
+                PauseDown =
+                    Input.GetKeyDown(KeyCode.P) ||
+                    Input.GetKeyDown(KeyCode.Escape) ||
+                    Input.GetKeyDown(KeyCode.JoystickButton9),
                 RestartDown =
                     Input.GetKeyDown(KeyCode.Return) ||
                     Input.GetKeyDown(KeyCode.JoystickButton7)

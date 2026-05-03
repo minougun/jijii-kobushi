@@ -27,10 +27,12 @@ namespace JijiiKobushi.Stage1Prototype
         private IRhythmInputAdapter inputAdapter;
         private AudioSource audioSource;
         private double audioStartedDspTime;
+        private double audioPausedDspTime;
         private bool audioReady;
         private bool audioStarted;
         private bool audioFallbackClock;
         private bool completionHandled;
+        private bool paused;
         private Coroutine audioLoadRoutine;
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
@@ -86,6 +88,16 @@ namespace JijiiKobushi.Stage1Prototype
             get { return audioSource != null && audioSource.isPlaying; }
         }
 
+        public bool DebugPaused
+        {
+            get { return paused; }
+        }
+
+        public void DebugTogglePause()
+        {
+            TogglePause();
+        }
+
         public void DebugSeekBattleClockMs(int battleClockMs)
         {
             if (session == null) return;
@@ -102,6 +114,11 @@ namespace JijiiKobushi.Stage1Prototype
                 return;
             }
 
+            if (inputAdapter == null) inputAdapter = new KeyboardGamepadInputAdapter();
+            var input = inputAdapter.PollFrame();
+            if (HandleControlInput(input)) return;
+            if (paused) return;
+
             if (audioStarted)
             {
                 var elapsedMs = (int)Math.Round((AudioSettings.dspTime - audioStartedDspTime) * 1000.0 * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
@@ -109,7 +126,6 @@ namespace JijiiKobushi.Stage1Prototype
             }
             else if (useAudioClock && !audioFallbackClock)
             {
-                PollKeyboardInput();
                 return;
             }
             else
@@ -124,7 +140,7 @@ namespace JijiiKobushi.Stage1Prototype
                 return;
             }
 
-            PollKeyboardInput();
+            ApplyRhythmInput(input);
         }
 
         private void OnGUI()
@@ -180,7 +196,7 @@ namespace JijiiKobushi.Stage1Prototype
             FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
             StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
             GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), StageHeading, strongStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 56, 900, 24), "Space/Z/A: tap or mash    X/J/B: hold    Enter/Start: restart", labelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 56, 960, 24), "Space/Z/A: tap or mash    X/J/B: hold    P/Esc/Select: pause    Enter/Start: restart", labelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 88, panel.width - 48, 24), "current: " + CurrentNoteLabel, labelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 114, panel.width - 48, 24), status + "  " + audioStatus, labelStyle);
         }
@@ -273,7 +289,12 @@ namespace JijiiKobushi.Stage1Prototype
                 LoadAndStart();
             }
 
-            DrawInputButtons((int)mainRect.x + 570, (int)top);
+            if (GUI.Button(new Rect(mainRect.x + 560, top + 2, 120, 48), paused ? "Resume" : "Pause"))
+            {
+                TogglePause();
+            }
+
+            DrawInputButtons((int)mainRect.x + 700, (int)top);
         }
 
         private void LoadAndStart()
@@ -292,6 +313,7 @@ namespace JijiiKobushi.Stage1Prototype
                 session = new InteractiveBattleSession(stage, difficulty);
                 holdButtonWasDown = false;
                 completionHandled = false;
+                paused = false;
                 StopBgm();
                 status = "Loaded Stage 1 and parity tests passed. First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
                 PrepareBgm();
@@ -304,17 +326,25 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
-        private void PollKeyboardInput()
+        private bool HandleControlInput(RhythmInputFrame input)
         {
-            if (inputAdapter == null) inputAdapter = new KeyboardGamepadInputAdapter();
-            var input = inputAdapter.PollFrame();
-
             if (input.RestartDown)
             {
                 LoadAndStart();
-                return;
+                return true;
             }
 
+            if (input.PauseDown)
+            {
+                TogglePause();
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ApplyRhythmInput(RhythmInputFrame input)
+        {
             if (input.TapOrMashDown)
             {
                 session.Tap();
@@ -355,6 +385,7 @@ namespace JijiiKobushi.Stage1Prototype
             get
             {
                 if (session == null) return "Boot";
+                if (paused) return "Paused";
                 if (session.CountInRemainingMs > 0) return "CountIn " + session.CountInRemainingMs + "ms";
                 if (IsComplete) return "Result";
                 return "Battle";
@@ -449,6 +480,11 @@ namespace JijiiKobushi.Stage1Prototype
                 audioSource.pitch = Mathf.Max(0.1f, playbackSpeed);
                 audioReady = true;
                 audioStatus = "BGM ready: " + Path.GetFileName(bgmPath);
+                if (paused)
+                {
+                    audioStatus = "BGM ready: paused";
+                    yield break;
+                }
                 StartBgm();
             }
         }
@@ -462,6 +498,48 @@ namespace JijiiKobushi.Stage1Prototype
             audioStarted = true;
             audioFallbackClock = false;
             audioStatus = "BGM playing: " + stage.Audio.Bgm.Track;
+        }
+
+        private void TogglePause()
+        {
+            if (session == null || session.IsComplete) return;
+            if (paused) ResumeRun();
+            else PauseRun();
+        }
+
+        private void PauseRun()
+        {
+            if (paused) return;
+            paused = true;
+            holdButtonWasDown = false;
+            session.Pause();
+            if (audioSource != null && audioSource.isPlaying)
+            {
+                audioPausedDspTime = AudioSettings.dspTime;
+                audioSource.Pause();
+            }
+            audioStatus = "BGM paused";
+        }
+
+        private void ResumeRun()
+        {
+            if (!paused) return;
+            paused = false;
+            session.Resume();
+            if (audioStarted && audioSource != null && audioSource.clip != null)
+            {
+                audioStartedDspTime += AudioSettings.dspTime - audioPausedDspTime;
+                audioSource.UnPause();
+                audioStatus = "BGM playing: " + stage.Audio.Bgm.Track;
+            }
+            else if (audioReady && audioSource != null && audioSource.clip != null)
+            {
+                StartBgm();
+            }
+            else if (audioFallbackClock)
+            {
+                audioStatus = "BGM fallback clock";
+            }
         }
 
         private void StopBgmForResult()
@@ -482,6 +560,7 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (completionHandled) return;
             completionHandled = true;
+            paused = false;
             holdButtonWasDown = false;
             StopBgmForResult();
         }
@@ -498,6 +577,7 @@ namespace JijiiKobushi.Stage1Prototype
             audioReady = false;
             audioStarted = false;
             audioFallbackClock = false;
+            paused = false;
             audioStatus = "BGM not loaded";
         }
 
@@ -544,6 +624,9 @@ namespace JijiiKobushi.Stage1Prototype
         private void DrawInputButtons(int left, int top)
         {
             if (session == null) return;
+            var disabled = paused || session.IsComplete;
+            var previousEnabled = GUI.enabled;
+            GUI.enabled = previousEnabled && !disabled;
 
             if (GUI.Button(new Rect(left, top, 160, 52), "Tap / Mash"))
             {
@@ -554,18 +637,20 @@ namespace JijiiKobushi.Stage1Prototype
             GUI.RepeatButton(holdRect, "Hold");
 
             var currentEvent = Event.current;
-            if (currentEvent.type == EventType.MouseDown && holdRect.Contains(currentEvent.mousePosition) && !holdButtonWasDown)
+            if (!disabled && currentEvent.type == EventType.MouseDown && holdRect.Contains(currentEvent.mousePosition) && !holdButtonWasDown)
             {
                 session.HoldDown();
                 holdButtonWasDown = true;
                 currentEvent.Use();
             }
-            else if (currentEvent.type == EventType.MouseUp && holdButtonWasDown)
+            else if (!disabled && currentEvent.type == EventType.MouseUp && holdButtonWasDown)
             {
                 session.HoldUp();
                 holdButtonWasDown = false;
                 currentEvent.Use();
             }
+
+            GUI.enabled = previousEnabled;
         }
 
         private void DrawMeter(Rect rect, int value, int max, Color color, string label)

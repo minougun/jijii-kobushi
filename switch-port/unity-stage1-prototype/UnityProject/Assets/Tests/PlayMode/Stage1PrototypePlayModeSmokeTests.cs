@@ -47,5 +47,29 @@ namespace JijiiKobushi.Stage1Prototype
 
             Object.Destroy(runnerObject);
         }
+
+        [UnityTest]
+        public IEnumerator PlaceholderRendererTogglesPause()
+        {
+            var runnerObject = new GameObject("Stage1 PlayMode Pause Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            runner.DebugTogglePause();
+            yield return null;
+            Assert.IsTrue(runner.DebugPaused);
+
+            runner.DebugTogglePause();
+            yield return null;
+            Assert.IsFalse(runner.DebugPaused);
+
+            Object.Destroy(runnerObject);
+        }
     }
 }

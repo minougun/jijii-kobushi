@@ -92,7 +92,7 @@ Assets/Scripts/Input/IRhythmInputAdapter.cs
 Assets/Scripts/Input/KeyboardGamepadInputAdapter.cs
 ```
 
-It maps the temporary keyboard/gamepad controls into `TapOrMash`, `HoldDown`, `HoldUp`, and `Restart`. Dedicated platform mappings can replace this adapter later without changing `InteractiveBattleSession`.
+It maps the temporary keyboard/gamepad controls into `TapOrMash`, `HoldDown`, `HoldUp`, `Pause`, and `Restart`. Dedicated platform mappings can replace this adapter later without changing `InteractiveBattleSession`.
 
 ## Battle
 

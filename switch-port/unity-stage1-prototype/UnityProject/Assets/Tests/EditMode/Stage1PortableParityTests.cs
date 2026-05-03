@@ -47,6 +47,32 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.Less(result.RemainingHp, result.MaxHp);
         }
 
+        [Test]
+        public void InteractivePauseFreezesClockAndJudgement()
+        {
+            var stage = LoadStage();
+            var session = new InteractiveBattleSession(stage, "normal");
+            var first = stage.Charts["normal"][0];
+
+            session.AdvanceMs(1000);
+            session.Pause();
+            var elapsedAtPause = session.ElapsedMs;
+
+            session.AdvanceMs(5000);
+            session.SeekBattleClockMs(first.TimeMs + stage.Rhythm.InputGraceMs + 1);
+            session.Tap();
+
+            Assert.IsTrue(session.IsPaused);
+            Assert.AreEqual(elapsedAtPause, session.ElapsedMs);
+            Assert.AreEqual("Paused", session.LastJudgeText);
+            Assert.AreEqual(0, session.BuildResult().Stats.Miss);
+
+            session.Resume();
+            session.AdvanceMs(250);
+            Assert.IsFalse(session.IsPaused);
+            Assert.AreEqual(elapsedAtPause + 250, session.ElapsedMs);
+        }
+
         private static StageExport LoadStage()
         {
             return StageJsonLoader.LoadStage(ProfileTestRunner.ResolveStagePackPath("shotengai.stage.json"));
