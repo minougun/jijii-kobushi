@@ -94,6 +94,7 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.AreEqual("白馬の正体", runner.DebugStageTitle);
             Assert.AreEqual("X結社本部", runner.DebugStageLocation);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
 
@@ -122,7 +123,8 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
-            Assert.AreEqual("伊藤道場", runner.DebugStageTitle);
+            Assert.AreEqual("内部破壊の稽古", runner.DebugStageTitle);
+            Assert.AreEqual("伊藤道場", runner.DebugStageLocation);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
 
             Object.Destroy(runnerObject);
