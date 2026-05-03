@@ -29,6 +29,7 @@ namespace JijiiKobushi.Stage1Prototype
         private bool audioReady;
         private bool audioStarted;
         private bool audioFallbackClock;
+        private bool completionHandled;
         private Coroutine audioLoadRoutine;
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
@@ -78,9 +79,26 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
+        public bool DebugAudioIsPlaying
+        {
+            get { return audioSource != null && audioSource.isPlaying; }
+        }
+
+        public void DebugSeekBattleClockMs(int battleClockMs)
+        {
+            if (session == null) return;
+            session.SeekBattleClockMs(battleClockMs);
+            HandleSessionComplete();
+        }
+
         private void Update()
         {
-            if (session == null || session.IsComplete) return;
+            if (session == null) return;
+            if (session.IsComplete)
+            {
+                HandleSessionComplete();
+                return;
+            }
 
             if (audioStarted)
             {
@@ -96,6 +114,12 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 var deltaMs = (int)Math.Round(Time.deltaTime * 1000.0f * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
                 session.AdvanceMs(deltaMs);
+            }
+
+            if (session.IsComplete)
+            {
+                HandleSessionComplete();
+                return;
             }
 
             PollKeyboardInput();
@@ -265,6 +289,7 @@ namespace JijiiKobushi.Stage1Prototype
                 chart = stage.Charts[difficulty];
                 session = new InteractiveBattleSession(stage, difficulty);
                 holdButtonWasDown = false;
+                completionHandled = false;
                 StopBgm();
                 status = "Loaded Stage 1 and parity tests passed. First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
                 PrepareBgm();
@@ -437,6 +462,28 @@ namespace JijiiKobushi.Stage1Prototype
             audioStarted = true;
             audioFallbackClock = false;
             audioStatus = "BGM playing: " + stage.Audio.Bgm.Track;
+        }
+
+        private void StopBgmForResult()
+        {
+            if (audioLoadRoutine != null)
+            {
+                StopCoroutine(audioLoadRoutine);
+                audioLoadRoutine = null;
+            }
+
+            if (audioSource != null) audioSource.Stop();
+            audioStarted = false;
+            audioFallbackClock = false;
+            audioStatus = "BGM stopped: result";
+        }
+
+        private void HandleSessionComplete()
+        {
+            if (completionHandled) return;
+            completionHandled = true;
+            holdButtonWasDown = false;
+            StopBgmForResult();
         }
 
         private void StopBgm()

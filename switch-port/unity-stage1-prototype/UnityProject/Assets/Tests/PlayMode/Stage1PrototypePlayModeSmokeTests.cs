@@ -25,5 +25,27 @@ namespace JijiiKobushi.Stage1Prototype
 
             Object.Destroy(runnerObject);
         }
+
+        [UnityTest]
+        public IEnumerator PlaceholderRendererStopsBgmWhenSessionCompletes()
+        {
+            var runnerObject = new GameObject("Stage1 PlayMode Result Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            runner.DebugSeekBattleClockMs(999999999);
+            yield return null;
+
+            Assert.IsFalse(runner.DebugAudioIsPlaying);
+            Assert.AreEqual("BGM stopped: result", runner.DebugAudioStatus);
+
+            Object.Destroy(runnerObject);
+        }
     }
 }
