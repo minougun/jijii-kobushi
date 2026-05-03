@@ -9,6 +9,7 @@ namespace JijiiKobushi.Stage1Prototype
             GameId = "";
             ExportId = "";
             Stage = new StageMeta();
+            Scenario = new ScenarioData();
             Audio = new AudioData();
             Rhythm = new RhythmData();
             Player = new PlayerData();
@@ -21,6 +22,7 @@ namespace JijiiKobushi.Stage1Prototype
         public string GameId { get; set; }
         public string ExportId { get; set; }
         public StageMeta Stage { get; set; }
+        public ScenarioData Scenario { get; set; }
         public AudioData Audio { get; set; }
         public RhythmData Rhythm { get; set; }
         public PlayerData Player { get; set; }
@@ -44,6 +46,22 @@ namespace JijiiKobushi.Stage1Prototype
         public string LocationName { get; set; }
         public int Bpm { get; set; }
         public int TravelMs { get; set; }
+    }
+
+    public sealed class ScenarioData
+    {
+        public ScenarioData()
+        {
+            IntroLines = new List<string>();
+            RestLine = "";
+            ClearLine = "";
+            FinalRevealLines = new List<string>();
+        }
+
+        public List<string> IntroLines { get; set; }
+        public string RestLine { get; set; }
+        public string ClearLine { get; set; }
+        public List<string> FinalRevealLines { get; set; }
     }
 
     public sealed class AudioData

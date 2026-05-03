@@ -21,6 +21,7 @@ namespace JijiiKobushi.Stage1Prototype
 
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
             Assert.AreEqual("うさぎ公園", runner.DebugStageLocation);
+            Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
 
             Object.Destroy(runnerObject);
@@ -44,6 +45,7 @@ namespace JijiiKobushi.Stage1Prototype
 
             Assert.IsFalse(runner.DebugAudioIsPlaying);
             Assert.AreEqual("BGM stopped: result", runner.DebugAudioStatus);
+            Assert.IsNotEmpty(runner.DebugResultScenarioLine);
 
             Object.Destroy(runnerObject);
         }
@@ -96,6 +98,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
             Assert.AreEqual("白馬の正体", runner.DebugStageTitle);
             Assert.AreEqual("X結社本部", runner.DebugStageLocation);
+            Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
 
             Object.Destroy(runnerObject);
@@ -125,6 +128,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
             Assert.AreEqual("内部破壊の稽古", runner.DebugStageTitle);
             Assert.AreEqual("伊藤道場", runner.DebugStageLocation);
+            Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
 
             Object.Destroy(runnerObject);
@@ -161,6 +165,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual(2, runner.DebugStageNumber);
             Assert.AreEqual("声を失う倉庫", runner.DebugStageTitle);
             Assert.AreEqual("港の倉庫", runner.DebugStageLocation);
+            Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
 
             Object.Destroy(runnerObject);
         }

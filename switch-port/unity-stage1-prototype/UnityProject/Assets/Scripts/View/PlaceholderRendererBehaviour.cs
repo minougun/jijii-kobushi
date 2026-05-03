@@ -48,6 +48,7 @@ namespace JijiiKobushi.Stage1Prototype
         private Coroutine audioLoadRoutine;
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
+        private GUIStyle panelLabelStyle;
         private GUIStyle strongStyle;
         private GUIStyle noteStyle;
 
@@ -93,6 +94,20 @@ namespace JijiiKobushi.Stage1Prototype
                 if (stage == null || stage.Stage == null) return "";
                 return stage.Stage.Title;
             }
+        }
+
+        public int DebugIntroLineCount
+        {
+            get
+            {
+                if (stage == null || stage.Scenario == null || stage.Scenario.IntroLines == null) return 0;
+                return stage.Scenario.IntroLines.Count;
+            }
+        }
+
+        public string DebugResultScenarioLine
+        {
+            get { return ResultScenarioLine; }
         }
 
         public int DebugStageNumber
@@ -234,18 +249,19 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawStagePanel(Rect mainRect)
         {
-            var panel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 150);
+            var panel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 170);
             FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
             StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
             GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), StageHeading, strongStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 56, 960, 24), "Space/Z/A: tap or mash    X/J/B: hold    P/Esc/Select: pause    Enter/Start: restart", labelStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 88, panel.width - 48, 24), "current: " + CurrentNoteLabel, labelStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 114, panel.width - 48, 24), status + "  " + audioStatus, labelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 54, panel.width - 48, 42), IntroPreview, panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 98, 960, 24), "Space/Z/A: tap or mash    X/J/B: hold    P/Esc/Select: pause    Enter/Start: restart", panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 122, panel.width - 48, 24), "current: " + CurrentNoteLabel, panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 146, panel.width - 48, 24), status + "  " + audioStatus, panelLabelStyle);
         }
 
         private void DrawRhythmLane(Rect mainRect)
         {
-            var lane = new Rect(mainRect.x + 24, mainRect.y + 280, mainRect.width - 48, 132);
+            var lane = new Rect(mainRect.x + 24, mainRect.y + 290, mainRect.width - 48, 132);
             FillRect(lane, new Color(0.98f, 0.98f, 0.96f));
             StrokeRect(lane, new Color(0.12f, 0.11f, 0.1f), 2);
 
@@ -303,32 +319,33 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawJudgePanel(Rect mainRect)
         {
-            var panel = new Rect(mainRect.x + 24, mainRect.y + 432, mainRect.width - 48, 62);
+            var panel = new Rect(mainRect.x + 24, mainRect.y + 442, mainRect.width - 48, 62);
             FillRect(panel, new Color(0.12f, 0.11f, 0.1f));
             var result = session.BuildResult();
             GUI.Label(new Rect(panel.x + 18, panel.y + 10, 360, 26), session.LastJudgeText, strongStyle);
-            GUI.Label(new Rect(panel.x + 400, panel.y + 10, 520, 26), "combo=" + session.Combo + "  max=" + session.MaxCombo + "  notes=" + session.ResolvedCount + "/" + session.TotalNotes, labelStyle);
-            GUI.Label(new Rect(panel.x + 18, panel.y + 34, 720, 22), "perfect/good/bad/miss=" + result.Stats.Perfect + "/" + result.Stats.Good + "/" + result.Stats.Bad + "/" + result.Stats.Miss, labelStyle);
+            GUI.Label(new Rect(panel.x + 400, panel.y + 10, 520, 26), "combo=" + session.Combo + "  max=" + session.MaxCombo + "  notes=" + session.ResolvedCount + "/" + session.TotalNotes, panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 34, 720, 22), "perfect/good/bad/miss=" + result.Stats.Perfect + "/" + result.Stats.Good + "/" + result.Stats.Bad + "/" + result.Stats.Miss, panelLabelStyle);
         }
 
         private void DrawResultPanel(Rect mainRect)
         {
             var result = session.BuildResult();
-            var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 508, 340, 122);
+            var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 510, 340, 152);
             FillRect(panel, new Color(1f, 1f, 1f));
             StrokeRect(panel, new Color(0.12f, 0.11f, 0.1f), 2);
             GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), ResultHeading + " " + result.Rank, titleStyle);
             GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "clear=" + result.Clear + " score=" + result.Score + " maxCombo=" + result.MaxCombo, labelStyle);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 72, 304, 34), ResultScenarioLine, labelStyle);
 
             var previousEnabled = GUI.enabled;
             GUI.enabled = previousEnabled && CanAdvanceToNextStage;
-            if (GUI.Button(new Rect(panel.x + 18, panel.y + 76, 144, 34), "Next Stage"))
+            if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "Next Stage"))
             {
                 AdvanceToNextStage();
             }
             GUI.enabled = previousEnabled;
 
-            if (GUI.Button(new Rect(panel.x + 176, panel.y + 76, 144, 34), "Retry"))
+            if (GUI.Button(new Rect(panel.x + 176, panel.y + 108, 144, 34), "Retry"))
             {
                 LoadAndStart();
             }
@@ -529,6 +546,32 @@ namespace JijiiKobushi.Stage1Prototype
                 if (stage == null || stage.Stage == null) return "誘拐の朝 / うさぎ公園";
                 if (string.IsNullOrEmpty(stage.Stage.LocationName)) return stage.Stage.Title;
                 return stage.Stage.Title + " / " + stage.Stage.LocationName;
+            }
+        }
+
+        private string IntroPreview
+        {
+            get
+            {
+                if (stage == null || stage.Scenario == null || stage.Scenario.IntroLines == null || stage.Scenario.IntroLines.Count == 0)
+                {
+                    return "scenario: -";
+                }
+                return "intro: " + stage.Scenario.IntroLines[0];
+            }
+        }
+
+        private string ResultScenarioLine
+        {
+            get
+            {
+                if (session == null || stage == null || stage.Scenario == null) return "";
+                if (session.IsFailed) return "もう一度、拍を取り戻せ。";
+                if (CurrentStageIndex >= StagePackFiles.Length - 1 && stage.Scenario.FinalRevealLines.Count > 0)
+                {
+                    return stage.Scenario.FinalRevealLines[0];
+                }
+                return stage.Scenario.ClearLine;
             }
         }
 
@@ -793,7 +836,14 @@ namespace JijiiKobushi.Stage1Prototype
             labelStyle = new GUIStyle(GUI.skin.label)
             {
                 fontSize = 15,
+                wordWrap = true,
                 normal = { textColor = new Color(0.08f, 0.08f, 0.08f) }
+            };
+            panelLabelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 15,
+                wordWrap = true,
+                normal = { textColor = new Color(0.95f, 0.94f, 0.9f) }
             };
             strongStyle = new GUIStyle(GUI.skin.label)
             {

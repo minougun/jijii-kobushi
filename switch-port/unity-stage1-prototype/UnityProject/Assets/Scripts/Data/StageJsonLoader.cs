@@ -18,6 +18,7 @@ namespace JijiiKobushi.Stage1Prototype
                 GameId = GetString(root, "gameId"),
                 ExportId = GetString(root, "exportId"),
                 Stage = ReadStageMeta(GetObject(root, "stage")),
+                Scenario = ReadScenario(GetObject(root, "scenario")),
                 Audio = ReadAudio(GetObject(root, "audio")),
                 Rhythm = ReadRhythm(GetObject(root, "rhythm")),
                 Player = ReadPlayer(GetObject(root, "player")),
@@ -58,6 +59,21 @@ namespace JijiiKobushi.Stage1Prototype
                 LocationName = GetString(obj, "locationName"),
                 Bpm = GetInt(obj, "bpm"),
                 TravelMs = GetInt(obj, "travelMs")
+            };
+        }
+
+        private static ScenarioData ReadScenario(Dictionary<string, object> obj)
+        {
+            var finalRevealLines = obj.ContainsKey("finalRevealLines")
+                ? ReadStringList(GetList(obj, "finalRevealLines"))
+                : new List<string>();
+
+            return new ScenarioData
+            {
+                IntroLines = ReadStringList(GetList(obj, "introLines")),
+                RestLine = GetString(obj, "restLine"),
+                ClearLine = GetString(obj, "clearLine"),
+                FinalRevealLines = finalRevealLines
             };
         }
 

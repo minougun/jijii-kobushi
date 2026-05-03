@@ -102,6 +102,7 @@ Expected Play Mode behavior:
 - Falls back to deterministic `deltaTime` timeline only if the local BGM file cannot be found or decoded.
 - Advances the Stage 1 battle timeline at `playbackSpeed`.
 - Shows current note id, note type, battle time, and virtual time.
+- Shows a short scenario preview from the loaded stage JSON and a clear/failure scenario line in the result panel.
 - Shows a placeholder HUD with HP, score, rank, current combo, judge counts, and a rhythm lane.
 - Draws upcoming `TAP`, `HOLD`, and `MASH` notes moving toward the gold hit line.
 - Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `P`/`Esc` for pause/resume, `Enter` for restart.
