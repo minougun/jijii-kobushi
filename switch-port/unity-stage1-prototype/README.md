@@ -64,6 +64,7 @@ Key files:
 - `Battle/InteractiveBattleSession.cs`
 - `Tests/ProfileTestRunner.cs`
 - `UnityProject/Assets/Tests/EditMode/Stage1PortableParityTests.cs`
+- `UnityProject/Assets/Tests/PlayMode/Stage1PrototypePlayModeSmokeTests.cs`
 - `View/PlaceholderRenderer.cs`
 - `View/PlaceholderRendererBehaviour.cs`
 
@@ -74,6 +75,8 @@ Unity-facing files:
 - `UnityProject/Assets/Scenes/Stage1Prototype.unity`
 
 `ProfileTestRunner` locates the tracked Stage 1 pack (`switch-port/stage1/shotengai.stage.json` and `switch-port/stage1/expected-results.json`), verifies that the stage location is `うさぎ公園`, simulates `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy` for Easy, Normal, and Hard, then compares clear, score, rank, maxCombo, judge counts, miss-by-type, and HP.
+
+`Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, and checks that the local BGM file referenced by the JSON can be found before manual playtesting.
 
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 

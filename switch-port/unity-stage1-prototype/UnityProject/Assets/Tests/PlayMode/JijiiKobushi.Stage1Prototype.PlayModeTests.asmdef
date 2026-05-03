@@ -1,0 +1,21 @@
+{
+  "name": "JijiiKobushi.Stage1Prototype.PlayModeTests",
+  "rootNamespace": "",
+  "references": [
+    "JijiiKobushi.Stage1Prototype",
+    "UnityEngine.TestRunner"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

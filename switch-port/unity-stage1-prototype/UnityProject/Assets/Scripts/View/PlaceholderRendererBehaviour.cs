@@ -40,6 +40,44 @@ namespace JijiiKobushi.Stage1Prototype
             LoadAndStart();
         }
 
+        public bool DebugSessionLoaded
+        {
+            get { return session != null && string.IsNullOrEmpty(error); }
+        }
+
+        public string DebugError
+        {
+            get { return error; }
+        }
+
+        public string DebugAudioStatus
+        {
+            get { return audioStatus; }
+        }
+
+        public string DebugClockMode
+        {
+            get { return ClockMode; }
+        }
+
+        public string DebugStageLocation
+        {
+            get
+            {
+                if (stage == null || stage.Stage == null) return "";
+                return stage.Stage.LocationName;
+            }
+        }
+
+        public bool DebugBgmFileExists
+        {
+            get
+            {
+                if (stage == null || stage.Audio == null || stage.Audio.Bgm == null) return false;
+                return !string.IsNullOrEmpty(ResolveRepoRelativePath(stage.Audio.Bgm.AssetSrc));
+            }
+        }
+
         private void Update()
         {
             if (session == null || session.IsComplete) return;

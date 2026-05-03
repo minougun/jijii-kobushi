@@ -44,6 +44,9 @@ If Unity asks to upgrade the project version, accept only for this local prototy
 2. Select `EditMode`.
 3. Run `Stage1PortableParityTests`.
 4. Expected result: all `Stage1PortableParityTests` pass.
+5. Select `PlayMode`.
+6. Run `Stage1PrototypePlayModeSmokeTests`.
+7. Expected result: the placeholder runner loads Stage 1, confirms `うさぎ公園`, and finds the local BGM file referenced by the JSON.
 
 The test loads:
 
@@ -67,6 +70,18 @@ CLI equivalent:
 ```
 
 Generated `unity-*-results.xml` and `*.log` files are local verification artifacts and should not be committed.
+
+PlayMode CLI equivalent:
+
+```bash
+"/mnt/c/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Unity.exe" \
+  -batchmode -nographics \
+  -projectPath "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\UnityProject" \
+  -runTests \
+  -testPlatform PlayMode \
+  -testResults "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-playmode-results.xml" \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-playmode-tests.log"
+```
 
 ## 3. Run Scene
 
