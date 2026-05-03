@@ -8,7 +8,8 @@ namespace JijiiKobushi.Stage1Prototype
         CountIn,
         Battle,
         Paused,
-        Result
+        Result,
+        Failed
     }
 
     public sealed class InteractiveBattleSession
@@ -118,7 +119,8 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
-                if (IsComplete) return InteractiveBattlePhase.Result;
+                if (IsFailed) return InteractiveBattlePhase.Failed;
+                if (IsCleared) return InteractiveBattlePhase.Result;
                 if (clock.IsPaused) return InteractiveBattlePhase.Paused;
                 if (clock.CountInRemainingMs > 0) return InteractiveBattlePhase.CountIn;
                 return InteractiveBattlePhase.Battle;
@@ -136,7 +138,17 @@ namespace JijiiKobushi.Stage1Prototype
 
         public bool IsComplete
         {
-            get { return hp <= 0 || currentNoteIndex >= chart.Count; }
+            get { return IsFailed || IsCleared; }
+        }
+
+        public bool IsFailed
+        {
+            get { return hp <= 0; }
+        }
+
+        public bool IsCleared
+        {
+            get { return hp > 0 && currentNoteIndex >= chart.Count; }
         }
 
         public bool IsPaused

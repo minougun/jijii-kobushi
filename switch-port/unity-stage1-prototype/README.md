@@ -86,6 +86,8 @@ Unity-facing files:
 
 It also supports the first pause/resume path: pause freezes the battle clock and note expiry, suspends rhythm input consumption, and pauses BGM playback when an `AudioSource` is active.
 
+HP 0 now enters an explicit `Failed` phase, while full chart completion with HP remaining enters `Result`. The placeholder result panel mirrors this distinction with `FAILED` versus `RESULT` headings.
+
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, result panel, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line.

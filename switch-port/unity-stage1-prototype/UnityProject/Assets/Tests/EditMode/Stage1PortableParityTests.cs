@@ -45,6 +45,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual(1, result.Stats.Miss);
             Assert.AreEqual(1, result.MissByType.Tap);
             Assert.Less(result.RemainingHp, result.MaxHp);
+            Assert.AreEqual(InteractiveBattlePhase.Battle, session.Phase);
         }
 
         [Test]
@@ -71,6 +72,29 @@ namespace JijiiKobushi.Stage1Prototype
             session.AdvanceMs(250);
             Assert.IsFalse(session.IsPaused);
             Assert.AreEqual(elapsedAtPause + 250, session.ElapsedMs);
+        }
+
+        [Test]
+        public void InteractiveHpZeroEntersFailed()
+        {
+            var stage = LoadStage();
+            var session = new InteractiveBattleSession(stage, "normal");
+
+            for (var i = 0; i < stage.Charts["normal"].Count && !session.IsFailed; i += 1)
+            {
+                var note = session.CurrentNote;
+                Assert.IsNotNull(note);
+                var grace = note.Type == "mash" ? stage.Rhythm.MashInputGraceMs : stage.Rhythm.InputGraceMs;
+                session.SeekBattleClockMs(note.TimeMs + note.DurationMs + grace + 1);
+            }
+
+            var result = session.BuildResult();
+            Assert.IsTrue(session.IsComplete);
+            Assert.IsTrue(session.IsFailed);
+            Assert.IsFalse(session.IsCleared);
+            Assert.AreEqual(InteractiveBattlePhase.Failed, session.Phase);
+            Assert.IsFalse(result.Clear);
+            Assert.AreEqual(0, result.RemainingHp);
         }
 
         private static StageExport LoadStage()

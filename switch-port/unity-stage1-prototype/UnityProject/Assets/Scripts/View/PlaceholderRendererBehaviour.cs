@@ -275,7 +275,7 @@ namespace JijiiKobushi.Stage1Prototype
             var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 518, 340, 98);
             FillRect(panel, new Color(1f, 1f, 1f));
             StrokeRect(panel, new Color(0.12f, 0.11f, 0.1f), 2);
-            GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), "RESULT " + result.Rank, titleStyle);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), ResultHeading + " " + result.Rank, titleStyle);
             GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "clear=" + result.Clear + " score=" + result.Score + " maxCombo=" + result.MaxCombo, labelStyle);
         }
 
@@ -387,8 +387,18 @@ namespace JijiiKobushi.Stage1Prototype
                 if (session == null) return "Boot";
                 if (paused) return "Paused";
                 if (session.CountInRemainingMs > 0) return "CountIn " + session.CountInRemainingMs + "ms";
-                if (IsComplete) return "Result";
+                if (session.IsFailed) return "Failed";
+                if (session.IsCleared) return "Result";
                 return "Battle";
+            }
+        }
+
+        private string ResultHeading
+        {
+            get
+            {
+                if (session == null) return "RESULT";
+                return session.IsFailed ? "FAILED" : "RESULT";
             }
         }
 
