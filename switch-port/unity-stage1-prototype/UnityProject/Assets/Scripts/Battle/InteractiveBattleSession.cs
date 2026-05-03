@@ -136,6 +136,11 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
+        public bool IsHoldActiveForNoteIndex(int noteIndex)
+        {
+            return activeHoldIndex == noteIndex;
+        }
+
         public bool IsComplete
         {
             get { return IsFailed || IsCleared; }

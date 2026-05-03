@@ -278,9 +278,10 @@ namespace JijiiKobushi.Stage1Prototype
                 {
                     var note = chart[i];
                     var delta = note.TimeMs - battleMs;
-                    var endDelta = note.TimeMs + note.DurationMs - battleMs;
-                    if (note.Type == "hold")
+                    var keepActiveHoldVisible = note.Type == "hold" && session.IsHoldActiveForNoteIndex(i);
+                    if (keepActiveHoldVisible)
                     {
+                        var endDelta = note.TimeMs + note.DurationMs - battleMs;
                         if (endDelta < -pastMs || delta > lookAheadMs) continue;
                     }
                     else if (delta < -pastMs || delta > lookAheadMs)
@@ -289,7 +290,7 @@ namespace JijiiKobushi.Stage1Prototype
                     }
 
                     var x = hitX + (delta / lookAheadMs) * (lane.width - 210);
-                    DrawNoteMarker(note, x, lane, hitX, lookAheadMs);
+                    DrawNoteMarker(note, x, lane, hitX, lookAheadMs, keepActiveHoldVisible);
                 }
             }
 
@@ -299,7 +300,7 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
-        private void DrawNoteMarker(NoteData note, float x, Rect lane, float hitX, float lookAheadMs)
+        private void DrawNoteMarker(NoteData note, float x, Rect lane, float hitX, float lookAheadMs, bool keepActiveHoldVisible)
         {
             var y = lane.y + 58;
             var color = new Color(0.09f, 0.42f, 0.88f);
@@ -312,10 +313,17 @@ namespace JijiiKobushi.Stage1Prototype
                 color = new Color(0.55f, 0.28f, 0.86f);
                 label = "HOLD";
                 endX = hitX + ((note.TimeMs + note.DurationMs - session.BattleClockMs) / lookAheadMs) * (lane.width - 210);
-                var laneLeft = lane.x + 8;
-                var laneRight = lane.x + lane.width - 10;
-                x = Mathf.Clamp(x, laneLeft, laneRight);
-                width = Mathf.Max(12f, Mathf.Clamp(endX, laneLeft, laneRight) - x);
+                if (keepActiveHoldVisible)
+                {
+                    var laneLeft = lane.x + 8;
+                    var laneRight = lane.x + lane.width - 10;
+                    x = Mathf.Clamp(x, laneLeft, laneRight);
+                    width = Mathf.Max(12f, Mathf.Clamp(endX, laneLeft, laneRight) - x);
+                }
+                else
+                {
+                    width = Mathf.Max(70f, endX - x);
+                }
             }
             else if (note.Type == "mash")
             {
