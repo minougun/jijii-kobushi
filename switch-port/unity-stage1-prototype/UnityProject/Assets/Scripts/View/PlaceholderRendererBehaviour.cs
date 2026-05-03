@@ -19,6 +19,10 @@ namespace JijiiKobushi.Stage1Prototype
         private string status = "Not loaded";
         private string error = "";
         private bool holdButtonWasDown;
+        private GUIStyle titleStyle;
+        private GUIStyle labelStyle;
+        private GUIStyle strongStyle;
+        private GUIStyle noteStyle;
 
         private void Start()
         {
@@ -36,60 +40,151 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void OnGUI()
         {
-            const int left = 16;
-            var top = 16;
-            GUI.Label(new Rect(left, top, 1000, 24), "Jijii Kobushi Stage 1 Unity Prototype");
-            top += 24;
-            GUI.Label(new Rect(left, top, 1000, 24), "phase=" + Phase + " difficulty=" + difficulty + " speed=" + playbackSpeed + "x");
-            top += 24;
+            EnsureStyles();
+            FillRect(new Rect(0, 0, Screen.width, Screen.height), new Color(0.07f, 0.07f, 0.08f));
+
+            const int margin = 24;
+            var width = Mathf.Max(720, Screen.width - margin * 2);
+            var mainRect = new Rect(margin, margin, width, Mathf.Max(500, Screen.height - margin * 2));
+            FillRect(mainRect, new Color(0.96f, 0.94f, 0.88f));
+            StrokeRect(mainRect, new Color(0.12f, 0.11f, 0.1f), 3);
 
             if (!string.IsNullOrEmpty(error))
             {
-                GUI.Label(new Rect(left, top, 1200, 120), error);
-                top += 124;
+                GUI.Label(new Rect(mainRect.x + 20, mainRect.y + 20, mainRect.width - 40, 220), error, labelStyle);
+                DrawFooterControls(mainRect);
+                return;
             }
-            else if (session != null)
-            {
-                var frame = BuildFrame();
-                GUI.Label(new Rect(left, top, 1000, 24), placeholderRenderer.FormatDebugLine(frame));
-                top += 24;
-                GUI.Label(new Rect(left, top, 1000, 24), "stageJson=" + stageJsonPath);
-                top += 24;
-                GUI.Label(new Rect(left, top, 1000, 24), "expectedJson=" + expectedJsonPath);
-                top += 24;
-                GUI.Label(new Rect(left, top, 1000, 24), "currentNote=" + CurrentNoteLabel);
-                top += 24;
-                GUI.Label(new Rect(left, top, 1000, 24), "input: Space/Z = Tap or Mash, X/J = Hold, Enter = Restart");
-                top += 24;
-                GUI.Label(new Rect(left, top, 1000, 24), "judge=" + session.LastJudgeText + " combo=" + session.Combo + " notes=" + session.ResolvedCount + "/" + session.TotalNotes);
-                top += 24;
-                GUI.Label(new Rect(left, top, 1000, 24), status);
-                top += 24;
 
-                if (IsComplete)
-                {
-                    var result = session.BuildResult();
-                    GUI.Label(new Rect(left, top, 1000, 24), "RESULT clear=" + result.Clear + " score=" + result.Score + " rank=" + result.Rank + " maxCombo=" + result.MaxCombo);
-                    top += 24;
-                    GUI.Label(new Rect(left, top, 1000, 24), "stats perfect/good/bad/miss=" + result.Stats.Perfect + "/" + result.Stats.Good + "/" + result.Stats.Bad + "/" + result.Stats.Miss);
-                    top += 24;
-                }
+            DrawHud(mainRect);
+            DrawStagePanel(mainRect);
+
+            if (session != null)
+            {
+                DrawRhythmLane(mainRect);
+                DrawJudgePanel(mainRect);
+                if (IsComplete) DrawResultPanel(mainRect);
             }
             else
             {
-                GUI.Label(new Rect(left, top, 1000, 24), status);
-                top += 24;
+                GUI.Label(new Rect(mainRect.x + 24, mainRect.y + 160, 1000, 24), status, labelStyle);
             }
 
-            DrawDifficultyButtons(left, top + 8);
-            top += 46;
+            DrawFooterControls(mainRect);
+        }
 
-            if (GUI.Button(new Rect(left, top + 8, 120, 44), "Restart"))
+        private void DrawHud(Rect mainRect)
+        {
+            var result = session != null ? session.BuildResult() : null;
+            var titleRect = new Rect(mainRect.x + 24, mainRect.y + 18, 420, 42);
+            GUI.Label(titleRect, "JII KOBUSHI STAGE 1", titleStyle);
+            GUI.Label(new Rect(mainRect.x + 26, mainRect.y + 58, 460, 24), "phase=" + Phase + "  difficulty=" + difficulty + "  speed=" + playbackSpeed + "x", labelStyle);
+
+            var hpRect = new Rect(mainRect.x + mainRect.width - 340, mainRect.y + 24, 290, 26);
+            DrawMeter(hpRect, session != null ? session.RemainingHp : 0, session != null ? session.MaxHp : 1, new Color(0.08f, 0.66f, 0.28f), "HP");
+            GUI.Label(new Rect(hpRect.x, hpRect.y + 32, 290, 24), "score=" + (result != null ? result.Score : 0) + "  rank=" + (result != null ? result.Rank : "-"), labelStyle);
+        }
+
+        private void DrawStagePanel(Rect mainRect)
+        {
+            var panel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 150);
+            FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
+            StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), "誘拐の朝 / Shotengai", strongStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 56, 600, 24), "Space/Z: tap or mash    X/J: hold    Enter: restart", labelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 88, panel.width - 48, 24), "current: " + CurrentNoteLabel, labelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 114, panel.width - 48, 24), status, labelStyle);
+        }
+
+        private void DrawRhythmLane(Rect mainRect)
+        {
+            var lane = new Rect(mainRect.x + 24, mainRect.y + 280, mainRect.width - 48, 132);
+            FillRect(lane, new Color(0.98f, 0.98f, 0.96f));
+            StrokeRect(lane, new Color(0.12f, 0.11f, 0.1f), 2);
+
+            var hitX = lane.x + 150;
+            FillRect(new Rect(hitX, lane.y + 10, 5, lane.height - 20), new Color(0.95f, 0.72f, 0.1f));
+            GUI.Label(new Rect(lane.x + 18, lane.y + 18, 110, 24), "HIT LINE", strongStyle);
+
+            if (chart != null && session != null)
+            {
+                const float lookAheadMs = 2600f;
+                const float pastMs = 380f;
+                var battleMs = session.BattleClockMs;
+                for (var i = 0; i < chart.Count; i += 1)
+                {
+                    var note = chart[i];
+                    var delta = note.TimeMs - battleMs;
+                    if (delta < -pastMs || delta > lookAheadMs) continue;
+
+                    var x = hitX + (delta / lookAheadMs) * (lane.width - 210);
+                    DrawNoteMarker(note, x, lane);
+                }
+            }
+
+            if (session != null && session.CountInRemainingMs > 0)
+            {
+                GUI.Label(new Rect(lane.x + lane.width * 0.44f, lane.y + 42, 220, 46), "COUNT " + Mathf.CeilToInt(session.CountInRemainingMs / 1000f), titleStyle);
+            }
+        }
+
+        private void DrawNoteMarker(NoteData note, float x, Rect lane)
+        {
+            var y = lane.y + 58;
+            var color = new Color(0.09f, 0.42f, 0.88f);
+            var label = "TAP";
+            var width = 54f;
+
+            if (note.Type == "hold")
+            {
+                color = new Color(0.55f, 0.28f, 0.86f);
+                label = "HOLD";
+                width = Mathf.Max(70f, note.DurationMs * 0.12f);
+            }
+            else if (note.Type == "mash")
+            {
+                color = new Color(0.87f, 0.21f, 0.18f);
+                label = "MASH";
+                width = Mathf.Max(76f, note.DurationMs * 0.1f);
+            }
+
+            var rect = new Rect(x, y, width, 34);
+            FillRect(rect, color);
+            StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 2);
+            GUI.Label(rect, label, noteStyle);
+        }
+
+        private void DrawJudgePanel(Rect mainRect)
+        {
+            var panel = new Rect(mainRect.x + 24, mainRect.y + 432, mainRect.width - 48, 62);
+            FillRect(panel, new Color(0.12f, 0.11f, 0.1f));
+            var result = session.BuildResult();
+            GUI.Label(new Rect(panel.x + 18, panel.y + 10, 360, 26), session.LastJudgeText, strongStyle);
+            GUI.Label(new Rect(panel.x + 400, panel.y + 10, 520, 26), "combo=" + session.Combo + "  max=" + session.MaxCombo + "  notes=" + session.ResolvedCount + "/" + session.TotalNotes, labelStyle);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 34, 720, 22), "perfect/good/bad/miss=" + result.Stats.Perfect + "/" + result.Stats.Good + "/" + result.Stats.Bad + "/" + result.Stats.Miss, labelStyle);
+        }
+
+        private void DrawResultPanel(Rect mainRect)
+        {
+            var result = session.BuildResult();
+            var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 518, 340, 98);
+            FillRect(panel, new Color(1f, 1f, 1f));
+            StrokeRect(panel, new Color(0.12f, 0.11f, 0.1f), 2);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), "RESULT " + result.Rank, titleStyle);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "clear=" + result.Clear + " score=" + result.Score + " maxCombo=" + result.MaxCombo, labelStyle);
+        }
+
+        private void DrawFooterControls(Rect mainRect)
+        {
+            var top = mainRect.y + mainRect.height - 74;
+            DrawDifficultyButtons((int)mainRect.x + 24, (int)top + 6);
+
+            if (GUI.Button(new Rect(mainRect.x + 430, top + 2, 120, 48), "Restart"))
             {
                 LoadAndStart();
             }
 
-            DrawInputButtons(left + 136, top + 8);
+            DrawInputButtons((int)mainRect.x + 570, (int)top);
         }
 
         private void LoadAndStart()
@@ -205,12 +300,12 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (session == null) return;
 
-            if (GUI.Button(new Rect(left, top, 160, 64), "Tap / Mash"))
+            if (GUI.Button(new Rect(left, top, 160, 52), "Tap / Mash"))
             {
                 session.Tap();
             }
 
-            var holdRect = new Rect(left + 172, top, 160, 64);
+            var holdRect = new Rect(left + 172, top, 160, 52);
             GUI.RepeatButton(holdRect, "Hold");
 
             var currentEvent = Event.current;
@@ -226,6 +321,61 @@ namespace JijiiKobushi.Stage1Prototype
                 holdButtonWasDown = false;
                 currentEvent.Use();
             }
+        }
+
+        private void DrawMeter(Rect rect, int value, int max, Color color, string label)
+        {
+            FillRect(rect, new Color(0.18f, 0.18f, 0.18f));
+            var ratio = Mathf.Clamp01(max <= 0 ? 0f : value / (float)max);
+            FillRect(new Rect(rect.x + 3, rect.y + 3, (rect.width - 6) * ratio, rect.height - 6), color);
+            StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 2);
+            GUI.Label(rect, label + " " + value + "/" + max, noteStyle);
+        }
+
+        private void EnsureStyles()
+        {
+            if (titleStyle != null) return;
+
+            titleStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 24,
+                fontStyle = FontStyle.Bold,
+                normal = { textColor = new Color(0.08f, 0.08f, 0.08f) }
+            };
+            labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 15,
+                normal = { textColor = new Color(0.08f, 0.08f, 0.08f) }
+            };
+            strongStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 18,
+                fontStyle = FontStyle.Bold,
+                normal = { textColor = Color.white }
+            };
+            noteStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 14,
+                fontStyle = FontStyle.Bold,
+                alignment = TextAnchor.MiddleCenter,
+                normal = { textColor = Color.white }
+            };
+        }
+
+        private static void FillRect(Rect rect, Color color)
+        {
+            var previous = GUI.color;
+            GUI.color = color;
+            GUI.DrawTexture(rect, Texture2D.whiteTexture);
+            GUI.color = previous;
+        }
+
+        private static void StrokeRect(Rect rect, Color color, int thickness)
+        {
+            FillRect(new Rect(rect.x, rect.y, rect.width, thickness), color);
+            FillRect(new Rect(rect.x, rect.yMax - thickness, rect.width, thickness), color);
+            FillRect(new Rect(rect.x, rect.y, thickness, rect.height), color);
+            FillRect(new Rect(rect.xMax - thickness, rect.y, thickness, rect.height), color);
         }
     }
 }

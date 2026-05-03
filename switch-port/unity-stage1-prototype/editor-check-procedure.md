@@ -83,12 +83,14 @@ Expected Play Mode behavior:
 - Shows the first note virtual timeline as `4200ms`.
 - Advances the Stage 1 battle timeline at `playbackSpeed`.
 - Shows current note id, note type, battle time, and virtual time.
+- Shows a placeholder HUD with HP, score, rank, current combo, judge counts, and a rhythm lane.
+- Draws upcoming `TAP`, `HOLD`, and `MASH` notes moving toward the gold hit line.
 - Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `Enter` for restart.
 - Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Restart`, and Easy/Normal/Hard.
 - Applies miss timeout and enemy damage for missed tap/hold notes.
 - Shows Result with clear, score, rank, maxCombo, HP, and judge stats after the chart finishes or HP reaches zero.
 
-The scene uses placeholder `OnGUI` text/buttons only. Rendering migration is intentionally out of scope.
+The scene still uses placeholder `OnGUI` rendering. Final art, animation, audio playback, and production UI migration are intentionally out of scope.
 
 ## 4. If Console Errors Appear
 
