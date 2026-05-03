@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage6-redgate",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-03T22:54:53.895Z",
-  "sourceGitCommit": "af297d2da648bf1eb45aea429ccc7ec6f0fb3f98",
+  "generatedAt": "2026-05-03T23:14:41.469Z",
+  "sourceGitCommit": "ddc6571ed397ad37e857e43f07b927b2b06f1854",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
@@ -16,8 +16,8 @@
   "stage": {
     "id": "redgate",
     "index": 5,
-    "title": "赤門",
-    "locationName": "",
+    "title": "赤門をこじ開けろ",
+    "locationName": "赤門",
     "bpm": 98,
     "travelMs": 13000,
     "palette": {
