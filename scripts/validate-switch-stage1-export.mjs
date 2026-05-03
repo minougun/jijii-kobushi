@@ -153,6 +153,7 @@ assert.equal(payload.gameId, GAME_ID);
 assert.equal(payload.stage?.id, stage.id);
 assert.equal(payload.stage?.index, EXPECTED_STAGE_INDEX);
 assert.equal(payload.stage?.title, stage.title);
+assert.equal(payload.stage?.locationName, stage.locationName);
 assert.equal(payload.stage?.bpm, stage.bpm);
 assert.equal(payload.stage?.travelMs, stage.travelMs);
 assert.deepEqual(payload.stage?.palette, stage.palette);

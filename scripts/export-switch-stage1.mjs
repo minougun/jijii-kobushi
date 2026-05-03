@@ -224,6 +224,7 @@ function buildExport() {
       id: stage.id,
       index: EXPECTED_STAGE_INDEX,
       title: stage.title,
+      locationName: stage.locationName ?? "",
       bpm: stage.bpm,
       travelMs: stage.travelMs,
       palette: stage.palette,

@@ -287,7 +287,7 @@ function validateRunnerExpectations(payload, results) {
 
 function printRun(payload, results) {
   console.log(
-    `stage=${payload.stage.id} title=${payload.stage.title} bgm=${payload.audio.bgm.track} path=${payload.audio.bgm.assetSrc}`,
+    `stage=${payload.stage.id} location=${payload.stage.locationName ?? ""} title=${payload.stage.title} bgm=${payload.audio.bgm.track} path=${payload.audio.bgm.assetSrc}`,
   );
   console.log(
     `countIn=${payload.audio.timing.countInLeadSeconds}s hp=${payload.player.maxHp} inputGrace=${payload.rhythm.inputGraceMs} windows=${JSON.stringify(payload.rhythm.windowsMs)}`,

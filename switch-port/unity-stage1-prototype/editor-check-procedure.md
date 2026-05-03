@@ -82,6 +82,7 @@ Expected Play Mode behavior:
 - Runs parity validation against `switch-port/stage1/expected-results.json`.
 - Starts count-in at `3000ms`.
 - Shows the first note virtual timeline as `4200ms`.
+- Shows the Stage 1 location as `うさぎ公園`.
 - Advances the Stage 1 battle timeline at `playbackSpeed`.
 - Shows current note id, note type, battle time, and virtual time.
 - Shows a placeholder HUD with HP, score, rank, current combo, judge counts, and a rhythm lane.

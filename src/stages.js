@@ -268,6 +268,7 @@ const STAGE_TEMPLATES = [
   {
     id: "shotengai",
     title: "誘拐の朝",
+    locationName: "うさぎ公園",
     bpm: 78,
     travelMs: 8000,
     palette: {

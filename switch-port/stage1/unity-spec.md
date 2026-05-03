@@ -10,8 +10,9 @@ This document defines the Stage 1 vertical slice target for a Unity/C# port. It 
 - Validator: `npm run validate:switch-stage1`
 - Portable runner: `npm run run:switch-stage1`
 - Combined check: `npm run check:switch-stage1`
-- Current Stage: `shotengai`
+- Current Stage key: `shotengai` (legacy internal key)
 - Stage title: `誘拐の朝`
+- Stage location: `うさぎ公園`
 - BGM path: `./assets/audio/koiwazurai.mp3`
 
 Unity should treat the JSON as the canonical data contract. Do not re-create the chart in C# constants.
@@ -22,6 +23,7 @@ Unity should treat the JSON as the canonical data contract. Do not re-create the
 | --- | --- |
 | stage.id | `shotengai` |
 | stage.index | `0` |
+| stage.locationName | `うさぎ公園` |
 | stage.bpm | `78` |
 | stage.travelMs | `8000` |
 | player.maxHp | `12` |

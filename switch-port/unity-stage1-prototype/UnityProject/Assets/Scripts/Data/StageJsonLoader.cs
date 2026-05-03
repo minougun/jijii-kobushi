@@ -55,6 +55,7 @@ namespace JijiiKobushi.Stage1Prototype
                 Id = GetString(obj, "id"),
                 Index = GetInt(obj, "index"),
                 Title = GetString(obj, "title"),
+                LocationName = GetString(obj, "locationName"),
                 Bpm = GetInt(obj, "bpm"),
                 TravelMs = GetInt(obj, "travelMs")
             };

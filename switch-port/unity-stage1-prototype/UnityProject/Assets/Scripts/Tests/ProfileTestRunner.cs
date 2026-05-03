@@ -49,6 +49,7 @@ namespace JijiiKobushi.Stage1Prototype
         private static void ValidateStageData(StageExport stage, ExpectedResults expected)
         {
             AssertEqual("shotengai", stage.Stage.Id, "stage.id");
+            AssertEqual("うさぎ公園", stage.Stage.LocationName, "stage.locationName");
             AssertEqual(3000, expected.Timing.CountInMs, "expected count-in");
 
             var countInMs = (int)Math.Round(stage.Audio.Timing.CountInLeadSeconds * 1000.0, MidpointRounding.AwayFromZero);

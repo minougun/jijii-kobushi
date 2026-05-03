@@ -90,7 +90,7 @@ namespace JijiiKobushi.Stage1Prototype
             var panel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 150);
             FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
             StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), "誘拐の朝 / Shotengai", strongStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), StageHeading, strongStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 56, 600, 24), "Space/Z: tap or mash    X/J: hold    Enter: restart", labelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 88, panel.width - 48, 24), "current: " + CurrentNoteLabel, labelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 114, panel.width - 48, 24), status, labelStyle);
@@ -275,6 +275,16 @@ namespace JijiiKobushi.Stage1Prototype
                 if (note == null) return "complete";
 
                 return note.Id + " type=" + note.Type + " battleMs=" + note.TimeMs + " virtualMs=" + (session.CountInMs + note.TimeMs);
+            }
+        }
+
+        private string StageHeading
+        {
+            get
+            {
+                if (stage == null || stage.Stage == null) return "誘拐の朝 / うさぎ公園";
+                var location = string.IsNullOrEmpty(stage.Stage.LocationName) ? "うさぎ公園" : stage.Stage.LocationName;
+                return stage.Stage.Title + " / " + location;
             }
         }
 

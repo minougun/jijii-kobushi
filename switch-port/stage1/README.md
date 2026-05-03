@@ -4,7 +4,7 @@ This directory is the tracked Stage 1 handoff pack for the Unity local prototype
 
 ## Files
 
-- `shotengai.stage.json`: canonical Stage 1 export copied from `docs/exports/switch-stage1-shotengai.stage.json`.
+- `shotengai.stage.json`: canonical Stage 1 export copied from `docs/exports/switch-stage1-shotengai.stage.json`. The file keeps the legacy internal key `shotengai`, but the actual stage location is `うさぎ公園`.
 - `unity-spec.md`: Unity/C# portable core spec copied from `docs/switch-stage1-unity-spec-2026-05-03.md`.
 - `expected-results.json`: expected runner outputs for `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy`.
 - `pseudocode-csharp.md`: C#-style pseudocode for the portable logic.

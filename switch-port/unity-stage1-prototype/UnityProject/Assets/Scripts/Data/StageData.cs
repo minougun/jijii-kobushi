@@ -35,11 +35,13 @@ namespace JijiiKobushi.Stage1Prototype
         {
             Id = "";
             Title = "";
+            LocationName = "";
         }
 
         public string Id { get; set; }
         public int Index { get; set; }
         public string Title { get; set; }
+        public string LocationName { get; set; }
         public int Bpm { get; set; }
         public int TravelMs { get; set; }
     }

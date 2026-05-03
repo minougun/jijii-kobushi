@@ -12,7 +12,7 @@ This keeps the Stage 1 prototype close to the port pack while avoiding large gen
 
 ## Scope
 
-- Stage 1 only: `shotengai`
+- Stage 1 only: `うさぎ公園` (`shotengai` remains the legacy internal JSON key/file name)
 - Local Unity prototype only
 - Placeholder rendering is acceptable
 - JSON-driven chart and metadata
@@ -72,7 +72,7 @@ Unity-facing files:
 - `UnityProject/ProjectSettings/ProjectVersion.txt`
 - `UnityProject/Assets/Scenes/Stage1Prototype.unity`
 
-`ProfileTestRunner` locates the tracked Stage 1 pack (`switch-port/stage1/shotengai.stage.json` and `switch-port/stage1/expected-results.json`), simulates `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy` for Easy, Normal, and Hard, then compares clear, score, rank, maxCombo, judge counts, miss-by-type, and HP.
+`ProfileTestRunner` locates the tracked Stage 1 pack (`switch-port/stage1/shotengai.stage.json` and `switch-port/stage1/expected-results.json`), verifies that the stage location is `うさぎ公園`, simulates `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy` for Easy, Normal, and Hard, then compares clear, score, rank, maxCombo, judge counts, miss-by-type, and HP.
 
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 
