@@ -60,6 +60,10 @@ Key files:
 - `Data/StageJsonLoader.cs`
 - `Rhythm/RhythmJudge.cs`
 - `Audio/AudioClock.cs`
+- `Input/RhythmAction.cs`
+- `Input/RhythmInputFrame.cs`
+- `Input/IRhythmInputAdapter.cs`
+- `Input/KeyboardGamepadInputAdapter.cs`
 - `Battle/BattleSimulator.cs`
 - `Battle/InteractiveBattleSession.cs`
 - `Tests/ProfileTestRunner.cs`
@@ -79,6 +83,8 @@ Unity-facing files:
 `Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, and checks that the local BGM file referenced by the JSON can be found before manual playtesting.
 
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
+
+`KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, result panel, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line.
 

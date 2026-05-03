@@ -24,6 +24,7 @@ namespace JijiiKobushi.Stage1Prototype
         private string audioStatus = "BGM not loaded";
         private string error = "";
         private bool holdButtonWasDown;
+        private IRhythmInputAdapter inputAdapter;
         private AudioSource audioSource;
         private double audioStartedDspTime;
         private bool audioReady;
@@ -38,6 +39,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void Start()
         {
+            inputAdapter = new KeyboardGamepadInputAdapter();
             LoadAndStart();
         }
 
@@ -304,30 +306,28 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void PollKeyboardInput()
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (inputAdapter == null) inputAdapter = new KeyboardGamepadInputAdapter();
+            var input = inputAdapter.PollFrame();
+
+            if (input.RestartDown)
             {
                 LoadAndStart();
                 return;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.JoystickButton0) || GetButtonDownSafe("Submit"))
+            if (input.TapOrMashDown)
             {
                 session.Tap();
             }
 
-            if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.JoystickButton1))
+            if (input.HoldDown)
             {
                 session.HoldDown();
             }
 
-            if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.JoystickButton1))
+            if (input.HoldUp)
             {
                 session.HoldUp();
-            }
-
-            if (Input.GetKeyDown(KeyCode.JoystickButton7))
-            {
-                LoadAndStart();
             }
         }
 
@@ -521,18 +521,6 @@ namespace JijiiKobushi.Stage1Prototype
         private static string ToFileUri(string path)
         {
             return new Uri(Path.GetFullPath(path)).AbsoluteUri;
-        }
-
-        private static bool GetButtonDownSafe(string buttonName)
-        {
-            try
-            {
-                return Input.GetButtonDown(buttonName);
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
         }
 
         private void DrawDifficultyButtons(int left, int top)

@@ -70,6 +70,8 @@ Purpose:
 
 ```text
 Assets/Scripts/Input/RhythmAction.cs
+Assets/Scripts/Input/RhythmInputFrame.cs
+Assets/Scripts/Input/IRhythmInputAdapter.cs
 Assets/Scripts/Input/InputAdapter.cs
 Assets/Scripts/Input/KeyboardInputAdapter.cs
 Assets/Scripts/Input/GamepadInputAdapter.cs
@@ -80,6 +82,17 @@ Purpose:
 
 - Map physical or automated input into timestamped logical rhythm events.
 - Share one input event path for live play and tests.
+
+Current local prototype implementation:
+
+```text
+Assets/Scripts/Input/RhythmAction.cs
+Assets/Scripts/Input/RhythmInputFrame.cs
+Assets/Scripts/Input/IRhythmInputAdapter.cs
+Assets/Scripts/Input/KeyboardGamepadInputAdapter.cs
+```
+
+It maps the temporary keyboard/gamepad controls into `TapOrMash`, `HoldDown`, `HoldUp`, and `Restart`. Dedicated platform mappings can replace this adapter later without changing `InteractiveBattleSession`.
 
 ## Battle
 
