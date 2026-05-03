@@ -95,6 +95,21 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
+        public int DebugStageNumber
+        {
+            get { return CurrentStageNumber; }
+        }
+
+        public bool DebugCanAdvanceToNextStage
+        {
+            get { return CanAdvanceToNextStage; }
+        }
+
+        public void DebugAdvanceToNextStage()
+        {
+            AdvanceToNextStage();
+        }
+
         public bool DebugBgmFileExists
         {
             get
@@ -299,11 +314,24 @@ namespace JijiiKobushi.Stage1Prototype
         private void DrawResultPanel(Rect mainRect)
         {
             var result = session.BuildResult();
-            var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 518, 340, 98);
+            var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 508, 340, 122);
             FillRect(panel, new Color(1f, 1f, 1f));
             StrokeRect(panel, new Color(0.12f, 0.11f, 0.1f), 2);
             GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), ResultHeading + " " + result.Rank, titleStyle);
             GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "clear=" + result.Clear + " score=" + result.Score + " maxCombo=" + result.MaxCombo, labelStyle);
+
+            var previousEnabled = GUI.enabled;
+            GUI.enabled = previousEnabled && CanAdvanceToNextStage;
+            if (GUI.Button(new Rect(panel.x + 18, panel.y + 76, 144, 34), "Next Stage"))
+            {
+                AdvanceToNextStage();
+            }
+            GUI.enabled = previousEnabled;
+
+            if (GUI.Button(new Rect(panel.x + 176, panel.y + 76, 144, 34), "Retry"))
+            {
+                LoadAndStart();
+            }
         }
 
         private void DrawFooterControls(Rect mainRect)
@@ -390,6 +418,13 @@ namespace JijiiKobushi.Stage1Prototype
             LoadAndStart();
         }
 
+        private void AdvanceToNextStage()
+        {
+            if (!CanAdvanceToNextStage) return;
+            stageNumber = CurrentStageNumber + 1;
+            LoadAndStart();
+        }
+
         private void ApplyRhythmInput(RhythmInputFrame input)
         {
             if (input.TapOrMashDown)
@@ -445,7 +480,8 @@ namespace JijiiKobushi.Stage1Prototype
             get
             {
                 if (session == null) return "RESULT";
-                return session.IsFailed ? "FAILED" : "RESULT";
+                if (session.IsFailed) return "FAILED";
+                return CurrentStageIndex >= StagePackFiles.Length - 1 ? "COMPLETE" : "RESULT";
             }
         }
 
@@ -457,6 +493,16 @@ namespace JijiiKobushi.Stage1Prototype
         private int CurrentStageNumber
         {
             get { return CurrentStageIndex + 1; }
+        }
+
+        private bool CanAdvanceToNextStage
+        {
+            get
+            {
+                return session != null &&
+                    session.IsCleared &&
+                    CurrentStageIndex < StagePackFiles.Length - 1;
+            }
         }
 
         private string StageParityStatus

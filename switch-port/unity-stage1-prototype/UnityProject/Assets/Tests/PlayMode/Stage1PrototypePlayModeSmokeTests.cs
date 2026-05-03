@@ -129,5 +129,40 @@ namespace JijiiKobushi.Stage1Prototype
 
             Object.Destroy(runnerObject);
         }
+
+        [UnityTest]
+        public IEnumerator PlaceholderRendererAdvancesFromClearResultToNextStage()
+        {
+            var runnerObject = new GameObject("Stage Progression PlayMode Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.AreEqual(1, runner.DebugStageNumber);
+
+            runner.DebugSeekBattleClockMs(999999999);
+            yield return null;
+
+            Assert.IsTrue(runner.DebugCanAdvanceToNextStage);
+            runner.DebugAdvanceToNextStage();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded && runner.DebugStageNumber == 2) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.AreEqual(2, runner.DebugStageNumber);
+            Assert.AreEqual("声を失う倉庫", runner.DebugStageTitle);
+            Assert.AreEqual("港の倉庫", runner.DebugStageLocation);
+
+            Object.Destroy(runnerObject);
+        }
     }
 }
