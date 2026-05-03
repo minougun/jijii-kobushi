@@ -10,9 +10,21 @@ namespace JijiiKobushi.Stage1Prototype
 {
     public sealed class PlaceholderRendererBehaviour : MonoBehaviour
     {
+        private static readonly string[] StagePackFiles =
+        {
+            "stage01-shotengai.stage.json",
+            "stage02-warehouse.stage.json",
+            "stage03-riverside.stage.json",
+            "stage04-mountain.stage.json",
+            "stage05-garage.stage.json",
+            "stage06-redgate.stage.json",
+            "stage07-finalhideout.stage.json"
+        };
+
         [SerializeField] private string difficulty = "normal";
         [SerializeField] private float playbackSpeed = 1f;
         [SerializeField] private bool useAudioClock = true;
+        [SerializeField] private int stageNumber = 1;
 
         private readonly PlaceholderRenderer placeholderRenderer = new PlaceholderRenderer();
         private StageExport stage;
@@ -105,6 +117,12 @@ namespace JijiiKobushi.Stage1Prototype
             HandleSessionComplete();
         }
 
+        public void DebugLoadStageNumber(int value)
+        {
+            stageNumber = Mathf.Clamp(value, 1, StagePackFiles.Length);
+            LoadAndStart();
+        }
+
         private void Update()
         {
             if (session == null) return;
@@ -182,7 +200,7 @@ namespace JijiiKobushi.Stage1Prototype
         {
             var result = session != null ? session.BuildResult() : null;
             var titleRect = new Rect(mainRect.x + 24, mainRect.y + 18, 420, 42);
-            GUI.Label(titleRect, "JII KOBUSHI STAGE 1", titleStyle);
+            GUI.Label(titleRect, "JII KOBUSHI STAGE " + CurrentStageNumber, titleStyle);
             GUI.Label(new Rect(mainRect.x + 26, mainRect.y + 58, 720, 24), "phase=" + Phase + "  difficulty=" + difficulty + "  speed=" + playbackSpeed + "x  clock=" + ClockMode, labelStyle);
 
             var hpRect = new Rect(mainRect.x + mainRect.width - 340, mainRect.y + 24, 290, 26);
@@ -284,17 +302,27 @@ namespace JijiiKobushi.Stage1Prototype
             var top = mainRect.y + mainRect.height - 74;
             DrawDifficultyButtons((int)mainRect.x + 24, (int)top + 6);
 
-            if (GUI.Button(new Rect(mainRect.x + 430, top + 2, 120, 48), "Restart"))
+            if (GUI.Button(new Rect(mainRect.x + 392, top + 2, 72, 48), "Prev"))
+            {
+                ChangeStage(-1);
+            }
+
+            if (GUI.Button(new Rect(mainRect.x + 472, top + 2, 72, 48), "Next"))
+            {
+                ChangeStage(1);
+            }
+
+            if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 110, 48), "Restart"))
             {
                 LoadAndStart();
             }
 
-            if (GUI.Button(new Rect(mainRect.x + 560, top + 2, 120, 48), paused ? "Resume" : "Pause"))
+            if (GUI.Button(new Rect(mainRect.x + 670, top + 2, 110, 48), paused ? "Resume" : "Pause"))
             {
                 TogglePause();
             }
 
-            DrawInputButtons((int)mainRect.x + 700, (int)top);
+            DrawInputButtons((int)mainRect.x + 792, (int)top);
         }
 
         private void LoadAndStart()
@@ -302,10 +330,14 @@ namespace JijiiKobushi.Stage1Prototype
             try
             {
                 error = "";
-                stageJsonPath = ProfileTestRunner.ResolveStagePackPath("shotengai.stage.json");
+                stageNumber = Mathf.Clamp(stageNumber, 1, StagePackFiles.Length);
+                stageJsonPath = ProfileTestRunner.ResolveAllStagePackPath(StagePackFiles[CurrentStageIndex]);
                 expectedJsonPath = ProfileTestRunner.ResolveStagePackPath("expected-results.json");
 
-                ProfileTestRunner.RunAll(stageJsonPath, expectedJsonPath);
+                if (CurrentStageIndex == 0)
+                {
+                    ProfileTestRunner.RunAll(stageJsonPath, expectedJsonPath);
+                }
                 stage = StageJsonLoader.LoadStage(stageJsonPath);
 
                 if (!stage.Charts.ContainsKey(difficulty)) difficulty = "normal";
@@ -315,7 +347,7 @@ namespace JijiiKobushi.Stage1Prototype
                 completionHandled = false;
                 paused = false;
                 StopBgm();
-                status = "Loaded Stage 1 and parity tests passed. First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
+                status = "Loaded Stage " + CurrentStageNumber + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
                 PrepareBgm();
             }
             catch (Exception ex)
@@ -341,6 +373,12 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             return false;
+        }
+
+        private void ChangeStage(int delta)
+        {
+            stageNumber = Mathf.Clamp(CurrentStageNumber + delta, 1, StagePackFiles.Length);
+            LoadAndStart();
         }
 
         private void ApplyRhythmInput(RhythmInputFrame input)
@@ -400,6 +438,21 @@ namespace JijiiKobushi.Stage1Prototype
                 if (session == null) return "RESULT";
                 return session.IsFailed ? "FAILED" : "RESULT";
             }
+        }
+
+        private int CurrentStageIndex
+        {
+            get { return Mathf.Clamp(stageNumber, 1, StagePackFiles.Length) - 1; }
+        }
+
+        private int CurrentStageNumber
+        {
+            get { return CurrentStageIndex + 1; }
+        }
+
+        private string StageParityStatus
+        {
+            get { return CurrentStageIndex == 0 ? " with parity tests passed" : ""; }
         }
 
         private string CurrentNoteLabel

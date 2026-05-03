@@ -106,7 +106,8 @@ Expected Play Mode behavior:
 - Draws upcoming `TAP`, `HOLD`, and `MASH` notes moving toward the gold hit line.
 - Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `P`/`Esc` for pause/resume, `Enter` for restart.
 - Accepts default gamepad-style input: `A`/Submit for tap or mash, `B` for hold down/up, `Select` for pause/resume, `Start` for restart.
-- Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Pause/Resume`, `Restart`, and Easy/Normal/Hard.
+- Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Pause/Resume`, `Restart`, `Prev/Next`, and Easy/Normal/Hard.
+- Uses the all-stage JSON pack under `switch-port/stages/` for placeholder stage switching. Stage 1 still runs the stricter `expected-results.json` parity gate when loaded.
 - Pauses BGM and freezes note deadlines while paused, then resumes from the preserved clock position.
 - Applies miss timeout and enemy damage for missed tap/hold notes.
 - Shows Result with clear, score, rank, maxCombo, HP, and judge stats after the chart finishes or HP reaches zero.

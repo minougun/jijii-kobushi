@@ -44,6 +44,7 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
             var serialized = new SerializedObject(behaviour);
             serialized.FindProperty("difficulty").stringValue = "normal";
             serialized.FindProperty("playbackSpeed").floatValue = 1f;
+            serialized.FindProperty("stageNumber").intValue = 1;
             serialized.ApplyModifiedPropertiesWithoutUndo();
         }
 
