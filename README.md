@@ -38,6 +38,15 @@ npm run simulate:difficulty
 npm run audit:timing
 ```
 
+Stage 1 Unity port planning notes:
+
+- `/mnt/c/Users/minou/jii-kobushi/switch-port/stage1/pseudocode-csharp.md`
+- `/mnt/c/Users/minou/jii-kobushi/switch-port/stage1/state-machine.md`
+- `/mnt/c/Users/minou/jii-kobushi/switch-port/stage1/test-cases.md`
+- `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/README.md`
+- `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/implementation-plan.md`
+- `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/file-map.md`
+
 ## Controls
 
 - Mobile: one large rhythm zone handles tap, hold, and short MASH/連打 windows. Dense kobushi phrases may appear as tight TAP runs or red 連打 windows, depending on the chart phrase.
