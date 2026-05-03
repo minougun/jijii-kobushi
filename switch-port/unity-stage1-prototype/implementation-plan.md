@@ -175,7 +175,7 @@ Acceptance:
 - Judgement remains driven by `AudioClock` and timestamped input events.
 - Placeholder visuals can be replaced later without changing the portable core.
 
-Status: placeholder debug formatting is implemented in `UnityProject/Assets/Scripts/View/PlaceholderRenderer.cs`; no final renderer work is included.
+Status: placeholder debug formatting is implemented in `UnityProject/Assets/Scripts/View/PlaceholderRenderer.cs`, and `UnityProject/Assets/Scripts/View/PlaceholderRendererBehaviour.cs` provides the local Editor scene driver. `UnityProject/Assets/Scenes/Stage1Prototype.unity` loads JSON, runs parity validation, advances count-in and the Stage 1 timeline, then displays the result. No final renderer work is included.
 
 ## Stop Condition
 

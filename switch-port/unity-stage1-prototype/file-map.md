@@ -8,6 +8,14 @@ This is the proposed and partially implemented file layout for a normal Unity lo
 switch-port/unity-stage1-prototype/UnityProject/
 ```
 
+Tracked Unity project entry files:
+
+```text
+Packages/manifest.json
+ProjectSettings/ProjectVersion.txt
+Assets/Scenes/Stage1Prototype.unity
+```
+
 Keep the tracked Stage 1 port pack outside Unity-generated folders:
 
 ```text
@@ -117,6 +125,7 @@ Purpose:
 
 ```text
 Assets/Scripts/View/PlaceholderRenderer.cs
+Assets/Scripts/View/PlaceholderRendererBehaviour.cs
 ```
 
 Purpose:
@@ -124,6 +133,7 @@ Purpose:
 - Draw placeholder notes and debug text.
 - Avoid coupling rhythm judgement to rendering.
 - Provide enough UI to start, retry, pause, and inspect results.
+- Let the local Unity Editor run JSON load, count-in, timeline progress, and result display in one scene.
 
 ## Scenes And Resources
 
@@ -136,5 +146,6 @@ Assets/Audio/koiwazurai.mp3
 
 Notes:
 
-- Resource copies should be made from `switch-port/stage1/` and project assets only after the Unity project is intentionally created.
+- The current placeholder scene reads `switch-port/stage1/` directly through `ProfileTestRunner.ResolveStagePackPath`.
+- Resource copies should be made from `switch-port/stage1/` and project assets only after the Unity project needs packaged runtime assets.
 - Do not place external portal, SDK, certificate, or private documentation files under this tree.

@@ -63,10 +63,21 @@ Key files:
 - `Tests/ProfileTestRunner.cs`
 - `Tests/Stage1PortableParityTests.cs`
 - `View/PlaceholderRenderer.cs`
+- `View/PlaceholderRendererBehaviour.cs`
+
+Unity-facing files:
+
+- `UnityProject/Packages/manifest.json`
+- `UnityProject/ProjectSettings/ProjectVersion.txt`
+- `UnityProject/Assets/Scenes/Stage1Prototype.unity`
 
 `ProfileTestRunner` locates the tracked Stage 1 pack (`switch-port/stage1/shotengai.stage.json` and `switch-port/stage1/expected-results.json`), simulates `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy` for Easy, Normal, and Hard, then compares clear, score, rank, maxCombo, judge counts, miss-by-type, and HP.
 
 The Stage 1 JSON uses dictionary-shaped objects and profile keys such as `mash-weak`, so the prototype does not use Unity `JsonUtility` for these files. It uses a small dependency-free loader in `StageJsonLoader.cs` and maps only the fields needed by the Stage 1 prototype.
+
+Editor check procedure:
+
+- `editor-check-procedure.md`
 
 ## Prototype Success Criteria
 
