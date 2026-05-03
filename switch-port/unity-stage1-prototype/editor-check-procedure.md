@@ -54,6 +54,20 @@ The test loads:
 
 It validates count-in, first note virtual time, judgement boundaries, mash grace/dedup, and all six profile results for Easy, Normal, and Hard.
 
+CLI equivalent:
+
+```bash
+"/mnt/c/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Unity.exe" \
+  -batchmode -nographics \
+  -projectPath "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\UnityProject" \
+  -runTests \
+  -testPlatform EditMode \
+  -testResults "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-editmode-results.xml" \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-editmode-tests.log"
+```
+
+Generated `unity-*-results.xml` and `*.log` files are local verification artifacts and should not be committed.
+
 ## 3. Run Scene
 
 1. Open `Assets/Scenes/Stage1Prototype.unity`.

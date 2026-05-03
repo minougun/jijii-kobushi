@@ -1,4 +1,3 @@
-#if UNITY_INCLUDE_TESTS
 using NUnit.Framework;
 
 namespace JijiiKobushi.Stage1Prototype
@@ -14,4 +13,3 @@ namespace JijiiKobushi.Stage1Prototype
         }
     }
 }
-#endif

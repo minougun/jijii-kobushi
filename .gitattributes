@@ -1,0 +1,2 @@
+switch-port/unity-stage1-prototype/UnityProject/**/*.asset -whitespace
+switch-port/unity-stage1-prototype/UnityProject/**/*.meta -whitespace

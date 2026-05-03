@@ -1,8 +1,8 @@
 docs/
 test-results/
+unity-*-results.xml
 .claude/
 node_modules/
 .DS_Store
 Thumbs.db
 *.log
-
