@@ -2301,7 +2301,7 @@ html.comfort-hud .inputZone strong {
   html[data-phase="battle"] .quickSaveButton,
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton,
   html[data-phase="battle"] .pauseButton {
-    top: max(calc(var(--game-offset-y) + 6px), env(safe-area-inset-top, 0px));
+    top: max(calc(var(--game-offset-y) + 82px), calc(64px + env(safe-area-inset-top, 0px)));
     z-index: 12;
     min-width: 70px;
     min-height: 44px;
@@ -2394,11 +2394,25 @@ html.comfort-hud .inputZone strong {
 }
 
 @media (max-width: 900px) and (orientation: portrait) {
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]),
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) body,
   html[data-phase="battle"],
   html[data-phase="battle"] body {
     width: 100%;
     min-height: 100svh;
     height: 100svh;
+    overflow: hidden;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell {
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+    padding: max(6px, env(safe-area-inset-top, 0px)) 6px max(8px, env(safe-area-inset-bottom, 0px));
+    gap: 6px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: start;
     overflow: hidden;
   }
 
@@ -2450,40 +2464,49 @@ html.comfort-hud .inputZone strong {
       linear-gradient(180deg, rgba(255, 247, 210, 0.94), rgba(251, 247, 239, 0.98));
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .settings,
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .helpGuide,
   html[data-phase="battle"] .settings,
   html[data-phase="battle"] .helpGuide {
     display: none;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbar,
   html[data-phase="battle"] .topbar {
     gap: 4px;
     padding: 5px 6px 6px;
     border-radius: 7px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbarTitleRow,
   html[data-phase="battle"] .topbarTitleRow {
     display: none;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbarTop,
   html[data-phase="battle"] .topbarTop {
     gap: 4px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .hudNumbers,
   html[data-phase="battle"] .hudNumbers {
     display: none;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .duelHud,
   html[data-phase="battle"] .duelHud {
     grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr);
     gap: 3px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .duelVs,
   html[data-phase="battle"] .duelVs {
     width: 26px;
     height: 26px;
     font-size: 9px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .duelCol,
   html[data-phase="battle"] .duelCol {
     gap: 3px;
     padding: 4px 5px 5px;
@@ -2491,26 +2514,31 @@ html.comfort-hud .inputZone strong {
     border-radius: 5px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .duelColHead,
   html[data-phase="battle"] .duelColHead {
     gap: 4px;
     font-size: 9px;
     line-height: 1.1;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .duelLabel,
   html[data-phase="battle"] .duelLabel {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .duelHpNums,
   html[data-phase="battle"] .duelHpNums {
     font-size: 10px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .meterTrack--duel,
   html[data-phase="battle"] .meterTrack--duel {
     height: 10px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .spiritRow,
   html[data-phase="battle"] .spiritRow {
     grid-template-columns: 30px 1fr;
     gap: 5px;
@@ -2518,13 +2546,30 @@ html.comfort-hud .inputZone strong {
     font-size: 10px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .spiritRow .meterTrack,
   html[data-phase="battle"] .spiritRow .meterTrack {
     height: 8px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .gameSurface {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) canvas {
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
   html[data-phase="battle"] .gameSurface {
-    aspect-ratio: auto;
-    height: min(36svh, 300px);
+    aspect-ratio: 16 / 9;
+    height: auto;
     max-height: none;
     width: 100%;
     min-height: 0;
@@ -2532,11 +2577,13 @@ html.comfort-hud .inputZone strong {
   }
 
   html[data-phase="battle"] canvas {
-    object-fit: cover;
-    object-position: 10% center;
+    object-fit: contain;
+    object-position: center;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .quickSaveButton,
   html[data-phase="battle"] .quickSaveButton,
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton,
   html[data-phase="battle"] .pauseButton {
     top: 8px;
     min-width: 70px;
@@ -2546,12 +2593,41 @@ html.comfort-hud .inputZone strong {
     opacity: 0.94;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .gameSurface.hasPauseButton .quickSaveButton,
   html[data-phase="battle"] .gameSurface.hasPauseButton .quickSaveButton {
     right: 90px;
   }
 
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton,
   html[data-phase="battle"] .pauseButton {
     right: 8px;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"]) .overlay.novelOverlay {
+    padding: 0 8px 8px;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"]) .overlay.novelOverlay p {
+    min-height: 92px;
+    max-height: min(26svh, 132px);
+    padding: 10px 12px 48px;
+    overflow: auto;
+    overscroll-behavior: contain;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"]) .overlay.novelOverlay .overlayActions {
+    gap: 7px;
+    margin: -38px 10px 8px;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"]) .overlay.novelOverlay .overlayActions button,
+  html:is([data-phase="defeat"], [data-phase="results"]) .overlayActions button {
+    min-width: 92px;
+    min-height: 44px;
+    padding: 6px 12px;
+    font-size: 13px;
   }
 
   html[data-phase="battle"].doodle-loop .duelHpNums {

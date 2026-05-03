@@ -289,6 +289,7 @@ const renderer = createRenderer(canvas, ctx, state);
 
 function preloadStageVisuals(stageIndex = state.stageIndex) {
   const ids = [getStage(stageIndex)?.id, getStage(stageIndex + 1)?.id].filter(Boolean);
+  renderer.preloadCutinImage?.();
   renderer.retainStageBackgrounds(ids);
 }
 preloadStageVisuals(0);
@@ -1788,6 +1789,7 @@ function addEffect(text, x, y, color, life = 760) {
 
 function triggerSpecialMove(damage) {
   const internalDestruction = hasInternalDestruction();
+  renderer.preloadCutinImage?.();
   state.specialCutin = { life: 1650, maxLife: 1650, damage, internalDestruction };
   audio.kobushiVoice("special");
   spawnPetals(140, true);

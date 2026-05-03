@@ -159,6 +159,7 @@ export function createRenderer(canvas, ctx, state) {
   function requestCutinImage() {
     if (cutinRequested) return;
     cutinRequested = true;
+    cutinImage.decoding = "async";
     cutinImage.src = "./assets/images/kojiro-cutin.png";
   }
 
@@ -3183,7 +3184,12 @@ export function createRenderer(canvas, ctx, state) {
       typeof window !== "undefined" &&
       typeof window.matchMedia === "function" &&
       window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches;
+    const isMobileLandscape =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(max-width: 1100px) and (orientation: landscape)").matches;
     const showRhythmGuide = state.stageIndex === 0 && !isMobilePortrait;
+    const showInputButton = (isMobilePortrait || isMobileLandscape) && !showRhythmGuide;
     const panelX = isMobilePortrait ? 24 : 48;
     const panelY = isMobilePortrait ? 334 : 352;
     const panelW = W - panelX * 2;
@@ -3234,11 +3240,11 @@ export function createRenderer(canvas, ctx, state) {
     ctx.fillStyle = "#171717";
     ctx.font = `600 12px ${CANVAS_FONT}`;
     ctx.textAlign = "left";
-    if (isMobilePortrait && !showRhythmGuide) {
+    if (showInputButton) {
       const buttonX = panelX + 10;
-      const buttonY = panelY + 18;
-      const buttonW = infoW - 12;
-      const buttonH = 112;
+      const buttonY = panelY + (isMobilePortrait ? 18 : 20);
+      const buttonW = isMobilePortrait ? infoW - 12 : 64;
+      const buttonH = isMobilePortrait ? 112 : 106;
       const actionText = next ? nextNoteLabel(next) : "待機";
       const buttonPulse = state.reducedMotion ? 0.45 : Math.sin(state.elapsed / 180) * 0.12 + 0.42;
       const buttonGradient = ctx.createLinearGradient(buttonX, buttonY, buttonX, buttonY + buttonH);
@@ -3271,12 +3277,12 @@ export function createRenderer(canvas, ctx, state) {
       ctx.fillStyle = "#171717";
       ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";
-      ctx.font = `600 12px ${CANVAS_FONT}`;
+      ctx.font = `600 ${isMobilePortrait ? 12 : 11}px ${CANVAS_FONT}`;
       ctx.fillText("入力", buttonX + buttonW / 2, buttonY + 24);
-      ctx.font = `600 ${actionText.length >= 3 ? 24 : 30}px ${CANVAS_FONT}`;
+      ctx.font = `600 ${actionText.length >= 3 ? (isMobilePortrait ? 24 : 19) : (isMobilePortrait ? 30 : 24)}px ${CANVAS_FONT}`;
       ctx.fillText(actionText, buttonX + buttonW / 2, buttonY + 62);
-      ctx.font = `600 11px ${CANVAS_FONT}`;
-      ctx.fillText("拍", buttonX + buttonW / 2, buttonY + 92);
+      ctx.font = `600 ${isMobilePortrait ? 11 : 10}px ${CANVAS_FONT}`;
+      ctx.fillText("拍", buttonX + buttonW / 2, buttonY + (isMobilePortrait ? 92 : 88));
       ctx.restore();
     } else {
       ctx.fillText(showRhythmGuide ? "次の操作" : "次", panelX + 18, panelY + 26);
@@ -4037,5 +4043,5 @@ export function createRenderer(canvas, ctx, state) {
     }
   }
 
-  return { draw, drawEndingRhythmBar, retainStageBackgrounds, syncDom };
+  return { draw, drawEndingRhythmBar, preloadCutinImage: requestCutinImage, retainStageBackgrounds, syncDom };
 }
