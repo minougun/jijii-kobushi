@@ -2527,21 +2527,24 @@ html[data-phase="results"] .shell {
   height: 100svh;
   display: grid;
   grid-template-rows: minmax(0, 1fr);
-  align-content: center;
+  place-content: center;
+  place-items: center;
   justify-items: center;
   gap: 0;
-  padding: max(8px, env(safe-area-inset-top, 0px)) max(8px, env(safe-area-inset-right, 0px)) max(8px, env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+  padding: max(6px, env(safe-area-inset-top, 0px)) max(6px, env(safe-area-inset-right, 0px)) max(6px, env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px));
   overflow: hidden;
   background: #171717;
 }
 
 html[data-phase="results"] .gameSurface {
-  width: min(1080px, calc(100vw - 16px));
-  height: min(92svh, 760px);
+  width: min(1280px, calc(100vw - 12px));
+  height: min(96svh, 900px);
   min-height: 0;
   max-height: none;
   aspect-ratio: auto;
   margin: auto;
+  display: grid;
+  place-items: center;
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(255, 247, 210, 0.08), rgba(23, 23, 23, 0) 22%),
@@ -2554,11 +2557,13 @@ html[data-phase="results"] .gameSurface {
 
 html[data-phase="results"] .overlay.resultOverlay {
   inset: 0;
+  display: grid;
   place-content: center;
+  place-items: center;
   align-content: center;
   justify-items: center;
   max-height: none;
-  padding: clamp(10px, 2vw, 22px);
+  padding: clamp(6px, 1.4vw, 16px);
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 0%, rgba(246, 217, 95, 0.13), rgba(23, 23, 23, 0) 34%),
@@ -2568,7 +2573,39 @@ html[data-phase="results"] .overlay.resultOverlay {
 }
 
 html[data-phase="results"] .resultSummary {
-  max-height: min(76svh, 640px);
+  width: min(100%, 1220px);
+  max-height: min(88svh, 820px);
+  margin: auto;
+}
+
+html[data-phase="results"] .resultCard {
+  gap: clamp(10px, 1.5vw, 18px);
+  padding: clamp(12px, min(2.1vw, 3svh), 30px);
+}
+
+html[data-phase="results"] .resultCardHead {
+  gap: clamp(12px, 1.8vw, 22px);
+}
+
+html[data-phase="results"] .resultRank {
+  width: clamp(92px, min(10vw, 18svh), 136px);
+  font-size: clamp(48px, min(5.6vw, 10svh), 78px);
+}
+
+html[data-phase="results"] .resultTitle {
+  font-size: clamp(28px, min(4.2vw, 7svh), 54px);
+}
+
+html[data-phase="results"] .resultStatGrid {
+  gap: clamp(8px, 1vw, 14px);
+}
+
+html[data-phase="results"] .resultStat {
+  padding: clamp(10px, 1.2vw, 16px);
+}
+
+html[data-phase="results"] .resultStageRow {
+  padding: clamp(8px, 0.9vw, 12px) clamp(10px, 1.2vw, 16px);
 }
 
 @media (prefers-reduced-motion: reduce) {
