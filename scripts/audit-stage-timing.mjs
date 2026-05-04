@@ -1,6 +1,12 @@
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { STAGES, damageScaleForDifficulty, getStageChart } from "../src/stages.js";
+import {
+  STAGES,
+  damageScaleForDifficulty,
+  getStageChart,
+  loopEnemyHpMultiplier,
+  loopPlayerDamageMultiplier,
+} from "../src/stages.js";
 import { comboBonusDamage, comboHitMultiplier, finisherBonusDamage, mashStrikeMultiplier, noteDamage } from "../src/rhythm.js";
 import { BGM_TRACKS } from "../src/audio.js";
 
@@ -48,7 +54,8 @@ function simulatedMashCount(note, rank, random) {
 function simulateClear(stage, difficulty, seed) {
   const random = rng(seed);
   const profile = PROFILES[difficulty];
-  const damageScale = damageScaleForDifficulty(stage, difficulty);
+  const damageScale = damageScaleForDifficulty(stage, difficulty) * loopPlayerDamageMultiplier(1, stage, difficulty);
+  const targetHp = Math.round(stage.enemy.hp * loopEnemyHpMultiplier(1, stage, difficulty));
   let damage = 0;
   let combo = 0;
 
@@ -66,7 +73,7 @@ function simulateClear(stage, difficulty, seed) {
     damage += baseDamage * comboHitMultiplier(combo, random) * mashMul * damageScale;
     damage += comboBonusDamage(combo, baseDamage) * mashMul * damageScale;
     damage += finisherBonusDamage(note, rank) * mashMul * damageScale;
-    if (damage >= stage.enemy.hp) {
+    if (damage >= targetHp) {
       return note.timeMs + (note.durationMs ?? 0);
     }
   }
