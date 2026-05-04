@@ -118,6 +118,37 @@ namespace JijiiKobushi.Stage1Prototype
             return results;
         }
 
+        public static RuntimeAssetImportPlan RunRuntimeAssetCatalogSmoke()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            var catalog = RuntimeAssetCatalog.FromManifest(manifest);
+            var plan = RuntimeAssetImportPlanner.Build(manifest, manifest.Source.LocalRepo, true);
+
+            AssertEqual(35, manifest.Assets.Count, "runtime asset count");
+            AssertEqual("https://minougun.github.io/jijii-kobushi/", manifest.Source.WebUrl, "runtime asset web url");
+            AssertEqual(0, plan.MissingGitTracked.Count, "runtime missing git tracked");
+            AssertEqual(0, plan.IncompleteStageBackgroundPairs.Count, "runtime incomplete stage backgrounds");
+            AssertEqual(10, plan.KindCounts["audio"], "runtime audio count");
+            AssertEqual(2, plan.KindCounts["video"], "runtime video count");
+            AssertEqual(7, plan.StageBackgrounds.Count, "runtime stage background pairs");
+
+            var bgm = catalog.RequireByPath("./assets/audio/koiwazurai.mp3");
+            AssertEqual("stage-bgm", bgm.Role, "runtime bgm role");
+            AssertEqual("audio", bgm.Kind, "runtime bgm kind");
+            AssertEqual(10, catalog.GetByRole("stage-bgm").Count, "runtime stage bgm role count");
+            AssertTrue(File.Exists(catalog.ResolveLocalPath("./assets/audio/koiwazurai.mp3")), "runtime bgm local file");
+            AssertTrue(File.Exists(catalog.ResolveLocalPath("./assets/video/ending.mp4")), "runtime ending video local file");
+            AssertEqual("JiiKobushi/assets/audio/koiwazurai.mp3", catalog.GetStreamingAssetsRelativePath("./assets/audio/koiwazurai.mp3"), "runtime bgm streaming path");
+            AssertEqual("JiiKobushi/assets/video/ending-loop2.mp4", catalog.GetStreamingAssetsRelativePath("assets/video/ending-loop2.mp4"), "runtime ending loop2 streaming path");
+
+            foreach (var missing in plan.MissingLocalFiles)
+            {
+                AssertTrue(missing.StartsWith("assets/images/", StringComparison.Ordinal), "runtime local missing image-only warning " + missing);
+            }
+
+            return plan;
+        }
+
         public static string RunAllAndFormatReport(string stageJsonPath, string expectedResultsPath)
         {
             var results = RunAll(stageJsonPath, expectedResultsPath);

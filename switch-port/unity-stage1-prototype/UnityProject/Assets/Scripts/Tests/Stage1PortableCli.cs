@@ -14,7 +14,8 @@ namespace JijiiKobushi.Stage1Prototype
                     var stages = ProfileTestRunner.RunAllStageSmoke();
                     var profileResults = ProfileTestRunner.RunAllStageProfileParity();
                     var endingResults = ProfileTestRunner.RunEndingBonusProfileParity();
-                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count + " profileResults=" + profileResults.Count + " endingResults=" + endingResults.Count);
+                    var assetPlan = ProfileTestRunner.RunRuntimeAssetCatalogSmoke();
+                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count + " profileResults=" + profileResults.Count + " endingResults=" + endingResults.Count + " assets=" + assetPlan.TotalAssets);
                     foreach (var stage in stages)
                     {
                         Console.WriteLine(
@@ -32,6 +33,13 @@ namespace JijiiKobushi.Stage1Prototype
                 {
                     var endingResults = ProfileTestRunner.RunEndingBonusProfileParity();
                     Console.WriteLine("Unity ending bonus parity: pass profileResults=" + endingResults.Count);
+                    return 0;
+                }
+
+                if (args.Length > 0 && args[0] == "--assets")
+                {
+                    var assetPlan = ProfileTestRunner.RunRuntimeAssetCatalogSmoke();
+                    Console.WriteLine("Unity runtime asset catalog: pass assets=" + assetPlan.TotalAssets + " localWarnings=" + assetPlan.MissingLocalFiles.Count);
                     return 0;
                 }
 

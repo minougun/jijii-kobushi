@@ -46,6 +46,8 @@ switch-port/stages/
 ```text
 Assets/Scripts/Data/StageData.cs
 Assets/Scripts/Data/StageJsonLoader.cs
+Assets/Scripts/Data/RuntimeAssetCatalog.cs
+Assets/Scripts/Data/RuntimeAssetImportPlanner.cs
 ```
 
 Purpose:
@@ -53,6 +55,7 @@ Purpose:
 - Load `shotengai.stage.json`.
 - Load `expected-results.json`.
 - Load `switch-port/stages/*.stage.json` for placeholder stage switching.
+- Load `switch-port/assets/runtime-assets.json` for runtime asset lookup and import-readiness planning.
 - Preserve JSON chart values as data, not generated C# constants.
 
 ## Rhythm

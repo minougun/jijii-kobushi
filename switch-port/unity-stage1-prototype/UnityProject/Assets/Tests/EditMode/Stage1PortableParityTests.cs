@@ -1,3 +1,4 @@
+using System.IO;
 using NUnit.Framework;
 
 namespace JijiiKobushi.Stage1Prototype
@@ -89,6 +90,27 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 Assert.IsTrue(missing.StartsWith("assets/images/", System.StringComparison.Ordinal), "local missing asset is image-only warning: " + missing);
             }
+        }
+
+        [Test]
+        public void RuntimeAssetCatalogResolvesLocalFilesAndStreamingPaths()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            var catalog = RuntimeAssetCatalog.FromManifest(manifest);
+
+            var bgm = catalog.RequireByPath("./assets/audio/koiwazurai.mp3");
+            Assert.AreEqual("stage-bgm", bgm.Role);
+            Assert.AreEqual("audio", bgm.Kind);
+            Assert.AreEqual(10, catalog.GetByRole("stage-bgm").Count);
+
+            var bgmPath = catalog.ResolveLocalPath("./assets/audio/koiwazurai.mp3");
+            Assert.IsTrue(File.Exists(bgmPath), "BGM file exists through catalog: " + bgmPath);
+            Assert.IsTrue(bgmPath.Replace('\\', '/').EndsWith("/assets/audio/koiwazurai.mp3", System.StringComparison.Ordinal), "BGM path normalized");
+            Assert.AreEqual("JiiKobushi/assets/audio/koiwazurai.mp3", catalog.GetStreamingAssetsRelativePath("./assets/audio/koiwazurai.mp3"));
+
+            var endingPath = catalog.ResolveLocalPath("./assets/video/ending.mp4");
+            Assert.IsTrue(File.Exists(endingPath), "ED video file exists through catalog: " + endingPath);
+            Assert.AreEqual("JiiKobushi/assets/video/ending-loop2.mp4", catalog.GetStreamingAssetsRelativePath("assets/video/ending-loop2.mp4"));
         }
 
         [Test]

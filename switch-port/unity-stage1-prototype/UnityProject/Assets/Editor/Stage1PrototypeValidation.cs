@@ -14,12 +14,15 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
             var stages = ProfileTestRunner.RunAllStageSmoke();
             var stageProfiles = ProfileTestRunner.RunAllStageProfileParity();
             var endingProfiles = ProfileTestRunner.RunEndingBonusProfileParity();
+            var assetPlan = ProfileTestRunner.RunRuntimeAssetCatalogSmoke();
 
             var report =
                 "Unity portable parity: pass" + Environment.NewLine +
                 "stages=" + stages.Count + Environment.NewLine +
                 "stageProfileResults=" + stageProfiles.Count + Environment.NewLine +
-                "endingProfileResults=" + endingProfiles.Count + Environment.NewLine;
+                "endingProfileResults=" + endingProfiles.Count + Environment.NewLine +
+                "runtimeAssets=" + assetPlan.TotalAssets + Environment.NewLine +
+                "runtimeAssetLocalWarnings=" + assetPlan.MissingLocalFiles.Count + Environment.NewLine;
 
             var outputPath = GetCommandLineValue("-validationOutput");
             if (!string.IsNullOrEmpty(outputPath))

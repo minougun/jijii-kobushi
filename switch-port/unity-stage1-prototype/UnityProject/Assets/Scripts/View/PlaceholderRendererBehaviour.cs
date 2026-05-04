@@ -50,6 +50,7 @@ namespace JijiiKobushi.Stage1Prototype
         private bool holdButtonWasDown;
         private IRhythmInputAdapter inputAdapter;
         private AudioSource audioSource;
+        private RuntimeAssetCatalog runtimeAssetCatalog;
         private double audioStartedDspTime;
         private double audioPausedDspTime;
         private bool audioReady;
@@ -181,7 +182,7 @@ namespace JijiiKobushi.Stage1Prototype
             get
             {
                 if (stage == null || stage.Audio == null || stage.Audio.Bgm == null) return false;
-                return !string.IsNullOrEmpty(ResolveRepoRelativePath(stage.Audio.Bgm.AssetSrc));
+                return !string.IsNullOrEmpty(ResolveRuntimeAssetLocalPath(stage.Audio.Bgm.AssetSrc));
             }
         }
 
@@ -617,6 +618,7 @@ namespace JijiiKobushi.Stage1Prototype
                     ProfileTestRunner.RunAll(stageJsonPath, expectedJsonPath);
                 }
                 stage = StageJsonLoader.LoadStage(stageJsonPath);
+                runtimeAssetCatalog = null;
 
                 difficulty = NormalizeDifficulty(difficulty);
                 var loopData = ResolveStageLoop(stage, CurrentLoopKey);
@@ -1111,7 +1113,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         private IEnumerator LoadBgmClip()
         {
-            var bgmPath = ResolveRepoRelativePath(stage.Audio.Bgm.AssetSrc);
+            var bgmPath = ResolveRuntimeAssetLocalPath(stage.Audio.Bgm.AssetSrc);
             if (string.IsNullOrEmpty(bgmPath))
             {
                 audioStatus = "BGM file not found: " + stage.Audio.Bgm.AssetSrc;
@@ -1286,11 +1288,41 @@ namespace JijiiKobushi.Stage1Prototype
             audioStatus = "BGM not loaded";
         }
 
-        private static string ResolveRepoRelativePath(string assetSrc)
+        private string ResolveRuntimeAssetLocalPath(string assetSrc)
+        {
+            return ResolveRepoRelativePath(assetSrc, RuntimeCatalog);
+        }
+
+        private RuntimeAssetCatalog RuntimeCatalog
+        {
+            get
+            {
+                if (runtimeAssetCatalog != null) return runtimeAssetCatalog;
+                try
+                {
+                    var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+                    runtimeAssetCatalog = RuntimeAssetCatalog.FromManifest(manifest);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("Runtime asset catalog unavailable; falling back to directory search. " + ex.Message);
+                    runtimeAssetCatalog = null;
+                }
+
+                return runtimeAssetCatalog;
+            }
+        }
+
+        private static string ResolveRepoRelativePath(string assetSrc, RuntimeAssetCatalog catalog)
         {
             if (string.IsNullOrEmpty(assetSrc)) return "";
-            var normalized = assetSrc.Replace('\\', '/');
-            if (normalized.StartsWith("./", StringComparison.Ordinal)) normalized = normalized.Substring(2);
+            var normalized = RuntimeAssetPathUtility.NormalizeAssetPath(assetSrc);
+
+            if (catalog != null)
+            {
+                var catalogPath = catalog.ResolveLocalPath(normalized);
+                if (!string.IsNullOrEmpty(catalogPath)) return catalogPath;
+            }
 
             var current = new DirectoryInfo(Directory.GetCurrentDirectory());
             while (current != null)

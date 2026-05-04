@@ -69,6 +69,8 @@ Key files:
 
 - `Data/StageData.cs`
 - `Data/StageJsonLoader.cs`
+- `Data/RuntimeAssetCatalog.cs`
+- `Data/RuntimeAssetImportPlanner.cs`
 - `Rhythm/RhythmJudge.cs`
 - `Audio/AudioClock.cs`
 - `Input/RhythmAction.cs`
@@ -102,6 +104,8 @@ It also supports the first pause/resume path: pause freezes the battle clock and
 HP 0 now enters an explicit `Failed` phase, while full chart completion with HP remaining enters `Result`. The placeholder result panel mirrors this distinction with `FAILED` versus `RESULT` headings.
 
 `EndingBonusInteractiveSession` mirrors the ED bonus tap/hold/mash API against the portable ED chart. The ED chart can place tap notes inside mash spans, so this session resolves overlapping notes by time window instead of using the stricter one-note-at-a-time stage cursor.
+
+`RuntimeAssetCatalog` loads `../assets/runtime-assets.json` and resolves Web original asset paths such as `./assets/audio/koiwazurai.mp3` into local Unity-readable files and future `StreamingAssets` relative paths. This keeps asset lookup tied to the Web manifest instead of ad hoc directory walking. `RuntimeAssetImportPlanner` remains the import-readiness checker and separates blocking manifest gaps from local skip-worktree image warnings.
 
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 
@@ -158,10 +162,16 @@ The standalone C# CLI can also run the Unity-side all-stage smoke gate:
 switch-port/unity-stage1-prototype/Stage1PortableCli.exe --all-stages
 ```
 
-`--all-stages` also runs the ED bonus parity gate. The ED-only gate is:
+`--all-stages` also runs the ED bonus parity gate and runtime asset catalog smoke gate. The ED-only gate is:
 
 ```bash
 switch-port/unity-stage1-prototype/Stage1PortableCli.exe --ending
+```
+
+The asset-only gate is:
+
+```bash
+switch-port/unity-stage1-prototype/Stage1PortableCli.exe --assets
 ```
 
 When Unity Test Runner does not emit a fresh XML file in batch mode, use the editor validation method. It compiles in Unity and runs the same portable parity gates:
