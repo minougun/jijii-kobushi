@@ -461,14 +461,32 @@ export const LOOP_DIFFICULTY = {
 };
 
 const HARD_LOOP_STAGE_RELIEF = {
-  garage: { enemyHp: 0.965, playerDamage: 1, enemyAttack: 0.96 },
-  redgate: { enemyHp: 0.97, playerDamage: 1, enemyAttack: 0.96 },
-  finalhideout: { enemyHp: 0.97, playerDamage: 1, enemyAttack: 0.97 },
+  mountain: { enemyHp: 0.971, playerDamage: 1, enemyAttack: 0.96 },
+  garage: { enemyHp: 0.975, playerDamage: 1, enemyAttack: 0.96 },
+  redgate: { enemyHp: 0.978, playerDamage: 1, enemyAttack: 0.96 },
+  finalhideout: { enemyHp: 0.978, playerDamage: 1, enemyAttack: 0.97 },
 };
 
+const HARD_STAGE_RELIEF = {
+  mountain: { enemyHp: 0.995, playerDamage: 1, enemyAttack: 1 },
+  garage: { enemyHp: 0.965, playerDamage: 1, enemyAttack: 1 },
+  redgate: { enemyHp: 0.978, playerDamage: 1, enemyAttack: 1 },
+  finalhideout: { enemyHp: 0.975, playerDamage: 1, enemyAttack: 1 },
+};
+
+function hardReliefForStage(stage, loop = 1) {
+  const stageRelief = HARD_STAGE_RELIEF[stage?.id] ?? null;
+  const loopRelief = normalizeLoop(loop) >= 2 ? HARD_LOOP_STAGE_RELIEF[stage?.id] ?? null : null;
+  return {
+    enemyHp: (stageRelief?.enemyHp ?? 1) * (loopRelief?.enemyHp ?? 1),
+    playerDamage: (stageRelief?.playerDamage ?? 1) * (loopRelief?.playerDamage ?? 1),
+    enemyAttack: (stageRelief?.enemyAttack ?? 1) * (loopRelief?.enemyAttack ?? 1),
+  };
+}
+
 function stageReliefForLoop(stage, difficulty, loop = 1) {
-  if (difficulty !== "hard" || normalizeLoop(loop) < 2) return null;
-  return HARD_LOOP_STAGE_RELIEF[stage?.id] ?? null;
+  if (difficulty !== "hard") return null;
+  return hardReliefForStage(stage, loop);
 }
 
 export function normalizeLoop(loop = 1) {
