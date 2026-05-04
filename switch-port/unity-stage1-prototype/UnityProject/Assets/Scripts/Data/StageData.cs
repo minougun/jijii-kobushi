@@ -16,6 +16,7 @@ namespace JijiiKobushi.Stage1Prototype
             Enemy = new EnemyData();
             Difficulty = new Dictionary<string, DifficultyData>();
             Charts = new Dictionary<string, List<NoteData>>();
+            Loops = new Dictionary<string, StageLoopData>();
         }
 
         public int SchemaVersion { get; set; }
@@ -27,6 +28,21 @@ namespace JijiiKobushi.Stage1Prototype
         public RhythmData Rhythm { get; set; }
         public PlayerData Player { get; set; }
         public EnemyData Enemy { get; set; }
+        public Dictionary<string, DifficultyData> Difficulty { get; set; }
+        public Dictionary<string, List<NoteData>> Charts { get; set; }
+        public Dictionary<string, StageLoopData> Loops { get; set; }
+    }
+
+    public sealed class StageLoopData
+    {
+        public StageLoopData()
+        {
+            Label = "";
+            Difficulty = new Dictionary<string, DifficultyData>();
+            Charts = new Dictionary<string, List<NoteData>>();
+        }
+
+        public string Label { get; set; }
         public Dictionary<string, DifficultyData> Difficulty { get; set; }
         public Dictionary<string, List<NoteData>> Charts { get; set; }
     }
@@ -168,12 +184,14 @@ namespace JijiiKobushi.Stage1Prototype
         {
             Id = "";
             Label = "";
+            Loop = new DifficultyLoopData();
             Loop1 = new DifficultyLoopData();
             ChartSummary = new ChartSummaryData();
         }
 
         public string Id { get; set; }
         public string Label { get; set; }
+        public DifficultyLoopData Loop { get; set; }
         public DifficultyLoopData Loop1 { get; set; }
         public ChartSummaryData ChartSummary { get; set; }
     }
@@ -237,9 +255,21 @@ namespace JijiiKobushi.Stage1Prototype
         {
             Timing = new ExpectedTiming();
             Profiles = new Dictionary<string, Dictionary<string, ExpectedRunResult>>();
+            Loops = new Dictionary<string, ExpectedLoopResults>();
         }
 
         public ExpectedTiming Timing { get; set; }
+        public Dictionary<string, Dictionary<string, ExpectedRunResult>> Profiles { get; set; }
+        public Dictionary<string, ExpectedLoopResults> Loops { get; set; }
+    }
+
+    public sealed class ExpectedLoopResults
+    {
+        public ExpectedLoopResults()
+        {
+            Profiles = new Dictionary<string, Dictionary<string, ExpectedRunResult>>();
+        }
+
         public Dictionary<string, Dictionary<string, ExpectedRunResult>> Profiles { get; set; }
     }
 

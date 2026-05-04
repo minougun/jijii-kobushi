@@ -100,41 +100,70 @@ function assertNoForbiddenKeys(value, path = "$") {
   }
 }
 
-function assertChart(difficulty, chart, sourceChart) {
+function assertChart(difficulty, chart, sourceChart, label = difficulty) {
   const summary = chartSummary(sourceChart);
-  assert.ok(Array.isArray(chart), `${difficulty}: chart must be an array`);
-  assert.equal(chart.length, summary.noteCount, `${difficulty}: note count`);
-  assert.equal(chart[0]?.timeMs, summary.firstMs, `${difficulty}: first note time`);
+  assert.ok(Array.isArray(chart), `${label}: chart must be an array`);
+  assert.equal(chart.length, summary.noteCount, `${label}: note count`);
+  assert.equal(chart[0]?.timeMs, summary.firstMs, `${label}: first note time`);
 
   const last = chart.at(-1);
-  assert.equal(last.timeMs + (last.durationMs ?? 0), summary.lastEndMs, `${difficulty}: last end`);
+  assert.equal(last.timeMs + (last.durationMs ?? 0), summary.lastEndMs, `${label}: last end`);
 
   const seenIds = new Set();
   const actualTypeCounts = chart.reduce((acc, note, index) => {
-    assert.match(note.id, new RegExp(`^${difficulty}-\\d{4}$`), `${difficulty}:${index}: stable id`);
-    assert.equal(seenIds.has(note.id), false, `${difficulty}:${index}: duplicate note id`);
+    assert.match(note.id, new RegExp(`^${difficulty}-\\d{4}$`), `${label}:${index}: stable id`);
+    assert.equal(seenIds.has(note.id), false, `${label}:${index}: duplicate note id`);
     seenIds.add(note.id);
-    assert.ok(["tap", "hold", "mash"].includes(note.type), `${difficulty}:${index}: type`);
-    assert.equal(Number.isInteger(note.timeMs), true, `${difficulty}:${index}: integer timeMs`);
+    assert.ok(["tap", "hold", "mash"].includes(note.type), `${label}:${index}: type`);
+    assert.equal(Number.isInteger(note.timeMs), true, `${label}:${index}: integer timeMs`);
     if (index > 0) {
-      assert.ok(note.timeMs > chart[index - 1].timeMs, `${difficulty}:${index}: increasing timeMs`);
+      assert.ok(note.timeMs > chart[index - 1].timeMs, `${label}:${index}: increasing timeMs`);
     }
     if (note.type === "hold" || note.type === "mash") {
-      assert.ok(note.durationMs > 0, `${difficulty}:${index}: duration required`);
+      assert.ok(note.durationMs > 0, `${label}:${index}: duration required`);
     }
     if (note.type === "mash") {
-      assert.ok(note.targetCount > 0, `${difficulty}:${index}: targetCount required`);
+      assert.ok(note.targetCount > 0, `${label}:${index}: targetCount required`);
     }
     assert.deepEqual(
       note,
       normalizeSourceNote(sourceChart[index], difficulty, index),
-      `${difficulty}:${index}: note payload must match src/stages.js`,
+      `${label}:${index}: note payload must match src/stages.js`,
     );
     acc[note.type] = (acc[note.type] ?? 0) + 1;
     return acc;
   }, {});
 
-  assert.deepEqual(actualTypeCounts, summary.typeCounts, `${difficulty}: type counts`);
+  assert.deepEqual(actualTypeCounts, summary.typeCounts, `${label}: type counts`);
+}
+
+function assertDifficultyEntry(entry, stage, difficulty, loop, sourceChart, label) {
+  const summary = chartSummary(sourceChart);
+  assert.equal(entry?.chartSummary?.noteCount, summary.noteCount, `${label}: note count`);
+  assert.equal(entry?.chartSummary?.lastEndMs, summary.lastEndMs, `${label}: last end`);
+  assert.deepEqual(entry?.chartSummary?.typeCounts, summary.typeCounts, `${label}: type counts`);
+  assert.equal(entry?.damageScale, damageScaleForDifficulty(stage, difficulty, loop), `${label}: damage scale`);
+  assert.equal(entry?.loop?.enemyHpMultiplier, loopEnemyHpMultiplier(loop, stage, difficulty), `${label}: loop enemy hp`);
+  assert.equal(entry?.loop?.playerDamageMultiplier, loopPlayerDamageMultiplier(loop, stage, difficulty), `${label}: loop player damage`);
+  assert.equal(entry?.loop?.enemyAttackMultiplier, loopEnemyAttackMultiplier(loop, stage, difficulty), `${label}: loop enemy attack`);
+  assert.deepEqual(entry?.loop1, entry?.loop, `${label}: loop1 compatibility alias`);
+}
+
+function assertLoopPayload(payload, stage, loop) {
+  const loopKey = String(loop);
+  const loopPayload = payload.loops?.[loopKey];
+  assert.ok(loopPayload, `loop ${loopKey}: payload`);
+  assert.equal(loopPayload.label, loop === 1 ? "1周目" : "2周目以降", `loop ${loopKey}: label`);
+
+  for (const difficulty of Object.keys(DIFFICULTIES)) {
+    const sourceChart = getStageChart(stage, difficulty, loop);
+    const label = `loop ${loopKey} ${difficulty}`;
+    assertDifficultyEntry(loopPayload.difficulty?.[difficulty], stage, difficulty, loop, sourceChart, label);
+    assertChart(difficulty, loopPayload.charts?.[difficulty], sourceChart, label);
+  }
+
+  assert.deepEqual(Object.keys(loopPayload.charts).sort(), ["easy", "hard", "normal"], `loop ${loopKey}: charts`);
+  assert.deepEqual(Object.keys(loopPayload.difficulty).sort(), ["easy", "hard", "normal"], `loop ${loopKey}: difficulty`);
 }
 
 function assertPayload(payload, stage, index) {
@@ -187,19 +216,16 @@ function assertPayload(payload, stage, index) {
   assert.deepEqual(payload.chartConfig, stage.chartConfig);
 
   for (const difficulty of Object.keys(DIFFICULTIES)) {
-    const sourceChart = getStageChart(stage, difficulty);
-    const summary = chartSummary(sourceChart);
-    assert.equal(payload.difficulty?.[difficulty]?.chartSummary?.noteCount, summary.noteCount);
-    assert.equal(payload.difficulty?.[difficulty]?.chartSummary?.lastEndMs, summary.lastEndMs);
-    assert.deepEqual(payload.difficulty?.[difficulty]?.chartSummary?.typeCounts, summary.typeCounts);
-    assert.equal(payload.difficulty?.[difficulty]?.damageScale, damageScaleForDifficulty(stage, difficulty));
-    assert.equal(payload.difficulty?.[difficulty]?.loop1?.enemyHpMultiplier, loopEnemyHpMultiplier(1, stage, difficulty));
-    assert.equal(payload.difficulty?.[difficulty]?.loop1?.playerDamageMultiplier, loopPlayerDamageMultiplier(1, stage, difficulty));
-    assert.equal(payload.difficulty?.[difficulty]?.loop1?.enemyAttackMultiplier, loopEnemyAttackMultiplier(1, stage, difficulty));
+    const sourceChart = getStageChart(stage, difficulty, 1);
+    assertDifficultyEntry(payload.difficulty?.[difficulty], stage, difficulty, 1, sourceChart, difficulty);
     assertChart(difficulty, payload.charts?.[difficulty], sourceChart);
+    assert.deepEqual(payload.difficulty?.[difficulty], payload.loops?.["1"]?.difficulty?.[difficulty], `${difficulty}: root difficulty loop1 alias`);
+    assert.deepEqual(payload.charts?.[difficulty], payload.loops?.["1"]?.charts?.[difficulty], `${difficulty}: root chart loop1 alias`);
   }
 
   assert.deepEqual(Object.keys(payload.charts).sort(), ["easy", "hard", "normal"]);
+  assertLoopPayload(payload, stage, 1);
+  assertLoopPayload(payload, stage, 2);
   assert.ok(payload.excludedFromThisExport.includes("nintendo_sdk"));
   assert.ok(payload.excludedFromThisExport.includes("push"));
   assert.ok(payload.excludedFromThisExport.includes("deploy"));

@@ -31,12 +31,12 @@ namespace JijiiKobushi.Stage1Prototype
         private static readonly string[] ExpectedStageTitles =
         {
             "誘拐の朝",
-            "声を失う倉庫",
-            "内部破壊の稽古",
-            "鉄仮面の追跡",
-            "狂う拍と音響兵",
-            "赤門をこじ開けろ",
-            "白馬の正体"
+            "港の倉庫",
+            "伊藤道場",
+            "峠道",
+            "改造車庫",
+            "赤門",
+            "X結社本部"
         };
 
         private static readonly string[] ExpectedStageLocations =
@@ -58,15 +58,7 @@ namespace JijiiKobushi.Stage1Prototype
             ValidateBoundaryCases(stage);
 
             var results = new List<BattleRunResult>();
-            foreach (var profile in BattleSimulator.Profiles)
-            {
-                foreach (var difficulty in BattleSimulator.Difficulties)
-                {
-                    var result = BattleSimulator.Simulate(stage, difficulty, profile);
-                    results.Add(result);
-                    CompareExpected(expected, profile, difficulty, result);
-                }
-            }
+            CompareStageLoopParity(stage, expected, results);
 
             return results;
         }
@@ -97,15 +89,7 @@ namespace JijiiKobushi.Stage1Prototype
                 ValidateAllStagePack(stage, index, stagePath);
                 ValidateExpectedTiming(stage, expected, "stage " + (index + 1));
 
-                foreach (var profile in BattleSimulator.Profiles)
-                {
-                    foreach (var difficulty in BattleSimulator.Difficulties)
-                    {
-                        var result = BattleSimulator.Simulate(stage, difficulty, profile);
-                        CompareExpected(expected, profile, difficulty, result);
-                        results.Add(result);
-                    }
-                }
+                CompareStageLoopParity(stage, expected, results);
             }
 
             return results;
@@ -233,12 +217,45 @@ namespace JijiiKobushi.Stage1Prototype
             foreach (var difficulty in BattleSimulator.Difficulties)
             {
                 ValidateChart(stage, difficulty, stageLabel + " " + difficulty);
+                ValidateLoopChart(stage, "1", difficulty, stageLabel + " loop 1 " + difficulty);
+                ValidateLoopChart(stage, "2", difficulty, stageLabel + " loop 2 " + difficulty);
                 var perfect = BattleSimulator.Simulate(stage, difficulty, "perfect");
                 AssertTrue(perfect.Clear, stageLabel + " " + difficulty + " perfect clear");
                 AssertEqual("S", perfect.Rank, stageLabel + " " + difficulty + " perfect rank");
                 AssertEqual(0, perfect.Stats.Miss, stageLabel + " " + difficulty + " perfect miss");
                 AssertEqual(stage.Charts[difficulty].Count, perfect.MaxCombo, stageLabel + " " + difficulty + " perfect combo");
                 AssertEqual(stage.Player.MaxHp, perfect.RemainingHp, stageLabel + " " + difficulty + " perfect hp");
+            }
+        }
+
+        private static void CompareStageLoopParity(StageExport stage, ExpectedResults expected, List<BattleRunResult> results)
+        {
+            if (expected.Loops.Count == 0)
+            {
+                foreach (var profile in BattleSimulator.Profiles)
+                {
+                    foreach (var difficulty in BattleSimulator.Difficulties)
+                    {
+                        var result = BattleSimulator.Simulate(stage, difficulty, profile);
+                        CompareExpected(expected, profile, difficulty, result);
+                        results.Add(result);
+                    }
+                }
+                return;
+            }
+
+            foreach (var loop in expected.Loops.Keys)
+            {
+                AssertTrue(stage.Loops.ContainsKey(loop), "stage loop " + loop);
+                foreach (var profile in BattleSimulator.Profiles)
+                {
+                    foreach (var difficulty in BattleSimulator.Difficulties)
+                    {
+                        var result = BattleSimulator.Simulate(stage, loop, difficulty, profile);
+                        CompareExpected(expected.Loops[loop].Profiles[profile][difficulty], result, "stage loop " + loop + " " + profile + "/" + difficulty);
+                        results.Add(result);
+                    }
+                }
             }
         }
 
@@ -290,6 +307,23 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
+        private static void ValidateLoopChart(StageExport stage, string loop, string difficulty, string label)
+        {
+            AssertTrue(stage.Loops.ContainsKey(loop), label + " loop data");
+            var loopData = stage.Loops[loop];
+            AssertTrue(loopData.Difficulty.ContainsKey(difficulty), label + " difficulty data");
+            AssertTrue(loopData.Charts.ContainsKey(difficulty), label + " chart data");
+            var chart = loopData.Charts[difficulty];
+            var summary = loopData.Difficulty[difficulty].ChartSummary;
+            AssertTrue(chart.Count > 0, label + " chart not empty");
+            AssertEqual(summary.NoteCount, chart.Count, label + " note count");
+            AssertEqual(summary.TypeCounts.Tap, CountType(chart, "tap"), label + " tap count");
+            AssertEqual(summary.TypeCounts.Hold, CountType(chart, "hold"), label + " hold count");
+            AssertEqual(summary.TypeCounts.Mash, CountType(chart, "mash"), label + " mash count");
+            AssertEqual(summary.FirstMs, chart[0].TimeMs, label + " first ms");
+            AssertEqual(summary.LastEndMs, LastEndMs(chart), label + " last end ms");
+        }
+
         private static int CountType(List<NoteData> chart, string type)
         {
             var count = 0;
@@ -308,15 +342,19 @@ namespace JijiiKobushi.Stage1Prototype
 
         private static void CompareExpected(ExpectedResults expected, string profile, string difficulty, BattleRunResult actual)
         {
-            var expectedProfile = expected.Profiles[profile][difficulty];
-            AssertEqual(expectedProfile.Clear, actual.Clear, profile + "/" + difficulty + " clear");
-            AssertEqual(expectedProfile.Score, actual.Score, profile + "/" + difficulty + " score");
-            AssertEqual(expectedProfile.Rank, actual.Rank, profile + "/" + difficulty + " rank");
-            AssertEqual(expectedProfile.MaxCombo, actual.MaxCombo, profile + "/" + difficulty + " maxCombo");
-            AssertStats(expectedProfile.Stats, actual.Stats, profile + "/" + difficulty + " stats");
-            AssertTypeCounts(expectedProfile.MissByType, actual.MissByType, profile + "/" + difficulty + " missByType");
-            AssertEqual(expectedProfile.Hp.Remaining, actual.RemainingHp, profile + "/" + difficulty + " hp remaining");
-            AssertEqual(expectedProfile.Hp.Max, actual.MaxHp, profile + "/" + difficulty + " hp max");
+            CompareExpected(expected.Profiles[profile][difficulty], actual, profile + "/" + difficulty);
+        }
+
+        private static void CompareExpected(ExpectedRunResult expectedProfile, BattleRunResult actual, string label)
+        {
+            AssertEqual(expectedProfile.Clear, actual.Clear, label + " clear");
+            AssertEqual(expectedProfile.Score, actual.Score, label + " score");
+            AssertEqual(expectedProfile.Rank, actual.Rank, label + " rank");
+            AssertEqual(expectedProfile.MaxCombo, actual.MaxCombo, label + " maxCombo");
+            AssertStats(expectedProfile.Stats, actual.Stats, label + " stats");
+            AssertTypeCounts(expectedProfile.MissByType, actual.MissByType, label + " missByType");
+            AssertEqual(expectedProfile.Hp.Remaining, actual.RemainingHp, label + " hp remaining");
+            AssertEqual(expectedProfile.Hp.Max, actual.MaxHp, label + " hp max");
         }
 
         private static void ValidateEndingBonusPack(EndingBonusExport ending, EndingBonusExpectedResults expected)

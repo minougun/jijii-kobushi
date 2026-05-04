@@ -118,8 +118,23 @@ function countMissByType(results) {
   );
 }
 
-function simulateDifficulty(payload, difficulty, profileName) {
-  const chart = payload.charts[difficulty];
+function stageLoopPayload(payload, loopKey) {
+  if (loopKey === "1" && !payload.loops?.[loopKey]) {
+    return {
+      charts: payload.charts,
+      difficulty: payload.difficulty,
+    };
+  }
+  const loopPayload = payload.loops?.[loopKey];
+  if (!loopPayload) {
+    throw new Error(`Missing stage loop payload: ${payload.stage.id} loop ${loopKey}`);
+  }
+  return loopPayload;
+}
+
+function simulateDifficulty(payload, difficulty, profileName, loopKey = "1") {
+  const loopPayload = stageLoopPayload(payload, loopKey);
+  const chart = loopPayload.charts[difficulty];
   const profile = PROFILE_PATTERNS[profileName];
   const resolved = [];
   let combo = 0;
@@ -131,7 +146,7 @@ function simulateDifficulty(payload, difficulty, profileName) {
     const result = simulateNote(note, index, profile, payload.rhythm);
     const rank = result.rank;
     if (rank === "miss" && note.type !== "mash") {
-      const damage = payload.enemy.attackPower * payload.difficulty[difficulty].loop1.enemyAttackMultiplier;
+      const damage = payload.enemy.attackPower * loopPayload.difficulty[difficulty].loop.enemyAttackMultiplier;
       hp = Math.max(0, hp - damage);
       hpDamageTaken += damage;
     }
@@ -169,15 +184,25 @@ function simulateDifficulty(payload, difficulty, profileName) {
   };
 }
 
-function buildExpected(payload, sourceFile) {
-  const first = payload.charts.easy[0];
-  const countInMs = Math.round(payload.audio.timing.countInLeadSeconds * 1000);
-  const profiles = Object.fromEntries(
+function buildProfiles(payload, loopKey) {
+  return Object.fromEntries(
     PROFILE_ORDER.map((profile) => [
       profile,
-      Object.fromEntries(DIFFICULTIES.map((difficulty) => [difficulty, simulateDifficulty(payload, difficulty, profile)])),
+      Object.fromEntries(
+        DIFFICULTIES.map((difficulty) => [
+          difficulty,
+          simulateDifficulty(payload, difficulty, profile, loopKey),
+        ]),
+      ),
     ]),
   );
+}
+
+function buildExpected(payload, sourceFile) {
+  const loop1 = stageLoopPayload(payload, "1");
+  const first = loop1.charts.easy[0];
+  const countInMs = Math.round(payload.audio.timing.countInLeadSeconds * 1000);
+  const profiles = buildProfiles(payload, "1");
 
   return {
     source: {
@@ -201,6 +226,14 @@ function buildExpected(payload, sourceFile) {
       mashDedupMinGapMs: payload.rhythm.mashDedupMinGapMs,
     },
     profiles,
+    loops: {
+      1: {
+        profiles,
+      },
+      2: {
+        profiles: buildProfiles(payload, "2"),
+      },
+    },
   };
 }
 

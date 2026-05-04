@@ -101,21 +101,26 @@ function normalizeNote(note, difficulty, index) {
   };
 }
 
-function chartPayload(stage) {
+function chartPayload(stage, loop = 1) {
   return Object.fromEntries(
     Object.keys(DIFFICULTIES).map((difficulty) => [
       difficulty,
-      getStageChart(stage, difficulty).map((note, index) =>
+      getStageChart(stage, difficulty, loop).map((note, index) =>
         normalizeNote(note, difficulty, index),
       ),
     ]),
   );
 }
 
-function difficultyPayload(stage) {
+function difficultyPayload(stage, loop = 1) {
   return Object.fromEntries(
     Object.entries(DIFFICULTIES).map(([difficulty, config]) => {
-      const chart = getStageChart(stage, difficulty);
+      const chart = getStageChart(stage, difficulty, loop);
+      const loopMultipliers = {
+        enemyHpMultiplier: loopEnemyHpMultiplier(loop, stage, difficulty),
+        playerDamageMultiplier: loopPlayerDamageMultiplier(loop, stage, difficulty),
+        enemyAttackMultiplier: loopEnemyAttackMultiplier(loop, stage, difficulty),
+      };
       return [
         difficulty,
         {
@@ -127,17 +132,22 @@ function difficultyPayload(stage) {
           burstTapGapMs: config.burstTapGapMs,
           tapRunEvery: config.tapRunEvery,
           tapRunGapMs: config.tapRunGapMs,
-          damageScale: damageScaleForDifficulty(stage, difficulty),
-          loop1: {
-            enemyHpMultiplier: loopEnemyHpMultiplier(1, stage, difficulty),
-            playerDamageMultiplier: loopPlayerDamageMultiplier(1, stage, difficulty),
-            enemyAttackMultiplier: loopEnemyAttackMultiplier(1, stage, difficulty),
-          },
+          damageScale: damageScaleForDifficulty(stage, difficulty, loop),
+          loop: loopMultipliers,
+          loop1: loopMultipliers,
           chartSummary: chartSummary(chart),
         },
       ];
     }),
   );
+}
+
+function loopPayload(stage, loop) {
+  return {
+    label: loop === 1 ? "1周目" : "2周目以降",
+    difficulty: difficultyPayload(stage, loop),
+    charts: chartPayload(stage, loop),
+  };
 }
 
 function scoringFixtures() {
@@ -255,8 +265,12 @@ function buildStageExport(stage, index) {
       maxHp: PLAYER_MAX_HP,
     },
     chartConfig: stage.chartConfig,
-    difficulty: difficultyPayload(stage),
-    charts: chartPayload(stage),
+    difficulty: difficultyPayload(stage, 1),
+    charts: chartPayload(stage, 1),
+    loops: {
+      1: loopPayload(stage, 1),
+      2: loopPayload(stage, 2),
+    },
     excludedFromThisExport: [
       "nintendo_sdk",
       "switch_runtime_implementation",

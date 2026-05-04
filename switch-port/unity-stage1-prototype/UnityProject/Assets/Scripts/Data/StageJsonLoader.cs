@@ -23,9 +23,21 @@ namespace JijiiKobushi.Stage1Prototype
                 Rhythm = ReadRhythm(GetObject(root, "rhythm")),
                 Player = ReadPlayer(GetObject(root, "player")),
                 Enemy = ReadEnemy(GetObject(root, "enemy")),
-                Difficulty = ReadDifficultyMap(GetObject(root, "difficulty")),
-                Charts = ReadCharts(GetObject(root, "charts"))
+                Difficulty = ReadDifficultyMap(GetObject(root, "difficulty"), "loop1"),
+                Charts = ReadCharts(GetObject(root, "charts")),
+                Loops = root.ContainsKey("loops")
+                    ? ReadStageLoops(GetObject(root, "loops"))
+                    : new Dictionary<string, StageLoopData>()
             };
+            if (!stage.Loops.ContainsKey("1"))
+            {
+                stage.Loops["1"] = new StageLoopData
+                {
+                    Label = "1周目",
+                    Difficulty = stage.Difficulty,
+                    Charts = stage.Charts
+                };
+            }
             return stage;
         }
 
@@ -35,7 +47,10 @@ namespace JijiiKobushi.Stage1Prototype
             return new ExpectedResults
             {
                 Timing = ReadExpectedTiming(GetObject(root, "timing")),
-                Profiles = ReadExpectedProfiles(GetObject(root, "profiles"))
+                Profiles = ReadExpectedProfiles(GetObject(root, "profiles")),
+                Loops = root.ContainsKey("loops")
+                    ? ReadExpectedLoops(GetObject(root, "loops"))
+                    : new Dictionary<string, ExpectedLoopResults>()
             };
         }
 
@@ -157,17 +172,35 @@ namespace JijiiKobushi.Stage1Prototype
             };
         }
 
-        private static Dictionary<string, DifficultyData> ReadDifficultyMap(Dictionary<string, object> obj)
+        private static Dictionary<string, StageLoopData> ReadStageLoops(Dictionary<string, object> obj)
+        {
+            var loops = new Dictionary<string, StageLoopData>();
+            foreach (var loopKey in obj.Keys)
+            {
+                var loop = GetObject(obj, loopKey);
+                loops[loopKey] = new StageLoopData
+                {
+                    Label = loop.ContainsKey("label") ? GetString(loop, "label") : loopKey,
+                    Difficulty = ReadDifficultyMap(GetObject(loop, "difficulty"), "loop"),
+                    Charts = ReadCharts(GetObject(loop, "charts"))
+                };
+            }
+            return loops;
+        }
+
+        private static Dictionary<string, DifficultyData> ReadDifficultyMap(Dictionary<string, object> obj, string loopProperty)
         {
             var map = new Dictionary<string, DifficultyData>();
             foreach (var key in BattleSimulator.Difficulties)
             {
                 var difficulty = GetObject(obj, key);
+                var loop = ReadLoop(GetObject(difficulty, difficulty.ContainsKey(loopProperty) ? loopProperty : "loop1"));
                 map[key] = new DifficultyData
                 {
                     Id = GetString(difficulty, "id"),
                     Label = GetString(difficulty, "label"),
-                    Loop1 = ReadLoop(GetObject(difficulty, "loop1")),
+                    Loop = loop,
+                    Loop1 = loop,
                     ChartSummary = ReadChartSummary(GetObject(difficulty, "chartSummary"))
                 };
             }
@@ -265,6 +298,20 @@ namespace JijiiKobushi.Stage1Prototype
                 profiles[profile] = byDifficulty;
             }
             return profiles;
+        }
+
+        private static Dictionary<string, ExpectedLoopResults> ReadExpectedLoops(Dictionary<string, object> obj)
+        {
+            var loops = new Dictionary<string, ExpectedLoopResults>();
+            foreach (var loopKey in obj.Keys)
+            {
+                var loop = GetObject(obj, loopKey);
+                loops[loopKey] = new ExpectedLoopResults
+                {
+                    Profiles = ReadExpectedProfiles(GetObject(loop, "profiles"))
+                };
+            }
+            return loops;
         }
 
         private static ExpectedRunResult ReadExpectedRun(Dictionary<string, object> obj)
