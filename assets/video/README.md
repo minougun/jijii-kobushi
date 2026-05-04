@@ -11,7 +11,7 @@ Supported filenames:
 Current files:
 
 - `ending.mp4` is the first-loop ED movie. It keeps the original ED audio, but the video track is a fully illustrated in-game anime-style sequence instead of live-action footage.
-- `ending-loop2.mp4` is the loop-2-and-later ED movie.
+- `ending-loop2.mp4` is the loop-2-and-later ED movie. It is derived from the first-loop illustrated ED and re-encoded as a low-fps, pixelated scribble variant.
 
 Guidelines:
 

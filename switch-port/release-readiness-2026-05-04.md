@@ -20,6 +20,7 @@ Unity project: `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototyp
 - Unity Stage 1 local prototype source, scene scaffold, all-stage smoke gates, and local player smoke build path.
 - ED bonus portable chart pack, expected profile results, and Unity-side parity checks.
 - First-loop ED video replacement: live-action video track was replaced with a fully illustrated in-game anime-style sequence while preserving the original ED audio.
+- Loop-2-and-later ED video replacement: the doodle ED is now derived from the illustrated first-loop ED instead of the older live-action-shaped sequence.
 - ED loading optimization: the ED `<video>` no longer carries an initial `src`; the first-loop video is assigned only when the ED starts.
 - Stage 1 location correction to `うさぎ公園`.
 - HOLD visibility fixes in the Unity prototype.
