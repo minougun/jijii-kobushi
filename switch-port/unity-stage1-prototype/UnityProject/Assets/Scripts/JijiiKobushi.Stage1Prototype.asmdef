@@ -4,7 +4,8 @@
   "references": [
     "UnityEngine.AudioModule",
     "UnityEngine.UnityWebRequestModule",
-    "UnityEngine.UnityWebRequestAudioModule"
+    "UnityEngine.UnityWebRequestAudioModule",
+    "UnityEngine.VideoModule"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

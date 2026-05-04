@@ -105,6 +105,8 @@ HP 0 now enters an explicit `Failed` phase, while full chart completion with HP 
 
 `EndingBonusInteractiveSession` mirrors the ED bonus tap/hold/mash API against the portable ED chart. The ED chart can place tap notes inside mash spans, so this session resolves overlapping notes by time window instead of using the stricter one-note-at-a-time stage cursor.
 
+In Play Mode, the ED bonus now attempts to load the Web original ED video path from the portable ending pack (`./assets/video/ending.mp4` for loop 1 and `./assets/video/ending-loop2.mp4` for loop 2+). When Unity can prepare the video, `VideoPlayer.time` becomes the ED bonus clock and the same preview texture is drawn behind the rhythm lane. If the video file is unavailable or cannot be prepared in a headless environment, the prototype falls back to the deterministic rhythm clock so parity tests remain stable.
+
 `RuntimeAssetCatalog` loads `../assets/runtime-assets.json` and resolves Web original asset paths such as `./assets/audio/koiwazurai.mp3` into Unity-readable files. Runtime lookup now prefers `StreamingAssets/JiiKobushi/...` when staged files exist, then falls back to the Web original local repo path for Editor work. This keeps asset lookup tied to the Web manifest instead of ad hoc directory walking. `RuntimeAssetImportPlanner` remains the import-readiness checker and separates blocking manifest gaps from local skip-worktree image warnings.
 
 `RuntimeAssetStreamingStage` can copy currently available local runtime files into `UnityProject/Assets/StreamingAssets/JiiKobushi/` for packaged-player smoke tests. The generated binaries are intentionally ignored; the source of truth remains the Web original asset manifest and tracked Git objects.
@@ -117,7 +119,9 @@ HP 0 now enters an explicit `Failed` phase, while full chart completion with HP 
 
 The local result panel mirrors the Web original result-screen redesign: a large rank badge, score headline, stat tiles, and clearer stage/ED actions instead of raw debug text. It is still IMGUI placeholder rendering, but the information hierarchy now follows the commercial-style Web result card.
 
-The ED bonus handoff currently uses the portable ED chart and the same placeholder rhythm lane/input buttons. Video/audio playback is still a later integration step; this prototype intentionally keeps the ED bonus on a deterministic rhythm clock so judgement parity can be tested before presentation work.
+The playable placeholder now keeps a run-level stage result list while advancing through the seven stage packs. After the final stage hands off to the ED bonus, the ED result panel shows the same broad structure as the Web original final screen: total rank, stage average, stage total, ED beat bonus, and compact per-stage rank/combo/accuracy rows.
+
+The ED bonus handoff uses the portable ED chart, the same placeholder rhythm lane/input buttons, and the Web original video/audio asset when Unity can prepare it. The deterministic rhythm clock remains as the fallback path for CI/headless validation.
 
 In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.
 

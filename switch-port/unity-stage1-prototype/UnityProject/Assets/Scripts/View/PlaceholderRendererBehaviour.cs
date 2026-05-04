@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Video;
 
 namespace JijiiKobushi.Stage1Prototype
 {
@@ -57,9 +58,17 @@ namespace JijiiKobushi.Stage1Prototype
         private bool audioReady;
         private bool audioStarted;
         private bool audioFallbackClock;
+        private VideoPlayer endingVideoPlayer;
+        private RenderTexture endingVideoTexture;
+        private string endingVideoAssetSrc = "";
+        private string endingVideoPath = "";
+        private bool endingVideoReady;
+        private bool endingVideoStarted;
+        private bool endingVideoFallbackClock;
         private bool completionHandled;
         private bool paused;
         private Coroutine audioLoadRoutine;
+        private Coroutine endingVideoLoadRoutine;
         private Texture2D stageBackgroundTexture;
         private string stageBackgroundAssetSrc = "";
         private string stageBackgroundStatus = "background not loaded";
@@ -68,6 +77,9 @@ namespace JijiiKobushi.Stage1Prototype
         private GUIStyle panelLabelStyle;
         private GUIStyle strongStyle;
         private GUIStyle noteStyle;
+        private readonly List<StageRunSummary> runStageResults = new List<StageRunSummary>();
+        private string runResultDifficulty = "";
+        private int runResultLoop = 0;
 
         private void Start()
         {
@@ -171,6 +183,21 @@ namespace JijiiKobushi.Stage1Prototype
             get { return endingSession != null ? endingSession.Score : 0; }
         }
 
+        public int DebugRunStageResultCount
+        {
+            get { return runStageResults.Count; }
+        }
+
+        public int DebugRunStageTotalScore
+        {
+            get { return BuildRunStageTotalScore(); }
+        }
+
+        public string DebugRunFinalRank
+        {
+            get { return BuildRunFinalRank(); }
+        }
+
         public void DebugAdvanceToNextStage()
         {
             AdvanceToNextStage();
@@ -193,6 +220,16 @@ namespace JijiiKobushi.Stage1Prototype
         public bool DebugAudioIsPlaying
         {
             get { return audioSource != null && audioSource.isPlaying; }
+        }
+
+        public bool DebugEndingVideoAssetExists
+        {
+            get { return !string.IsNullOrEmpty(ResolveRuntimeAssetLocalPath(CurrentEndingVideoAssetSrc)); }
+        }
+
+        public bool DebugEndingVideoClockActive
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus && endingVideoStarted && !endingVideoFallbackClock; }
         }
 
         public bool DebugPaused
@@ -332,8 +369,16 @@ namespace JijiiKobushi.Stage1Prototype
             if (HandleControlInput(input)) return;
             if (paused) return;
 
-            var deltaMs = (int)Math.Round(Time.deltaTime * 1000.0f * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
-            endingSession.AdvanceMs(deltaMs);
+            if (endingVideoStarted && endingVideoPlayer != null && endingVideoPlayer.isPrepared && !endingVideoFallbackClock)
+            {
+                var videoMs = (int)Math.Round(endingVideoPlayer.time * 1000.0, MidpointRounding.AwayFromZero);
+                endingSession.SeekBattleClockMs(videoMs);
+            }
+            else
+            {
+                var deltaMs = (int)Math.Round(Time.deltaTime * 1000.0f * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
+                endingSession.AdvanceMs(deltaMs);
+            }
 
             if (!endingSession.IsComplete)
             {
@@ -351,6 +396,7 @@ namespace JijiiKobushi.Stage1Prototype
             var mainRect = new Rect(margin, margin, width, Mathf.Max(500, Screen.height - margin * 2));
             FillRect(mainRect, new Color(0.96f, 0.94f, 0.88f));
             DrawStageBackground(mainRect);
+            DrawEndingVideoBackground(mainRect);
             StrokeRect(mainRect, new Color(0.12f, 0.11f, 0.1f), 3);
 
             if (!string.IsNullOrEmpty(error))
@@ -363,7 +409,7 @@ namespace JijiiKobushi.Stage1Prototype
             DrawHud(mainRect);
             DrawStagePanel(mainRect);
 
-            if (session != null)
+            if (HasActiveSession)
             {
                 DrawRhythmLane(mainRect);
                 DrawJudgePanel(mainRect);
@@ -400,6 +446,16 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawStagePanel(Rect mainRect)
         {
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                var edPanel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 70);
+                FillRect(edPanel, new Color(0.06f, 0.055f, 0.05f, 0.9f));
+                StrokeRect(edPanel, new Color(0.9f, 0.72f, 0.24f), 2);
+                GUI.Label(new Rect(edPanel.x + 18, edPanel.y + 10, 520, 26), StageHeading, strongStyle);
+                GUI.Label(new Rect(edPanel.x + 18, edPanel.y + 38, edPanel.width - 36, 24), audioStatus + "  " + status, panelLabelStyle);
+                return;
+            }
+
             var panel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 170);
             FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
             StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
@@ -415,6 +471,24 @@ namespace JijiiKobushi.Stage1Prototype
             if (stageBackgroundTexture == null) return;
             GUI.DrawTexture(mainRect, stageBackgroundTexture, ScaleMode.ScaleAndCrop, false);
             FillRect(mainRect, new Color(0f, 0f, 0f, 0.28f));
+        }
+
+        private void DrawEndingVideoBackground(Rect mainRect)
+        {
+            if (prototypeMode != PrototypeMode.EndingBonus) return;
+
+            FillRect(mainRect, new Color(0.04f, 0.045f, 0.055f));
+            var videoRect = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 326);
+            FillRect(videoRect, new Color(0.02f, 0.02f, 0.024f));
+            if (endingVideoTexture != null && endingVideoReady)
+            {
+                GUI.DrawTexture(videoRect, endingVideoTexture, ScaleMode.ScaleToFit, false);
+            }
+            else
+            {
+                GUI.Label(new Rect(videoRect.x + 24, videoRect.y + 132, videoRect.width - 48, 28), "ED video preview loading / fallback rhythm clock", panelLabelStyle);
+            }
+            FillRect(mainRect, new Color(0f, 0f, 0f, 0.18f));
         }
 
         private void DrawRhythmLane(Rect mainRect)
@@ -520,8 +594,10 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawResultPanel(Rect mainRect)
         {
-            var panelWidth = Mathf.Min(620f, mainRect.width - 72f);
-            var panel = new Rect(mainRect.x + (mainRect.width - panelWidth) * 0.5f, mainRect.y + 458, panelWidth, 214);
+            var isEndingResult = prototypeMode == PrototypeMode.EndingBonus;
+            var panelWidth = Mathf.Min(isEndingResult ? 820f : 620f, mainRect.width - 72f);
+            var panelHeight = isEndingResult ? 284f : 214f;
+            var panel = new Rect(mainRect.x + (mainRect.width - panelWidth) * 0.5f, mainRect.y + (isEndingResult ? 424f : 458f), panelWidth, panelHeight);
             FillRect(panel, new Color(1f, 0.985f, 0.94f));
             StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 3);
             FillRect(new Rect(panel.x, panel.y, panel.width, 44), new Color(0.08f, 0.075f, 0.07f));
@@ -529,22 +605,27 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 var endingResult = endingSession.BuildResult();
                 var accuracy = endingResult.NoteCount > 0 ? Mathf.RoundToInt((endingResult.Hits / (float)endingResult.NoteCount) * 100f) : 0;
-                DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), "ED");
-                GUI.Label(new Rect(panel.x + 128, panel.y + 14, 360, 24), "ENDING BONUS", panelLabelStyle);
-                GUI.Label(new Rect(panel.x + 128, panel.y + 56, 360, 38), endingResult.Score + " pts", titleStyle);
-                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 360, 24), "Loop " + CurrentRunLoop + " / " + difficulty, labelStyle);
-                DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "Hits", endingResult.Hits + "/" + endingResult.NoteCount, accuracy + "%");
-                DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "Best combo", endingResult.BestCombo.ToString(), "chain");
-                DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "Miss", endingResult.Misses.ToString(), "notes");
+                var finalRank = BuildRunFinalRank();
+                var stageAverage = BuildRunStageAverageScore();
+                var stageTotal = BuildRunStageTotalScore();
+                DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), finalRank);
+                GUI.Label(new Rect(panel.x + 128, panel.y + 14, 420, 24), "FINAL RESULT", panelLabelStyle);
+                GUI.Label(new Rect(panel.x + 128, panel.y + 56, 440, 38), "総合ランク " + finalRank, titleStyle);
+                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 520, 24), "Loop " + CurrentRunLoop + " / " + difficulty + " / stages " + runStageResults.Count + "/" + StagePackFiles.Length, labelStyle);
+                DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "平均", stageAverage + " pts", "7 stages");
+                DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "総合", stageTotal + " pts", "stage total");
+                DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "ED拍", endingResult.Score + " pts", "bonus");
+                DrawResultStat(new Rect(panel.x + 554, panel.y + 124, 132, 54), "成功", endingResult.Hits + "/" + endingResult.NoteCount, accuracy + "%");
+                DrawStageResultRows(new Rect(panel.x + 20, panel.y + 188, panel.width - 40, 52));
 
-                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + 178, 152, 30), "Next Loop"))
+                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + panel.height - 38, 152, 30), "Next Loop"))
                 {
                     runLoop = CurrentRunLoop + 1;
                     stageNumber = 1;
                     LoadAndStart();
                 }
 
-                if (GUI.Button(new Rect(panel.x + panel.width - 338, panel.y + 178, 146, 30), "Retry ED"))
+                if (GUI.Button(new Rect(panel.x + panel.width - 338, panel.y + panel.height - 38, 146, 30), "Retry ED"))
                 {
                     LoadEndingBonusAndStart();
                 }
@@ -598,6 +679,26 @@ namespace JijiiKobushi.Stage1Prototype
             GUI.Label(new Rect(rect.x + 9, rect.y + 6, rect.width - 18, 18), label, panelLabelStyle);
             GUI.Label(new Rect(rect.x + 9, rect.y + 20, rect.width - 18, 24), value, strongStyle);
             GUI.Label(new Rect(rect.x + 9, rect.y + 38, rect.width - 18, 16), sub, labelStyle);
+        }
+
+        private void DrawStageResultRows(Rect rect)
+        {
+            FillRect(rect, new Color(0.08f, 0.075f, 0.07f));
+            StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
+            var titleRect = new Rect(rect.x + 10, rect.y + 6, 140, 18);
+            GUI.Label(titleRect, "ステージ別成績", panelLabelStyle);
+
+            var columnWidth = (rect.width - 160f) / StagePackFiles.Length;
+            for (var i = 0; i < StagePackFiles.Length; i += 1)
+            {
+                var summary = FindStageSummary(i + 1);
+                var x = rect.x + 150 + columnWidth * i;
+                var label = summary == null
+                    ? (i + 1).ToString("00") + " --"
+                    : (i + 1).ToString("00") + " " + summary.Rank + " " + summary.Score;
+                GUI.Label(new Rect(x, rect.y + 6, columnWidth - 4, 18), label, panelLabelStyle);
+                GUI.Label(new Rect(x, rect.y + 27, columnWidth - 4, 18), summary == null ? "未記録" : summary.MaxCombo + "連 / " + ResultAccuracy(summary) + "%", panelLabelStyle);
+            }
         }
 
         private void DrawFooterControls(Rect mainRect)
@@ -662,6 +763,7 @@ namespace JijiiKobushi.Stage1Prototype
                 difficulty = NormalizeDifficulty(difficulty);
                 var loopData = ResolveStageLoop(stage, CurrentLoopKey);
                 if (!loopData.Charts.ContainsKey(difficulty)) difficulty = "normal";
+                ResetRunResultsIfNeeded();
                 chart = loopData.Charts[difficulty];
                 session = new InteractiveBattleSession(stage, CurrentLoopKey, difficulty);
                 holdButtonWasDown = false;
@@ -686,6 +788,7 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 error = "";
                 StopBgm();
+                StopEndingVideo();
                 ClearStageBackground();
                 prototypeMode = PrototypeMode.EndingBonus;
                 session = null;
@@ -702,7 +805,7 @@ namespace JijiiKobushi.Stage1Prototype
                 holdButtonWasDown = false;
                 completionHandled = false;
                 paused = false;
-                audioStatus = "ED rhythm clock: video/audio integration pending";
+                PrepareEndingVideo();
                 status = "Loaded ED bonus loop " + loopKey + " from " + Path.GetFileName(endingJsonPath) + ". First beat is " + endingBonus.Ending.FirstBeatMs + "ms.";
             }
             catch (Exception ex)
@@ -1126,13 +1229,133 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
-                if (prototypeMode == PrototypeMode.EndingBonus) return "ed-delta";
+                if (prototypeMode == PrototypeMode.EndingBonus)
+                {
+                    if (endingVideoStarted && !endingVideoFallbackClock) return "ed-video";
+                    if (endingVideoReady) return "ed-video-ready";
+                    if (endingVideoFallbackClock) return "ed-delta-fallback";
+                    return "ed-video-loading";
+                }
                 if (!useAudioClock) return "delta";
                 if (audioStarted) return "audio";
                 if (audioReady) return "audio-ready";
                 if (audioFallbackClock) return "delta-fallback";
                 return "audio-loading";
             }
+        }
+
+        private string CurrentEndingVideoAssetSrc
+        {
+            get
+            {
+                if (endingBonus == null || endingBonus.Ending == null) return "";
+                return CurrentRunLoop <= 1 ? endingBonus.Ending.FirstLoopVideoSrc : endingBonus.Ending.LoopPlusVideoSrc;
+            }
+        }
+
+        private void PrepareEndingVideo()
+        {
+            endingVideoReady = false;
+            endingVideoStarted = false;
+            endingVideoFallbackClock = !useAudioClock;
+            endingVideoAssetSrc = CurrentEndingVideoAssetSrc;
+            endingVideoPath = "";
+            audioStatus = useAudioClock ? "ED video loading..." : "ED rhythm clock";
+            if (!useAudioClock || string.IsNullOrEmpty(endingVideoAssetSrc))
+            {
+                audioStatus = "ED rhythm clock";
+                return;
+            }
+
+            if (endingVideoLoadRoutine != null)
+            {
+                StopCoroutine(endingVideoLoadRoutine);
+                endingVideoLoadRoutine = null;
+            }
+
+            endingVideoPath = ResolveRuntimeAssetLocalPath(endingVideoAssetSrc);
+            if (string.IsNullOrEmpty(endingVideoPath))
+            {
+                endingVideoFallbackClock = true;
+                audioStatus = "ED video missing, rhythm clock: " + endingVideoAssetSrc;
+                return;
+            }
+
+            endingVideoLoadRoutine = StartCoroutine(PrepareEndingVideoPlayback(endingVideoPath));
+        }
+
+        private IEnumerator PrepareEndingVideoPlayback(string filePath)
+        {
+            EnsureEndingVideoPlayer();
+            endingVideoPlayer.Stop();
+            endingVideoPlayer.source = VideoSource.Url;
+            endingVideoPlayer.url = ToFileUri(filePath);
+            endingVideoPlayer.playbackSpeed = Mathf.Max(0.1f, playbackSpeed);
+            endingVideoPlayer.Prepare();
+
+            var deadline = Time.realtimeSinceStartup + 8f;
+            while (!endingVideoPlayer.isPrepared && Time.realtimeSinceStartup < deadline)
+            {
+                yield return null;
+            }
+
+            if (!endingVideoPlayer.isPrepared)
+            {
+                endingVideoFallbackClock = true;
+                audioStatus = "ED video prepare timeout; rhythm clock";
+                yield break;
+            }
+
+            endingVideoReady = true;
+            endingVideoFallbackClock = false;
+            audioStatus = "ED video ready: " + Path.GetFileName(filePath);
+            if (paused)
+            {
+                audioStatus = "ED video ready: paused";
+                yield break;
+            }
+
+            StartEndingVideo();
+        }
+
+        private void EnsureEndingVideoPlayer()
+        {
+            if (endingVideoTexture == null)
+            {
+                endingVideoTexture = new RenderTexture(960, 540, 0, RenderTextureFormat.ARGB32);
+                endingVideoTexture.name = "JiiKobushiEndingVideoPreview";
+            }
+
+            if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+
+            if (endingVideoPlayer == null)
+            {
+                endingVideoPlayer = gameObject.AddComponent<VideoPlayer>();
+                endingVideoPlayer.playOnAwake = false;
+                endingVideoPlayer.isLooping = false;
+                endingVideoPlayer.renderMode = VideoRenderMode.RenderTexture;
+                endingVideoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+                endingVideoPlayer.controlledAudioTrackCount = 1;
+                endingVideoPlayer.EnableAudioTrack(0, true);
+                endingVideoPlayer.SetTargetAudioSource(0, audioSource);
+            }
+
+            endingVideoPlayer.targetTexture = endingVideoTexture;
+            audioSource.playOnAwake = false;
+            audioSource.loop = false;
+            audioSource.volume = 1f;
+            audioSource.pitch = Mathf.Max(0.1f, playbackSpeed);
+        }
+
+        private void StartEndingVideo()
+        {
+            if (!useAudioClock || !endingVideoReady || endingVideoPlayer == null || !endingVideoPlayer.isPrepared) return;
+            endingVideoPlayer.time = 0;
+            endingSession?.SeekBattleClockMs(0);
+            endingVideoPlayer.Play();
+            endingVideoStarted = true;
+            endingVideoFallbackClock = false;
+            audioStatus = "ED video playing: " + Path.GetFileName(endingVideoPath);
         }
 
         private void PrepareBgm()
@@ -1249,7 +1472,8 @@ namespace JijiiKobushi.Stage1Prototype
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
                 endingSession.Pause();
-                audioStatus = "ED rhythm paused";
+                if (endingVideoPlayer != null && endingVideoPlayer.isPlaying) endingVideoPlayer.Pause();
+                audioStatus = endingVideoStarted && !endingVideoFallbackClock ? "ED video paused" : "ED rhythm paused";
                 return;
             }
 
@@ -1269,7 +1493,19 @@ namespace JijiiKobushi.Stage1Prototype
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
                 endingSession.Resume();
-                audioStatus = "ED rhythm clock";
+                if (endingVideoStarted && endingVideoPlayer != null && endingVideoReady)
+                {
+                    endingVideoPlayer.Play();
+                    audioStatus = "ED video playing: " + Path.GetFileName(endingVideoPath);
+                }
+                else if (endingVideoReady)
+                {
+                    StartEndingVideo();
+                }
+                else
+                {
+                    audioStatus = "ED rhythm clock";
+                }
                 return;
             }
 
@@ -1310,7 +1546,90 @@ namespace JijiiKobushi.Stage1Prototype
             completionHandled = true;
             paused = false;
             holdButtonWasDown = false;
+            RecordCurrentStageResult();
             StopBgmForResult();
+        }
+
+        private void ResetRunResultsIfNeeded()
+        {
+            var normalizedLoop = CurrentRunLoop;
+            if (runResultDifficulty != difficulty || runResultLoop != normalizedLoop || CurrentStageIndex == 0)
+            {
+                runStageResults.Clear();
+                runResultDifficulty = difficulty;
+                runResultLoop = normalizedLoop;
+            }
+        }
+
+        private void RecordCurrentStageResult()
+        {
+            if (stage == null || stage.Stage == null || session == null) return;
+            var result = session.BuildResult();
+            var summary = new StageRunSummary
+            {
+                StageNumber = CurrentStageNumber,
+                Title = stage.Stage.Title,
+                Score = result.Score,
+                Rank = result.Rank,
+                MaxCombo = result.MaxCombo,
+                NoteCount = result.NoteCount,
+                Clear = result.Clear,
+                Perfect = result.Stats.Perfect,
+                Good = result.Stats.Good,
+                Bad = result.Stats.Bad,
+                Miss = result.Stats.Miss
+            };
+
+            for (var i = 0; i < runStageResults.Count; i += 1)
+            {
+                if (runStageResults[i].StageNumber != summary.StageNumber) continue;
+                runStageResults[i] = summary;
+                runStageResults.Sort((left, right) => left.StageNumber.CompareTo(right.StageNumber));
+                return;
+            }
+
+            runStageResults.Add(summary);
+            runStageResults.Sort((left, right) => left.StageNumber.CompareTo(right.StageNumber));
+        }
+
+        private StageRunSummary FindStageSummary(int stageNo)
+        {
+            for (var i = 0; i < runStageResults.Count; i += 1)
+            {
+                if (runStageResults[i].StageNumber == stageNo) return runStageResults[i];
+            }
+
+            return null;
+        }
+
+        private int BuildRunStageTotalScore()
+        {
+            var total = 0;
+            for (var i = 0; i < runStageResults.Count; i += 1)
+            {
+                total += runStageResults[i].Score;
+            }
+
+            return total;
+        }
+
+        private int BuildRunStageAverageScore()
+        {
+            if (runStageResults.Count == 0) return 0;
+            return Mathf.RoundToInt(BuildRunStageTotalScore() / (float)runStageResults.Count);
+        }
+
+        private string BuildRunFinalRank()
+        {
+            return BattleSimulator.RankScore(BuildRunStageAverageScore());
+        }
+
+        private static int ResultAccuracy(StageRunSummary summary)
+        {
+            var total = summary.Perfect + summary.Good + summary.Bad + summary.Miss;
+            if (total <= 0) return 0;
+            var weighted = summary.Perfect + summary.Good * 0.72f + summary.Bad * 0.34f;
+            return Mathf.Clamp(Mathf.RoundToInt((weighted / total) * 100f), 0, 100);
         }
 
         private void StopBgm()
@@ -1321,12 +1640,29 @@ namespace JijiiKobushi.Stage1Prototype
                 audioLoadRoutine = null;
             }
 
+            StopEndingVideo();
             if (audioSource != null) audioSource.Stop();
             audioReady = false;
             audioStarted = false;
             audioFallbackClock = false;
             paused = false;
             audioStatus = "BGM not loaded";
+        }
+
+        private void StopEndingVideo()
+        {
+            if (endingVideoLoadRoutine != null)
+            {
+                StopCoroutine(endingVideoLoadRoutine);
+                endingVideoLoadRoutine = null;
+            }
+
+            if (endingVideoPlayer != null) endingVideoPlayer.Stop();
+            endingVideoReady = false;
+            endingVideoStarted = false;
+            endingVideoFallbackClock = false;
+            endingVideoAssetSrc = "";
+            endingVideoPath = "";
         }
 
         private void LoadStageBackground()
@@ -1602,6 +1938,21 @@ namespace JijiiKobushi.Stage1Prototype
             FillRect(new Rect(rect.x, rect.yMax - thickness, rect.width, thickness), color);
             FillRect(new Rect(rect.x, rect.y, thickness, rect.height), color);
             FillRect(new Rect(rect.xMax - thickness, rect.y, thickness, rect.height), color);
+        }
+
+        private sealed class StageRunSummary
+        {
+            public string Title = "";
+            public string Rank = "";
+            public int StageNumber;
+            public int Score;
+            public int MaxCombo;
+            public int NoteCount;
+            public bool Clear;
+            public int Perfect;
+            public int Good;
+            public int Bad;
+            public int Miss;
         }
     }
 }

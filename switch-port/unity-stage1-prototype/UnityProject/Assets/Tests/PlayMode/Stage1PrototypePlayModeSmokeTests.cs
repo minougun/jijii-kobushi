@@ -246,6 +246,7 @@ namespace JijiiKobushi.Stage1Prototype
                 yield return null;
 
                 Assert.IsNotEmpty(runner.DebugResultScenarioLine, "result scenario line after clear");
+                Assert.AreEqual(stageNumber, runner.DebugRunStageResultCount, "stage result count after clear");
 
                 if (stageNumber < ExpectedStageTitles.Length)
                 {
@@ -264,8 +265,22 @@ namespace JijiiKobushi.Stage1Prototype
                 else
                 {
                     Assert.IsFalse(runner.DebugCanAdvanceToNextStage, "final stage should not advance");
+                    Assert.IsTrue(runner.DebugCanStartEndingBonus, "final stage can hand off to ED bonus");
                 }
             }
+
+            Assert.Greater(runner.DebugRunStageTotalScore, 0);
+            Assert.AreEqual("S", runner.DebugRunFinalRank);
+            runner.DebugStartEndingBonus();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugEndingBonusLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugEndingBonusLoaded, runner.DebugError);
+            Assert.AreEqual(7, runner.DebugRunStageResultCount, "stage results persist into ED bonus");
 
             Object.Destroy(runnerObject);
         }
@@ -306,6 +321,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.IsTrue(runner.DebugEndingBonusLoaded, runner.DebugError);
             Assert.AreEqual("endingBonus", runner.DebugPrototypeMode);
             Assert.Greater(runner.DebugTotalNotes, 0);
+            Assert.IsTrue(runner.DebugEndingVideoAssetExists, runner.DebugAudioStatus);
 
             runner.DebugCompleteEndingBonusPerfect();
             yield return null;
