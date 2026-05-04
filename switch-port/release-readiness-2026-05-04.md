@@ -59,6 +59,26 @@ ED bonus:
 
 Note: Unity player smoke was run with `-nographics`, so shader unsupported logs appeared in the player log. The smoke gate itself exited successfully.
 
+## Pre-push Audit
+
+- Remote verified: `origin` fetch/push points to `https://github.com/minougun/jijii-kobushi.git`.
+- Ahead range: `origin/main..HEAD` contains 38 local commits.
+- No Unity generated folders are included in the ahead diff:
+  - `Library/`
+  - `Temp/`
+  - `Obj/`
+  - `UserSettings/`
+  - `Build/`
+  - `Builds/`
+  - `Logs/`
+  - `*.csproj`
+  - `*.sln`
+  - `unity-*.log`
+  - `unity-*.xml`
+- Secret scan over the ahead diff found no real secret values. Hits were limited to ordinary parser variable names such as `token` and blank Unity settings keys such as `metroCertificatePassword:` / `ps4NPTitleSecret:`.
+- The largest newly added tracked files are portable JSON stage packs under `switch-port/stages/`; no new audio/video binaries are included in the ahead diff.
+- Local image/video files are intentionally sparse/skip-worktree in this workspace. `npm run check` verifies those assets through the tracked Git objects when local working-tree files are absent.
+
 ## External Operations
 
 Not executed:
@@ -73,4 +93,3 @@ Not executed:
 ## Suggested Next Gate
 
 Before publishing, run a final `git status --short --branch`, then push `main` only after confirming the target remote is still `https://github.com/minougun/jijii-kobushi`.
-
