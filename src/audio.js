@@ -117,7 +117,6 @@ export function createAudioEngine() {
       try {
         engine.cueGain.disconnect();
       } catch {
-        // The cue gain may already be disconnected.
       }
       engine.cueGain = null;
     }
@@ -133,7 +132,6 @@ export function createAudioEngine() {
     try {
       engine.bgmSource.stop();
     } catch {
-      // The source may already have ended.
     }
     engine.bgmSource.disconnect();
     engine.bgmSource = null;
@@ -562,7 +560,6 @@ export function createAudioEngine() {
   function scheduleRemixLayer(startAt, bpm, durationMs, profile = {}, fromBeat = 0, toBeat = Infinity) {
     const ctx = ensure();
     if (!ctx || !profile.remix) return fromBeat;
-    // These layers must be audible enough to make repeated MP3 tracks read as stage-specific arrangements.
     const remixGain = profile.remixGain ?? 1.05;
     const beat = 60 / bpm;
     const totalBeats = Math.ceil(durationMs / 1000 / beat);

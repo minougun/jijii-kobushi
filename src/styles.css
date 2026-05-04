@@ -99,6 +99,8 @@ html[data-phase="endingVideo"] .gameSurface {
 }
 
 @media (min-width: 1101px) {
+  html:is([data-phase="opening"], [data-phase="title"]),
+  html:is([data-phase="opening"], [data-phase="title"]) body,
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]),
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) body {
     width: 100%;
@@ -108,17 +110,19 @@ html[data-phase="endingVideo"] .gameSurface {
     background: #171717;
   }
 
+  html:is([data-phase="opening"], [data-phase="title"]) .shell,
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell {
-    --game-w: min(100vw, calc(100svh * 16 / 9), 1920px);
-    --game-h: min(100svh, calc(100vw * 9 / 16), 1080px);
-    --game-offset-y: 0px;
+    --hud-h: 82px;
+    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9), 1920px);
+    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16), 1080px);
     position: relative;
     width: 100%;
     min-height: 100svh;
     height: 100svh;
     display: grid;
-    grid-template-rows: 1fr;
-    place-items: start center;
+    grid-template-rows: var(--hud-h) var(--game-h);
+    align-content: center;
+    justify-items: center;
     gap: 0;
     padding: 0;
     overflow: hidden;
@@ -131,16 +135,18 @@ html[data-phase="endingVideo"] .gameSurface {
   }
 
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbar {
-    position: absolute;
+    position: relative;
     z-index: 11;
-    top: max(var(--game-offset-y), env(safe-area-inset-top, 0px));
-    left: 50%;
+    top: auto;
+    left: auto;
     width: var(--game-w);
     max-width: 100%;
-    transform: translateX(-50%);
+    height: var(--hud-h);
+    box-sizing: border-box;
+    transform: none;
     gap: 5px;
     padding: 6px 10px 7px;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px 8px 0 0;
     background:
       linear-gradient(180deg, rgba(17, 18, 22, 0.92), rgba(17, 18, 22, 0.66)),
       linear-gradient(90deg, rgba(184, 59, 41, 0.28), transparent 35%, rgba(74, 42, 110, 0.28));
@@ -209,7 +215,9 @@ html[data-phase="endingVideo"] .gameSurface {
     height: 7px;
   }
 
+  html:is([data-phase="opening"], [data-phase="title"]) .gameSurface,
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .gameSurface {
+    grid-row: 2;
     width: var(--game-w);
     height: var(--game-h);
     max-width: 100vw;
@@ -218,6 +226,7 @@ html[data-phase="endingVideo"] .gameSurface {
     margin: 0 auto;
   }
 
+  html:is([data-phase="opening"], [data-phase="title"]) canvas,
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) canvas {
     border-radius: 0;
     box-shadow: none;
@@ -225,7 +234,7 @@ html[data-phase="endingVideo"] .gameSurface {
 
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .quickSaveButton,
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton {
-    top: max(calc(var(--game-offset-y) + 96px), calc(8px + env(safe-area-inset-top, 0px)));
+    top: 14px;
     z-index: 12;
     min-width: 78px;
     min-height: 44px;
@@ -242,13 +251,12 @@ html[data-phase="endingVideo"] .gameSurface {
 
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton {
     min-width: 88px;
-    top: max(calc(var(--game-offset-y) + 146px), calc(58px + env(safe-area-inset-top, 0px)));
+    top: 62px;
     right: max(10px, env(safe-area-inset-right, 0px));
   }
 }
 
 .topbar,
-.rhythmPanel,
 .settings {
   background: rgba(255, 255, 255, 0.84);
   box-shadow: 0 0 0 1px var(--line), 0 10px 24px rgba(0, 0, 0, 0.06);
@@ -256,6 +264,7 @@ html[data-phase="endingVideo"] .gameSurface {
 }
 
 .topbar {
+  box-sizing: border-box;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -543,32 +552,16 @@ html.doodle-loop .topbar {
     5px 4px 0 rgba(0, 0, 0, 0.18),
     -3px -2px 0 rgba(255, 0, 0, 0.18),
     inset 0 0 0 2px rgba(0, 0, 0, 0.08);
-  transform: rotate(-0.35deg);
+  transform: none;
   image-rendering: pixelated;
 }
 
 html.doodle-loop .topbar::before {
-  inset: -6px;
-  background:
-    radial-gradient(circle at 8% 18%, #111 0 2px, transparent 3px),
-    radial-gradient(circle at 72% 62%, #111 0 1px, transparent 2px),
-    radial-gradient(circle at 44% 82%, rgba(255, 0, 0, 0.5) 0 2px, transparent 3px),
-    repeating-linear-gradient(104deg, transparent 0 18px, rgba(0, 0, 0, 0.08) 18px 20px);
-  opacity: 0.72;
+  display: none;
 }
 
 html.doodle-loop .topbar::after {
-  left: 14px;
-  right: 18px;
-  bottom: 8px;
-  height: 4px;
-  background: #111;
-  box-shadow:
-    17px -47px 0 -1px #111,
-    45px -49px 0 -2px #d11,
-    88px -45px 0 -1px #111,
-    129px -50px 0 -2px #22f;
-  transform: rotate(0.7deg);
+  display: none;
 }
 
 html.doodle-loop .eyebrow,
@@ -629,7 +622,7 @@ html.doodle-loop .hudNumbers strong {
 html.doodle-loop .duelHud {
   grid-template-columns: minmax(0, 1fr) 50px minmax(0, 1fr);
   gap: 8px;
-  transform: rotate(0.2deg);
+  transform: none;
 }
 
 html.doodle-loop .duelCol {
@@ -640,19 +633,17 @@ html.doodle-loop .duelCol {
   border-radius: 0;
   box-shadow:
     0 0 0 3px #111,
-    4px 3px 0 rgba(0, 0, 255, 0.32),
-    inset 9px 0 0 rgba(255, 0, 0, 0.14),
-    inset -7px 0 0 rgba(255, 245, 0, 0.3);
+    4px 3px 0 rgba(0, 0, 0, 0.16);
 }
 
 html.doodle-loop .duelCol--player {
   padding-right: 12px;
-  transform: rotate(-1.2deg) skewX(-1deg);
+  transform: none;
 }
 
 html.doodle-loop .duelCol--enemy {
   padding-left: 12px;
-  transform: rotate(1.1deg) skewX(1deg);
+  transform: none;
 }
 
 html.doodle-loop .duelColHead {
@@ -701,8 +692,7 @@ html.doodle-loop .meterTrack {
   border-radius: 0;
   background: #fff;
   box-shadow:
-    0 0 0 3px #111,
-    inset 0 0 0 2px rgba(0, 0, 0, 0.08);
+    0 0 0 2px #111;
 }
 
 html.doodle-loop .meterTrack--duel {
@@ -746,7 +736,7 @@ html.doodle-loop .gameSurface {
     0 0 0 4px #111,
     7px 5px 0 rgba(0, 0, 255, 0.23),
     -5px -3px 0 rgba(255, 0, 0, 0.2);
-  transform: rotate(0.15deg);
+  transform: none;
 }
 
 html.doodle-loop canvas {
@@ -1164,10 +1154,6 @@ canvas {
   pointer-events: auto;
 }
 
-.gameSurface.novelActive .rhythmPanel {
-  opacity: 0;
-  pointer-events: none;
-}
 
 .overlayActions {
   display: flex;
@@ -1294,108 +1280,6 @@ canvas {
   image-rendering: pixelated;
 }
 
-.endingBonusPanel {
-  position: static;
-  width: min(100%, 980px);
-  z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: stretch;
-  gap: 7px;
-  padding: 9px;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.96), 0 14px 28px rgba(0, 0, 0, 0.16);
-  border-radius: 28px;
-}
-
-.endingBonusPanel[hidden] {
-  display: none;
-}
-
-.endingBonusLane {
-  position: relative;
-  display: block;
-  min-height: 96px;
-  height: 100%;
-  overflow: hidden;
-  background: #f7efe1;
-  box-shadow: inset 0 0 0 2px rgba(23, 23, 23, 0.16);
-  border-radius: 18px 10px 10px 18px;
-}
-
-.endingBonusLane i {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--ending-bonus-fill, 0%);
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(227, 191, 85, 0.2), rgba(227, 191, 85, 0.78));
-}
-
-.endingBonusPanel[data-note="hold"] .endingBonusLane i {
-  background: linear-gradient(90deg, rgba(127, 201, 241, 0.18), rgba(127, 201, 241, 0.82));
-}
-
-.endingBonusPanel[data-note="mash"] .endingBonusLane i {
-  background: linear-gradient(90deg, rgba(239, 91, 79, 0.18), rgba(239, 91, 79, 0.82));
-}
-
-.endingBonusLane b {
-  position: absolute;
-  left: calc(50% - 28px);
-  top: 0;
-  width: 56px;
-  height: 100%;
-  transform: none;
-  z-index: 3;
-  background: #171717;
-  opacity: 0.92;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-.endingBonusLane em {
-  position: absolute;
-  top: 50%;
-  left: var(--ending-bonus-marker, 0%);
-  width: 50px;
-  height: 50px;
-  display: grid;
-  place-items: center;
-  translate: -50% -50%;
-  transform: none;
-  z-index: 3;
-  background: #fff;
-  color: var(--ink);
-  box-shadow: 0 0 0 2px var(--ink), 0 8px 18px rgba(0, 0, 0, 0.18);
-  border-radius: 50%;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-}
-
-.endingBonusPanel[data-note="hold"] .endingBonusLane em {
-  background: var(--gold);
-}
-
-.endingBonusPanel[data-note="mash"] .endingBonusLane em {
-  background: #ef5b4f;
-  color: #fff;
-}
-
-.endingBonusPanel.is-hit .endingBonusLane em {
-  box-shadow: 0 0 0 2px var(--ink), 0 0 0 6px rgba(227, 191, 85, 0.52), 0 8px 18px rgba(0, 0, 0, 0.18);
-}
-
-.endingBonusHeader {
-  display: none;
-}
-
-.endingBonusHeader strong {
-  font-variant-numeric: tabular-nums;
-}
-
 .endingVideoChrome {
   position: static;
   width: min(100%, 980px);
@@ -1443,358 +1327,6 @@ canvas {
   color: var(--red);
 }
 
-.rhythmPanel {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  z-index: 3;
-  padding: 9px;
-  display: none;
-  gap: 7px;
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.96), 0 14px 28px rgba(0, 0, 0, 0.16);
-  border-radius: 28px;
-}
-
-@media (min-width: 721px) {
-  .rhythmPanel {
-    grid-template-columns: 1fr;
-    align-items: stretch;
-  }
-
-  .beatHeader {
-    display: none;
-  }
-
-  .beatLane {
-    grid-column: auto;
-    grid-row: auto;
-  }
-
-  .inputZone {
-    grid-column: auto;
-    grid-row: auto;
-  }
-}
-
-.beatHeader {
-  display: none;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: end;
-}
-
-.beatHeader span,
-.beatHeader p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.beatHeader strong {
-  display: block;
-  font-size: clamp(24px, 4.2vw, 36px);
-  line-height: 1.1;
-}
-
-.beatLane {
-  display: none;
-}
-
-.beatLane i {
-  display: block;
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, rgba(227, 191, 85, 0.2), rgba(227, 191, 85, 0.78));
-}
-
-.beatLane b {
-  position: absolute;
-  left: calc(50% - 28px);
-  top: 0;
-  width: 56px;
-  height: 100%;
-  background: #171717;
-  opacity: 0.92;
-}
-
-.beatLane b::after {
-  content: "ここ";
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-html[lang="en"] .beatLane b::after {
-  content: "HERE";
-}
-
-.timingReadout {
-  display: block;
-  margin-top: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--blue);
-  font-variant-numeric: tabular-nums;
-}
-
-.settingsLangRow {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.helpGuide {
-  background: rgba(255, 255, 255, 0.84);
-  box-shadow: 0 0 0 1px var(--line), 0 10px 24px rgba(0, 0, 0, 0.06);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.helpGuide summary {
-  min-height: 42px;
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.helpBody {
-  padding: 12px 14px 16px;
-  box-shadow: 0 -1px 0 var(--line);
-  display: grid;
-  gap: 14px;
-}
-
-@media (min-width: 880px) {
-  .helpBody {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  html[lang="ja"] .helpBody .helpColEn {
-    display: none;
-  }
-
-  html[lang="en"] .helpBody .helpColJa {
-    display: none;
-  }
-}
-
-@media (max-width: 879px) {
-  html[lang="ja"] .helpColEn {
-    display: none;
-  }
-
-  html[lang="en"] .helpColJa {
-    display: none;
-  }
-}
-
-.helpCol h3 {
-  margin: 0 0 8px;
-  font-size: 15px;
-}
-
-.helpCol ul {
-  margin: 0;
-  padding-left: 1.2em;
-  font-size: 14px;
-  color: #352f2a;
-}
-
-.helpCol li {
-  margin-bottom: 6px;
-}
-
-.portraitHint {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-right, 0px))
-    calc(12px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
-  background: rgba(23, 23, 23, 0.92);
-  color: #fff;
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.2);
-}
-
-.portraitHint[hidden] {
-  display: none !important;
-}
-
-.portraitHintText {
-  margin: 0;
-  flex: 1;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.45;
-}
-
-html.comfort-hud .rhythmPanel {
-  font-size: 15px;
-}
-
-html.comfort-hud .beatHeader strong {
-  font-size: clamp(32px, 6vw, 52px);
-}
-
-html.comfort-hud .inputZone {
-  min-height: 120px;
-}
-
-html.comfort-hud .timingReadout {
-  font-size: 13px;
-}
-
-html.comfort-hud .inputZone strong {
-  font-size: clamp(24px, 5vw, 44px);
-}
-
-.beatLane em {
-  position: absolute;
-  left: 96%;
-  top: 50%;
-  width: 50px;
-  height: 50px;
-  display: grid;
-  place-items: center;
-  translate: -50% -50%;
-  background: #ffffff;
-  color: var(--ink);
-  box-shadow: 0 0 0 2px var(--ink), 0 8px 18px rgba(0, 0, 0, 0.18);
-  border-radius: 50%;
-  font-style: normal;
-  font-size: 28px;
-  font-weight: 600;
-  z-index: 2;
-}
-
-.beatLane em[hidden] {
-  display: none;
-}
-
-.beatLane em[data-type="hold"] {
-  background: var(--gold);
-}
-
-.beatLane em[data-type="mash"] {
-  background: #ef5b4f;
-  color: #fff;
-}
-
-.inputZone {
-  width: clamp(92px, 17vw, 132px);
-  min-height: 0;
-  aspect-ratio: 1;
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-self: center;
-  place-items: center;
-  align-items: center;
-  gap: 2px;
-  padding: 12px;
-  text-align: center;
-  background:
-    radial-gradient(circle at 50% 35%, rgba(255, 247, 210, 0.12), transparent 38%),
-    var(--ink);
-  color: #fff;
-  border-radius: 50%;
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -8px 18px rgba(0, 0, 0, 0.34),
-    0 0 0 4px #fff7d2,
-    0 0 0 8px rgba(23, 23, 23, 0.92),
-    0 14px 24px rgba(0, 0, 0, 0.18);
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.inputZone[data-note="tap"] {
-  background: #171717;
-}
-
-.inputZone[data-note="hold"] {
-  background: #2d2615;
-}
-
-.inputZone[data-note="mash"] {
-  background: #5a1712;
-}
-
-.inputZone[data-note="mash"] span {
-  background: #ef5b4f;
-  color: #fff;
-}
-
-.inputZone span {
-  display: grid;
-  place-items: center;
-  width: auto;
-  height: auto;
-  background: transparent;
-  color: var(--gold);
-  border-radius: 0;
-  font-size: clamp(22px, 4.2vw, 34px);
-  line-height: 1;
-  font-weight: 600;
-}
-
-.inputZone strong {
-  max-width: 100%;
-  font-size: clamp(12px, 1.8vw, 16px);
-  line-height: 1.18;
-  overflow-wrap: anywhere;
-}
-
-.endingBonusPanel .endingBonusHeader {
-  display: none;
-}
-
-.endingBonusPanel .endingBonusLane {
-  position: relative;
-  display: block;
-  min-height: 96px;
-  height: 100%;
-  overflow: hidden;
-  background: #f7efe1;
-  box-shadow: inset 0 0 0 2px rgba(23, 23, 23, 0.16);
-  border-radius: 18px 10px 10px 18px;
-}
-
-.endingBonusPanel .endingBonusLane i {
-  height: 100%;
-  width: var(--ending-bonus-fill, 0%);
-}
-
-.endingBonusPanel .endingBonusLane b {
-  left: calc(50% - 28px);
-  top: 0;
-  width: 56px;
-  height: 100%;
-  transform: none;
-}
-
-.endingBonusPanel .endingBonusLane em {
-  left: var(--ending-bonus-marker, 0%);
-  width: 50px;
-  height: 50px;
-  translate: -50% -50%;
-  transform: none;
-  font-size: 24px;
-}
-
 .settings {
   padding: 0;
   overflow: hidden;
@@ -1835,10 +1367,6 @@ html.comfort-hud .inputZone strong {
   width: min(220px, 34vw);
 }
 
-.muted .beatLane i,
-.muted .inputZone span {
-  filter: contrast(1.4) brightness(1.08);
-}
 
 @media (max-width: 720px) {
   .shell {
@@ -2020,79 +1548,12 @@ html.comfort-hud .inputZone strong {
     font-size: 13px;
   }
 
-  .inputZone {
-    width: 88px;
-    padding: 10px;
-  }
-
-  .rhythmPanel {
-    left: 7px;
-    right: 7px;
-    bottom: 7px;
-    padding: 7px;
-    gap: 6px;
-    grid-template-columns: 1fr;
-  }
-
-  .beatHeader {
-    display: none;
-  }
-
-  .beatHeader p {
-    display: none;
-  }
-
-  .beatHeader strong {
-    font-size: 22px;
-  }
-
-  .beatHeader span,
-  .beatHeader p {
-    font-size: 11px;
-  }
-
-  .beatLane {
-    display: none;
-  }
-
-  .beatLane b {
-    left: calc(50% - 23px);
-    width: 46px;
-  }
-
-  .inputZone span {
-    font-size: 24px;
-  }
-
-  .inputZone strong {
-    font-size: 12px;
-  }
-
-  .inputZone {
-    grid-column: auto;
-    grid-row: auto;
-  }
-
   .endingVideoLayer {
     padding: 8px;
   }
 
   .endingVideo {
     max-height: none;
-  }
-
-  .endingBonusPanel {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px;
-    padding: 8px;
-  }
-
-  .endingBonusHeader {
-    display: none;
-  }
-
-  .endingBonusLane {
-    min-height: 84px;
   }
 
 }
@@ -2111,19 +1572,37 @@ html.comfort-hud .inputZone strong {
     background: #171717;
   }
 
-  html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .shell,
-  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell,
-  html[data-phase="battle"] .shell {
-    --game-w: min(100vw, calc(100svh * 16 / 9));
-    --game-h: min(100svh, calc(100vw * 9 / 16));
-    --game-offset-y: 0px;
+  html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .shell {
+    --hud-h: 58px;
+    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9));
+    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16));
     position: relative;
     width: 100%;
     min-height: 100svh;
     height: 100svh;
     display: grid;
-    grid-template-rows: 1fr;
-    place-items: start center;
+    grid-template-rows: var(--hud-h) var(--game-h);
+    align-content: center;
+    justify-items: center;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #171717;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell,
+  html[data-phase="battle"] .shell {
+    --hud-h: 58px;
+    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9));
+    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16));
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+    display: grid;
+    grid-template-rows: var(--hud-h) var(--game-h);
+    align-content: center;
+    justify-items: center;
     gap: 0;
     padding: 0;
     overflow: hidden;
@@ -2131,6 +1610,7 @@ html.comfort-hud .inputZone strong {
   }
 
   html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .gameSurface {
+    grid-row: 2;
     width: var(--game-w);
     height: var(--game-h);
     max-width: 100vw;
@@ -2184,16 +1664,17 @@ html.comfort-hud .inputZone strong {
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbar,
   html[data-phase="battle"] .topbar {
-    position: absolute;
+    position: relative;
     z-index: 11;
-    top: max(var(--game-offset-y), env(safe-area-inset-top, 0px));
-    left: 50%;
+    top: auto;
+    left: auto;
     width: var(--game-w);
     max-width: 100%;
-    transform: translateX(-50%);
+    height: var(--hud-h);
+    transform: none;
     gap: 3px;
     padding: 4px 160px 5px 7px;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px 8px 0 0;
     background:
       linear-gradient(180deg, rgba(17, 18, 22, 0.92), rgba(17, 18, 22, 0.66)),
       linear-gradient(90deg, rgba(184, 59, 41, 0.28), transparent 35%, rgba(74, 42, 110, 0.28));
@@ -2301,7 +1782,7 @@ html.comfort-hud .inputZone strong {
   html[data-phase="battle"] .quickSaveButton,
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .pauseButton,
   html[data-phase="battle"] .pauseButton {
-    top: max(calc(var(--game-offset-y) + 82px), calc(64px + env(safe-area-inset-top, 0px)));
+    top: 12px;
     z-index: 12;
     min-width: 70px;
     min-height: 44px;
@@ -2394,6 +1875,8 @@ html.comfort-hud .inputZone strong {
 }
 
 @media (max-width: 900px) and (orientation: portrait) {
+  html:is([data-phase="opening"], [data-phase="title"]),
+  html:is([data-phase="opening"], [data-phase="title"]) body,
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]),
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) body,
   html[data-phase="battle"],
@@ -2404,10 +1887,11 @@ html.comfort-hud .inputZone strong {
     overflow: hidden;
   }
 
+  html:is([data-phase="opening"], [data-phase="title"]) .shell,
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell {
-    --game-w: min(100vw, calc(100svh * 16 / 9));
-    --game-h: min(100svh, calc(100vw * 9 / 16));
-    --game-offset-y: 0px;
+    --hud-h: 89px;
+    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9));
+    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16));
     position: relative;
     width: 100%;
     min-height: 100svh;
@@ -2415,8 +1899,19 @@ html.comfort-hud .inputZone strong {
     padding: 0;
     gap: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 1fr;
-    place-items: start center;
+    grid-template-rows: var(--hud-h) var(--game-h);
+    align-content: center;
+    justify-items: center;
+    overflow: hidden;
+  }
+
+  html:is([data-phase="opening"], [data-phase="title"]) .gameSurface {
+    grid-row: 2;
+    width: var(--game-w);
+    height: var(--game-h);
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
   }
 
@@ -2427,9 +1922,9 @@ html.comfort-hud .inputZone strong {
   }
 
   html[data-phase="battle"] .shell {
-    --game-w: min(100vw, calc(100svh * 16 / 9));
-    --game-h: min(100svh, calc(100vw * 9 / 16));
-    --game-offset-y: 0px;
+    --hud-h: 89px;
+    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9));
+    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16));
     position: relative;
     width: 100%;
     min-height: 100svh;
@@ -2437,39 +1932,11 @@ html.comfort-hud .inputZone strong {
     padding: 0;
     gap: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 1fr;
-    place-items: start center;
+    grid-template-rows: var(--hud-h) var(--game-h);
+    align-content: center;
+    justify-items: center;
     overflow: hidden;
     touch-action: none;
-  }
-
-  html[data-phase="battle"] .shell::after {
-    content: none;
-    display: none;
-    height: min(28svh, 236px);
-    min-height: 180px;
-    width: 100%;
-    border: 2px solid rgba(23, 23, 23, 0.78);
-    border-radius: 8px;
-    background:
-      radial-gradient(circle at 50% 54%, rgba(207, 53, 41, 0.2) 0 10px, transparent 11px 34px, rgba(227, 191, 85, 0.22) 35px 39px, transparent 40px 76px),
-      radial-gradient(circle at 50% 54%, transparent 0 98px, rgba(23, 23, 23, 0.08) 99px 101px, transparent 102px),
-      repeating-linear-gradient(0deg, rgba(227, 191, 85, 0.12) 0 2px, transparent 2px 24px),
-      repeating-linear-gradient(90deg, rgba(39, 68, 93, 0.07) 0 2px, transparent 2px 30px),
-      linear-gradient(180deg, rgba(255, 247, 210, 0.9), rgba(251, 247, 239, 0.96));
-    box-shadow:
-      inset 0 0 0 3px rgba(255, 255, 255, 0.5),
-      inset 0 16px 28px rgba(255, 255, 255, 0.45),
-      0 8px 18px rgba(0, 0, 0, 0.08);
-  }
-
-  html[data-phase="battle"] .shell:active::after {
-    background:
-      radial-gradient(circle at 50% 54%, rgba(207, 53, 41, 0.34) 0 14px, transparent 15px 40px, rgba(227, 191, 85, 0.34) 41px 47px, transparent 48px 86px),
-      radial-gradient(circle at 50% 54%, transparent 0 108px, rgba(23, 23, 23, 0.12) 109px 112px, transparent 113px),
-      repeating-linear-gradient(0deg, rgba(227, 191, 85, 0.14) 0 2px, transparent 2px 24px),
-      repeating-linear-gradient(90deg, rgba(39, 68, 93, 0.08) 0 2px, transparent 2px 30px),
-      linear-gradient(180deg, rgba(255, 247, 210, 0.94), rgba(251, 247, 239, 0.98));
   }
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .settings,
@@ -2481,16 +1948,17 @@ html.comfort-hud .inputZone strong {
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbar,
   html[data-phase="battle"] .topbar {
-    position: absolute;
+    position: relative;
     z-index: 11;
-    top: max(var(--game-offset-y), env(safe-area-inset-top, 0px));
-    left: 50%;
+    top: auto;
+    left: auto;
     width: var(--game-w);
     max-width: 100vw;
-    transform: translateX(-50%);
+    height: var(--hud-h);
+    transform: none;
     gap: 4px;
     padding: 5px 6px 6px;
-    border-radius: 0 0 7px 7px;
+    border-radius: 7px 7px 0 0;
     pointer-events: none;
   }
 
@@ -2660,7 +2128,7 @@ html.comfort-hud .inputZone strong {
 }
 
 html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .topbar {
-  left: 50%;
+  left: auto;
   width: min(var(--game-w, 100vw), 100vw);
   padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px) clamp(7px, 1vw, 11px);
   gap: clamp(4px, 0.7vw, 8px);
@@ -2675,17 +2143,17 @@ html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="re
     5px 4px 0 rgba(0, 0, 0, 0.18),
     -3px -2px 0 rgba(255, 0, 0, 0.18),
     inset 0 0 0 2px rgba(0, 0, 0, 0.08);
-  transform: translateX(-50%) rotate(-0.35deg);
+  transform: none;
 }
 
 html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .topbar::after {
-  display: block;
+  display: none;
 }
 
 html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelHud {
   grid-template-columns: minmax(0, 1fr) clamp(28px, 4vw, 50px) minmax(0, 1fr);
   gap: clamp(4px, 0.7vw, 8px);
-  transform: rotate(0.2deg);
+  transform: none;
 }
 
 html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelCol {
@@ -2696,9 +2164,7 @@ html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="re
   border-radius: 0;
   box-shadow:
     0 0 0 3px #111,
-    4px 3px 0 rgba(0, 0, 255, 0.32),
-    inset 9px 0 0 rgba(255, 0, 0, 0.14),
-    inset -7px 0 0 rgba(255, 245, 0, 0.3);
+    4px 3px 0 rgba(0, 0, 0, 0.16);
 }
 
 html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelColHead {

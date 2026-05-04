@@ -19,17 +19,6 @@ const FINISHER_WINDOW_MS = 30000;
 const MASH_DURATION_BONUS_MS = 360;
 const MAX_MASH_DURATION_MS = 1280;
 const MAX_MASH_TARGET_COUNT = 7;
-
-/** Dense kobushi phrase: place short tap runs inside one musical phrase window. */
-function burstTapNotes(startMs, spanMs, desiredTaps, minGapMs = DEFAULT_BURST_TAP_GAP_MS) {
-  const maxFit = Math.max(2, Math.floor(spanMs / minGapMs) + 1);
-  let count = Math.min(Math.max(4, desiredTaps), maxFit);
-  while (count > 2 && spanMs / (count - 1) < minGapMs) count -= 1;
-  if (count <= 1) return [tap(startMs)];
-  const step = spanMs / (count - 1);
-  return Array.from({ length: count }, (_, j) => tap(Math.round(startMs + j * step)));
-}
-
 const ENKA_SIGNATURE_PHRASES = {
   tameKobushi: {
     label: "溜め泣き",
@@ -268,6 +257,7 @@ const STAGE_TEMPLATES = [
   {
     id: "shotengai",
     title: "誘拐の朝",
+    locationName: "うさぎ公園",
     bpm: 78,
     travelMs: 8000,
     palette: {
@@ -297,6 +287,7 @@ const STAGE_TEMPLATES = [
   {
     id: "warehouse",
     title: "港の倉庫",
+    locationName: "港の倉庫",
     bpm: 86,
     travelMs: 10000,
     palette: {
@@ -327,6 +318,7 @@ const STAGE_TEMPLATES = [
   {
     id: "riverside",
     title: "伊藤道場",
+    locationName: "伊藤道場",
     bpm: 85,
     travelMs: 9000,
     palette: { sky: "#243746", far: "#668da2", mid: "#b27543", road: "#2b2d2e", accent: "#f2bd52" },
@@ -345,6 +337,7 @@ const STAGE_TEMPLATES = [
   {
     id: "mountain",
     title: "峠道",
+    locationName: "峠道",
     bpm: 90,
     travelMs: 11000,
     palette: { sky: "#162335", far: "#445b50", mid: "#263d35", road: "#171717", accent: "#9fd57b" },
@@ -363,6 +356,7 @@ const STAGE_TEMPLATES = [
   {
     id: "garage",
     title: "改造車庫",
+    locationName: "改造車庫",
     bpm: 94,
     travelMs: 12000,
     palette: { sky: "#2b2029", far: "#8e3140", mid: "#49272e", road: "#1d1518", accent: "#ffcf5a" },
@@ -381,6 +375,7 @@ const STAGE_TEMPLATES = [
   {
     id: "redgate",
     title: "赤門",
+    locationName: "赤門",
     bpm: 98,
     travelMs: 13000,
     palette: { sky: "#1d1717", far: "#703333", mid: "#3a2020", road: "#120f0f", accent: "#e0c45a" },
@@ -399,6 +394,7 @@ const STAGE_TEMPLATES = [
   {
     id: "finalhideout",
     title: "X結社本部",
+    locationName: "X結社本部",
     bpm: 100,
     travelMs: 14000,
     palette: { sky: "#11111a", far: "#33223f", mid: "#17151f", road: "#0b0b10", accent: "#f6d95f" },

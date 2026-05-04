@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#fbf7ef" />
     <title>爺コブシ</title>
-    <link rel="stylesheet" href="./src/styles.css?v=20260504-toplayout1" />
+    <link rel="stylesheet" href="./src/styles.css?v=20260504-centerlayout2" />
   </head>
   <body>
     <main class="shell" aria-label="爺コブシ">
@@ -52,25 +52,6 @@
         <canvas id="game" width="960" height="540" aria-label="ゲーム画面"></canvas>
         <button id="quickSaveButton" class="quickSaveButton" type="button" hidden>セーブ</button>
         <button id="pauseButton" class="pauseButton" type="button" hidden>一時停止</button>
-        <section class="rhythmPanel" aria-label="リズム入力">
-          <div class="beatHeader">
-            <div>
-              <span id="modeLabel">見る場所: 金の判定線</span>
-              <strong id="nextNoteLabel">TAP</strong>
-              <span id="timingReadout" class="timingReadout" hidden aria-live="polite">—</span>
-            </div>
-            <p id="judgeLabel">金の判定線を見る</p>
-          </div>
-          <div class="beatLane" aria-hidden="true">
-            <i id="beatFill"></i>
-            <b id="hitWindow"></b>
-            <em id="noteMarker">T</em>
-          </div>
-          <button id="inputZone" class="inputZone" type="button">
-            <span id="inputIcon">拍</span>
-            <strong id="inputText">タップ / 長押し</strong>
-          </button>
-        </section>
         <div id="overlay" class="overlay openingOverlay">
           <p class="overlayKicker">演歌風タイミング活劇</p>
           <img id="openingArtwork" class="openingArtwork" src="./assets/images/op-title-kakizome-hanshi-v1.png?v=20260430-1429" alt="木製フローリングの上に置かれた書き初め用の縦長半紙へ筆字で書かれた爺コブシ" />
@@ -141,7 +122,6 @@
             <button id="langJaButton" type="button" class="secondary" aria-pressed="true">日本語</button>
             <button id="langEnButton" type="button" class="secondary" aria-pressed="false">English</button>
           </div>
-          <button id="comfortButton" type="button" class="secondary" aria-pressed="false">表示 大きめ</button>
           <button id="resetButton" type="button" class="danger">記録リセット</button>
         </div>
       </details>
@@ -161,7 +141,6 @@
             <h3>便利機能</h3>
             <ul>
               <li>入力補正：音や画面の遅れに合わせて ms でずらせます。</li>
-              <li>表示 大きめ：タイミング読み（次の拍までの ms）と文字を大きくします。</li>
               <li>セーブ：プレイ中は画面右上の「セーブ」で周回別に保存できます。</li>
               <li>一時停止：戦闘中に画面右上の「一時停止」または Esc。</li>
             </ul>
@@ -180,7 +159,6 @@
             <h3>Comfort</h3>
             <ul>
               <li>Input offset (ms) fixes audio/video lag.</li>
-              <li>Comfort / larger: shows “ms to next beat” and bumps type size.</li>
               <li>Save: use the top-right <strong>Save</strong> button during a run. Saves are split by first loop and loop 2+.</li>
               <li>Pause: top-right <strong>Pause</strong> or <kbd>Esc</kbd> during battle.</li>
             </ul>
@@ -194,6 +172,6 @@
       <button id="portraitDismiss" type="button" class="secondary">了解</button>
     </div>
 
-    <script type="module" src="./src/main.js?v=20260504-toplayout1"></script>
+    <script type="module" src="./src/main.js?v=20260504-centerlayout2"></script>
   </body>
 </html>

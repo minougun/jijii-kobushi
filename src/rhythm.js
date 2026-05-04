@@ -76,7 +76,6 @@ export function judgeMash(note, tapTimesMs) {
   };
 }
 
-/** 連打タップ数とランクに応じた基礎ダメージ倍率（miss では使わない想定で 1） */
 export function mashStrikeMultiplier(rank, count, targetCount) {
   if (rank === "miss" || targetCount <= 0) return 1;
   const over = Math.max(0, count - targetCount);
@@ -147,11 +146,4 @@ export function calculateStageScore({ notes, maxCombo, hp, maxHp, totalNotes = n
   const hpPart = (Math.max(0, hp) / maxHp) * 1300;
   const comboBonusPart = Math.min(900, comboBonusDamage * 2.4);
   return Math.round(Math.max(0, Math.min(10000, judgePart + comboPart + hpPart + comboBonusPart)));
-}
-
-export function resultAdvice({ stats, hp, maxHp }) {
-  if (stats.miss > 0) return `次はMissを${Math.min(3, stats.miss)}回減らすとSに近づく。`;
-  if (stats.bad > 2) return "BadをGoodに寄せると一気に伸びる。";
-  if (hp < maxHp) return "被弾を1回減らすと残体力点が伸びる。";
-  return "GoodをPerfectに寄せれば総合Sが見える。";
 }

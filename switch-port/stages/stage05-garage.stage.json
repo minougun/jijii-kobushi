@@ -3,20 +3,25 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage5-garage",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-04T01:56:06.838Z",
-  "sourceGitCommit": "171189026c25aee97a3908944cc08fecd9497607",
+  "generatedAt": "2026-05-04T10:52:25.333Z",
+  "sourceGitCommit": "d986b37788bde87d2bb80f04920f9beaf3e6151c",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
     "src/audio.js",
     "src/main.js"
   ],
-  "sourceWorktreeDirty": false,
-  "sourceDirtyFiles": [],
+  "sourceWorktreeDirty": true,
+  "sourceDirtyFiles": [
+    "M src/audio.js",
+    "M src/main.js",
+    "M src/rhythm.js",
+    "M src/stages.js"
+  ],
   "stage": {
     "id": "garage",
     "index": 4,
-    "title": "狂う拍と音響兵",
+    "title": "改造車庫",
     "locationName": "改造車庫",
     "bpm": 94,
     "travelMs": 12000,
@@ -212,7 +217,7 @@
       "tapRunGapMs": 140,
       "damageScale": 0.5720883534136546,
       "loop1": {
-        "enemyHpMultiplier": 0.965,
+        "enemyHpMultiplier": 1,
         "playerDamageMultiplier": 1,
         "enemyAttackMultiplier": 1
       },

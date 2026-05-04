@@ -3,22 +3,27 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage3-riverside",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-04T01:56:02.925Z",
-  "sourceGitCommit": "171189026c25aee97a3908944cc08fecd9497607",
+  "generatedAt": "2026-05-04T10:52:25.001Z",
+  "sourceGitCommit": "d986b37788bde87d2bb80f04920f9beaf3e6151c",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
     "src/audio.js",
     "src/main.js"
   ],
-  "sourceWorktreeDirty": false,
-  "sourceDirtyFiles": [],
+  "sourceWorktreeDirty": true,
+  "sourceDirtyFiles": [
+    "M src/audio.js",
+    "M src/main.js",
+    "M src/rhythm.js",
+    "M src/stages.js"
+  ],
   "stage": {
     "id": "riverside",
     "index": 2,
-    "title": "内部破壊の稽古",
+    "title": "伊藤道場",
     "locationName": "伊藤道場",
-    "bpm": 84,
+    "bpm": 85,
     "travelMs": 9000,
     "palette": {
       "sky": "#243746",
@@ -49,16 +54,15 @@
   },
   "audio": {
     "bgm": {
-      "cue": "恋患い 屋台",
-      "track": "koiwazurai",
+      "cue": "静寂 道場",
+      "track": "shizima",
       "gain": 0.78,
-      "overlay": "kane",
-      "lead": 261.63,
-      "tone": "bright",
-      "remix": "yatai",
-      "variation": "屋台リミックス",
-      "assetKey": "audio/koiwazurai",
-      "assetSrc": "./assets/audio/koiwazurai.mp3",
+      "overlay": "low",
+      "lead": 220,
+      "tone": "night",
+      "variation": "道場",
+      "assetKey": "audio/shizima",
+      "assetSrc": "./assets/audio/shizima4.mp3",
       "trackVolume": 0.78
     },
     "timing": {

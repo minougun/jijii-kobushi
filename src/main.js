@@ -1,5 +1,5 @@
 import { createAudioEngine } from "./audio.js?v=20260430-1125";
-import { createRenderer } from "./renderer.js?v=20260504-toplayout1";
+import { createRenderer } from "./renderer.js?v=20260504-centerlayout2";
 import {
   DIFFICULTIES,
   STAGES,
@@ -73,15 +73,6 @@ const dom = {
   difficultySelect: document.querySelector("#difficultySelect"),
   primaryButton: document.querySelector("#primaryButton"),
   skipButton: document.querySelector("#skipButton"),
-  modeLabel: document.querySelector("#modeLabel"),
-  nextNoteLabel: document.querySelector("#nextNoteLabel"),
-  judgeLabel: document.querySelector("#judgeLabel"),
-  beatFill: document.querySelector("#beatFill"),
-  hitWindow: document.querySelector("#hitWindow"),
-  noteMarker: document.querySelector("#noteMarker"),
-  inputZone: document.querySelector("#inputZone"),
-  inputIcon: document.querySelector("#inputIcon"),
-  inputText: document.querySelector("#inputText"),
   quickSaveButton: document.querySelector("#quickSaveButton"),
   pauseButton: document.querySelector("#pauseButton"),
   pauseMenu: document.querySelector("#pauseMenu"),
@@ -107,10 +98,8 @@ const dom = {
   motionButton: document.querySelector("#motionButton"),
   resetButton: document.querySelector("#resetButton"),
   phaseBadge: document.querySelector("#phaseBadge"),
-  timingReadout: document.querySelector("#timingReadout"),
   langJaButton: document.querySelector("#langJaButton"),
   langEnButton: document.querySelector("#langEnButton"),
-  comfortButton: document.querySelector("#comfortButton"),
   portraitHint: document.querySelector("#portraitHint"),
   portraitDismiss: document.querySelector("#portraitDismiss"),
   helpGuide: document.querySelector("#helpGuide"),
@@ -225,7 +214,6 @@ const state = {
   runLoops: loadRunLoops(saved),
   runLoop: normalizeLoop(loadRunLoops(saved)[DIFFICULTIES[saved?.settings?.difficulty] ? saved.settings.difficulty : DEFAULT_DIFFICULTY]),
   uiLang: normalizeLang(saved?.settings?.uiLang),
-  comfortHud: Boolean(saved?.settings?.comfortHud),
   portraitHintDismissed: Boolean(saved?.settings?.portraitHintDismissed),
   bestScores: saved?.bestScores ?? {},
   clearedStages: saved?.clearedStages ?? [],
@@ -327,8 +315,6 @@ function requestLandscapeOrientation() {
   const lock = window.screen?.orientation?.lock;
   if (!phoneLike || typeof lock !== "function") return;
   lock.call(window.screen.orientation, "landscape").catch(() => {
-    // Some mobile browsers reject orientation lock unless installed/fullscreen.
-    // Portrait-locked devices keep a dedicated vertical battle layout.
   });
 }
 
@@ -348,7 +334,6 @@ function save() {
         reducedMotionOverride: state.reducedMotionOverride,
         difficulty: state.difficulty,
         uiLang: state.uiLang,
-        comfortHud: state.comfortHud,
         portraitHintDismissed: state.portraitHintDismissed,
       },
     }),
@@ -815,13 +800,6 @@ function isStageClearedKey(stageId) {
   if (state.clearedStages.includes(scoreKey(stageId))) return true;
   return normalizeLoop(state.runLoop) === 1 && state.clearedStages.includes(legacyScoreKey(stageId));
 }
-
-async function beginFromTitle() {
-  await ensureAudioReady();
-  if (state.audioEnabled) audio.menuCue();
-  startGame();
-}
-
 async function ensureAudioReady() {
   if (!state.audioEnabled) {
     audio.setEnabled(false);
@@ -2083,7 +2061,6 @@ function syncSettings() {
   document.documentElement.lang = lang === "en" ? "en" : "ja";
   document.documentElement.dataset.uiLang = lang;
   document.documentElement.dataset.phase = state.phase;
-  document.documentElement.classList.toggle("comfort-hud", state.comfortHud);
   audio.setEnabled(state.audioEnabled);
   dom.muteButton.textContent = state.audioEnabled ? t(lang, "settings.muteOn") : t(lang, "settings.muteOff");
   dom.offsetRange.value = String(state.inputOffsetMs);
@@ -2104,10 +2081,6 @@ function syncSettings() {
   if (dom.langEnButton) {
     dom.langEnButton.setAttribute("aria-pressed", String(lang === "en"));
     dom.langEnButton.textContent = t(lang, "settings.langEn");
-  }
-  if (dom.comfortButton) {
-    dom.comfortButton.setAttribute("aria-pressed", String(state.comfortHud));
-    dom.comfortButton.textContent = state.comfortHud ? t(lang, "settings.comfortOn") : t(lang, "settings.comfortOff");
   }
   if (dom.portraitDismiss) dom.portraitDismiss.textContent = t(lang, "portrait.dismiss");
   const ph = dom.portraitHint?.querySelector(".portraitHintText");
@@ -2250,9 +2223,6 @@ dom.loadFirstButton?.addEventListener("click", () => loadRunSnapshot(RUN_SAVE_SL
 dom.loadLoopPlusButton?.addEventListener("click", () => loadRunSnapshot(RUN_SAVE_SLOTS.loopPlus));
 dom.pauseLoadFirstButton?.addEventListener("click", () => loadRunSnapshot(RUN_SAVE_SLOTS.firstLoop));
 dom.pauseLoadLoopPlusButton?.addEventListener("click", () => loadRunSnapshot(RUN_SAVE_SLOTS.loopPlus));
-dom.inputZone.addEventListener("pointerdown", onInputDown);
-dom.inputZone.addEventListener("pointerup", onInputUp);
-dom.inputZone.addEventListener("pointercancel", onInputUp);
 canvas.addEventListener("pointerdown", onInputDown);
 canvas.addEventListener("pointerup", onInputUp);
 canvas.addEventListener("pointercancel", onInputUp);
@@ -2324,7 +2294,6 @@ dom.resetButton.addEventListener("click", () => {
   state.runLoops = loadRunLoops(null);
   state.runLoop = 1;
   state.uiLang = "ja";
-  state.comfortHud = false;
   state.portraitHintDismissed = false;
   syncSettings();
   save();
@@ -2359,11 +2328,6 @@ dom.langJaButton?.addEventListener("click", () => {
 });
 dom.langEnButton?.addEventListener("click", () => {
   state.uiLang = "en";
-  save();
-  syncSettings();
-});
-dom.comfortButton?.addEventListener("click", () => {
-  state.comfortHud = !state.comfortHud;
   save();
   syncSettings();
 });

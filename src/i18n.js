@@ -1,4 +1,3 @@
-/** @typedef {"ja" | "en"} UiLang */
 
 const JA = {
   meta: {
@@ -58,12 +57,6 @@ const JA = {
     reset: "記録リセット",
     langJa: "表示 日本語",
     langEn: "English UI",
-    comfortOn: "表示 大きめ",
-    comfortOff: "表示 標準",
-  },
-  timing: {
-    nextMs: "次の拍まで",
-    na: "—",
   },
   portrait: {
     text: "スマホでは横向き推奨。判定ラインとノーツが見やすくなります。",
@@ -155,12 +148,6 @@ const EN = {
     reset: "Reset saves",
     langJa: "日本語表示",
     langEn: "English UI",
-    comfortOn: "Comfort: larger",
-    comfortOff: "Comfort: default",
-  },
-  timing: {
-    nextMs: "Next beat in",
-    na: "—",
   },
   portrait: {
     text: "On phones, landscape is recommended so the timing line and notes stay readable.",
@@ -194,20 +181,14 @@ const EN = {
   },
 };
 
-/** @param {unknown} v */
 export function normalizeLang(v) {
   return v === "en" ? "en" : "ja";
 }
 
-/** @param {UiLang} lang */
 export function strings(lang) {
   return normalizeLang(lang) === "en" ? EN : JA;
 }
 
-/**
- * @param {UiLang} lang
- * @param {string} path dot path e.g. "sync.inputTap"
- */
 export function t(lang, path) {
   const L = normalizeLang(lang);
   const parts = path.split(".");
@@ -218,7 +199,6 @@ export function t(lang, path) {
   return typeof cur === "string" ? cur : path;
 }
 
-/** @param {UiLang} lang @param {string} phase */
 export function phaseBadgeLabel(lang, phase) {
   const L = strings(lang);
   const key = phase in L.phase ? phase : "title";

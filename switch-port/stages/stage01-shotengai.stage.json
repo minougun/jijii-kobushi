@@ -3,16 +3,21 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage1-shotengai",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-04T01:55:58.631Z",
-  "sourceGitCommit": "171189026c25aee97a3908944cc08fecd9497607",
+  "generatedAt": "2026-05-04T10:52:24.662Z",
+  "sourceGitCommit": "d986b37788bde87d2bb80f04920f9beaf3e6151c",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
     "src/audio.js",
     "src/main.js"
   ],
-  "sourceWorktreeDirty": false,
-  "sourceDirtyFiles": [],
+  "sourceWorktreeDirty": true,
+  "sourceDirtyFiles": [
+    "M src/audio.js",
+    "M src/main.js",
+    "M src/rhythm.js",
+    "M src/stages.js"
+  ],
   "stage": {
     "id": "shotengai",
     "index": 0,

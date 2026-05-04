@@ -46,7 +46,6 @@ export function createRenderer(canvas, ctx, state) {
   const enemySpriteCache = new Map();
   const imagegenCropCache = new Map();
   const chibiCharacterCache = new Map();
-  const whiteFloodCutoutCache = new WeakMap();
   const SECRET_ENEMY_KINDS = new Set(["agent", "bruiser", "scientist", "maskedHeavy", "captain", "scout", "elite", "steroidBoss"]);
   const imagegenAtlas = {
     heroStage1: { sx: 44, sy: 28, sw: 250, sh: 350, drawW: 168, drawH: 232, footInset: 10 },
@@ -92,66 +91,6 @@ export function createRenderer(canvas, ctx, state) {
     next.height = Math.ceil(height);
     return next;
   }
-
-  function prepareWhiteFloodCutout(image, threshold = 196) {
-    if (!image.complete || image.naturalWidth <= 0 || image.naturalHeight <= 0) return null;
-    const key = `${image.naturalWidth}x${image.naturalHeight}:${threshold}`;
-    const cached = whiteFloodCutoutCache.get(image);
-    if (cached?.key === key) return cached.canvas;
-
-    const source = makeCanvas(image.naturalWidth, image.naturalHeight);
-    const sourceCtx = source.getContext("2d", { willReadFrequently: true });
-    sourceCtx.drawImage(image, 0, 0);
-    const pixels = sourceCtx.getImageData(0, 0, source.width, source.height);
-    const data = pixels.data;
-    const total = source.width * source.height;
-    const seen = new Uint8Array(total);
-    const queue = new Int32Array(total);
-    let read = 0;
-    let write = 0;
-    const isOuterWhite = (index) => {
-      const offset = index * 4;
-      const r = data[offset];
-      const g = data[offset + 1];
-      const b = data[offset + 2];
-      const a = data[offset + 3];
-      const max = Math.max(r, g, b);
-      const min = Math.min(r, g, b);
-      return a > 0 && min >= threshold && max - min <= 28;
-    };
-    const enqueue = (index) => {
-      if (index < 0 || index >= total || seen[index] || !isOuterWhite(index)) return;
-      seen[index] = 1;
-      queue[write] = index;
-      write += 1;
-    };
-
-    for (let x = 0; x < source.width; x += 1) {
-      enqueue(x);
-      enqueue((source.height - 1) * source.width + x);
-    }
-    for (let y = 0; y < source.height; y += 1) {
-      enqueue(y * source.width);
-      enqueue(y * source.width + source.width - 1);
-    }
-
-    while (read < write) {
-      const index = queue[read];
-      read += 1;
-      data[index * 4 + 3] = 0;
-      const x = index % source.width;
-      if (x > 0) enqueue(index - 1);
-      if (x < source.width - 1) enqueue(index + 1);
-      if (index >= source.width) enqueue(index - source.width);
-      if (index < total - source.width) enqueue(index + source.width);
-    }
-
-    sourceCtx.putImageData(pixels, 0, 0);
-    const trimmed = trimTransparentCanvas(source, 18);
-    whiteFloodCutoutCache.set(image, { key, canvas: trimmed });
-    return trimmed;
-  }
-
   function requestImagegenAtlas() {
     if (imagegenAtlasRequested) return;
     imagegenAtlasRequested = true;
@@ -283,25 +222,6 @@ export function createRenderer(canvas, ctx, state) {
     trimmed.getContext("2d").drawImage(canvas, minX, minY, trimmed.width, trimmed.height, 0, 0, trimmed.width, trimmed.height);
     return trimmed;
   }
-
-  function eraseGeneratedPreviewFootBase(canvas) {
-    const cropCtx = canvas.getContext("2d");
-    const imageData = cropCtx.getImageData(0, 0, canvas.width, canvas.height);
-    const { data, width, height } = imageData;
-    for (let y = Math.floor(height * 0.76); y < height; y += 1) {
-      for (let x = 0; x < width; x += 1) {
-        const offset = (y * width + x) * 4;
-        const r = data[offset];
-        const g = data[offset + 1];
-        const b = data[offset + 2];
-        if (r > 170 && g > 170 && b > 170 && Math.max(r, g, b) - Math.min(r, g, b) < 60) {
-          data[offset + 3] = 0;
-        }
-      }
-    }
-    cropCtx.putImageData(imageData, 0, 0);
-  }
-
   function prepareChibiCharacterCrop(key, spec) {
     if (!chibiCharacterSheetImage.complete || !chibiCharacterSheetImage.naturalWidth) return null;
     if (chibiCharacterCache.has(key)) return chibiCharacterCache.get(key);
@@ -396,132 +316,6 @@ export function createRenderer(canvas, ctx, state) {
     const b = clamp((n & 255) + amount);
     return `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
   }
-
-  function enemySpriteCanvas(kind, palette) {
-    const coat = palette.coat ?? "#1f2937";
-    const accent = palette.accent ?? "#c2482d";
-    const key = `${kind}:${coat}:${accent}`;
-    if (enemySpriteCache.has(key)) return enemySpriteCache.get(key);
-
-    const sprite = document.createElement("canvas");
-    sprite.width = 80;
-    sprite.height = 96;
-    const sctx = sprite.getContext("2d");
-    sctx.imageSmoothingEnabled = false;
-    const outline = "#07080a";
-    const mask = kind === "scientist" ? "#202a31" : kind === "steroidBoss" ? "#0b0b10" : "#131923";
-    const coatBase = kind === "scientist" ? "#e8edf3" : kind === "steroidBoss" ? "#15111c" : coat;
-    const coatDark = kind === "scientist" ? "#9fa9b6" : kind === "steroidBoss" ? "#2b1d3c" : shadeHex(coatBase, -34);
-    const coatLight = kind === "scientist" ? "#ffffff" : shadeHex(coatBase, 30);
-    const visor = kind === "scientist" ? "#91efff" : kind === "steroidBoss" ? "#ff5b4f" : "#fff1b8";
-    const big = kind === "maskedHeavy" || kind === "armored" || kind === "steroidBoss";
-    const headX = big ? 15 : 18;
-    const headY = big ? 9 : 12;
-    const headW = big ? 50 : 44;
-    const headH = big ? 36 : 32;
-
-    const block = (x, y, w, h, color) => {
-      sctx.fillStyle = color;
-      sctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
-    };
-    const box = (x, y, w, h, color, border = 3) => {
-      block(x, y, w, h, outline);
-      block(x + border, y + border, w - border * 2, h - border * 2, color);
-    };
-    const stepLine = (x, y, steps, color) => {
-      for (const [dx, dy, w = 5, h = 5] of steps) block(x + dx, y + dy, w, h, color);
-    };
-
-    // Shadow and feet.
-    block(18, 90, 46, 4, "#00000066");
-    box(20, 76, 14, 16, coatDark, 2);
-    box(46, 76, 14, 16, coatDark, 2);
-    box(15, 88, 23, 6, "#08090b", 2);
-    box(42, 88, 23, 6, "#08090b", 2);
-
-    // Compact body.
-    box(22, 45, 36, 35, coatBase, 3);
-    block(28, 50, 24, 6, coatLight);
-    block(28, 58, 24, 17, mask);
-    block(24, 50, 6, 26, coatDark);
-    block(50, 50, 6, 26, coatDark);
-    stepLine(25, 55, [[0, 0, 8, 5], [8, 5, 8, 5], [16, 10, 8, 5], [24, 15, 8, 5]], accent);
-    stepLine(47, 55, [[0, 0, 8, 5], [-8, 5, 8, 5], [-16, 10, 8, 5], [-24, 15, 8, 5]], accent);
-
-    if (kind === "scientist") {
-      box(17, 47, 10, 31, "#f5f7f8", 2);
-      box(53, 47, 10, 31, "#f5f7f8", 2);
-      block(34, 72, 12, 5, "#91efff");
-    }
-    if (kind === "armored" || kind === "maskedHeavy" || kind === "steroidBoss") {
-      box(17, 51, 46, 10, "#303640", 2);
-      box(24, 66, 32, 7, accent, 1);
-    }
-    if (kind === "operator") {
-      box(22, 67, 36, 8, "#26384d", 1);
-      block(27, 70, 26, 2, "#70c7ff");
-    }
-
-    // Stepped arms.
-    stepLine(10, 48, [[10, 0, 9, 8], [6, 7, 9, 8], [2, 14, 9, 8], [0, 21, 9, 8]], outline);
-    stepLine(12, 50, [[10, 0, 6, 5], [6, 7, 6, 5], [2, 14, 6, 5], [0, 21, 6, 5]], coatBase);
-    stepLine(61, 48, [[0, 0, 9, 8], [4, 7, 9, 8], [8, 14, 9, 8], [10, 21, 9, 8]], outline);
-    stepLine(63, 50, [[0, 0, 6, 5], [4, 7, 6, 5], [8, 14, 6, 5], [10, 21, 6, 5]], coatBase);
-    box(7, 71, 9, 9, mask, 2);
-    box(65, 71, 9, 9, mask, 2);
-
-    // Large masked head.
-    box(headX, headY, headW, headH, mask, 3);
-    block(headX + 8, headY + 6, headW - 16, 4, "#ffffff1f");
-    box(headX + 10, headY + 17, 12, 9, visor, 2);
-    box(headX + headW - 22, headY + 17, 12, 9, visor, 2);
-    block(headX + 25, headY + 31, headW - 50, 4, "#000000");
-    block(headX + 20, headY + 30, 20, 4, "#050609");
-
-    if (kind === "agent") {
-      block(headX - 3, headY + 10, headW + 6, 5, accent);
-      block(headX + 4, headY + 11, headW - 8, 2, shadeHex(accent, 48));
-    } else if (kind === "bruiser") {
-      box(headX - 3, headY - 4, headW + 6, 8, accent, 2);
-      box(headX + 9, headY - 13, headW - 18, 10, "#111827", 2);
-    } else if (kind === "scientist") {
-      box(headX - 2, headY - 6, headW + 4, 9, "#f5f7f8", 2);
-      box(headX + headW - 11, headY - 14, 8, 14, "#91efff", 1);
-    } else if (kind === "captain") {
-      box(headX - 4, headY - 6, headW + 8, 9, "#111827", 2);
-      box(headX + 6, headY - 15, headW - 12, 10, "#161b24", 2);
-      block(headX + headW / 2 - 4, headY - 17, 8, 5, accent);
-    } else if (kind === "scout") {
-      stepLine(headX - 10, headY - 13, [[10, 8], [6, 4], [2, 0]], accent);
-      stepLine(headX + headW, headY - 13, [[0, 8], [4, 4], [8, 0]], accent);
-    } else if (kind === "armored") {
-      box(headX - 4, headY - 8, headW + 8, 10, "#303640", 2);
-      box(headX + 5, headY - 16, headW - 10, 9, accent, 2);
-    } else if (kind === "operator") {
-      box(headX - 8, headY + 15, 8, 16, accent, 2);
-      box(headX + headW, headY + 15, 8, 16, accent, 2);
-      block(headX - 2, headY + 8, 4, 4, accent);
-      block(headX + headW - 2, headY + 8, 4, 4, accent);
-      block(headX + 2, headY + 4, headW - 4, 4, accent);
-    } else if (kind === "elite") {
-      box(headX - 5, headY - 7, headW + 10, 10, "#1a1111", 2);
-      box(headX + 5, headY - 16, headW - 10, 9, accent, 2);
-      block(headX + headW / 2 - 3, headY - 24, 6, 8, "#f6d95f");
-    } else if (kind === "steroidBoss") {
-      box(headX - 5, headY - 8, headW + 10, 11, "#211528", 2);
-      for (let i = 0; i < 5; i += 1) block(headX + 8 + i * 8, headY - 21 + (i % 2) * 3, 5, 15, "#f6d95f");
-      block(headX + 5, headY + headH - 10, headW - 10, 5, "#b63a32");
-    }
-
-    // 1px highlight noise to sell it as a hand-authored sprite.
-    block(headX + 7, headY + 8, 4, 3, "#ffffff2a");
-    block(29, 48, 4, 3, "#ffffff18");
-    block(48, 78, 4, 3, "#ffffff14");
-
-    enemySpriteCache.set(key, sprite);
-    return sprite;
-  }
-
   function cleanEnemySpriteCanvas(kind, palette) {
     const coat = palette.coat ?? "#243041";
     const accent = palette.accent ?? "#c2482d";
@@ -555,13 +349,11 @@ export function createRenderer(canvas, ctx, state) {
       for (const part of parts) px(x + part[0], y + part[1], part[2], part[3], color);
     };
 
-    // Legs and shoes: short and clean, no random noise.
     box(18, 61, 11, 13, shade, 2);
     box(35, 61, 11, 13, shade, 2);
     box(14, 72, 18, 6, "#0b1018", 1);
     box(32, 72, 18, 6, "#0b1018", 1);
 
-    // Body.
     box(19, 37, 26, 28, main, 2);
     px(23, 40, 18, 4, hi);
     px(25, 46, 14, 12, inner);
@@ -584,7 +376,6 @@ export function createRenderer(canvas, ctx, state) {
       px(25, 58, 14, 1, "#70c7ff");
     }
 
-    // Arms, closer to the body so it does not read as a dirty pile.
     stair(11, 39, [[8, 0, 6, 8], [5, 7, 6, 8], [3, 14, 6, 8]], outline);
     stair(13, 41, [[8, 0, 3, 5], [5, 7, 3, 5], [3, 14, 3, 5]], main);
     stair(47, 39, [[0, 0, 6, 8], [3, 7, 6, 8], [5, 14, 6, 8]], outline);
@@ -592,7 +383,6 @@ export function createRenderer(canvas, ctx, state) {
     box(14, 57, 7, 7, inner, 1);
     box(44, 57, 7, 7, inner, 1);
 
-    // Masked head.
     box(head.x, head.y, head.w, head.h, inner, 2);
     px(head.x + 6, head.y + 5, head.w - 12, 3, "#ffffff24");
     box(head.x + 8, head.y + 14, 9, 7, eye, 1);
@@ -635,89 +425,6 @@ export function createRenderer(canvas, ctx, state) {
     enemySpriteCache.set(key, sprite);
     return sprite;
   }
-
-  function drawSceneDetailLayer(stage, travelRatio) {
-    const stageId = stage.id;
-    const p = stage.palette;
-    const scroll = travelRatio * 300;
-    ctx.save();
-    ctx.lineJoin = "miter";
-    ctx.lineCap = "butt";
-
-    if (stageId === "shotengai") {
-      for (let i = 0; i < 9; i += 1) {
-        const x = ((i * 118 - scroll * 0.65) % (W + 160)) - 80;
-        pixelRect(x, 314, 58, 10, "#d7eac2", 0.82);
-        pixelRect(x + 6, 318, 46, 2, "#9dbc85", 0.72);
-      }
-      for (let i = 0; i < 8; i += 1) {
-        const x = ((i * 132 - scroll * 0.54) % (W + 140)) - 70;
-        pixelRect(x, 248, 54, 18, "#f4f0df", 0.84);
-        pixelRect(x + 4, 252, 14, 4, "#c2482d", 0.8);
-        pixelRect(x + 24, 252, 22, 4, "#6f9f56", 0.72);
-        pixelRect(x + 8, 260, 36, 3, "#83966d", 0.65);
-      }
-      for (let i = 0; i < 10; i += 1) {
-        const x = ((i * 96 - scroll * 0.8) % (W + 120)) - 60;
-        pixelRect(x, 292, 18, 8, i % 2 ? "#f2bd52" : "#ef8f8f", 0.86);
-        pixelRect(x + 4, 300, 10, 12, "#567e45", 0.74);
-      }
-    } else if (stageId === "warehouse" || stageId === "backalley") {
-      for (let i = 0; i < 7; i += 1) {
-        const x = ((i * 154 - scroll) % (W + 180)) - 90;
-        pixelRect(x, 214, 112, 9, "#d9dee5", 0.28);
-        pixelRect(x, 232, 112, 9, "#d9dee5", 0.22);
-        pixelRect(x + 14, 258, 80, 26, "#111827", 0.22);
-        pixelRect(x + 22, 262, 64, 4, stageId === "warehouse" ? "#d8a83f" : "#ff8f70", 0.62);
-      }
-      for (let i = 0; i < 4; i += 1) {
-        const x = 120 + i * 190;
-        crateStack(x, 330 + (i % 2) * 10, 0.45, i % 2 ? "X" : "港");
-      }
-    } else if (stageId === "riverside") {
-      for (let i = 0; i < 10; i += 1) {
-        const x = ((i * 104 - scroll) % (W + 120)) - 60;
-        pixelRect(x, 300 + (i % 3) * 6, 54, 3, i % 2 ? "#ffd983" : "#ff8f70", 0.5);
-        lantern(x + 24, 250 + (i % 2) * 10, i % 2 ? "#f2bd52" : "#d85f46");
-      }
-    } else if (stageId === "station") {
-      for (let i = 0; i < 6; i += 1) {
-        const x = 170 + i * 92;
-        pixelRect(x, 186, 54, 8, "#ecf2f8", 0.75);
-        pixelRect(x + 8, 226, 38, 44, "#111827", 0.55);
-        pixelRect(x + 12, 232, 12, 10, "#ffd983", 0.42);
-      }
-      pixelRect(650, 250, 92, 34, "#ffcf5a", 0.75);
-      pixelRect(662, 260, 68, 5, "#171717", 0.42);
-    } else if (stageId === "mountain") {
-      for (let i = 0; i < 13; i += 1) {
-        const x = ((i * 86 - scroll * 0.8) % (W + 120)) - 60;
-        pixelRect(x, 246, 10, 58, "#1b2a23", 0.82);
-        pixelRect(x - 18, 228, 46, 20, "#334c38", 0.72);
-      }
-      guardRail(302, "#dfe6ed");
-    } else if (stageId === "garage" || stageId === "highway") {
-      for (let i = 0; i < 8; i += 1) {
-        const x = ((i * 118 - scroll * 1.1) % (W + 160)) - 80;
-        pixelRect(x, 224, 74, 26, "#111827", 0.52);
-        pixelRect(x + 8, 230, 22, 8, stageId === "garage" ? "#ffcf5a" : "#70c7ff", 0.76);
-        pixelRect(x + 42, 230, 22, 8, "#ff8f70", 0.52);
-        oval(x + 14, 254, 8, 8, "#0b0b10", 0.9);
-        oval(x + 60, 254, 8, 8, "#0b0b10", 0.9);
-      }
-    } else if (stageId === "redgate" || stageId === "finalhideout") {
-      for (let i = 0; i < 12; i += 1) {
-        const x = 190 + i * 48;
-        pixelRect(x, 170 + (i % 2) * 8, 34, 10, stageId === "redgate" ? "#c2482d" : "#34233f", 0.8);
-        pixelRect(x + 6, 214, 20, 42, "#050509", 0.36);
-      }
-      lantern(278, 238, "#f6d95f");
-      lantern(682, 238, "#f6d95f");
-    }
-
-    ctx.restore();
-  }
-
   function nextTapGapMs() {
     const ns = state.noteStates;
     if (!ns?.length) return null;
@@ -758,51 +465,6 @@ export function createRenderer(canvas, ctx, state) {
     ctx.stroke();
     ctx.restore();
   }
-
-  function signPanel(x, y, w, h, label, bg = "#fff7d2", fg = "#171717") {
-    void x;
-    void y;
-    void w;
-    void h;
-    void label;
-    void bg;
-    void fg;
-  }
-
-  function windowGrid(x, y, cols, rows, cellW, cellH, lit = "#ffd983") {
-    ctx.save();
-    for (let row = 0; row < rows; row += 1) {
-      for (let col = 0; col < cols; col += 1) {
-        ctx.fillStyle = (row + col) % 3 === 0 ? lit : "#111827";
-        ctx.globalAlpha = (row + col) % 3 === 0 ? 0.74 : 0.48;
-        ctx.fillRect(x + col * (cellW + 8), y + row * (cellH + 8), cellW, cellH);
-      }
-    }
-    ctx.restore();
-  }
-
-  function utilityPole(x, y, height = 148) {
-    ctx.save();
-    ctx.strokeStyle = "#2a211c";
-    ctx.lineWidth = 7;
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x, y - height);
-    ctx.stroke();
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(x - 28, y - height + 34);
-    ctx.lineTo(x + 28, y - height + 34);
-    ctx.stroke();
-    ctx.strokeStyle = "#17171766";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x - 60, y - height + 42);
-    ctx.quadraticCurveTo(x + 20, y - height + 70, x + 120, y - height + 36);
-    ctx.stroke();
-    ctx.restore();
-  }
-
   function cone(x, y) {
     ctx.save();
     ctx.fillStyle = "#ef5b4f";
@@ -847,15 +509,6 @@ export function createRenderer(canvas, ctx, state) {
     }
     ctx.restore();
   }
-
-  function roadMark(x, y, label, bg = "#fff7d2", fg = "#171717") {
-    void x;
-    void y;
-    void label;
-    void bg;
-    void fg;
-  }
-
   function crateStack(x, y, scale = 1, label = "X") {
     ctx.save();
     ctx.translate(x, y);
@@ -876,661 +529,6 @@ export function createRenderer(canvas, ctx, state) {
     }
     ctx.restore();
   }
-
-  function drawForegroundSet(stage, travelRatio) {
-    const stageId = stage.id;
-    const scroll = travelRatio * 520;
-    ctx.save();
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-
-    if (stageId === "shotengai") {
-      pixelRect(0, 348, W, 12, "#6f9f56");
-      for (let i = 0; i < 18; i += 1) {
-        const x = ((i * 58 - scroll * 0.38) % (W + 80)) - 40;
-        ctx.fillStyle = i % 2 ? "#4f8f45" : "#8bbd78";
-        ctx.beginPath();
-        ctx.moveTo(x, 360);
-        ctx.lineTo(x + 5, 344);
-        ctx.lineTo(x + 10, 360);
-        ctx.fill();
-      }
-      roadMark(92, 392, "公園入口", "#fff7d2");
-      pixelRect(158, 376, 46, 36, "#8a5a34");
-      pixelRect(164, 366, 34, 14, "#d4a15b");
-      ctx.strokeStyle = "#3a2518";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(164, 385);
-      ctx.lineTo(198, 385);
-      ctx.moveTo(172, 376);
-      ctx.lineTo(172, 410);
-      ctx.moveTo(190, 376);
-      ctx.lineTo(190, 410);
-      ctx.stroke();
-      for (let i = 0; i < 5; i += 1) {
-        oval(706 + i * 30, 380 + (i % 2) * 8, 18, 5, "#ffffff66");
-      }
-    } else if (stageId === "warehouse") {
-      crateStack(74, 386, 0.86, "港");
-      crateStack(784, 394, 0.74, "X");
-      pixelRect(238, 374, 116, 38, "#1d2832");
-      pixelRect(250, 360, 86, 16, "#33414d");
-      ctx.strokeStyle = "#ffd98399";
-      ctx.lineWidth = 3;
-      for (let i = 0; i < 3; i += 1) {
-        ctx.beginPath();
-        ctx.moveTo(256 + i * 24, 361);
-        ctx.lineTo(246 + i * 24, 408);
-        ctx.stroke();
-      }
-      roadMark(578, 390, "第三倉庫", "#d8a83f");
-    } else if (stageId === "backalley") {
-      pixelRect(64, 360, 104, 70, "#2a252b");
-      pixelRect(78, 344, 72, 18, "#5b4038");
-      ctx.strokeStyle = "#ff8f7088";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(82, 372);
-      ctx.lineTo(150, 412);
-      ctx.moveTo(150, 372);
-      ctx.lineTo(82, 412);
-      ctx.stroke();
-      pixelRect(770, 350, 42, 86, "#3f2f38");
-      pixelRect(820, 366, 26, 70, "#5b4038");
-      lantern(810, 344, "#d85f46");
-      roadMark(566, 392, "裏口", "#2d1d24", "#ffd983");
-    } else if (stageId === "riverside") {
-      for (let i = 0; i < 3; i += 1) {
-        const x = 82 + i * 82;
-        pixelRect(x, 380, 58, 38, "#5a351f");
-        pixelRect(x + 6, 366, 46, 16, i % 2 ? "#f2bd52" : "#d85f46");
-      }
-      ctx.strokeStyle = "#d6c19a";
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(660, 350);
-      ctx.lineTo(856, 350);
-      ctx.moveTo(676, 350);
-      ctx.lineTo(654, 420);
-      ctx.moveTo(834, 350);
-      ctx.lineTo(858, 420);
-      ctx.stroke();
-      lantern(754, 354, "#f2bd52");
-    } else if (stageId === "station") {
-      pixelRect(54, 372, 116, 42, "#ffcf5a");
-      pixelRect(74, 354, 70, 24, "#ffcf5a");
-      pixelRect(82, 360, 20, 12, "#ecf2f8");
-      pixelRect(112, 360, 20, 12, "#ecf2f8");
-      oval(82, 418, 11, 11, "#171717");
-      oval(142, 418, 11, 11, "#171717");
-      pixelRect(756, 354, 84, 72, "#ecf2f8");
-      pixelRect(766, 364, 64, 24, "#40546a");
-      signPanel(766, 324, 64, 28, "案内", "#f6f1e7");
-      roadMark(492, 392, "駅前", "#f6f1e7");
-    } else if (stageId === "mountain") {
-      guardRail(356, "#dfe6ed");
-      for (let i = 0; i < 8; i += 1) {
-        const x = 68 + i * 108;
-        pixelRect(x, 362, 10, 38, i % 2 ? "#ef5b4f" : "#f6f1e7");
-      }
-      signPanel(728, 352, 86, 34, "急カーブ", "#f6f1e7");
-      ctx.strokeStyle = "#f6f1e766";
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.moveTo(252, 430);
-      ctx.quadraticCurveTo(476, 382, 708, 428);
-      ctx.stroke();
-    } else if (stageId === "garage") {
-      pixelRect(76, 374, 128, 52, "#17151f");
-      pixelRect(92, 350, 96, 24, "#331b22");
-      ctx.strokeStyle = "#ffcf5a";
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(104, 366);
-      ctx.lineTo(176, 366);
-      ctx.stroke();
-      for (let i = 0; i < 4; i += 1) oval(112 + i * 22, 410, 13, 13, "#0b0b10");
-      cone(700, 420);
-      cone(746, 420);
-      roadMark(526, 392, "改造車庫", "#ffcf5a");
-    } else if (stageId === "highway") {
-      guardRail(362, "#9cc7e6");
-      for (let i = 0; i < 5; i += 1) {
-        const x = 82 + i * 168;
-        ctx.strokeStyle = "#70c7ff88";
-        ctx.lineWidth = 5;
-        ctx.beginPath();
-        ctx.moveTo(x, 358);
-        ctx.lineTo(x + 40, 420);
-        ctx.stroke();
-      }
-      signPanel(684, 352, 128, 38, "港湾道路", "#162739", "#d9f3ff");
-      pixelRect(102, 392, 126, 30, "#1d3348");
-      pixelRect(122, 378, 76, 18, "#304b68");
-      oval(128, 426, 11, 11, "#09090c");
-      oval(204, 426, 11, 11, "#09090c");
-    } else if (stageId === "redgate") {
-      for (let i = 0; i < 8; i += 1) {
-        pixelRect(i * 126 - 20, 348, 96, 16, i % 2 ? "#5f1b1b" : "#7a2323");
-      }
-      lantern(96, 372, "#f6d95f");
-      lantern(842, 372, "#f6d95f");
-      roadMark(480, 394, "赤門", "#fff7d2");
-      ctx.strokeStyle = "#e0c45a99";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(330, 358);
-      ctx.lineTo(626, 358);
-      ctx.stroke();
-    } else if (stageId === "finalhideout") {
-      pixelRect(72, 350, 108, 78, "#17151f");
-      pixelRect(780, 350, 108, 78, "#17151f");
-      ctx.strokeStyle = "#f6d95f";
-      ctx.lineWidth = 4;
-      for (const x of [126, 834]) {
-        ctx.beginPath();
-        ctx.moveTo(x - 26, 374);
-        ctx.lineTo(x + 26, 408);
-        ctx.moveTo(x + 26, 374);
-        ctx.lineTo(x - 26, 408);
-        ctx.stroke();
-      }
-      roadMark(480, 392, "X結社", "#111827", "#f6d95f");
-      ctx.fillStyle = "#f6d95f55";
-      for (let i = 0; i < 7; i += 1) oval(352 + i * 42, 356 + (i % 2) * 12, 7, 7, "#f6d95f", 0.5);
-    }
-
-    ctx.restore();
-  }
-
-  function drawStageSet(stage, travelRatio, horizonY) {
-    const p = stage.palette;
-    const scroll = travelRatio * 280;
-    const stageId = stage.id;
-    ctx.save();
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-
-    if (stageId === "shotengai") {
-      // 朝の公園。芝生・緑の木立・ベンチ・遊具・水飲み場・公園入口の門柱で「公園」を一目で読ませる。
-      ctx.fillStyle = "#9bc28a";
-      ctx.fillRect(0, 110, W, 220);
-      ctx.fillStyle = "#7ea76d";
-      ctx.fillRect(0, 110, W, 26);
-      ctx.fillStyle = "#5e8a52";
-      ctx.beginPath();
-      ctx.moveTo(0, 134);
-      ctx.quadraticCurveTo(W / 2, 116, W, 132);
-      ctx.lineTo(W, 142);
-      ctx.lineTo(0, 144);
-      ctx.closePath();
-      ctx.fill();
-
-      ctx.fillStyle = "#cfe6b4";
-      ctx.beginPath();
-      ctx.moveTo(0, 322);
-      ctx.quadraticCurveTo(W / 2, 268, W, 322);
-      ctx.lineTo(W, 348);
-      ctx.lineTo(0, 348);
-      ctx.closePath();
-      ctx.fill();
-      ctx.strokeStyle = "#a3c08a";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(0, 322);
-      ctx.quadraticCurveTo(W / 2, 268, W, 322);
-      ctx.stroke();
-
-      ctx.strokeStyle = "#6f9f56";
-      ctx.lineWidth = 1.4;
-      for (let i = 0; i < 14; i += 1) {
-        const px = ((i * 70 + scroll * 0.4) % (W + 80)) - 40;
-        const py = 280 + Math.sin(i * 1.7) * 8;
-        ctx.fillStyle = i % 2 ? "#6f9f56" : "#a8c975";
-        ctx.beginPath();
-        ctx.arc(px, py, 1.6, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      const trees = [
-        { baseX: 80, scale: 1.1, leaf: "#4f8f45", light: "#87b96c" },
-        { baseX: 380, scale: 0.9, leaf: "#5f9b4d", light: "#a4cb7a" },
-        { baseX: 620, scale: 1.05, leaf: "#477f3e", light: "#79ad63" },
-        { baseX: 860, scale: 0.85, leaf: "#6da455", light: "#bdd58a" },
-      ];
-      for (const tree of trees) {
-        const x = ((tree.baseX - scroll * 0.6) % (W + 220)) - 110;
-        if (x < -90 || x > W + 90) continue;
-        const s = tree.scale;
-        ctx.save();
-        ctx.translate(x, 174);
-        ctx.scale(s, s);
-        ctx.strokeStyle = "#5a3a24";
-        ctx.lineWidth = 12;
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(0, 76);
-        ctx.quadraticCurveTo(-4, 30, -10, -10);
-        ctx.stroke();
-        ctx.strokeStyle = "#7a4a2f";
-        ctx.lineWidth = 6;
-        ctx.beginPath();
-        ctx.moveTo(-8, 0);
-        ctx.quadraticCurveTo(-30, -8, -42, -32);
-        ctx.moveTo(-6, -8);
-        ctx.quadraticCurveTo(20, -16, 36, -38);
-        ctx.stroke();
-        ctx.fillStyle = tree.leaf;
-        ctx.beginPath();
-        ctx.ellipse(-22, -34, 40, 24, -0.15, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.ellipse(20, -42, 38, 26, 0.1, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.ellipse(0, -54, 32, 22, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = tree.light;
-        ctx.beginPath();
-        ctx.ellipse(-8, -54, 18, 8, -0.2, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-
-      const drawBench = (benchX, benchY, scale = 1) => {
-        ctx.save();
-        ctx.translate(benchX, benchY);
-        ctx.scale(scale, scale);
-        ctx.fillStyle = "#5a351f";
-        ctx.fillRect(-4, -18, 88, 6);
-        ctx.fillRect(0, -8, 82, 6);
-        ctx.fillRect(4, 2, 72, 5);
-        ctx.fillStyle = "#8a5a34";
-        ctx.fillRect(2, -16, 78, 2);
-        ctx.fillRect(6, -6, 70, 2);
-        ctx.strokeStyle = "#2d221b";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(10, 6);
-        ctx.lineTo(4, 22);
-        ctx.moveTo(70, 6);
-        ctx.lineTo(78, 22);
-        ctx.moveTo(14, 18);
-        ctx.lineTo(76, 18);
-        ctx.stroke();
-        ctx.restore();
-      };
-      drawBench(((-scroll * 0.8) % 1040) - 60, 276, 1);
-      drawBench(((260 - scroll * 0.65) % 1080) - 70, 236, 0.82);
-      drawBench(((600 - scroll * 0.72) % 1100) - 60, 262, 0.9);
-
-      const slideX = ((720 - scroll * 1.0) % 1100) - 60;
-      ctx.fillStyle = "#dfe6ed";
-      ctx.beginPath();
-      ctx.moveTo(slideX, 220);
-      ctx.lineTo(slideX + 60, 268);
-      ctx.lineTo(slideX + 52, 274);
-      ctx.lineTo(slideX - 4, 226);
-      ctx.closePath();
-      ctx.fill();
-      ctx.strokeStyle = "#9aa5af";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.fillStyle = "#ef5b4f";
-      ctx.fillRect(slideX - 6, 210, 22, 10);
-      ctx.fillStyle = "#3a3a3f";
-      ctx.fillRect(slideX - 12, 220, 3, 50);
-      ctx.fillRect(slideX + 2, 220, 3, 50);
-
-      const fountainX = ((900 - scroll * 1.2) % 1140) - 60;
-      ctx.fillStyle = "#3a4a30";
-      ctx.fillRect(fountainX, 268, 5, 22);
-      ctx.fillStyle = "#5b6a76";
-      ctx.beginPath();
-      ctx.ellipse(fountainX + 2, 268, 11, 4, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#a3c0d6";
-      ctx.beginPath();
-      ctx.ellipse(fountainX + 2, 266, 5, 2, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#3a3a3f";
-      ctx.fillRect(fountainX - 10, 290, 26, 4);
-
-      const lampX = ((40 - scroll * 0.6) % 1020) - 40;
-      ctx.fillStyle = "#3a3a3f";
-      ctx.fillRect(lampX, 178, 3, 90);
-      ctx.fillStyle = "#f6d95f";
-      ctx.beginPath();
-      ctx.arc(lampX + 1, 175, 6, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#cfd6cf";
-      for (let i = 0; i < 5; i += 1) {
-        const cx = ((i * 220 + scroll * 1.4) % (W + 240)) - 120;
-        ctx.beginPath();
-        ctx.ellipse(cx, 90, 36, 10, 0, 0, Math.PI * 2);
-        ctx.ellipse(cx + 30, 86, 24, 8, 0, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.fillStyle = "#5e8a52";
-      for (let i = 0; i < 14; i += 1) {
-        const gx = ((i * 80 + scroll * 1.1) % (W + 80)) - 40;
-        ctx.beginPath();
-        ctx.moveTo(gx, 326);
-        ctx.lineTo(gx + 4, 318);
-        ctx.lineTo(gx + 8, 326);
-        ctx.closePath();
-        ctx.fill();
-      }
-    } else if (stageId === "warehouse" || stageId === "backalley") {
-      for (let i = 0; i < 5; i += 1) {
-        const x = ((i * 230 - scroll) % 1240) - 130;
-        const topY = stageId === "warehouse" ? 138 : 156;
-        pixelRect(x, topY, 190, 188, i % 2 ? p.mid : p.far);
-        pixelRect(x - 6, topY - 12, 202, 14, "#1f2937");
-        windowGrid(x + 22, topY + 40, 2, 2, 42, 26, stageId === "warehouse" ? "#ffd983" : "#ff8f70");
-        pixelRect(x + 14, 302, 160, 20, "#0f1117");
-        pixelRect(x + 24, 266, 54, 36, "#2f3b45");
-        pixelRect(x + 90, 270, 66, 32, "#44301f");
-        ctx.strokeStyle = "#d9dee588";
-        ctx.lineWidth = 2;
-        for (let r = 0; r < 5; r += 1) {
-          ctx.beginPath();
-          ctx.moveTo(x + 26, 274 + r * 6);
-          ctx.lineTo(x + 154, 274 + r * 6);
-          ctx.stroke();
-        }
-        if (stageId === "backalley") {
-          ctx.strokeStyle = "#ffd98366";
-          ctx.lineWidth = 5;
-          ctx.beginPath();
-          ctx.moveTo(x + 14, 144);
-          ctx.lineTo(x + 174, 198);
-          ctx.stroke();
-          signPanel(x + 46, 188, 76, 28, "裏口", "#171717", "#ffd983");
-          pixelRect(x + 150, 238, 18, 64, "#5b4038");
-        }
-      }
-      if (stageId === "warehouse") {
-        pixelRect(632, 108, 120, 54, "#d8a83f");
-        signPanel(80, 108, 118, 34, "第三倉庫", "#f6f1e7");
-        utilityPole(850, 318, 156);
-        for (let i = 0; i < 4; i += 1) cone(604 + i * 34, 330);
-      } else {
-        utilityPole(124, 326, 138);
-        signPanel(720, 122, 102, 32, "路地裏", "#2d1d24", "#ffd983");
-      }
-    } else if (stageId === "riverside") {
-      pixelRect(0, 286, W, 56, "#1a3442", 0.7);
-      pixelRect(0, 310, W, 24, "#0f2631", 0.6);
-      guardRail(286, "#d6c19a");
-      for (let i = 0; i < 7; i += 1) {
-        const x = ((i * 150 - scroll) % 1110) - 70;
-        pixelRect(x, 208, 108, 90, "#8a4b2e");
-        pixelRect(x - 8, 196, 124, 18, "#f2bd52");
-        pixelRect(x + 8, 218, 34, 52, "#fff7e6", 0.88);
-        ctx.fillStyle = "#d8322b";
-        ctx.fillRect(x + 8, 218, 34, 8);
-        lantern(x + 92, 218, "#ff8f70");
-        pixelRect(x + 26, 292, 18, 18, "#392518");
-        pixelRect(x + 58, 292, 18, 18, "#392518");
-      }
-      for (let i = 0; i < 9; i += 1) {
-        const x = ((i * 118 + scroll * 0.5) % (W + 120)) - 60;
-        ctx.fillStyle = i % 2 ? "#ffd98355" : "#ff8f7055";
-        ctx.fillRect(x, 320 + (i % 3) * 4, 48, 3);
-      }
-      signPanel(64, 166, 110, 34, "川沿い屋台", "#fff7d2");
-    } else if (stageId === "station") {
-      pixelRect(130, 118, 700, 178, "#5b6a76");
-      pixelRect(166, 154, 628, 46, "#ecf2f8");
-      pixelRect(180, 218, 72, 68, "#20242a");
-      pixelRect(292, 218, 72, 68, "#20242a");
-      pixelRect(404, 218, 72, 68, "#20242a");
-      pixelRect(548, 218, 160, 68, "#20242a");
-      pixelRect(116, 104, 728, 18, "#33414d");
-      signPanel(380, 132, 196, 34, "駅前ロータリー", "#f6f1e7");
-      ctx.fillStyle = "#f6f1e7";
-      ctx.beginPath();
-      ctx.arc(708, 174, 24, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = "#171717";
-      ctx.lineWidth = 3;
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(708, 174);
-      ctx.lineTo(708, 160);
-      ctx.moveTo(708, 174);
-      ctx.lineTo(720, 174);
-      ctx.stroke();
-      pixelRect(70, 276, 124, 38, "#ffcf5a");
-      pixelRect(92, 254, 70, 28, "#ffcf5a");
-      pixelRect(96, 260, 24, 14, "#ecf2f8");
-      pixelRect(128, 260, 24, 14, "#ecf2f8");
-      oval(98, 318, 12, 12, "#171717");
-      oval(164, 318, 12, 12, "#171717");
-      signPanel(790, 228, 80, 56, "バス停", "#fff7d2");
-    } else if (stageId === "mountain") {
-      ctx.fillStyle = "#263d35";
-      ctx.beginPath();
-      ctx.moveTo(0, horizonY + 16);
-      ctx.lineTo(150, 134);
-      ctx.lineTo(330, horizonY + 24);
-      ctx.lineTo(510, 118);
-      ctx.lineTo(752, horizonY + 20);
-      ctx.lineTo(960, 138);
-      ctx.lineTo(960, horizonY + 70);
-      ctx.lineTo(0, horizonY + 70);
-      ctx.closePath();
-      ctx.fill();
-      for (let i = 0; i < 10; i += 1) {
-        const x = ((i * 120 - scroll * 0.8) % 1080) - 60;
-        pixelRect(x, 226, 10, 84, "#1b2a23");
-        ctx.fillStyle = "#334c38";
-        ctx.beginPath();
-        ctx.moveTo(x - 28, 236);
-        ctx.lineTo(x + 6, 162);
-        ctx.lineTo(x + 36, 236);
-        ctx.closePath();
-        ctx.fill();
-      }
-      guardRail(318, "#dfe6ed");
-      ctx.strokeStyle = "#f6f1e766";
-      ctx.lineWidth = 6;
-      ctx.beginPath();
-      ctx.moveTo(180, 352);
-      ctx.quadraticCurveTo(430, 320, 780, 366);
-      ctx.stroke();
-      for (let i = 0; i < 8; i += 1) {
-        const x = ((i * 126 - scroll * 1.4) % 1080) - 60;
-        pixelRect(x, 304, 10, 24, i % 2 ? "#ef5b4f" : "#f6f1e7");
-      }
-      signPanel(662, 174, 92, 32, "峠道", "#1b2a23", "#f6f1e7");
-    } else if (stageId === "garage" || stageId === "highway") {
-      for (let i = 0; i < 6; i += 1) {
-        const x = ((i * 210 - scroll * 1.2) % 1220) - 110;
-        pixelRect(x, 194, 164, 84, stageId === "garage" ? "#331b22" : "#162739");
-        pixelRect(x + 12, 224, 48, 28, "#ffd983", 0.86);
-        pixelRect(x + 86, 224, 48, 28, "#ff8f70", 0.68);
-        pixelRect(x + 18, 278, 126, 28, "#111827");
-        oval(x + 38, 310, 13, 13, "#171717");
-        oval(x + 124, 310, 13, 13, "#171717");
-        ctx.strokeStyle = stageId === "garage" ? "#ffcf5a88" : "#70c7ff88";
-        ctx.lineWidth = 5;
-        ctx.beginPath();
-        ctx.moveTo(x + 12, 202);
-        ctx.lineTo(x + 150, 202);
-        ctx.stroke();
-      }
-      if (stageId === "garage") {
-        signPanel(70, 142, 118, 36, "改造車庫", "#ffcf5a");
-        for (let i = 0; i < 5; i += 1) {
-          oval(720 + i * 34, 318, 14, 14, "#101017");
-        }
-        cone(652, 330);
-        cone(880, 330);
-      }
-      if (stageId === "highway") {
-        ctx.strokeStyle = "#70c7ff55";
-        ctx.lineWidth = 4;
-        for (let i = 0; i < 5; i += 1) {
-          ctx.beginPath();
-          ctx.moveTo(140 + i * 170, 124);
-          ctx.lineTo(60 + i * 200, 320);
-          ctx.stroke();
-        }
-        guardRail(318, "#9cc7e6");
-        signPanel(690, 138, 146, 40, "港湾道路", "#162739", "#d9f3ff");
-      }
-    } else if (stageId === "redgate" || stageId === "finalhideout") {
-      pixelRect(0, 124, W, 204, stageId === "redgate" ? "#2c1414" : "#101017");
-      pixelRect(250, 112, 460, 48, stageId === "redgate" ? "#9c2f2f" : "#2b2238");
-      pixelRect(286, 160, 70, 170, stageId === "redgate" ? "#7a2323" : "#17151f");
-      pixelRect(604, 160, 70, 170, stageId === "redgate" ? "#7a2323" : "#17151f");
-      pixelRect(392, 178, 176, 148, "#09090c", 0.9);
-      for (let i = 0; i < 9; i += 1) {
-        pixelRect(252 + i * 48, 104 - (i % 2) * 8, 38, 16, stageId === "redgate" ? "#5f1b1b" : "#34233f");
-      }
-      pixelRect(334, 146, 292, 20, stageId === "redgate" ? "#c2482d" : "#3a2d55");
-      signPanel(416, 130, 130, 34, stageId === "redgate" ? "赤門" : "X結社", stageId === "redgate" ? "#fff7d2" : "#111827", stageId === "redgate" ? "#171717" : "#f6d95f");
-      ctx.fillStyle = "#17171766";
-      for (let i = 0; i < 6; i += 1) {
-        ctx.beginPath();
-        ctx.arc(306 + i * 68, 206, 6, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      lantern(344, 206, "#f6d95f");
-      lantern(616, 206, "#f6d95f");
-      ctx.strokeStyle = stageId === "redgate" ? "#e0c45a" : "#f6d95f";
-      ctx.lineWidth = 8;
-      ctx.strokeRect(392, 178, 176, 148);
-      if (stageId === "finalhideout") {
-        pixelRect(168, 242, 70, 54, "#17151f");
-        pixelRect(726, 242, 70, 54, "#17151f");
-        ctx.strokeStyle = "#f6d95f99";
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(180, 252);
-        ctx.lineTo(226, 286);
-        ctx.moveTo(226, 252);
-        ctx.lineTo(180, 286);
-        ctx.moveTo(738, 252);
-        ctx.lineTo(784, 286);
-        ctx.moveTo(784, 252);
-        ctx.lineTo(738, 286);
-        ctx.stroke();
-      }
-    }
-
-    ctx.restore();
-  }
-
-  function drawPixelBackdropTexture(stage, travelRatio) {
-    const p = stage.palette;
-    const accent = p.accent ?? "#f6d95f";
-    const scroll = travelRatio * 360;
-    ctx.save();
-    ctx.lineJoin = "miter";
-    ctx.lineCap = "butt";
-
-    // Smooth gradient の上に粗い色面を重ね、全ステージを2Dドット絵風の読み味に寄せる。
-    const skyBands = [
-      { y: 0, h: 56, color: p.sky, alpha: 0.32 },
-      { y: 56, h: 52, color: "#ffffff", alpha: 0.16 },
-      { y: 108, h: 58, color: p.far, alpha: 0.18 },
-      { y: 166, h: 58, color: p.mid, alpha: 0.14 },
-    ];
-    for (const band of skyBands) pixelRect(0, band.y, W, band.h, band.color, band.alpha);
-
-    ctx.globalAlpha = 0.2;
-    for (let i = 0; i < 22; i += 1) {
-      const x = ((i * 72 - scroll * 0.18) % (W + 96)) - 48;
-      const y = 70 + ((i * 37) % 190);
-      const size = 4 + (i % 3) * 3;
-      ctx.fillStyle = i % 2 ? "#ffffff" : accent;
-      ctx.fillRect(Math.round(x / 4) * 4, Math.round(y / 4) * 4, size, size);
-    }
-    ctx.globalAlpha = 1;
-
-    const groundColors = [p.road, "#000000", "#ffffff", p.mid];
-    for (let row = 0; row < 7; row += 1) {
-      for (let col = 0; col < 18; col += 1) {
-        const x = ((col * 64 - scroll * 1.08) % (W + 96)) - 48;
-        const y = 360 + row * 24 + ((col + row) % 2) * 4;
-        const color = groundColors[(col + row) % groundColors.length];
-        pixelRect(x, y, 22 + ((col + row) % 3) * 8, 4, color, row % 2 ? 0.18 : 0.1);
-      }
-    }
-
-    // 舞台ごとに大きなピクセル看板・シルエットを追加し、色違いの背景に見えないようにする。
-    const id = stage.id;
-    if (id === "shotengai") {
-      pixelRect(36, 168, 92, 56, "#fff7d2", 0.38);
-      pixelRect(44, 176, 76, 8, accent, 0.65);
-      pixelRect(44, 196, 56, 8, "#3a4a30", 0.42);
-    } else if (id === "warehouse") {
-      for (let i = 0; i < 4; i += 1) {
-        pixelRect(90 + i * 158, 138, 96, 138, "#25313b", 0.34);
-        pixelRect(102 + i * 158, 158, 72, 8, accent, 0.42);
-        pixelRect(102 + i * 158, 178, 72, 8, "#d9dee5", 0.28);
-      }
-    } else if (id === "backalley") {
-      for (let i = 0; i < 6; i += 1) {
-        const x = 70 + i * 140;
-        pixelRect(x, 118, 58, 178, "#211d22", 0.34);
-        pixelRect(x + 10, 142, 38, 8, accent, 0.42);
-      }
-    } else if (id === "riverside") {
-      pixelRect(0, 284, W, 18, "#f2bd52", 0.18);
-      for (let i = 0; i < 7; i += 1) pixelRect(52 + i * 130, 214, 76, 10, i % 2 ? "#d85f46" : "#f2bd52", 0.45);
-    } else if (id === "station") {
-      pixelRect(150, 132, 660, 34, "#f6f1e7", 0.36);
-      pixelRect(386, 174, 188, 20, "#171717", 0.28);
-      for (let i = 0; i < 5; i += 1) pixelRect(190 + i * 112, 224, 56, 48, "#0f1117", 0.35);
-    } else if (id === "mountain") {
-      for (let i = 0; i < 7; i += 1) {
-        const x = i * 150 - 50;
-        ctx.fillStyle = i % 2 ? "#263d35aa" : "#445b50aa";
-        ctx.beginPath();
-        ctx.moveTo(x, 282);
-        ctx.lineTo(x + 86, 130 + (i % 3) * 18);
-        ctx.lineTo(x + 178, 282);
-        ctx.closePath();
-        ctx.fill();
-      }
-    } else if (id === "garage" || id === "highway") {
-      for (let i = 0; i < 8; i += 1) {
-        const x = ((i * 126 - scroll * 0.42) % (W + 160)) - 80;
-        pixelRect(x, 140 + (i % 3) * 18, 84, 10, i % 2 ? accent : "#ffffff", 0.38);
-        pixelRect(x + 20, 162 + (i % 2) * 16, 46, 34, "#0f1117", 0.3);
-      }
-    } else if (id === "redgate" || id === "finalhideout") {
-      pixelRect(240, 104, 480, 48, id === "redgate" ? "#9c2f2f" : "#2b2238", 0.42);
-      pixelRect(304, 156, 352, 18, accent, 0.36);
-      for (let i = 0; i < 6; i += 1) pixelRect(280 + i * 68, 196, 38, 38, "#050509", 0.3);
-    }
-
-    ctx.save();
-    ctx.globalAlpha = 0.13;
-    ctx.strokeStyle = "#171717";
-    ctx.lineWidth = 3;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    for (let i = 0; i < 5; i += 1) {
-      const x = ((i * 176 - scroll * 0.31) % (W + 220)) - 110;
-      const y = 238 + (i % 3) * 24;
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.quadraticCurveTo(x + 28, y - 5 + (i % 2) * 8, x + 78, y + 2);
-      ctx.stroke();
-    }
-    ctx.restore();
-
-    ctx.restore();
-  }
-
   function pixelBox(x, y, w, h, fill, edge = "#17171755", edgeW = 4) {
     pixelRect(x, y, w, h, edge);
     pixelRect(x + edgeW, y + edgeW, w - edgeW * 2, h - edgeW * 2, fill);
@@ -1904,75 +902,6 @@ export function createRenderer(canvas, ctx, state) {
     ctx.restore();
     return true;
   }
-
-  function drawImagegenForeground(stage, bgKey, travelRatio) {
-    const id = stage.id;
-    const scroll = travelRatio * 260;
-    ctx.save();
-    ctx.imageSmoothingEnabled = false;
-    ctx.fillStyle = bgKey === "hideout" ? "#1b1420" : bgKey === "warehouse" ? "#252d34" : "#7fa66f";
-    ctx.fillRect(0, 342, W, 198);
-    ctx.fillStyle = bgKey === "hideout" ? "#120e16" : bgKey === "warehouse" ? "#182027" : "#49633f";
-    ctx.fillRect(0, 420, W, 120);
-    ctx.fillStyle = "rgba(0, 0, 0, 0.22)";
-    ctx.fillRect(0, 342, W, 14);
-
-    if (bgKey === "park") {
-      ctx.fillStyle = "#e7d69d";
-      ctx.beginPath();
-      ctx.moveTo(358, 342);
-      ctx.quadraticCurveTo(484, 402, 458, 540);
-      ctx.lineTo(300, 540);
-      ctx.quadraticCurveTo(342, 420, 278, 342);
-      ctx.closePath();
-      ctx.fill();
-      for (let i = 0; i < 44; i += 1) {
-        const x = ((i * 43 - scroll * 0.35) % (W + 60)) - 30;
-        const y = 368 + ((i * 29) % 130);
-        pixelRect(x, y, 4 + (i % 3), 4, i % 2 ? "#5c7f4a" : "#a4c681", 0.9);
-      }
-      for (let i = 0; i < 4; i += 1) {
-        const x = ((i * 250 - scroll * 0.2) % (W + 260)) - 130;
-        pixelRect(x, 388, 78, 9, "#8a5730");
-        pixelRect(x + 4, 401, 70, 8, "#7a4b29");
-        pixelRect(x + 8, 410, 7, 34, "#3e2d20");
-        pixelRect(x + 60, 410, 7, 34, "#3e2d20");
-      }
-      pixelRect(76, 360, 92, 16, "#f4f0df", 0.9);
-      pixelRect(84, 366, 74, 4, "#6f9f56", 0.9);
-    } else if (bgKey === "warehouse") {
-      for (let i = 0; i < 16; i += 1) {
-        const x = ((i * 74 - scroll * 0.24) % (W + 90)) - 45;
-        pixelRect(x, 368 + (i % 4) * 30, 58, 22, i % 2 ? "#7d5d38" : "#9a7042", 0.94);
-        pixelRect(x + 6, 372 + (i % 4) * 30, 46, 3, "#c59a63", 0.7);
-        pixelRect(x + 26, 368 + (i % 4) * 30, 4, 22, "#5d4429", 0.65);
-      }
-      for (let x = -40; x < W + 60; x += 84) {
-        pixelRect(x, 424, 58, 4, "#4d5963", 0.72);
-        pixelRect(x + 18, 456, 66, 4, "#151b21", 0.7);
-        pixelRect(x + 4, 498, 72, 4, "#3a444d", 0.58);
-      }
-      pixelRect(684, 358, 80, 62, "#2d3a43", 0.88);
-      pixelRect(700, 370, 48, 8, "#70c7ff", 0.55);
-    } else {
-      for (let x = -20; x < W + 40; x += 72) {
-        pixelRect(x, 356, 44, 92, "#241827", 0.92);
-        pixelRect(x + 6, 366, 32, 6, "#5a2c35", 0.7);
-        pixelRect(x + 12, 410, 20, 4, "#f6d95f", 0.38);
-      }
-      pixelRect(332, 360, 300, 112, "#1a111a", 0.94);
-      pixelRect(364, 376, 236, 14, "#432131", 0.9);
-      pixelRect(452, 402, 58, 70, "#2a1c2f", 0.95);
-      pixelRect(464, 416, 34, 8, "#f6d95f", 0.52);
-      for (let i = 0; i < 8; i += 1) {
-        const x = 96 + i * 100;
-        pixelRect(x, 454, 42, 44, "#382030", 0.76);
-        pixelRect(x + 8, 462, 26, 5, "#b63a32", 0.68);
-      }
-    }
-    ctx.restore();
-  }
-
   function drawBackground(stage, travelRatio) {
     drawPixelWorldBackground(stage, travelRatio);
   }
@@ -2010,7 +939,6 @@ export function createRenderer(canvas, ctx, state) {
     ctx.restore();
   }
 
-  /** Enemy `kind` は `src/stages.js` のみ。未知はフードのフォールバック（下の else）へ。 */
   function drawCharacter(x, y, palette, facing = 1, pose = 0, elder = false, hit = 0, kind = "agent", displayScale = 1) {
     const hitLean = hit > 0 ? -10 : 0;
     const isHero = elder || kind === "hero";
@@ -3034,8 +1962,8 @@ export function createRenderer(canvas, ctx, state) {
     requestCutinImage();
     const progress = 1 - state.specialCutin.life / state.specialCutin.maxLife;
     const alpha = Math.min(1, state.specialCutin.life / 220, progress / 0.12);
-    const y = 0;
     const h = 236;
+    const y = Math.round((H - h) / 2);
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.fillStyle = "#05070e";
@@ -3051,14 +1979,14 @@ export function createRenderer(canvas, ctx, state) {
     ctx.fillStyle = "#fff7d2";
     ctx.textAlign = "left";
     ctx.font = `600 48px ${CANVAS_FONT}`;
-    ctx.fillText(state.specialCutin.internalDestruction ? "奥義" : "十連", 650, 96);
+    ctx.fillText(state.specialCutin.internalDestruction ? "奥義" : "十連", 650, y + 96);
     ctx.font = `600 34px ${CANVAS_FONT}`;
-    ctx.fillText(state.specialCutin.internalDestruction ? "爺コブシ" : "大追撃", 638, 142);
+    ctx.fillText(state.specialCutin.internalDestruction ? "爺コブシ" : "大追撃", 638, y + 142);
     ctx.font = `600 22px ${CANVAS_FONT}`;
-    ctx.fillText(state.specialCutin.internalDestruction ? "内部破壊" : `追撃 +${state.specialCutin.damage}`, 672, 180);
+    ctx.fillText(state.specialCutin.internalDestruction ? "内部破壊" : `追撃 +${state.specialCutin.damage}`, 672, y + 180);
     if (state.specialCutin.internalDestruction) {
       ctx.font = `600 18px ${CANVAS_FONT}`;
-      ctx.fillText(`追撃 +${state.specialCutin.damage}`, 672, 204);
+      ctx.fillText(`追撃 +${state.specialCutin.damage}`, 672, y + 204);
     }
     ctx.restore();
   }
@@ -3971,7 +2899,6 @@ export function createRenderer(canvas, ctx, state) {
 
   function syncDomInner(dom, ui) {
     const lang = normalizeLang(state.uiLang);
-    const next = state.phase === "battle" ? state.nextNote : null;
     ui.setData(document.documentElement, "phase", state.phase);
     const currentLoop =
       (state.phase === "ending" || state.phase === "results") && state.results?.loop
@@ -3993,87 +2920,7 @@ export function createRenderer(canvas, ctx, state) {
     if (dom.quickSaveButton) {
       ui.setHidden(dom.quickSaveButton, state.phase === "opening" || state.phase === "title" || state.paused);
     }
-    ui.setClass(dom.gameSurface, "novelActive", (state.phase === "intro" || state.phase === "finalReveal") && !dom.overlay.classList.contains("hidden"));
-    const openingMs = state.phase === "battle" ? Math.max(0, -state.battleTimeMs) : 0;
-    ui.setText(dom.modeLabel, openingMs > 0 ? t(lang, "sync.openingMode") : state.phaseLabel);
-    ui.setText(dom.nextNoteLabel, nextNoteLabel(next));
-    ui.setText(dom.judgeLabel, state.judgeText);
-    ui.setStyle(dom.hpMeter, "width", `${Math.max(0, state.hp / state.maxHp) * 100}%`);
-    if (dom.enemyHpMeter && state.enemyMaxHp > 0) {
-      ui.setStyle(dom.enemyHpMeter, "width", `${Math.max(0, Math.min(1, state.enemyHp / state.enemyMaxHp)) * 100}%`);
-    } else if (dom.enemyHpMeter) {
-      ui.setStyle(dom.enemyHpMeter, "width", "0%");
-    }
-    ui.setStyle(dom.spiritMeter, "width", `${Math.max(0, Math.min(100, state.spirit))}%`);
-    if (dom.spiritLabel) {
-      const focusSeconds = state.spiritFocusMs > 0 ? Math.ceil(state.spiritFocusMs / 1000) : 0;
-      ui.setText(dom.spiritLabel, focusSeconds > 0 ? `見切り ${focusSeconds}s` : t(lang, "hud.spirit"));
-    }
-    if (dom.playerHpValue) {
-      ui.setText(dom.playerHpValue, `${Math.max(0, Math.round(state.hp))} / ${Math.max(0, Math.round(state.maxHp))}`);
-    }
-    if (dom.enemyHpValue) {
-      ui.setText(dom.enemyHpValue, `${Math.max(0, Math.round(state.enemyHp))} / ${Math.max(0, Math.round(state.enemyMaxHp))}`);
-    }
-    if (dom.enemyNameLabel) {
-      const enemyName = state.stage?.enemy?.name ?? t(lang, "hud.enemyFallback");
-      const comboPart = state.phase === "battle" && state.combo > 0 ? ` ${state.combo}連` : "";
-      ui.setText(dom.enemyNameLabel, `${enemyName}${comboPart}`);
-    }
-    const syncHtmlRhythm = Boolean(dom.inputZone?.offsetParent || dom.beatFill?.offsetParent || dom.timingReadout?.offsetParent);
-    if (!syncHtmlRhythm) return;
-    const markerRange = 2500;
-    if (next) {
-      const dt = next.timeMs - state.battleTimeMs;
-      const fill = ((markerRange - Math.max(0, dt)) / markerRange) * 100;
-      ui.setStyle(dom.beatFill, "width", `${Math.max(0, Math.min(100, fill))}%`);
-    } else {
-      ui.setStyle(dom.beatFill, "width", "0");
-    }
-    if (dom.noteMarker) {
-      if (next) {
-        const dt = next.timeMs - state.battleTimeMs;
-        const left = Math.max(4, Math.min(96, 50 + (dt / markerRange) * 46));
-        ui.setHidden(dom.noteMarker, false);
-        ui.setStyle(dom.noteMarker, "left", `${left}%`);
-        ui.setText(dom.noteMarker, nextNoteLabel(next).slice(0, 1));
-        ui.setData(dom.noteMarker, "type", next.type);
-      } else {
-        ui.setHidden(dom.noteMarker, true);
-      }
-    }
-    ui.setData(dom.inputZone, "note", next?.type ?? state.phase);
-    ui.setText(dom.inputIcon, next ? nextNoteLabel(next).slice(0, 1) : "拍");
-    if (dom.timingReadout) {
-      if (state.comfortHud && next && state.phase === "battle" && state.battleClockReady) {
-        const dt = next.timeMs - state.battleTimeMs;
-        ui.setHidden(dom.timingReadout, false);
-        ui.setText(dom.timingReadout, `${t(lang, "timing.nextMs")} ${Math.round(dt)}ms`);
-      } else {
-        ui.setHidden(dom.timingReadout, true);
-        ui.setText(dom.timingReadout, t(lang, "timing.na"));
-      }
-    }
-    if (openingMs > 0) {
-      ui.setText(dom.inputText, t(lang, "sync.openingInput"));
-      ui.setText(dom.judgeLabel, t(lang, "sync.openingJudge"));
-    } else if (next?.type === "tap") {
-      ui.setText(dom.inputText, t(lang, "sync.inputTap"));
-      const gap = nextTapGapMs();
-      ui.setText(
-        dom.judgeLabel,
-        gap != null && gap < 300 ? `${t(lang, "sync.inputTapDense")} / ${t(lang, "sync.judgeTapBar")}` : t(lang, "sync.judgeTapBar"),
-      );
-    } else if (next?.type === "hold") {
-      ui.setText(dom.inputText, t(lang, "sync.inputHold"));
-      ui.setText(dom.judgeLabel, t(lang, "sync.judgeHoldLong"));
-    } else if (next?.type === "mash") {
-      ui.setText(dom.inputText, t(lang, "sync.inputMash"));
-      ui.setText(dom.judgeLabel, t(lang, "sync.judgeMash"));
-    } else {
-      ui.setText(dom.inputText, state.inputHint);
-    }
-  }
+    ui.setClass(dom.gameSurface, "novelActive", (state.phase === "intro" || state.phase === "finalReveal") && !dom.overlay.classList.contains("hidden"));  }
 
   return { draw, drawEndingRhythmBar, preloadCutinImage: requestCutinImage, retainStageBackgrounds, syncDom };
 }
