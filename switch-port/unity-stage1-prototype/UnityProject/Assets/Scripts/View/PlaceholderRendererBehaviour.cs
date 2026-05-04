@@ -276,6 +276,8 @@ namespace JijiiKobushi.Stage1Prototype
                 var battleMs = session.BattleClockMs;
                 for (var i = 0; i < chart.Count; i += 1)
                 {
+                    if (i < session.CurrentNoteIndex) continue;
+
                     var note = chart[i];
                     var delta = note.TimeMs - battleMs;
                     var keepActiveHoldVisible = note.Type == "hold" && session.IsHoldActiveForNoteIndex(i);

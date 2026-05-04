@@ -110,6 +110,11 @@ namespace JijiiKobushi.Stage1Prototype
             get { return chart.Count; }
         }
 
+        public int CurrentNoteIndex
+        {
+            get { return currentNoteIndex; }
+        }
+
         public string LastJudgeText
         {
             get { return lastJudgeText; }
