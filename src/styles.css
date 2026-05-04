@@ -111,14 +111,14 @@ html[data-phase="endingVideo"] .gameSurface {
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell {
     --game-w: min(100vw, calc(100svh * 16 / 9), 1920px);
     --game-h: min(100svh, calc(100vw * 9 / 16), 1080px);
-    --game-offset-y: max(0px, calc((100svh - var(--game-h)) / 2));
+    --game-offset-y: 0px;
     position: relative;
     width: 100%;
     min-height: 100svh;
     height: 100svh;
     display: grid;
     grid-template-rows: 1fr;
-    place-items: center;
+    place-items: start center;
     gap: 0;
     padding: 0;
     overflow: hidden;
@@ -133,7 +133,7 @@ html[data-phase="endingVideo"] .gameSurface {
   html:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbar {
     position: absolute;
     z-index: 11;
-    top: max(calc(var(--game-offset-y) + 8px), env(safe-area-inset-top, 0px));
+    top: max(var(--game-offset-y), env(safe-area-inset-top, 0px));
     left: 50%;
     width: var(--game-w);
     max-width: 100%;
@@ -2116,14 +2116,14 @@ html.comfort-hud .inputZone strong {
   html[data-phase="battle"] .shell {
     --game-w: min(100vw, calc(100svh * 16 / 9));
     --game-h: min(100svh, calc(100vw * 9 / 16));
-    --game-offset-y: max(0px, calc((100svh - var(--game-h)) / 2));
+    --game-offset-y: 0px;
     position: relative;
     width: 100%;
     min-height: 100svh;
     height: 100svh;
     display: grid;
     grid-template-rows: 1fr;
-    place-items: center;
+    place-items: start center;
     gap: 0;
     padding: 0;
     overflow: hidden;
@@ -2186,7 +2186,7 @@ html.comfort-hud .inputZone strong {
   html[data-phase="battle"] .topbar {
     position: absolute;
     z-index: 11;
-    top: max(calc(var(--game-offset-y) + 4px), env(safe-area-inset-top, 0px));
+    top: max(var(--game-offset-y), env(safe-area-inset-top, 0px));
     left: 50%;
     width: var(--game-w);
     max-width: 100%;
@@ -2405,14 +2405,18 @@ html.comfort-hud .inputZone strong {
   }
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell {
+    --game-w: min(100vw, calc(100svh * 16 / 9));
+    --game-h: min(100svh, calc(100vw * 9 / 16));
+    --game-offset-y: 0px;
+    position: relative;
     width: 100%;
     min-height: 100svh;
     height: 100svh;
-    padding: max(6px, env(safe-area-inset-top, 0px)) 6px max(8px, env(safe-area-inset-bottom, 0px));
-    gap: 6px;
+    padding: 0;
+    gap: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    align-content: start;
+    grid-template-rows: 1fr;
+    place-items: start center;
     overflow: hidden;
   }
 
@@ -2423,21 +2427,25 @@ html.comfort-hud .inputZone strong {
   }
 
   html[data-phase="battle"] .shell {
+    --game-w: min(100vw, calc(100svh * 16 / 9));
+    --game-h: min(100svh, calc(100vw * 9 / 16));
+    --game-offset-y: 0px;
+    position: relative;
     width: 100%;
     min-height: 100svh;
     height: 100svh;
-    padding: max(6px, env(safe-area-inset-top, 0px)) 6px max(8px, env(safe-area-inset-bottom, 0px));
-    gap: 6px;
+    padding: 0;
+    gap: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr);
-    align-content: start;
+    grid-template-rows: 1fr;
+    place-items: start center;
     overflow: hidden;
     touch-action: none;
   }
 
   html[data-phase="battle"] .shell::after {
-    content: "";
-    display: block;
+    content: none;
+    display: none;
     height: min(28svh, 236px);
     min-height: 180px;
     width: 100%;
@@ -2473,9 +2481,17 @@ html.comfort-hud .inputZone strong {
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbar,
   html[data-phase="battle"] .topbar {
+    position: absolute;
+    z-index: 11;
+    top: max(var(--game-offset-y), env(safe-area-inset-top, 0px));
+    left: 50%;
+    width: var(--game-w);
+    max-width: 100vw;
+    transform: translateX(-50%);
     gap: 4px;
     padding: 5px 6px 6px;
-    border-radius: 7px;
+    border-radius: 0 0 7px 7px;
+    pointer-events: none;
   }
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .topbarTitleRow,
@@ -2552,8 +2568,8 @@ html.comfort-hud .inputZone strong {
   }
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .gameSurface {
-    width: 100%;
-    height: auto;
+    width: var(--game-w);
+    height: var(--game-h);
     min-height: 0;
     max-height: none;
     aspect-ratio: 16 / 9;
@@ -2569,9 +2585,9 @@ html.comfort-hud .inputZone strong {
 
   html[data-phase="battle"] .gameSurface {
     aspect-ratio: 16 / 9;
-    height: auto;
+    height: var(--game-h);
     max-height: none;
-    width: 100%;
+    width: var(--game-w);
     min-height: 0;
     overflow: hidden;
   }

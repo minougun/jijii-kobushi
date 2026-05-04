@@ -1,5 +1,5 @@
 import { createAudioEngine } from "./audio.js?v=20260430-1125";
-import { createRenderer } from "./renderer.js?v=20260504-loop2perf1";
+import { createRenderer } from "./renderer.js?v=20260504-toplayout1";
 import {
   DIFFICULTIES,
   STAGES,
@@ -14,7 +14,7 @@ import {
   normalizeLoop,
   nextNoteLabel,
 } from "./stages.js?v=20260504-stage3bgm1";
-import { normalizeLang, t } from "./i18n.js?v=20260430-1607";
+import { normalizeLang, t } from "./i18n.js?v=20260504-openingcopy1";
 import {
   ENDING_BONUS_FALLBACK_DURATION_MS,
   createEndingBonusChart,

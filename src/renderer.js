@@ -3034,7 +3034,7 @@ export function createRenderer(canvas, ctx, state) {
     requestCutinImage();
     const progress = 1 - state.specialCutin.life / state.specialCutin.maxLife;
     const alpha = Math.min(1, state.specialCutin.life / 220, progress / 0.12);
-    const y = 34;
+    const y = 0;
     const h = 236;
     ctx.save();
     ctx.globalAlpha = alpha;
@@ -3051,14 +3051,14 @@ export function createRenderer(canvas, ctx, state) {
     ctx.fillStyle = "#fff7d2";
     ctx.textAlign = "left";
     ctx.font = `600 48px ${CANVAS_FONT}`;
-    ctx.fillText(state.specialCutin.internalDestruction ? "奥義" : "十連", 650, 130);
+    ctx.fillText(state.specialCutin.internalDestruction ? "奥義" : "十連", 650, 96);
     ctx.font = `600 34px ${CANVAS_FONT}`;
-    ctx.fillText(state.specialCutin.internalDestruction ? "爺コブシ" : "大追撃", 638, 176);
+    ctx.fillText(state.specialCutin.internalDestruction ? "爺コブシ" : "大追撃", 638, 142);
     ctx.font = `600 22px ${CANVAS_FONT}`;
-    ctx.fillText(state.specialCutin.internalDestruction ? "内部破壊" : `追撃 +${state.specialCutin.damage}`, 672, 214);
+    ctx.fillText(state.specialCutin.internalDestruction ? "内部破壊" : `追撃 +${state.specialCutin.damage}`, 672, 180);
     if (state.specialCutin.internalDestruction) {
       ctx.font = `600 18px ${CANVAS_FONT}`;
-      ctx.fillText(`追撃 +${state.specialCutin.damage}`, 672, 238);
+      ctx.fillText(`追撃 +${state.specialCutin.damage}`, 672, 204);
     }
     ctx.restore();
   }

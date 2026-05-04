@@ -32,7 +32,7 @@ const JA = {
   },
   overlay: {
     openingTitle: "爺コブシ",
-    openingBody: "爺コブシ。\nこの物語は、立石小次郎と、その仲間たちが巻き起こす一大感動巨編である…！",
+    openingBody: "爺コブシ。\nこの物語は、立石小次郎と、その仲間たちが巻き起こす一大感動巨編である。",
     openingAction: "ゲームへ進む",
     titleMain: "孫を取り戻せ",
     titleBoot: "",
