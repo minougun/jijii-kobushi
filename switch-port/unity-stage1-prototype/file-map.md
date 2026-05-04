@@ -1,6 +1,6 @@
-# Unity Stage 1 Prototype File Map
+# Unity Stage Prototype File Map
 
-This is the proposed and partially implemented file layout for a normal Unity local prototype. The repo now tracks portable C# source under `UnityProject/Assets/Scripts/`, while generated Unity folders remain ignored.
+This is the proposed and partially implemented file layout for a normal Unity local prototype. Stage 1 remains the exact parity reference, and the all-stage pack is available for placeholder progression. The repo tracks portable C# source under `UnityProject/Assets/Scripts/`, while generated Unity folders remain ignored.
 
 ## Proposed Unity Project Root
 
@@ -28,6 +28,19 @@ switch-port/stage1/
   test-cases.md
 ```
 
+Keep the tracked all-stage portable pack outside Unity-generated folders:
+
+```text
+switch-port/stages/
+  stage01-shotengai.stage.json
+  stage02-warehouse.stage.json
+  stage03-riverside.stage.json
+  stage04-mountain.stage.json
+  stage05-garage.stage.json
+  stage06-redgate.stage.json
+  stage07-finalhideout.stage.json
+```
+
 ## Data
 
 ```text
@@ -39,6 +52,7 @@ Purpose:
 
 - Load `shotengai.stage.json`.
 - Load `expected-results.json`.
+- Load `switch-port/stages/*.stage.json` for placeholder stage switching.
 - Preserve JSON chart values as data, not generated C# constants.
 
 ## Rhythm
@@ -133,6 +147,8 @@ Purpose:
 - Verify `60/120/190/191ms` boundaries.
 - Verify input grace `250ms`, mash grace `80ms`, mash dedup `70ms`.
 - Verify first note virtual time `4200ms`.
+- Smoke-load all seven stage packs and validate stage order, labels, BGM files, chart summaries, note payloads, and perfect-run sanity.
+- PlayMode-test all-stage debug perfect-clear progression through Stage 7.
 
 ## Placeholder View
 
@@ -160,5 +176,6 @@ Assets/Audio/koiwazurai.mp3
 Notes:
 
 - The current placeholder scene reads `switch-port/stage1/` directly through `ProfileTestRunner.ResolveStagePackPath`.
+- The current placeholder scene reads all-stage progression data through `switch-port/stages/` and `ProfileTestRunner.ResolveAllStagePackPath`.
 - Resource copies should be made from `switch-port/stage1/` and project assets only after the Unity project needs packaged runtime assets.
 - Do not place external portal, SDK, certificate, or private documentation files under this tree.

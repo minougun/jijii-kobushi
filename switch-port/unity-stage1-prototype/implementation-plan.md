@@ -1,10 +1,11 @@
-# Unity Stage 1 Prototype Implementation Plan
+# Unity Stage Prototype Implementation Plan
 
-This plan prepares a small Unity local prototype for Stage 1. The first implementation pass now tracks portable C# source and Unity-facing tests under `UnityProject/Assets/Scripts/` without committing generated Unity folders.
+This plan prepares a small Unity local prototype that keeps Stage 1 as the strict parity reference and uses the tracked all-stage JSON pack for placeholder seven-stage progression. The implementation tracks portable C# source and Unity-facing tests under `UnityProject/Assets/Scripts/` without committing generated Unity folders.
 
 ## Inputs
 
 - Stage JSON: `../stage1/shotengai.stage.json`
+- All-stage JSON pack: `../stages/*.stage.json`
 - Unity spec: `../stage1/unity-spec.md`
 - Expected results: `../stage1/expected-results.json`
 - Pseudocode: `../stage1/pseudocode-csharp.md`
@@ -33,6 +34,7 @@ Deliverables:
 - `NoteData`
 - `DifficultyData`
 - JSON parse smoke test for `../stage1/shotengai.stage.json`
+- All-stage pack smoke test for `../stages/*.stage.json`
 
 Acceptance:
 
@@ -40,8 +42,9 @@ Acceptance:
 - Easy/Normal/Hard chart counts match `106 / 150 / 187`.
 - First note battle time is `1200ms`.
 - BGM metadata loads as path `./assets/audio/koiwazurai.mp3`, gain `0.74`, track volume `0.78`, lead `220`.
+- The all-stage pack loads seven stages in order and preserves stage number, subtitle, location, scenario payload, BGM path, chart shape, and note payloads.
 
-Status: implemented in `UnityProject/Assets/Scripts/Data/StageData.cs` and `StageJsonLoader.cs`.
+Status: implemented in `UnityProject/Assets/Scripts/Data/StageData.cs`, `StageJsonLoader.cs`, and the all-stage smoke gate in `UnityProject/Assets/Scripts/Tests/ProfileTestRunner.cs`.
 
 ## Phase 2: Clock And Input
 
@@ -154,7 +157,7 @@ Acceptance:
 - `mash-heavy` produces overmash Good results with Miss 0.
 - Test output is deterministic and does not require final rendering.
 
-Status: implemented in `UnityProject/Assets/Scripts/Tests/ProfileTestRunner.cs` and `Stage1PortableParityTests.cs`.
+Status: implemented in `UnityProject/Assets/Scripts/Tests/ProfileTestRunner.cs` and `Stage1PortableParityTests.cs`. Stage 1 remains the exact expected-results parity gate; all seven stage packs run schema/order/BGM/chart/perfect-run smoke validation.
 
 ## Phase 7: Placeholder Runtime View
 
@@ -175,8 +178,29 @@ Acceptance:
 - Judgement remains driven by `AudioClock` and timestamped input events.
 - Placeholder visuals can be replaced later without changing the portable core.
 
-Status: placeholder debug formatting is implemented in `UnityProject/Assets/Scripts/View/PlaceholderRenderer.cs`, and `UnityProject/Assets/Scripts/View/PlaceholderRendererBehaviour.cs` provides the local Editor scene driver. `UnityProject/Assets/Scenes/Stage1Prototype.unity` loads JSON, runs parity validation, advances count-in and the Stage 1 timeline, then displays the result. No final renderer work is included.
+Status: placeholder debug formatting is implemented in `UnityProject/Assets/Scripts/View/PlaceholderRenderer.cs`, and `UnityProject/Assets/Scripts/View/PlaceholderRendererBehaviour.cs` provides the local Editor scene driver. `UnityProject/Assets/Scenes/Stage1Prototype.unity` loads JSON, runs Stage 1 parity validation when Stage 1 is active, advances count-in and the selected stage timeline, displays the result, and can advance cleared results through all seven tracked stage packs. No final renderer work is included.
+
+## Phase 8: All-Stage Placeholder Progression
+
+Implement all-stage loading and progression as a local Editor smoke path.
+
+Deliverables:
+
+- Stage switching over `../stages/stage01-*.stage.json` through `stage07-*.stage.json`
+- Result-panel `Next Stage` progression after clear
+- Stage subtitle and location assertions for every stage
+- Final-stage stop condition
+
+Acceptance:
+
+- Stage 1 still loads as `誘拐の朝 / うさぎ公園`.
+- Stage 3 loads as `内部破壊の稽古 / 伊藤道場`.
+- Stage 7 loads as `白馬の正体 / X結社本部`.
+- A debug perfect-clear run can advance from Stage 1 through Stage 7 in PlayMode.
+- Stage 7 clear shows a result line but does not expose another `Next Stage` transition.
+
+Status: implemented in `PlaceholderRendererBehaviour` and covered by `PlaceholderRendererCanPerfectClearAllSevenStagesInOrder`.
 
 ## Stop Condition
 
-Stop after the local prototype can run the six profile tests and produce a visible placeholder Stage 1 run. Do not expand to all stages, final renderer work, production deployment, or platform-specific integration in this phase.
+Stop after the local prototype can run the six Stage 1 profile tests, smoke-load all seven stage packs, and complete a debug perfect-clear pass through the seven placeholder stages. Do not implement final renderer work, production deployment, external portal work, or platform-specific integration in this phase.
