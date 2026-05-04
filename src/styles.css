@@ -528,7 +528,7 @@ html.doodle-loop body {
 }
 
 html.doodle-loop .shell {
-  filter: contrast(1.08) saturate(0.82);
+  filter: none;
 }
 
 html.doodle-loop .topbar {

@@ -35,6 +35,7 @@ export function createRenderer(canvas, ctx, state) {
   };
   const stageBackgroundImages = new Map();
   const stageSceneCache = new Map();
+  const doodleBackgroundCache = new Map();
   const rhythmChromeCache = new Map();
   const paperCutoutCache = new WeakMap();
   let cutinRequested = false;
@@ -3590,6 +3591,8 @@ export function createRenderer(canvas, ctx, state) {
       hold: state.hold,
       mashFeedback: state.mashFeedback,
       inputHint: state.inputHint,
+      judgeText: state.judgeText,
+      runLoop: state.runLoop,
     };
     state.phase = "battle";
     state.nextNote = next;
@@ -3600,10 +3603,13 @@ export function createRenderer(canvas, ctx, state) {
     state.hold = bonus.hold ? { index: bonus.hold.index } : null;
     state.mashFeedback = null;
     state.inputHint = bonus.lastJudge ?? "金の線に来たらタップ";
+    state.judgeText = bonus.lastJudge ?? "金の線に来たらタップ";
+    state.runLoop = normalizeLoop(bonus.loop ?? state.runLoop);
     ctx = targetCtx;
     targetCtx.save();
     targetCtx.translate(0, -352);
-    drawCanvasRhythmBar();
+    if (normalizeLoop(bonus.loop) >= 2) drawDoodleRhythmBar();
+    else drawCanvasRhythmBar();
     targetCtx.restore();
     ctx = previousCtx;
     Object.assign(state, previousState);
@@ -3694,6 +3700,31 @@ export function createRenderer(canvas, ctx, state) {
       ctx.stroke();
     }
     ctx.restore();
+  }
+
+  function getDoodleBackground(stage) {
+    const loop = normalizeLoop(state.runLoop);
+    const key = `${stage.id}:${loop}:${state.reducedMotion ? "reduced" : "motion"}:${W}x${H}`;
+    const cached = doodleBackgroundCache.get(key);
+    if (cached) return cached;
+
+    const previousCtx = ctx;
+    const canvas = makeCanvas(W, H);
+    const cacheCtx = canvas.getContext("2d");
+    cacheCtx.imageSmoothingEnabled = false;
+    try {
+      ctx = cacheCtx;
+      drawDoodleBackground(stage);
+    } finally {
+      ctx = previousCtx;
+    }
+    doodleBackgroundCache.set(key, canvas);
+
+    while (doodleBackgroundCache.size > 12) {
+      const oldest = doodleBackgroundCache.keys().next().value;
+      doodleBackgroundCache.delete(oldest);
+    }
+    return canvas;
   }
 
   function drawDoodleHero(x, y, pose = 0) {
@@ -3799,7 +3830,7 @@ export function createRenderer(canvas, ctx, state) {
   }
 
   function drawDoodleLoopScene(stage, heroX, heroY, enemyX, enemyY, heroPose = 0) {
-    drawDoodleBackground(stage);
+    ctx.drawImage(getDoodleBackground(stage), 0, 0);
     drawDoodleHero(heroX, heroY, heroPose);
     drawDoodleEnemy(enemyX, enemyY, stage);
     if (state.phase === "battle") drawDoodleRhythmBar();
