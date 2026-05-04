@@ -110,6 +110,7 @@ Expected Play Mode behavior:
 - Accepts default gamepad-style input: `A`/Submit for tap or mash, `B` for hold down/up, `Select` for pause/resume, `Start` for restart.
 - Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Pause/Resume`, `Restart`, `Prev/Next`, and Easy/Normal/Hard.
 - Uses the all-stage JSON pack under `switch-port/stages/` for placeholder stage switching. Stage 1 still runs the stricter `expected-results.json` parity gate when loaded.
+- EditMode tests now also run a Unity-side all-stage smoke gate over `switch-port/stages/`, checking stage order, titles, locations, BGM asset paths, chart summaries, note payload shape, and perfect-run sanity for Easy/Normal/Hard.
 - Shows `Next Stage` in the result panel after a cleared stage and advances to the next stage pack. Failed stages keep `Next Stage` disabled and use `Retry`.
 - Pauses BGM and freezes note deadlines while paused, then resumes from the preserved clock position.
 - Applies miss timeout and enemy damage for missed tap/hold notes.

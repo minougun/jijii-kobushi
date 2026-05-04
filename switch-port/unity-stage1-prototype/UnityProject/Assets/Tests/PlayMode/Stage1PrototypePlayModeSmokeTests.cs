@@ -149,7 +149,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
             Assert.AreEqual(1, runner.DebugStageNumber);
 
-            runner.DebugSeekBattleClockMs(999999999);
+            runner.DebugCompleteStagePerfect();
             yield return null;
 
             Assert.IsTrue(runner.DebugCanAdvanceToNextStage);

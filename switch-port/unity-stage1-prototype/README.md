@@ -91,7 +91,9 @@ Unity-facing files:
 
 `ProfileTestRunner` locates the tracked Stage 1 pack (`switch-port/stage1/shotengai.stage.json` and `switch-port/stage1/expected-results.json`), verifies that the stage location is `うさぎ公園`, simulates `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy` for Easy, Normal, and Hard, then compares clear, score, rank, maxCombo, judge counts, miss-by-type, and HP.
 
-`Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, checks that the local BGM file referenced by the JSON can be found before manual playtesting, smoke-loads Stage 7 from the all-stage pack, verifies that a cleared result can advance to Stage 2, and confirms scenario lines load from the stage JSON.
+It also runs an all-stage smoke gate over `switch-port/stages/`. The gate loads all seven stage packs, checks the expected stage id/title/location order, BGM asset path existence, shared timing constants, chart summaries, note id order, note type payloads, and a perfect-run S-rank simulation for each difficulty.
+
+`Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, checks that the local BGM file referenced by the JSON can be found before manual playtesting, smoke-loads Stage 3 and Stage 7 from the all-stage pack, verifies that a cleared result can advance to Stage 2, and confirms scenario lines load from the stage JSON.
 
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 
@@ -127,6 +129,7 @@ The local prototype is ready for the next decision gate when it can:
 8. Allow manual local play in `Stage1Prototype.unity` with keyboard or placeholder OnGUI buttons.
 9. Load the Stage 1 BGM locally and keep the manual timeline synced to the audio clock when available.
 10. Pause and resume the local run without advancing note deadlines or leaving BGM playing.
+11. Load all seven tracked stage packs in Unity-side tests and verify stage order, labels, BGM paths, chart shape, and perfect-run sanity.
 
 ## Recommended Local Verification
 
@@ -136,9 +139,16 @@ Before comparing Unity results, run the JS reference:
 cd /mnt/c/Users/minou/jii-kobushi
 npm run check
 npm run check:switch-stage1
+npm run validate:switch-stages
 ```
 
 Unity test output should be compared to `../stage1/expected-results.json`, not hand-entered chart constants.
+
+The standalone C# CLI can also run the Unity-side all-stage smoke gate:
+
+```bash
+switch-port/unity-stage1-prototype/Stage1PortableCli.exe --all-stages
+```
 
 Manual Play Mode controls:
 

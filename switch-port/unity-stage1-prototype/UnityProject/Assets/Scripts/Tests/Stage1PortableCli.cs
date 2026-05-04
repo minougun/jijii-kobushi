@@ -9,6 +9,23 @@ namespace JijiiKobushi.Stage1Prototype
         {
             try
             {
+                if (args.Length > 0 && args[0] == "--all-stages")
+                {
+                    var stages = ProfileTestRunner.RunAllStageSmoke();
+                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count);
+                    foreach (var stage in stages)
+                    {
+                        Console.WriteLine(
+                            "stage " + (stage.Stage.Index + 1) +
+                            " id=" + stage.Stage.Id +
+                            " title=" + stage.Stage.Title +
+                            " location=" + stage.Stage.LocationName +
+                            " bgm=" + stage.Audio.Bgm.Track);
+                    }
+
+                    return 0;
+                }
+
                 var stageJson = args.Length > 0 ? args[0] : ProfileTestRunner.ResolveStagePackPath("shotengai.stage.json");
                 if (args.Length == 1)
                 {

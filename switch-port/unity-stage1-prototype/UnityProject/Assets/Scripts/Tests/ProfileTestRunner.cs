@@ -6,6 +6,50 @@ namespace JijiiKobushi.Stage1Prototype
 {
     public static class ProfileTestRunner
     {
+        public static readonly string[] AllStagePackFiles =
+        {
+            "stage01-shotengai.stage.json",
+            "stage02-warehouse.stage.json",
+            "stage03-riverside.stage.json",
+            "stage04-mountain.stage.json",
+            "stage05-garage.stage.json",
+            "stage06-redgate.stage.json",
+            "stage07-finalhideout.stage.json"
+        };
+
+        private static readonly string[] ExpectedStageIds =
+        {
+            "shotengai",
+            "warehouse",
+            "riverside",
+            "mountain",
+            "garage",
+            "redgate",
+            "finalhideout"
+        };
+
+        private static readonly string[] ExpectedStageTitles =
+        {
+            "誘拐の朝",
+            "声を失う倉庫",
+            "内部破壊の稽古",
+            "鉄仮面の追跡",
+            "狂う拍と音響兵",
+            "赤門をこじ開けろ",
+            "白馬の正体"
+        };
+
+        private static readonly string[] ExpectedStageLocations =
+        {
+            "うさぎ公園",
+            "港の倉庫",
+            "伊藤道場",
+            "峠道",
+            "改造車庫",
+            "赤門",
+            "X結社本部"
+        };
+
         public static List<BattleRunResult> RunAll(string stageJsonPath, string expectedResultsPath)
         {
             var stage = StageJsonLoader.LoadStage(stageJsonPath);
@@ -25,6 +69,20 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             return results;
+        }
+
+        public static List<StageExport> RunAllStageSmoke()
+        {
+            var stages = new List<StageExport>();
+            for (var index = 0; index < AllStagePackFiles.Length; index += 1)
+            {
+                var path = ResolveAllStagePackPath(AllStagePackFiles[index]);
+                var stage = StageJsonLoader.LoadStage(path);
+                ValidateAllStagePack(stage, index, path);
+                stages.Add(stage);
+            }
+
+            return stages;
         }
 
         public static string RunAllAndFormatReport(string stageJsonPath, string expectedResultsPath)
@@ -95,6 +153,95 @@ namespace JijiiKobushi.Stage1Prototype
             AssertEqual(3, dedup.Count, "mash dedup ignores 69ms repeat");
         }
 
+        private static void ValidateAllStagePack(StageExport stage, int index, string path)
+        {
+            var stageLabel = "stage " + (index + 1) + " " + path;
+            AssertEqual(1, stage.SchemaVersion, stageLabel + " schemaVersion");
+            AssertEqual("jii-kobushi", stage.GameId, stageLabel + " gameId");
+            AssertEqual(index, stage.Stage.Index, stageLabel + " index");
+            AssertEqual(ExpectedStageIds[index], stage.Stage.Id, stageLabel + " id");
+            AssertEqual("switch-stage" + (index + 1) + "-" + stage.Stage.Id, stage.ExportId, stageLabel + " exportId");
+            AssertEqual(ExpectedStageTitles[index], stage.Stage.Title, stageLabel + " title");
+            AssertEqual(ExpectedStageLocations[index], stage.Stage.LocationName, stageLabel + " location");
+            AssertTrue(stage.Stage.Bpm > 0, stageLabel + " bpm");
+            AssertTrue(stage.Scenario.IntroLines.Count > 0, stageLabel + " intro lines");
+            AssertTrue(!string.IsNullOrWhiteSpace(stage.Scenario.RestLine), stageLabel + " rest line");
+            AssertTrue(!string.IsNullOrWhiteSpace(stage.Scenario.ClearLine), stageLabel + " clear line");
+            AssertEqual(12, stage.Player.MaxHp, stageLabel + " player hp");
+            AssertTrue(stage.Enemy.AttackPower > 0, stageLabel + " enemy attack");
+            AssertTrue(stage.Enemy.Hp > 0, stageLabel + " enemy hp");
+            AssertTrue(!string.IsNullOrWhiteSpace(stage.Audio.Bgm.Track), stageLabel + " bgm track");
+            AssertTrue(stage.Audio.Bgm.AssetSrc.StartsWith("./assets/audio/", StringComparison.Ordinal), stageLabel + " bgm asset src");
+            AssertTrue(File.Exists(ResolveRepoAssetPath(stage.Audio.Bgm.AssetSrc)), stageLabel + " bgm file exists");
+            AssertEqual(3000, (int)Math.Round(stage.Audio.Timing.CountInLeadSeconds * 1000.0, MidpointRounding.AwayFromZero), stageLabel + " count-in");
+            AssertEqual(60, stage.Rhythm.WindowsMs.Perfect, stageLabel + " perfect window");
+            AssertEqual(120, stage.Rhythm.WindowsMs.Good, stageLabel + " good window");
+            AssertEqual(190, stage.Rhythm.WindowsMs.Bad, stageLabel + " bad window");
+            AssertEqual(250, stage.Rhythm.InputGraceMs, stageLabel + " input grace");
+            AssertEqual(80, stage.Rhythm.MashInputGraceMs, stageLabel + " mash grace");
+            AssertEqual(70, stage.Rhythm.MashDedupMinGapMs, stageLabel + " mash dedup");
+
+            foreach (var difficulty in BattleSimulator.Difficulties)
+            {
+                ValidateChart(stage, difficulty, stageLabel + " " + difficulty);
+                var perfect = BattleSimulator.Simulate(stage, difficulty, "perfect");
+                AssertTrue(perfect.Clear, stageLabel + " " + difficulty + " perfect clear");
+                AssertEqual("S", perfect.Rank, stageLabel + " " + difficulty + " perfect rank");
+                AssertEqual(0, perfect.Stats.Miss, stageLabel + " " + difficulty + " perfect miss");
+                AssertEqual(stage.Charts[difficulty].Count, perfect.MaxCombo, stageLabel + " " + difficulty + " perfect combo");
+                AssertEqual(stage.Player.MaxHp, perfect.RemainingHp, stageLabel + " " + difficulty + " perfect hp");
+            }
+        }
+
+        private static void ValidateChart(StageExport stage, string difficulty, string label)
+        {
+            AssertTrue(stage.Difficulty.ContainsKey(difficulty), label + " difficulty data");
+            AssertTrue(stage.Charts.ContainsKey(difficulty), label + " chart data");
+            var chart = stage.Charts[difficulty];
+            var summary = stage.Difficulty[difficulty].ChartSummary;
+            AssertTrue(chart.Count > 0, label + " chart not empty");
+            AssertEqual(summary.NoteCount, chart.Count, label + " note count");
+            AssertEqual(summary.TypeCounts.Tap, CountType(chart, "tap"), label + " tap count");
+            AssertEqual(summary.TypeCounts.Hold, CountType(chart, "hold"), label + " hold count");
+            AssertEqual(summary.TypeCounts.Mash, CountType(chart, "mash"), label + " mash count");
+            AssertEqual(summary.FirstMs, chart[0].TimeMs, label + " first ms");
+            AssertEqual(summary.LastEndMs, LastEndMs(chart), label + " last end ms");
+
+            for (var i = 0; i < chart.Count; i += 1)
+            {
+                var note = chart[i];
+                AssertEqual(difficulty + "-" + (i + 1).ToString("0000"), note.Id, label + " note id " + i);
+                AssertTrue(note.Type == "tap" || note.Type == "hold" || note.Type == "mash", label + " note type " + i);
+                if (i > 0) AssertTrue(note.TimeMs > chart[i - 1].TimeMs, label + " increasing time " + i);
+                if (note.Type == "tap")
+                {
+                    AssertEqual(0, note.DurationMs, label + " tap duration " + i);
+                    AssertEqual(0, note.TargetCount, label + " tap target " + i);
+                }
+                else
+                {
+                    AssertTrue(note.DurationMs > 0, label + " duration " + i);
+                    if (note.Type == "mash") AssertTrue(note.TargetCount > 0, label + " mash target " + i);
+                }
+            }
+        }
+
+        private static int CountType(List<NoteData> chart, string type)
+        {
+            var count = 0;
+            foreach (var note in chart)
+            {
+                if (note.Type == type) count += 1;
+            }
+            return count;
+        }
+
+        private static int LastEndMs(List<NoteData> chart)
+        {
+            var last = chart[chart.Count - 1];
+            return last.TimeMs + last.DurationMs;
+        }
+
         private static void CompareExpected(ExpectedResults expected, string profile, string difficulty, BattleRunResult actual)
         {
             var expectedProfile = expected.Profiles[profile][difficulty];
@@ -134,6 +281,28 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 throw new InvalidOperationException(label + " expected " + expected + " but got " + actual);
             }
+        }
+
+        private static void AssertTrue(bool condition, string label)
+        {
+            if (!condition)
+            {
+                throw new InvalidOperationException(label + " expected true");
+            }
+        }
+
+        private static string ResolveRepoAssetPath(string assetSrc)
+        {
+            var normalized = assetSrc.StartsWith("./", StringComparison.Ordinal) ? assetSrc.Substring(2) : assetSrc;
+            var current = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (current != null)
+            {
+                var candidate = Path.Combine(current.FullName, normalized.Replace("/", Path.DirectorySeparatorChar.ToString()));
+                if (File.Exists(candidate)) return candidate;
+                current = current.Parent;
+            }
+
+            return Path.GetFullPath(normalized);
         }
 
         public static string ResolveDefaultPath(string relativeFromUnityProject)

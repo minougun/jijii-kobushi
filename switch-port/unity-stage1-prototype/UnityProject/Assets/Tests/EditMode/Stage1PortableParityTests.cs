@@ -13,6 +13,13 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void AllStagePacksLoadAndPassSmokeGate()
+        {
+            var stages = ProfileTestRunner.RunAllStageSmoke();
+            Assert.AreEqual(7, stages.Count);
+        }
+
+        [Test]
         public void InteractivePerfectRunMatchesSimulator()
         {
             var stage = LoadStage();
