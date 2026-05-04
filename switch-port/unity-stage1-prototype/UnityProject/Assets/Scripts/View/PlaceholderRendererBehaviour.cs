@@ -1290,7 +1290,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         private string ResolveRuntimeAssetLocalPath(string assetSrc)
         {
-            return ResolveRepoRelativePath(assetSrc, RuntimeCatalog);
+            return ResolveRuntimeAssetPath(assetSrc, RuntimeCatalog, Application.streamingAssetsPath);
         }
 
         private RuntimeAssetCatalog RuntimeCatalog
@@ -1313,10 +1313,21 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
-        private static string ResolveRepoRelativePath(string assetSrc, RuntimeAssetCatalog catalog)
+        private static string ResolveRuntimeAssetPath(string assetSrc, RuntimeAssetCatalog catalog, string streamingAssetsRoot)
         {
             if (string.IsNullOrEmpty(assetSrc)) return "";
             var normalized = RuntimeAssetPathUtility.NormalizeAssetPath(assetSrc);
+
+            if (catalog != null)
+            {
+                var streamingPath = catalog.ResolveStreamingAssetsPath(normalized, streamingAssetsRoot);
+                if (!string.IsNullOrEmpty(streamingPath)) return streamingPath;
+            }
+            else
+            {
+                var streamingPath = RuntimeAssetPathUtility.ResolveStreamingAssetsPath(normalized, streamingAssetsRoot);
+                if (!string.IsNullOrEmpty(streamingPath)) return streamingPath;
+            }
 
             if (catalog != null)
             {

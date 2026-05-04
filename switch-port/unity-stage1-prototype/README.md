@@ -105,7 +105,7 @@ HP 0 now enters an explicit `Failed` phase, while full chart completion with HP 
 
 `EndingBonusInteractiveSession` mirrors the ED bonus tap/hold/mash API against the portable ED chart. The ED chart can place tap notes inside mash spans, so this session resolves overlapping notes by time window instead of using the stricter one-note-at-a-time stage cursor.
 
-`RuntimeAssetCatalog` loads `../assets/runtime-assets.json` and resolves Web original asset paths such as `./assets/audio/koiwazurai.mp3` into local Unity-readable files and future `StreamingAssets` relative paths. This keeps asset lookup tied to the Web manifest instead of ad hoc directory walking. `RuntimeAssetImportPlanner` remains the import-readiness checker and separates blocking manifest gaps from local skip-worktree image warnings.
+`RuntimeAssetCatalog` loads `../assets/runtime-assets.json` and resolves Web original asset paths such as `./assets/audio/koiwazurai.mp3` into Unity-readable files. Runtime lookup now prefers `StreamingAssets/JiiKobushi/...` when staged files exist, then falls back to the Web original local repo path for Editor work. This keeps asset lookup tied to the Web manifest instead of ad hoc directory walking. `RuntimeAssetImportPlanner` remains the import-readiness checker and separates blocking manifest gaps from local skip-worktree image warnings.
 
 `RuntimeAssetStreamingStage` can copy currently available local runtime files into `UnityProject/Assets/StreamingAssets/JiiKobushi/` for packaged-player smoke tests. The generated binaries are intentionally ignored; the source of truth remains the Web original asset manifest and tracked Git objects.
 

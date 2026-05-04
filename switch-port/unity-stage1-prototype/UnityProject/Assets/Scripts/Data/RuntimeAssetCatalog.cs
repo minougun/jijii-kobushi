@@ -69,6 +69,11 @@ namespace JijiiKobushi.Stage1Prototype
             return File.Exists(candidate) ? candidate : "";
         }
 
+        public string ResolveStreamingAssetsPath(string assetSrc, string streamingAssetsRoot)
+        {
+            return RuntimeAssetPathUtility.ResolveStreamingAssetsPath(assetSrc, streamingAssetsRoot);
+        }
+
         public string GetStreamingAssetsRelativePath(string assetSrc)
         {
             return RuntimeAssetPathUtility.ToStreamingAssetsRelativePath(assetSrc);
@@ -105,6 +110,16 @@ namespace JijiiKobushi.Stage1Prototype
             var normalized = NormalizeAssetPath(assetSrc);
             if (string.IsNullOrEmpty(normalized)) return "";
             return "JiiKobushi/" + normalized;
+        }
+
+        public static string ResolveStreamingAssetsPath(string assetSrc, string streamingAssetsRoot)
+        {
+            if (string.IsNullOrEmpty(streamingAssetsRoot)) return "";
+            var relativePath = ToStreamingAssetsRelativePath(assetSrc);
+            if (string.IsNullOrEmpty(relativePath)) return "";
+
+            var candidate = Path.Combine(streamingAssetsRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
+            return File.Exists(candidate) ? candidate : "";
         }
     }
 }

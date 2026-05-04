@@ -114,6 +114,27 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void RuntimeAssetCatalogPrefersStreamingAssetsWhenPresent()
+        {
+            var tempRoot = Path.Combine(Path.GetTempPath(), "jii-kobushi-streaming-assets-test-" + System.Guid.NewGuid().ToString("N"));
+            try
+            {
+                var stagedPath = Path.Combine(tempRoot, "JiiKobushi", "assets", "audio", "koiwazurai.mp3");
+                Directory.CreateDirectory(Path.GetDirectoryName(stagedPath));
+                File.WriteAllText(stagedPath, "placeholder");
+
+                var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+                var catalog = RuntimeAssetCatalog.FromManifest(manifest);
+                Assert.AreEqual(stagedPath, catalog.ResolveStreamingAssetsPath("./assets/audio/koiwazurai.mp3", tempRoot));
+                Assert.AreEqual("", catalog.ResolveStreamingAssetsPath("./assets/audio/oboro.mp3", tempRoot));
+            }
+            finally
+            {
+                if (Directory.Exists(tempRoot)) Directory.Delete(tempRoot, true);
+            }
+        }
+
+        [Test]
         public void EndingBonusInteractivePerfectRunMatchesSimulator()
         {
             var ending = StageJsonLoader.LoadEndingBonus(ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json"));
