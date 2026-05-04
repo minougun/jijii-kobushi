@@ -51,15 +51,15 @@ function simulatedMashCount(note, rank, random) {
   return Math.max(0, note.targetCount - 4);
 }
 
-function simulateClear(stage, difficulty, seed) {
+function simulateClear(stage, difficulty, seed, loop = 1) {
   const random = rng(seed);
   const profile = PROFILES[difficulty];
-  const damageScale = damageScaleForDifficulty(stage, difficulty) * loopPlayerDamageMultiplier(1, stage, difficulty);
-  const targetHp = Math.round(stage.enemy.hp * loopEnemyHpMultiplier(1, stage, difficulty));
+  const damageScale = damageScaleForDifficulty(stage, difficulty, loop) * loopPlayerDamageMultiplier(loop, stage, difficulty);
+  const targetHp = Math.round(stage.enemy.hp * loopEnemyHpMultiplier(loop, stage, difficulty));
   let damage = 0;
   let combo = 0;
 
-  for (const note of getStageChart(stage, difficulty)) {
+  for (const note of getStageChart(stage, difficulty, loop)) {
     let rank = pickRank(random, profile.rankWeights);
     if (note.type === "hold" && rank !== "miss" && random() < 0.08) rank = lowerRank(rank);
     if (rank === "miss") {
@@ -144,8 +144,8 @@ function findBeatPhase(onset, bpm) {
   return best;
 }
 
-function noteGridStats(stage, difficulty, phaseMs) {
-  const chart = getStageChart(stage, difficulty);
+function noteGridStats(stage, difficulty, phaseMs, loop = 1) {
+  const chart = getStageChart(stage, difficulty, loop);
   const subdivisionMs = 60000 / stage.bpm / 4;
   const trackOffsetMs = (stage.bgm?.startSeconds ?? 0) * 1000;
   const offsets = chart

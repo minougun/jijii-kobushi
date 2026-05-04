@@ -944,8 +944,8 @@ async function beginBattle() {
   state.phaseLabel = "コブシ戦";
   state.enemyMaxHp = Math.round(getEnemyHp(state.stage) * loopEnemyHpMultiplier(state.runLoop, state.stage, state.difficulty));
   state.enemyHp = state.enemyMaxHp;
-  state.activeChart = getStageChart(state.stage, state.difficulty);
-  state.damageScale = damageScaleForDifficulty(state.stage, state.difficulty) * loopPlayerDamageMultiplier(state.runLoop, state.stage, state.difficulty);
+  state.activeChart = getStageChart(state.stage, state.difficulty, state.runLoop);
+  state.damageScale = damageScaleForDifficulty(state.stage, state.difficulty, state.runLoop) * loopPlayerDamageMultiplier(state.runLoop, state.stage, state.difficulty);
   state.noteStates = state.activeChart.map((note) => ({
     note,
     rank: null,
@@ -1013,7 +1013,7 @@ async function startBattleClock(chart, bpm, durationMs, bgmProfile = {}, session
   return bgmStarted;
 }
 
-function stageBattleDuration(stage, chart = getStageChart(stage, state.difficulty)) {
+function stageBattleDuration(stage, chart = getStageChart(stage, state.difficulty, state.runLoop)) {
   const last = chart.at(-1);
   return last.timeMs + (last.durationMs ?? 0);
 }
@@ -1111,7 +1111,7 @@ function isCurrentStageCleared() {
 
 function skippedStageResult(stage) {
   const best = state.bestScores[scoreKeyForStage(stage.id)];
-  const chartLen = getStageChart(stage, state.difficulty).length;
+  const chartLen = getStageChart(stage, state.difficulty, state.runLoop).length;
   return {
     stageId: stage.id,
     title: stage.title,

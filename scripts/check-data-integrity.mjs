@@ -41,11 +41,18 @@ function assetExists(filePath) {
 }
 
 const chartVariants = STAGES.flatMap((stage) =>
-  Object.keys(DIFFICULTIES).map((difficulty) => ({
-    ...stage,
-    id: `${stage.id}:${difficulty}`,
-    chart: stage.chartsByDifficulty?.[difficulty] ?? [],
-  })),
+  Object.keys(DIFFICULTIES).flatMap((difficulty) => [
+    {
+      ...stage,
+      id: `${stage.id}:${difficulty}`,
+      chart: stage.chartsByDifficulty?.[difficulty] ?? [],
+    },
+    {
+      ...stage,
+      id: `${stage.id}:loopPlus:${difficulty}`,
+      chart: stage.loopPlusChartsByDifficulty?.[difficulty] ?? [],
+    },
+  ]),
 );
 
 const errors = validateStages(chartVariants);

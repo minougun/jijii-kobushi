@@ -72,9 +72,9 @@ function simulateRun(stage, difficulty, rankWeights, seed, loop = 1) {
   let combo = 0;
   let maxCombo = 0;
   let comboBonusTotal = 0;
-  const damageScale = damageScaleForDifficulty(stage, difficulty) * loopPlayerDamageMultiplier(loop, stage, difficulty);
+  const damageScale = damageScaleForDifficulty(stage, difficulty, loop) * loopPlayerDamageMultiplier(loop, stage, difficulty);
 
-  for (const note of getStageChart(stage, difficulty)) {
+  for (const note of getStageChart(stage, difficulty, loop)) {
     let rank = pickRank(random, rankWeights);
     if (note.type === "hold" && rank !== "miss" && random() < 0.08) rank = lowerRank(rank);
     notes.push({ rank });
@@ -97,7 +97,7 @@ function simulateRun(stage, difficulty, rankWeights, seed, loop = 1) {
 
   const score = calculateStageScore({
     notes,
-    totalNotes: getStageChart(stage, difficulty).length,
+    totalNotes: getStageChart(stage, difficulty, loop).length,
     maxCombo,
     hp: PLAYER_MAX_HP,
     maxHp: PLAYER_MAX_HP,

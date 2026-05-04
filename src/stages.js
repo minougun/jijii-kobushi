@@ -437,8 +437,10 @@ export const LOOP_DIFFICULTY = {
 };
 
 const HARD_LOOP_STAGE_RELIEF = {
-  garage: { enemyHp: 0.965, playerDamage: 1, enemyAttack: 0.96 },
-  redgate: { enemyHp: 0.97, playerDamage: 1, enemyAttack: 0.96 },
+  warehouse: { enemyHp: 0.94, playerDamage: 1, enemyAttack: 0.96 },
+  mountain: { enemyHp: 1.02, playerDamage: 1, enemyAttack: 0.96 },
+  garage: { enemyHp: 0.97, playerDamage: 1, enemyAttack: 0.96 },
+  redgate: { enemyHp: 0.99, playerDamage: 1, enemyAttack: 0.96 },
   finalhideout: { enemyHp: 0.97, playerDamage: 1, enemyAttack: 0.97 },
 };
 
@@ -506,8 +508,38 @@ function chartConfigForDifficulty(config, difficulty) {
   };
 }
 
+function chartConfigForLoop(config, difficulty, loop = 1) {
+  const loopLevel = loopDifficultyLevel(loop);
+  if (loopLevel <= 0) return config;
+  const boost = difficulty === "hard" ? 1.08 : difficulty === "normal" ? 1.06 : 1.04;
+  const baseSpan = (config.count - 1) * config.stepMs;
+  const count = Math.max(24, Math.round(config.count * boost));
+  const tapGapScale = difficulty === "hard" ? 0.9 : difficulty === "normal" ? 0.92 : 0.94;
+  return {
+    ...config,
+    count,
+    stepMs: Math.round(baseSpan / Math.max(1, count - 1)),
+    holdDurationMs: Math.round(config.holdDurationMs * (difficulty === "hard" ? 0.95 : 0.97)),
+    burstDurationMs: Math.min(MAX_MASH_DURATION_MS, Math.round(config.burstDurationMs * (difficulty === "hard" ? 0.98 : 1))),
+    burstTapGapMs: Math.max(110, Math.round(config.burstTapGapMs * tapGapScale)),
+    tapRunEvery: Math.max(5, config.tapRunEvery - (difficulty === "hard" ? 2 : 1)),
+    tapRunGapMs: Math.max(110, Math.round(config.tapRunGapMs * tapGapScale)),
+    holdEvery: Math.max(4, config.holdEvery - (difficulty === "hard" ? 1 : 0)),
+    burstEvery: Math.max(12, config.burstEvery - (difficulty === "hard" ? 2 : 1)),
+  };
+}
+
 function makeChartsByDifficulty(config) {
   return Object.fromEntries(Object.keys(DIFFICULTIES).map((difficulty) => [difficulty, makeChart(chartConfigForDifficulty(config, difficulty))]));
+}
+
+function makeLoopPlusChartsByDifficulty(config) {
+  return Object.fromEntries(
+    Object.keys(DIFFICULTIES).map((difficulty) => {
+      const difficultyConfig = chartConfigForDifficulty(config, difficulty);
+      return [difficulty, makeChart(chartConfigForLoop(difficultyConfig, difficulty, 2))];
+    }),
+  );
 }
 
 export const STAGES = STAGE_TEMPLATES.map((stage) => ({
@@ -517,6 +549,7 @@ export const STAGES = STAGE_TEMPLATES.map((stage) => ({
     hp: HP_BY_STAGE[stage.id],
   },
   chartsByDifficulty: makeChartsByDifficulty(stage.chartConfig),
+  loopPlusChartsByDifficulty: makeLoopPlusChartsByDifficulty(stage.chartConfig),
   chart: makeChart(stage.chartConfig),
 }));
 
@@ -528,13 +561,14 @@ export function getEnemyHp(stage) {
   return stage.enemy.hp;
 }
 
-export function getStageChart(stage, difficulty = "normal") {
-  return stage.chartsByDifficulty?.[difficulty] ?? stage.chartsByDifficulty?.normal ?? stage.chart;
+export function getStageChart(stage, difficulty = "normal", loop = 1) {
+  const charts = normalizeLoop(loop) >= 2 ? stage.loopPlusChartsByDifficulty : stage.chartsByDifficulty;
+  return charts?.[difficulty] ?? charts?.normal ?? stage.chartsByDifficulty?.[difficulty] ?? stage.chartsByDifficulty?.normal ?? stage.chart;
 }
 
-export function damageScaleForDifficulty(stage, difficulty = "normal") {
-  const normalLength = getStageChart(stage, "normal").length || 1;
-  const selectedLength = getStageChart(stage, difficulty).length || normalLength;
+export function damageScaleForDifficulty(stage, difficulty = "normal", loop = 1) {
+  const normalLength = getStageChart(stage, "normal", loop).length || 1;
+  const selectedLength = getStageChart(stage, difficulty, loop).length || normalLength;
   const damageFactor = DIFFICULTIES[difficulty]?.damageFactor ?? 1;
   return (normalLength / selectedLength) * damageFactor;
 }
