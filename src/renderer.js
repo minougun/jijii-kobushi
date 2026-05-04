@@ -2920,7 +2920,30 @@ export function createRenderer(canvas, ctx, state) {
     if (dom.quickSaveButton) {
       ui.setHidden(dom.quickSaveButton, state.phase === "opening" || state.phase === "title" || state.paused);
     }
-    ui.setClass(dom.gameSurface, "novelActive", (state.phase === "intro" || state.phase === "finalReveal") && !dom.overlay.classList.contains("hidden"));  }
+    ui.setStyle(dom.hpMeter, "width", `${Math.max(0, Math.min(1, state.hp / state.maxHp)) * 100}%`);
+    if (dom.enemyHpMeter && state.enemyMaxHp > 0) {
+      ui.setStyle(dom.enemyHpMeter, "width", `${Math.max(0, Math.min(1, state.enemyHp / state.enemyMaxHp)) * 100}%`);
+    } else if (dom.enemyHpMeter) {
+      ui.setStyle(dom.enemyHpMeter, "width", "0%");
+    }
+    ui.setStyle(dom.spiritMeter, "width", `${Math.max(0, Math.min(100, state.spirit))}%`);
+    if (dom.playerHpValue) {
+      ui.setText(dom.playerHpValue, `${Math.max(0, Math.round(state.hp))} / ${Math.max(0, Math.round(state.maxHp))}`);
+    }
+    if (dom.enemyHpValue) {
+      ui.setText(dom.enemyHpValue, `${Math.max(0, Math.round(state.enemyHp))} / ${Math.max(0, Math.round(state.enemyMaxHp))}`);
+    }
+    if (dom.spiritLabel) {
+      const focusSeconds = state.spiritFocusMs > 0 ? Math.ceil(state.spiritFocusMs / 1000) : 0;
+      ui.setText(dom.spiritLabel, focusSeconds > 0 ? `見切り ${focusSeconds}s` : t(lang, "hud.spirit"));
+    }
+    if (dom.enemyNameLabel) {
+      const enemyName = state.stage?.enemy?.name ?? t(lang, "hud.enemyFallback");
+      const comboPart = state.phase === "battle" && state.combo > 0 ? ` ${state.combo}連` : "";
+      ui.setText(dom.enemyNameLabel, `${enemyName}${comboPart}`);
+    }
+    ui.setClass(dom.gameSurface, "novelActive", (state.phase === "intro" || state.phase === "finalReveal") && !dom.overlay.classList.contains("hidden"));
+  }
 
   return { draw, drawEndingRhythmBar, preloadCutinImage: requestCutinImage, retainStageBackgrounds, syncDom };
 }

@@ -1,5 +1,5 @@
 import { DIFFICULTIES, STAGES, validateStages } from "../src/stages.js";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 
@@ -29,6 +29,14 @@ const REQUIRED_IMAGE_FILES = [
 ];
 const REQUIRED_FONT_FILES = ["NotoSansJP-JiiKobushi-subset.woff2"];
 const REQUIRED_VIDEO_FILES = ["ending.mp4", "ending-loop2.mp4"];
+const REQUIRED_RENDERER_DOM_SYNC_TOKENS = [
+  "dom.hpMeter",
+  "dom.enemyHpMeter",
+  "dom.spiritMeter",
+  "dom.playerHpValue",
+  "dom.enemyHpValue",
+  "dom.enemyNameLabel",
+];
 
 function gitObjectExists(filePath) {
   const repoPath = filePath.replaceAll("\\", "/");
@@ -99,6 +107,15 @@ for (const fileName of REQUIRED_VIDEO_FILES) {
 
 if (bgmErrors.length) {
   for (const error of bgmErrors) console.error(error);
+  process.exit(1);
+}
+
+const rendererSource = readFileSync("src/renderer.js", "utf8");
+const rendererErrors = REQUIRED_RENDERER_DOM_SYNC_TOKENS
+  .filter((token) => !rendererSource.includes(token))
+  .map((token) => `renderer HUD sync missing ${token}`);
+if (rendererErrors.length) {
+  for (const error of rendererErrors) console.error(error);
   process.exit(1);
 }
 
