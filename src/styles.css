@@ -2503,6 +2503,74 @@ html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="re
   }
 }
 
+html[data-phase="results"],
+html[data-phase="results"] body {
+  width: 100%;
+  min-height: 100svh;
+  height: 100svh;
+  overflow: hidden;
+  background: #171717;
+}
+
+html[data-phase="results"] .topbar,
+html[data-phase="results"] .settings,
+html[data-phase="results"] .helpGuide,
+html[data-phase="results"] canvas,
+html[data-phase="results"] .quickSaveButton,
+html[data-phase="results"] .pauseButton {
+  display: none !important;
+}
+
+html[data-phase="results"] .shell {
+  width: 100%;
+  min-height: 100svh;
+  height: 100svh;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  align-content: center;
+  justify-items: center;
+  gap: 0;
+  padding: max(8px, env(safe-area-inset-top, 0px)) max(8px, env(safe-area-inset-right, 0px)) max(8px, env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+  overflow: hidden;
+  background: #171717;
+}
+
+html[data-phase="results"] .gameSurface {
+  width: min(1080px, calc(100vw - 16px));
+  height: min(92svh, 760px);
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: auto;
+  margin: auto;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 247, 210, 0.08), rgba(23, 23, 23, 0) 22%),
+    #171717;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 1px rgba(227, 191, 85, 0.22),
+    0 24px 54px rgba(0, 0, 0, 0.42);
+}
+
+html[data-phase="results"] .overlay.resultOverlay {
+  inset: 0;
+  place-content: center;
+  align-content: center;
+  justify-items: center;
+  max-height: none;
+  padding: clamp(10px, 2vw, 22px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(246, 217, 95, 0.13), rgba(23, 23, 23, 0) 34%),
+    #171717;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+html[data-phase="results"] .resultSummary {
+  max-height: min(76svh, 640px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
