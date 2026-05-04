@@ -112,6 +112,7 @@ Expected Play Mode behavior:
 - Uses the all-stage JSON pack under `switch-port/stages/` for placeholder stage switching. Stage 1 still runs the stricter `expected-results.json` parity gate when loaded.
 - EditMode tests now also run a Unity-side all-stage smoke gate over `switch-port/stages/`, checking stage order, titles, locations, BGM asset paths, chart summaries, note payload shape, and perfect-run sanity for Easy/Normal/Hard.
 - Shows `Next Stage` in the result panel after a cleared stage and advances to the next stage pack. Failed stages keep `Next Stage` disabled and use `Retry`.
+- PlayMode tests include a debug perfect-clear route through all seven tracked stage packs, checking each stage number, subtitle, location, intro payload, result line, and final-stage stop condition.
 - Pauses BGM and freezes note deadlines while paused, then resumes from the preserved clock position.
 - Applies miss timeout and enemy damage for missed tap/hold notes.
 - Shows Result with clear, score, rank, maxCombo, HP, and judge stats after the chart finishes or HP reaches zero.

@@ -93,7 +93,7 @@ Unity-facing files:
 
 It also runs an all-stage smoke gate over `switch-port/stages/`. The gate loads all seven stage packs, checks the expected stage id/title/location order, BGM asset path existence, shared timing constants, chart summaries, note id order, note type payloads, and a perfect-run S-rank simulation for each difficulty.
 
-`Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, checks that the local BGM file referenced by the JSON can be found before manual playtesting, smoke-loads Stage 3 and Stage 7 from the all-stage pack, verifies that a cleared result can advance to Stage 2, and confirms scenario lines load from the stage JSON.
+`Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, checks that the local BGM file referenced by the JSON can be found before manual playtesting, smoke-loads Stage 3 and Stage 7 from the all-stage pack, verifies that a cleared result can advance to Stage 2, confirms scenario lines load from the stage JSON, and runs a debug perfect-clear pass through all seven stage packs in order.
 
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 

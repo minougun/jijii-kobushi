@@ -7,6 +7,28 @@ namespace JijiiKobushi.Stage1Prototype
 {
     public sealed class Stage1PrototypePlayModeSmokeTests
     {
+        private static readonly string[] ExpectedStageTitles =
+        {
+            "誘拐の朝",
+            "声を失う倉庫",
+            "内部破壊の稽古",
+            "鉄仮面の追跡",
+            "狂う拍と音響兵",
+            "赤門をこじ開けろ",
+            "白馬の正体"
+        };
+
+        private static readonly string[] ExpectedStageLocations =
+        {
+            "うさぎ公園",
+            "港の倉庫",
+            "伊藤道場",
+            "峠道",
+            "改造車庫",
+            "赤門",
+            "X結社本部"
+        };
+
         [UnityTest]
         public IEnumerator PlaceholderRendererLoadsStageAndFindsBgm()
         {
@@ -166,6 +188,55 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual("声を失う倉庫", runner.DebugStageTitle);
             Assert.AreEqual("港の倉庫", runner.DebugStageLocation);
             Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
+
+            Object.Destroy(runnerObject);
+        }
+
+        [UnityTest]
+        public IEnumerator PlaceholderRendererCanPerfectClearAllSevenStagesInOrder()
+        {
+            var runnerObject = new GameObject("All Stage Progression PlayMode Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+
+            for (var stageNumber = 1; stageNumber <= ExpectedStageTitles.Length; stageNumber += 1)
+            {
+                Assert.AreEqual(stageNumber, runner.DebugStageNumber, "stage number before clear");
+                Assert.AreEqual(ExpectedStageTitles[stageNumber - 1], runner.DebugStageTitle, "stage title before clear");
+                Assert.AreEqual(ExpectedStageLocations[stageNumber - 1], runner.DebugStageLocation, "stage location before clear");
+                Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1, "intro lines before clear");
+
+                runner.DebugCompleteStagePerfect();
+                yield return null;
+
+                Assert.IsNotEmpty(runner.DebugResultScenarioLine, "result scenario line after clear");
+
+                if (stageNumber < ExpectedStageTitles.Length)
+                {
+                    Assert.IsTrue(runner.DebugCanAdvanceToNextStage, "can advance after clear");
+                    runner.DebugAdvanceToNextStage();
+
+                    for (var i = 0; i < 180; i += 1)
+                    {
+                        if (runner.DebugSessionLoaded && runner.DebugStageNumber == stageNumber + 1) break;
+                        yield return null;
+                    }
+
+                    Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+                    Assert.AreEqual(stageNumber + 1, runner.DebugStageNumber, "stage number after advance");
+                }
+                else
+                {
+                    Assert.IsFalse(runner.DebugCanAdvanceToNextStage, "final stage should not advance");
+                }
+            }
 
             Object.Destroy(runnerObject);
         }
