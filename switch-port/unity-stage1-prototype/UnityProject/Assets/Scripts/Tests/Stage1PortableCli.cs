@@ -12,7 +12,8 @@ namespace JijiiKobushi.Stage1Prototype
                 if (args.Length > 0 && args[0] == "--all-stages")
                 {
                     var stages = ProfileTestRunner.RunAllStageSmoke();
-                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count);
+                    var profileResults = ProfileTestRunner.RunAllStageProfileParity();
+                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count + " profileResults=" + profileResults.Count);
                     foreach (var stage in stages)
                     {
                         Console.WriteLine(

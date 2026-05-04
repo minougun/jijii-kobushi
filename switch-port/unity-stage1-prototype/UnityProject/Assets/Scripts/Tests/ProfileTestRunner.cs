@@ -85,6 +85,32 @@ namespace JijiiKobushi.Stage1Prototype
             return stages;
         }
 
+        public static List<BattleRunResult> RunAllStageProfileParity()
+        {
+            var results = new List<BattleRunResult>();
+            for (var index = 0; index < AllStagePackFiles.Length; index += 1)
+            {
+                var stagePath = ResolveAllStagePackPath(AllStagePackFiles[index]);
+                var expectedPath = ResolveAllStagePackPath(AllStagePackFiles[index].Replace(".stage.json", ".expected-results.json"));
+                var stage = StageJsonLoader.LoadStage(stagePath);
+                var expected = StageJsonLoader.LoadExpectedResults(expectedPath);
+                ValidateAllStagePack(stage, index, stagePath);
+                ValidateExpectedTiming(stage, expected, "stage " + (index + 1));
+
+                foreach (var profile in BattleSimulator.Profiles)
+                {
+                    foreach (var difficulty in BattleSimulator.Difficulties)
+                    {
+                        var result = BattleSimulator.Simulate(stage, difficulty, profile);
+                        CompareExpected(expected, profile, difficulty, result);
+                        results.Add(result);
+                    }
+                }
+            }
+
+            return results;
+        }
+
         public static string RunAllAndFormatReport(string stageJsonPath, string expectedResultsPath)
         {
             var results = RunAll(stageJsonPath, expectedResultsPath);
@@ -191,6 +217,21 @@ namespace JijiiKobushi.Stage1Prototype
                 AssertEqual(stage.Charts[difficulty].Count, perfect.MaxCombo, stageLabel + " " + difficulty + " perfect combo");
                 AssertEqual(stage.Player.MaxHp, perfect.RemainingHp, stageLabel + " " + difficulty + " perfect hp");
             }
+        }
+
+        private static void ValidateExpectedTiming(StageExport stage, ExpectedResults expected, string label)
+        {
+            var countInMs = (int)Math.Round(stage.Audio.Timing.CountInLeadSeconds * 1000.0, MidpointRounding.AwayFromZero);
+            var first = stage.Charts["easy"][0];
+            AssertEqual(countInMs, expected.Timing.CountInMs, label + " expected count-in");
+            AssertEqual(first.TimeMs, expected.Timing.FirstNoteBattleMs, label + " expected first note battle");
+            AssertEqual(countInMs + first.TimeMs, expected.Timing.FirstNoteVirtualMs, label + " expected first note virtual");
+            AssertEqual(stage.Rhythm.WindowsMs.Perfect, expected.Timing.WindowsMs.Perfect, label + " expected perfect window");
+            AssertEqual(stage.Rhythm.WindowsMs.Good, expected.Timing.WindowsMs.Good, label + " expected good window");
+            AssertEqual(stage.Rhythm.WindowsMs.Bad, expected.Timing.WindowsMs.Bad, label + " expected bad window");
+            AssertEqual(stage.Rhythm.InputGraceMs, expected.Timing.InputGraceMs, label + " expected input grace");
+            AssertEqual(stage.Rhythm.MashInputGraceMs, expected.Timing.MashInputGraceMs, label + " expected mash grace");
+            AssertEqual(stage.Rhythm.MashDedupMinGapMs, expected.Timing.MashDedupMinGapMs, label + " expected mash dedup");
         }
 
         private static void ValidateChart(StageExport stage, string difficulty, string label)

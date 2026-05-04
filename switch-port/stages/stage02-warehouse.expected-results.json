@@ -1,0 +1,436 @@
+{
+  "source": {
+    "command": "npm run export:switch-stage-results",
+    "stageJson": "switch-port/stages/stage02-warehouse.stage.json",
+    "date": "2026-05-04"
+  },
+  "stage": {
+    "id": "warehouse",
+    "index": 1,
+    "title": "声を失う倉庫",
+    "locationName": "港の倉庫"
+  },
+  "timing": {
+    "countInMs": 3000,
+    "firstNoteBattleMs": 1072,
+    "firstNoteVirtualMs": 4072,
+    "windowsMs": {
+      "perfect": 60,
+      "good": 120,
+      "bad": 190
+    },
+    "inputGraceMs": 250,
+    "mashInputGraceMs": 80,
+    "mashDedupMinGapMs": 70
+  },
+  "profiles": {
+    "perfect": {
+      "easy": {
+        "clear": true,
+        "score": 9800,
+        "rank": "S",
+        "maxCombo": 157,
+        "stats": {
+          "perfect": 157,
+          "good": 0,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "normal": {
+        "clear": true,
+        "score": 9800,
+        "rank": "S",
+        "maxCombo": 192,
+        "stats": {
+          "perfect": 192,
+          "good": 0,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "hard": {
+        "clear": true,
+        "score": 9800,
+        "rank": "S",
+        "maxCombo": 237,
+        "stats": {
+          "perfect": 237,
+          "good": 0,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      }
+    },
+    "steady": {
+      "easy": {
+        "clear": true,
+        "score": 8770,
+        "rank": "S",
+        "maxCombo": 157,
+        "stats": {
+          "perfect": 80,
+          "good": 77,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "normal": {
+        "clear": true,
+        "score": 8838,
+        "rank": "S",
+        "maxCombo": 192,
+        "stats": {
+          "perfect": 104,
+          "good": 88,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "hard": {
+        "clear": true,
+        "score": 8825,
+        "rank": "S",
+        "maxCombo": 237,
+        "stats": {
+          "perfect": 127,
+          "good": 110,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      }
+    },
+    "early": {
+      "easy": {
+        "clear": false,
+        "score": 1522,
+        "rank": "C",
+        "maxCombo": 2,
+        "stats": {
+          "perfect": 19,
+          "good": 0,
+          "bad": 49,
+          "miss": 89
+        },
+        "missByType": {
+          "tap": 68,
+          "hold": 21,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 0,
+          "max": 12
+        },
+        "hpDamageTaken": 89
+      },
+      "normal": {
+        "clear": false,
+        "score": 1576,
+        "rank": "C",
+        "maxCombo": 2,
+        "stats": {
+          "perfect": 26,
+          "good": 0,
+          "bad": 56,
+          "miss": 110
+        },
+        "missByType": {
+          "tap": 81,
+          "hold": 29,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 0,
+          "max": 12
+        },
+        "hpDamageTaken": 110
+      },
+      "hard": {
+        "clear": false,
+        "score": 1640,
+        "rank": "C",
+        "maxCombo": 2,
+        "stats": {
+          "perfect": 35,
+          "good": 0,
+          "bad": 67,
+          "miss": 135
+        },
+        "missByType": {
+          "tap": 99,
+          "hold": 36,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 0,
+          "max": 12
+        },
+        "hpDamageTaken": 135
+      }
+    },
+    "late": {
+      "easy": {
+        "clear": false,
+        "score": 1522,
+        "rank": "C",
+        "maxCombo": 2,
+        "stats": {
+          "perfect": 19,
+          "good": 0,
+          "bad": 49,
+          "miss": 89
+        },
+        "missByType": {
+          "tap": 68,
+          "hold": 21,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 0,
+          "max": 12
+        },
+        "hpDamageTaken": 89
+      },
+      "normal": {
+        "clear": false,
+        "score": 1576,
+        "rank": "C",
+        "maxCombo": 2,
+        "stats": {
+          "perfect": 26,
+          "good": 0,
+          "bad": 56,
+          "miss": 110
+        },
+        "missByType": {
+          "tap": 81,
+          "hold": 29,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 0,
+          "max": 12
+        },
+        "hpDamageTaken": 110
+      },
+      "hard": {
+        "clear": false,
+        "score": 1640,
+        "rank": "C",
+        "maxCombo": 2,
+        "stats": {
+          "perfect": 35,
+          "good": 0,
+          "bad": 67,
+          "miss": 135
+        },
+        "missByType": {
+          "tap": 99,
+          "hold": 36,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 0,
+          "max": 12
+        },
+        "hpDamageTaken": 135
+      }
+    },
+    "mash-weak": {
+      "easy": {
+        "clear": true,
+        "score": 7548,
+        "rank": "A",
+        "maxCombo": 10,
+        "stats": {
+          "perfect": 138,
+          "good": 0,
+          "bad": 0,
+          "miss": 19
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 19
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "normal": {
+        "clear": true,
+        "score": 7422,
+        "rank": "A",
+        "maxCombo": 9,
+        "stats": {
+          "perfect": 166,
+          "good": 0,
+          "bad": 0,
+          "miss": 26
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 26
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "hard": {
+        "clear": true,
+        "score": 7323,
+        "rank": "A",
+        "maxCombo": 9,
+        "stats": {
+          "perfect": 202,
+          "good": 0,
+          "bad": 0,
+          "miss": 35
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 35
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      }
+    },
+    "mash-heavy": {
+      "easy": {
+        "clear": true,
+        "score": 9546,
+        "rank": "S",
+        "maxCombo": 157,
+        "stats": {
+          "perfect": 138,
+          "good": 19,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "normal": {
+        "clear": true,
+        "score": 9516,
+        "rank": "S",
+        "maxCombo": 192,
+        "stats": {
+          "perfect": 166,
+          "good": 26,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      },
+      "hard": {
+        "clear": true,
+        "score": 9490,
+        "rank": "S",
+        "maxCombo": 237,
+        "stats": {
+          "perfect": 202,
+          "good": 35,
+          "bad": 0,
+          "miss": 0
+        },
+        "missByType": {
+          "tap": 0,
+          "hold": 0,
+          "mash": 0
+        },
+        "hp": {
+          "remaining": 12,
+          "max": 12
+        },
+        "hpDamageTaken": 0
+      }
+    }
+  }
+}

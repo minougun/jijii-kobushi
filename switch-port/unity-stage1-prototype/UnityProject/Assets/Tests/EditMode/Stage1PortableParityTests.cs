@@ -20,6 +20,13 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void AllStageProfilesMatchExpectedResults()
+        {
+            var results = ProfileTestRunner.RunAllStageProfileParity();
+            Assert.AreEqual(7 * 6 * 3, results.Count);
+        }
+
+        [Test]
         public void InteractivePerfectRunMatchesSimulator()
         {
             var stage = LoadStage();

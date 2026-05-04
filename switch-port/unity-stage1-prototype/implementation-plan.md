@@ -157,7 +157,7 @@ Acceptance:
 - `mash-heavy` produces overmash Good results with Miss 0.
 - Test output is deterministic and does not require final rendering.
 
-Status: implemented in `UnityProject/Assets/Scripts/Tests/ProfileTestRunner.cs` and `Stage1PortableParityTests.cs`. Stage 1 remains the exact expected-results parity gate; all seven stage packs run schema/order/BGM/chart/perfect-run smoke validation.
+Status: implemented in `UnityProject/Assets/Scripts/Tests/ProfileTestRunner.cs` and `Stage1PortableParityTests.cs`. Stage 1 remains the exact expected-results parity gate. All seven stage packs now also have generated `*.expected-results.json` files, and Unity EditMode validates six profiles across Easy/Normal/Hard for every stage.
 
 ## Phase 7: Placeholder Runtime View
 
@@ -196,6 +196,7 @@ Acceptance:
 - Stage 1 still loads as `誘拐の朝 / うさぎ公園`.
 - Stage 3 loads as `内部破壊の稽古 / 伊藤道場`.
 - Stage 7 loads as `白馬の正体 / X結社本部`.
+- All seven stages match generated expected profile results for `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy`.
 - A debug perfect-clear run can advance from Stage 1 through Stage 7 in PlayMode.
 - Stage 7 clear shows a result line but does not expose another `Next Stage` transition.
 

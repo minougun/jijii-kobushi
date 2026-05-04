@@ -2,6 +2,8 @@
 
 This directory contains tracked portable JSON exports for all seven web stages. The files are generated from `src/stages.js`, `src/rhythm.js`, `src/audio.js`, and `src/main.js` and are intended as data-contract inputs for later Unity/Switch port work.
 
+The matching `*.expected-results.json` files are generated from the stage exports and define deterministic parity expectations for six input profiles (`perfect`, `steady`, `early`, `late`, `mash-weak`, `mash-heavy`) across Easy/Normal/Hard. Unity EditMode tests use these files to verify that every stage, not only Stage 1, still matches the Web judgement and scoring contract.
+
 ## Files
 
 - `stage01-shotengai.stage.json`

@@ -56,6 +56,10 @@ ED bonus:
 - Unity EditMode batch tests: 6/6 passed.
 - Unity PlayMode batch tests: 7/7 passed.
 - Unity Windows player smoke: exit code 0, `stage=誘拐の朝`, `location=うさぎ公園`.
+- Added all-stage expected profile results after this pass:
+  - `npm run export:switch-stage-results`
+  - `npm run validate:switch-stage-results`
+  - Unity EditMode now covers 7 tests, including 126 all-stage profile parity checks.
 
 Note: Unity player smoke was run with `-nographics`, so shader unsupported logs appeared in the player log. The smoke gate itself exited successfully.
 
