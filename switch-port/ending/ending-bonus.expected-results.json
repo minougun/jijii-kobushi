@@ -1,0 +1,2474 @@
+{
+  "source": {
+    "command": "npm run export:switch-ending-bonus",
+    "endingJson": "switch-port/ending/ending-bonus.stage.json",
+    "date": "2026-05-04"
+  },
+  "ending": {
+    "id": "ending-bonus",
+    "title": "ED拍ボーナス",
+    "description": "ED動画の音声をBGMとして使う本編同型のボーナスリズムゲーム。",
+    "firstLoopVideoSrc": "./assets/video/ending.mp4",
+    "loopPlusVideoSrc": "./assets/video/ending-loop2.mp4",
+    "fallbackDurationMs": 77300,
+    "firstBeatMs": 1600
+  },
+  "timing": {
+    "firstBeatMs": 1600,
+    "fallbackDurationMs": 77300,
+    "windowsMs": {
+      "perfect": 60,
+      "good": 120,
+      "bad": 190
+    },
+    "inputGraceMs": 250,
+    "mashInputGraceMs": 80,
+    "mashDedupMinGapMs": 70
+  },
+  "loops": {
+    "1": {
+      "profiles": {
+        "perfect": {
+          "easy": {
+            "noteCount": 68,
+            "typeCounts": {
+              "tap": 44,
+              "hold": 12,
+              "mash": 12
+            },
+            "stats": {
+              "perfect": 68,
+              "good": 0,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 68,
+            "misses": 0,
+            "bestCombo": 68,
+            "score": 19150,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2360,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3120,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-066",
+                "type": "tap",
+                "noteTimeMs": 73800,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-067",
+                "type": "tap",
+                "noteTimeMs": 74560,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-068",
+                "type": "tap",
+                "noteTimeMs": 75320,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 88,
+            "typeCounts": {
+              "tap": 59,
+              "hold": 15,
+              "mash": 14
+            },
+            "stats": {
+              "perfect": 88,
+              "good": 0,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 88,
+            "misses": 0,
+            "bestCombo": 88,
+            "score": 25550,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2240,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2880,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-086",
+                "type": "tap",
+                "noteTimeMs": 73920,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-087",
+                "type": "hold",
+                "noteTimeMs": 74560,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-088",
+                "type": "tap",
+                "noteTimeMs": 75840,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 112,
+            "typeCounts": {
+              "tap": 78,
+              "hold": 17,
+              "mash": 17
+            },
+            "stats": {
+              "perfect": 112,
+              "good": 0,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 112,
+            "misses": 0,
+            "bestCombo": 112,
+            "score": 33230,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2140,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2680,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-110",
+                "type": "mash",
+                "noteTimeMs": 73420,
+                "detail": "7/7"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-111",
+                "type": "tap",
+                "noteTimeMs": 75040,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-112",
+                "type": "tap",
+                "noteTimeMs": 75580,
+                "detail": "0ms"
+              }
+            ]
+          }
+        },
+        "steady": {
+          "easy": {
+            "noteCount": 68,
+            "typeCounts": {
+              "tap": 44,
+              "hold": 12,
+              "mash": 12
+            },
+            "stats": {
+              "perfect": 35,
+              "good": 33,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 68,
+            "misses": 0,
+            "bestCombo": 68,
+            "score": 15944,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2360,
+                "detail": "32ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3120,
+                "detail": "-64ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-066",
+                "type": "tap",
+                "noteTimeMs": 73800,
+                "detail": "-44ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-067",
+                "type": "tap",
+                "noteTimeMs": 74560,
+                "detail": "58ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-easy-068",
+                "type": "tap",
+                "noteTimeMs": 75320,
+                "detail": "-76ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 88,
+            "typeCounts": {
+              "tap": 59,
+              "hold": 15,
+              "mash": 14
+            },
+            "stats": {
+              "perfect": 48,
+              "good": 40,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 88,
+            "misses": 0,
+            "bestCombo": 88,
+            "score": 21616,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2240,
+                "detail": "32ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2880,
+                "detail": "-64ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-086",
+                "type": "tap",
+                "noteTimeMs": 73920,
+                "detail": "32ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-087",
+                "type": "hold",
+                "noteTimeMs": 74560,
+                "detail": "46ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-088",
+                "type": "tap",
+                "noteTimeMs": 75840,
+                "detail": "58ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 112,
+            "typeCounts": {
+              "tap": 78,
+              "hold": 17,
+              "mash": 17
+            },
+            "stats": {
+              "perfect": 60,
+              "good": 52,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 112,
+            "misses": 0,
+            "bestCombo": 112,
+            "score": 27922,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2140,
+                "detail": "32ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2680,
+                "detail": "-64ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-hard-110",
+                "type": "mash",
+                "noteTimeMs": 73420,
+                "detail": "6/7"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-hard-111",
+                "type": "tap",
+                "noteTimeMs": 75040,
+                "detail": "96ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-hard-112",
+                "type": "tap",
+                "noteTimeMs": 75580,
+                "detail": "-112ms"
+              }
+            ]
+          }
+        },
+        "early": {
+          "easy": {
+            "noteCount": 68,
+            "typeCounts": {
+              "tap": 44,
+              "hold": 12,
+              "mash": 12
+            },
+            "stats": {
+              "perfect": 12,
+              "good": 0,
+              "bad": 19,
+              "miss": 37
+            },
+            "missByType": {
+              "tap": 29,
+              "hold": 8,
+              "mash": 0
+            },
+            "hits": 31,
+            "misses": 37,
+            "bestCombo": 2,
+            "score": 2487,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2360,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3120,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-066",
+                "type": "tap",
+                "noteTimeMs": 73800,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-easy-067",
+                "type": "tap",
+                "noteTimeMs": 74560,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-068",
+                "type": "tap",
+                "noteTimeMs": 75320,
+                "detail": "-191ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 88,
+            "typeCounts": {
+              "tap": 59,
+              "hold": 15,
+              "mash": 14
+            },
+            "stats": {
+              "perfect": 14,
+              "good": 0,
+              "bad": 30,
+              "miss": 44
+            },
+            "missByType": {
+              "tap": 36,
+              "hold": 8,
+              "mash": 0
+            },
+            "hits": 44,
+            "misses": 44,
+            "bestCombo": 2,
+            "score": 3210,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2240,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2880,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-086",
+                "type": "tap",
+                "noteTimeMs": 73920,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-087",
+                "type": "hold",
+                "noteTimeMs": 74560,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-normal-088",
+                "type": "tap",
+                "noteTimeMs": 75840,
+                "detail": "-190ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 112,
+            "typeCounts": {
+              "tap": 78,
+              "hold": 17,
+              "mash": 17
+            },
+            "stats": {
+              "perfect": 17,
+              "good": 0,
+              "bad": 32,
+              "miss": 63
+            },
+            "missByType": {
+              "tap": 52,
+              "hold": 11,
+              "mash": 0
+            },
+            "hits": 49,
+            "misses": 63,
+            "bestCombo": 2,
+            "score": 3708,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2140,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2680,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-110",
+                "type": "mash",
+                "noteTimeMs": 73420,
+                "detail": "7/7"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-hard-111",
+                "type": "tap",
+                "noteTimeMs": 75040,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-hard-112",
+                "type": "tap",
+                "noteTimeMs": 75580,
+                "detail": "-190ms"
+              }
+            ]
+          }
+        },
+        "late": {
+          "easy": {
+            "noteCount": 68,
+            "typeCounts": {
+              "tap": 44,
+              "hold": 12,
+              "mash": 12
+            },
+            "stats": {
+              "perfect": 12,
+              "good": 0,
+              "bad": 19,
+              "miss": 37
+            },
+            "missByType": {
+              "tap": 29,
+              "hold": 8,
+              "mash": 0
+            },
+            "hits": 31,
+            "misses": 37,
+            "bestCombo": 2,
+            "score": 2487,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2360,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3120,
+                "detail": "220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-066",
+                "type": "tap",
+                "noteTimeMs": 73800,
+                "detail": "220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-easy-067",
+                "type": "tap",
+                "noteTimeMs": 74560,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-easy-068",
+                "type": "tap",
+                "noteTimeMs": 75320,
+                "detail": "191ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 88,
+            "typeCounts": {
+              "tap": 59,
+              "hold": 15,
+              "mash": 14
+            },
+            "stats": {
+              "perfect": 14,
+              "good": 0,
+              "bad": 30,
+              "miss": 44
+            },
+            "missByType": {
+              "tap": 36,
+              "hold": 8,
+              "mash": 0
+            },
+            "hits": 44,
+            "misses": 44,
+            "bestCombo": 2,
+            "score": 3210,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2240,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2880,
+                "detail": "220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-086",
+                "type": "tap",
+                "noteTimeMs": 73920,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-normal-087",
+                "type": "hold",
+                "noteTimeMs": 74560,
+                "detail": "220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-normal-088",
+                "type": "tap",
+                "noteTimeMs": 75840,
+                "detail": "190ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 112,
+            "typeCounts": {
+              "tap": 78,
+              "hold": 17,
+              "mash": 17
+            },
+            "stats": {
+              "perfect": 17,
+              "good": 0,
+              "bad": 32,
+              "miss": 63
+            },
+            "missByType": {
+              "tap": 52,
+              "hold": 11,
+              "mash": 0
+            },
+            "hits": 49,
+            "misses": 63,
+            "bestCombo": 2,
+            "score": 3708,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2140,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2680,
+                "detail": "220ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-110",
+                "type": "mash",
+                "noteTimeMs": 73420,
+                "detail": "7/7"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-hard-111",
+                "type": "tap",
+                "noteTimeMs": 75040,
+                "detail": "220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l1-hard-112",
+                "type": "tap",
+                "noteTimeMs": 75580,
+                "detail": "190ms"
+              }
+            ]
+          }
+        },
+        "mash-weak": {
+          "easy": {
+            "noteCount": 68,
+            "typeCounts": {
+              "tap": 44,
+              "hold": 12,
+              "mash": 12
+            },
+            "stats": {
+              "perfect": 56,
+              "good": 0,
+              "bad": 0,
+              "miss": 12
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 12
+            },
+            "hits": 56,
+            "misses": 12,
+            "bestCombo": 5,
+            "score": 8746,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2360,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3120,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-066",
+                "type": "tap",
+                "noteTimeMs": 73800,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-067",
+                "type": "tap",
+                "noteTimeMs": 74560,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-068",
+                "type": "tap",
+                "noteTimeMs": 75320,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 88,
+            "typeCounts": {
+              "tap": 59,
+              "hold": 15,
+              "mash": 14
+            },
+            "stats": {
+              "perfect": 74,
+              "good": 0,
+              "bad": 0,
+              "miss": 14
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 14
+            },
+            "hits": 74,
+            "misses": 14,
+            "bestCombo": 6,
+            "score": 11716,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2240,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2880,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-086",
+                "type": "tap",
+                "noteTimeMs": 73920,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-087",
+                "type": "hold",
+                "noteTimeMs": 74560,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-088",
+                "type": "tap",
+                "noteTimeMs": 75840,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 112,
+            "typeCounts": {
+              "tap": 78,
+              "hold": 17,
+              "mash": 17
+            },
+            "stats": {
+              "perfect": 95,
+              "good": 0,
+              "bad": 0,
+              "miss": 17
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 17
+            },
+            "hits": 95,
+            "misses": 17,
+            "bestCombo": 6,
+            "score": 15136,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2140,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2680,
+                "detail": "0ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l1-hard-110",
+                "type": "mash",
+                "noteTimeMs": 73420,
+                "detail": "0/7"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-111",
+                "type": "tap",
+                "noteTimeMs": 75040,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-112",
+                "type": "tap",
+                "noteTimeMs": 75580,
+                "detail": "0ms"
+              }
+            ]
+          }
+        },
+        "mash-heavy": {
+          "easy": {
+            "noteCount": 68,
+            "typeCounts": {
+              "tap": 44,
+              "hold": 12,
+              "mash": 12
+            },
+            "stats": {
+              "perfect": 56,
+              "good": 12,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 68,
+            "misses": 0,
+            "bestCombo": 68,
+            "score": 17972,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2360,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3120,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-066",
+                "type": "tap",
+                "noteTimeMs": 73800,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-067",
+                "type": "tap",
+                "noteTimeMs": 74560,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-easy-068",
+                "type": "tap",
+                "noteTimeMs": 75320,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 88,
+            "typeCounts": {
+              "tap": 59,
+              "hold": 15,
+              "mash": 14
+            },
+            "stats": {
+              "perfect": 74,
+              "good": 14,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 88,
+            "misses": 0,
+            "bestCombo": 88,
+            "score": 24134,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2240,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2880,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-086",
+                "type": "tap",
+                "noteTimeMs": 73920,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-087",
+                "type": "hold",
+                "noteTimeMs": 74560,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-normal-088",
+                "type": "tap",
+                "noteTimeMs": 75840,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 112,
+            "typeCounts": {
+              "tap": 78,
+              "hold": 17,
+              "mash": 17
+            },
+            "stats": {
+              "perfect": 95,
+              "good": 17,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 112,
+            "misses": 0,
+            "bestCombo": 112,
+            "score": 31476,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2140,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2680,
+                "detail": "0ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l1-hard-110",
+                "type": "mash",
+                "noteTimeMs": 73420,
+                "detail": "10/7"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-111",
+                "type": "tap",
+                "noteTimeMs": 75040,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l1-hard-112",
+                "type": "tap",
+                "noteTimeMs": 75580,
+                "detail": "0ms"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "2": {
+      "profiles": {
+        "perfect": {
+          "easy": {
+            "noteCount": 73,
+            "typeCounts": {
+              "tap": 47,
+              "hold": 13,
+              "mash": 13
+            },
+            "stats": {
+              "perfect": 73,
+              "good": 0,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 73,
+            "misses": 0,
+            "bestCombo": 73,
+            "score": 20750,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2303,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3006,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-071",
+                "type": "mash",
+                "noteTimeMs": 72603,
+                "detail": "7/7"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-072",
+                "type": "tap",
+                "noteTimeMs": 74712,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-073",
+                "type": "tap",
+                "noteTimeMs": 75415,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 94,
+            "typeCounts": {
+              "tap": 63,
+              "hold": 16,
+              "mash": 15
+            },
+            "stats": {
+              "perfect": 94,
+              "good": 0,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 94,
+            "misses": 0,
+            "bestCombo": 94,
+            "score": 27470,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2192,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2784,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-092",
+                "type": "tap",
+                "noteTimeMs": 73232,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-093",
+                "type": "tap",
+                "noteTimeMs": 73824,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-094",
+                "type": "hold",
+                "noteTimeMs": 74416,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 122,
+            "typeCounts": {
+              "tap": 85,
+              "hold": 19,
+              "mash": 18
+            },
+            "stats": {
+              "perfect": 122,
+              "good": 0,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 122,
+            "misses": 0,
+            "bestCombo": 122,
+            "score": 36430,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2100,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-120",
+                "type": "hold",
+                "noteTimeMs": 74600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-121",
+                "type": "tap",
+                "noteTimeMs": 75600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-122",
+                "type": "tap",
+                "noteTimeMs": 75850,
+                "detail": "0ms"
+              }
+            ]
+          }
+        },
+        "steady": {
+          "easy": {
+            "noteCount": 73,
+            "typeCounts": {
+              "tap": 47,
+              "hold": 13,
+              "mash": 13
+            },
+            "stats": {
+              "perfect": 38,
+              "good": 35,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 73,
+            "misses": 0,
+            "bestCombo": 73,
+            "score": 17324,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2303,
+                "detail": "32ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l2-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3006,
+                "detail": "-64ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-071",
+                "type": "mash",
+                "noteTimeMs": 72603,
+                "detail": "7/7"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-072",
+                "type": "tap",
+                "noteTimeMs": 74712,
+                "detail": "32ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-073",
+                "type": "tap",
+                "noteTimeMs": 75415,
+                "detail": "-44ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 94,
+            "typeCounts": {
+              "tap": 63,
+              "hold": 16,
+              "mash": 15
+            },
+            "stats": {
+              "perfect": 50,
+              "good": 44,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 94,
+            "misses": 0,
+            "bestCombo": 94,
+            "score": 23096,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2192,
+                "detail": "32ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l2-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2784,
+                "detail": "-64ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-092",
+                "type": "tap",
+                "noteTimeMs": 73232,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-093",
+                "type": "tap",
+                "noteTimeMs": 73824,
+                "detail": "32ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l2-normal-094",
+                "type": "hold",
+                "noteTimeMs": 74416,
+                "detail": "102ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 122,
+            "typeCounts": {
+              "tap": 85,
+              "hold": 19,
+              "mash": 18
+            },
+            "stats": {
+              "perfect": 64,
+              "good": 58,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 122,
+            "misses": 0,
+            "bestCombo": 122,
+            "score": 30462,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2100,
+                "detail": "32ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l2-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2600,
+                "detail": "-64ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l2-hard-120",
+                "type": "hold",
+                "noteTimeMs": 74600,
+                "detail": "-118ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-121",
+                "type": "tap",
+                "noteTimeMs": 75600,
+                "detail": "32ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-122",
+                "type": "tap",
+                "noteTimeMs": 75850,
+                "detail": "-44ms"
+              }
+            ]
+          }
+        },
+        "early": {
+          "easy": {
+            "noteCount": 73,
+            "typeCounts": {
+              "tap": 47,
+              "hold": 13,
+              "mash": 13
+            },
+            "stats": {
+              "perfect": 13,
+              "good": 0,
+              "bad": 21,
+              "miss": 39
+            },
+            "missByType": {
+              "tap": 30,
+              "hold": 9,
+              "mash": 0
+            },
+            "hits": 34,
+            "misses": 39,
+            "bestCombo": 2,
+            "score": 2713,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2303,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3006,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-071",
+                "type": "mash",
+                "noteTimeMs": 72603,
+                "detail": "7/7"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-easy-072",
+                "type": "tap",
+                "noteTimeMs": 74712,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-easy-073",
+                "type": "tap",
+                "noteTimeMs": 75415,
+                "detail": "-190ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 94,
+            "typeCounts": {
+              "tap": 63,
+              "hold": 16,
+              "mash": 15
+            },
+            "stats": {
+              "perfect": 15,
+              "good": 0,
+              "bad": 32,
+              "miss": 47
+            },
+            "missByType": {
+              "tap": 39,
+              "hold": 8,
+              "mash": 0
+            },
+            "hits": 47,
+            "misses": 47,
+            "bestCombo": 2,
+            "score": 3432,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2192,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2784,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-092",
+                "type": "tap",
+                "noteTimeMs": 73232,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-093",
+                "type": "tap",
+                "noteTimeMs": 73824,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-normal-094",
+                "type": "hold",
+                "noteTimeMs": 74416,
+                "detail": "-190ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 122,
+            "typeCounts": {
+              "tap": 85,
+              "hold": 19,
+              "mash": 18
+            },
+            "stats": {
+              "perfect": 18,
+              "good": 0,
+              "bad": 35,
+              "miss": 69
+            },
+            "missByType": {
+              "tap": 56,
+              "hold": 13,
+              "mash": 0
+            },
+            "hits": 53,
+            "misses": 69,
+            "bestCombo": 2,
+            "score": 3971,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2100,
+                "detail": "-191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2600,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-120",
+                "type": "hold",
+                "noteTimeMs": 74600,
+                "detail": "-220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-hard-121",
+                "type": "tap",
+                "noteTimeMs": 75600,
+                "detail": "-190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-122",
+                "type": "tap",
+                "noteTimeMs": 75850,
+                "detail": "-191ms"
+              }
+            ]
+          }
+        },
+        "late": {
+          "easy": {
+            "noteCount": 73,
+            "typeCounts": {
+              "tap": 47,
+              "hold": 13,
+              "mash": 13
+            },
+            "stats": {
+              "perfect": 13,
+              "good": 0,
+              "bad": 21,
+              "miss": 39
+            },
+            "missByType": {
+              "tap": 30,
+              "hold": 9,
+              "mash": 0
+            },
+            "hits": 34,
+            "misses": 39,
+            "bestCombo": 2,
+            "score": 2713,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2303,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3006,
+                "detail": "220ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-071",
+                "type": "mash",
+                "noteTimeMs": 72603,
+                "detail": "7/7"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-easy-072",
+                "type": "tap",
+                "noteTimeMs": 74712,
+                "detail": "220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-easy-073",
+                "type": "tap",
+                "noteTimeMs": 75415,
+                "detail": "190ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 94,
+            "typeCounts": {
+              "tap": 63,
+              "hold": 16,
+              "mash": 15
+            },
+            "stats": {
+              "perfect": 15,
+              "good": 0,
+              "bad": 32,
+              "miss": 47
+            },
+            "missByType": {
+              "tap": 39,
+              "hold": 8,
+              "mash": 0
+            },
+            "hits": 47,
+            "misses": 47,
+            "bestCombo": 2,
+            "score": 3432,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2192,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2784,
+                "detail": "220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-092",
+                "type": "tap",
+                "noteTimeMs": 73232,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-normal-093",
+                "type": "tap",
+                "noteTimeMs": 73824,
+                "detail": "220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-normal-094",
+                "type": "hold",
+                "noteTimeMs": 74416,
+                "detail": "190ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 122,
+            "typeCounts": {
+              "tap": 85,
+              "hold": 19,
+              "mash": 18
+            },
+            "stats": {
+              "perfect": 18,
+              "good": 0,
+              "bad": 35,
+              "miss": 69
+            },
+            "missByType": {
+              "tap": 56,
+              "hold": 13,
+              "mash": 0
+            },
+            "hits": 53,
+            "misses": 69,
+            "bestCombo": 2,
+            "score": 3971,
+            "samples": [
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2100,
+                "detail": "191ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2600,
+                "detail": "220ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-120",
+                "type": "hold",
+                "noteTimeMs": 74600,
+                "detail": "220ms"
+              },
+              {
+                "rank": "bad",
+                "noteId": "ed-l2-hard-121",
+                "type": "tap",
+                "noteTimeMs": 75600,
+                "detail": "190ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-hard-122",
+                "type": "tap",
+                "noteTimeMs": 75850,
+                "detail": "191ms"
+              }
+            ]
+          }
+        },
+        "mash-weak": {
+          "easy": {
+            "noteCount": 73,
+            "typeCounts": {
+              "tap": 47,
+              "hold": 13,
+              "mash": 13
+            },
+            "stats": {
+              "perfect": 60,
+              "good": 0,
+              "bad": 0,
+              "miss": 13
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 13
+            },
+            "hits": 60,
+            "misses": 13,
+            "bestCombo": 5,
+            "score": 9378,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2303,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3006,
+                "detail": "0ms"
+              },
+              {
+                "rank": "miss",
+                "noteId": "ed-l2-easy-071",
+                "type": "mash",
+                "noteTimeMs": 72603,
+                "detail": "0/7"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-072",
+                "type": "tap",
+                "noteTimeMs": 74712,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-073",
+                "type": "tap",
+                "noteTimeMs": 75415,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 94,
+            "typeCounts": {
+              "tap": 63,
+              "hold": 16,
+              "mash": 15
+            },
+            "stats": {
+              "perfect": 79,
+              "good": 0,
+              "bad": 0,
+              "miss": 15
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 15
+            },
+            "hits": 79,
+            "misses": 15,
+            "bestCombo": 6,
+            "score": 12512,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2192,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2784,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-092",
+                "type": "tap",
+                "noteTimeMs": 73232,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-093",
+                "type": "tap",
+                "noteTimeMs": 73824,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-094",
+                "type": "hold",
+                "noteTimeMs": 74416,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 122,
+            "typeCounts": {
+              "tap": 85,
+              "hold": 19,
+              "mash": 18
+            },
+            "stats": {
+              "perfect": 104,
+              "good": 0,
+              "bad": 0,
+              "miss": 18
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 18
+            },
+            "hits": 104,
+            "misses": 18,
+            "bestCombo": 6,
+            "score": 16594,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2100,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-120",
+                "type": "hold",
+                "noteTimeMs": 74600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-121",
+                "type": "tap",
+                "noteTimeMs": 75600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-122",
+                "type": "tap",
+                "noteTimeMs": 75850,
+                "detail": "0ms"
+              }
+            ]
+          }
+        },
+        "mash-heavy": {
+          "easy": {
+            "noteCount": 73,
+            "typeCounts": {
+              "tap": 47,
+              "hold": 13,
+              "mash": 13
+            },
+            "stats": {
+              "perfect": 60,
+              "good": 13,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 73,
+            "misses": 0,
+            "bestCombo": 73,
+            "score": 19462,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-002",
+                "type": "tap",
+                "noteTimeMs": 2303,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-003",
+                "type": "hold",
+                "noteTimeMs": 3006,
+                "detail": "0ms"
+              },
+              {
+                "rank": "good",
+                "noteId": "ed-l2-easy-071",
+                "type": "mash",
+                "noteTimeMs": 72603,
+                "detail": "10/7"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-072",
+                "type": "tap",
+                "noteTimeMs": 74712,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-easy-073",
+                "type": "tap",
+                "noteTimeMs": 75415,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "normal": {
+            "noteCount": 94,
+            "typeCounts": {
+              "tap": 63,
+              "hold": 16,
+              "mash": 15
+            },
+            "stats": {
+              "perfect": 79,
+              "good": 15,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 94,
+            "misses": 0,
+            "bestCombo": 94,
+            "score": 25944,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-002",
+                "type": "tap",
+                "noteTimeMs": 2192,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-003",
+                "type": "hold",
+                "noteTimeMs": 2784,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-092",
+                "type": "tap",
+                "noteTimeMs": 73232,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-093",
+                "type": "tap",
+                "noteTimeMs": 73824,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-normal-094",
+                "type": "hold",
+                "noteTimeMs": 74416,
+                "detail": "0ms"
+              }
+            ]
+          },
+          "hard": {
+            "noteCount": 122,
+            "typeCounts": {
+              "tap": 85,
+              "hold": 19,
+              "mash": 18
+            },
+            "stats": {
+              "perfect": 104,
+              "good": 18,
+              "bad": 0,
+              "miss": 0
+            },
+            "missByType": {
+              "tap": 0,
+              "hold": 0,
+              "mash": 0
+            },
+            "hits": 122,
+            "misses": 0,
+            "bestCombo": 122,
+            "score": 34566,
+            "samples": [
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-001",
+                "type": "tap",
+                "noteTimeMs": 1600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-002",
+                "type": "tap",
+                "noteTimeMs": 2100,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-003",
+                "type": "hold",
+                "noteTimeMs": 2600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-120",
+                "type": "hold",
+                "noteTimeMs": 74600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-121",
+                "type": "tap",
+                "noteTimeMs": 75600,
+                "detail": "0ms"
+              },
+              {
+                "rank": "perfect",
+                "noteId": "ed-l2-hard-122",
+                "type": "tap",
+                "noteTimeMs": 75850,
+                "detail": "0ms"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

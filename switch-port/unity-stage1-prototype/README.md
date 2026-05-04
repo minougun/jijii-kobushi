@@ -132,6 +132,7 @@ The local prototype is ready for the next decision gate when it can:
 9. Load the Stage 1 BGM locally and keep the manual timeline synced to the audio clock when available.
 10. Pause and resume the local run without advancing note deadlines or leaving BGM playing.
 11. Load all seven tracked stage packs in Unity-side tests and verify stage order, labels, BGM paths, chart shape, and perfect-run sanity.
+12. Load the ED bonus portable pack and match Loop 1 / Loop 2 expected results for all three difficulties and six input profiles.
 
 ## Recommended Local Verification
 
@@ -142,6 +143,7 @@ cd /mnt/c/Users/minou/jii-kobushi
 npm run check
 npm run check:switch-stage1
 npm run validate:switch-stages
+npm run check:switch-ending
 ```
 
 Unity test output should be compared to `../stage1/expected-results.json`, not hand-entered chart constants.
@@ -150,6 +152,24 @@ The standalone C# CLI can also run the Unity-side all-stage smoke gate:
 
 ```bash
 switch-port/unity-stage1-prototype/Stage1PortableCli.exe --all-stages
+```
+
+`--all-stages` also runs the ED bonus parity gate. The ED-only gate is:
+
+```bash
+switch-port/unity-stage1-prototype/Stage1PortableCli.exe --ending
+```
+
+When Unity Test Runner does not emit a fresh XML file in batch mode, use the editor validation method. It compiles in Unity and runs the same portable parity gates:
+
+```bash
+"/mnt/c/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Unity.exe" \
+  -batchmode \
+  -projectPath "C:/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/UnityProject" \
+  -executeMethod JijiiKobushi.Stage1Prototype.EditorTools.Stage1PrototypeValidation.RunPortableParityChecks \
+  -validationOutput "C:/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/unity-portable-parity.txt" \
+  -logFile "C:/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/unity-validation.log" \
+  -quit
 ```
 
 Unity batch mode can also build a local Windows smoke player:

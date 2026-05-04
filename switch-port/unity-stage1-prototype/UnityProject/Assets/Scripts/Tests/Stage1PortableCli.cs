@@ -13,7 +13,8 @@ namespace JijiiKobushi.Stage1Prototype
                 {
                     var stages = ProfileTestRunner.RunAllStageSmoke();
                     var profileResults = ProfileTestRunner.RunAllStageProfileParity();
-                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count + " profileResults=" + profileResults.Count);
+                    var endingResults = ProfileTestRunner.RunEndingBonusProfileParity();
+                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count + " profileResults=" + profileResults.Count + " endingResults=" + endingResults.Count);
                     foreach (var stage in stages)
                     {
                         Console.WriteLine(
@@ -24,6 +25,13 @@ namespace JijiiKobushi.Stage1Prototype
                             " bgm=" + stage.Audio.Bgm.Track);
                     }
 
+                    return 0;
+                }
+
+                if (args.Length > 0 && args[0] == "--ending")
+                {
+                    var endingResults = ProfileTestRunner.RunEndingBonusProfileParity();
+                    Console.WriteLine("Unity ending bonus parity: pass profileResults=" + endingResults.Count);
                     return 0;
                 }
 

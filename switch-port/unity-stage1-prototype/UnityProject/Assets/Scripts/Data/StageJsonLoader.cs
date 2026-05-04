@@ -39,6 +39,30 @@ namespace JijiiKobushi.Stage1Prototype
             };
         }
 
+        public static EndingBonusExport LoadEndingBonus(string path)
+        {
+            var root = AsObject(ParseFile(path), path);
+            return new EndingBonusExport
+            {
+                SchemaVersion = GetInt(root, "schemaVersion"),
+                GameId = GetString(root, "gameId"),
+                ExportId = GetString(root, "exportId"),
+                Ending = ReadEndingBonusMeta(GetObject(root, "ending")),
+                Rhythm = ReadRhythm(GetObject(root, "rhythm")),
+                Loops = ReadEndingBonusLoops(GetObject(root, "loops"))
+            };
+        }
+
+        public static EndingBonusExpectedResults LoadEndingBonusExpectedResults(string path)
+        {
+            var root = AsObject(ParseFile(path), path);
+            return new EndingBonusExpectedResults
+            {
+                Timing = ReadEndingBonusExpectedTiming(GetObject(root, "timing")),
+                Loops = ReadEndingBonusExpectedLoops(GetObject(root, "loops"))
+            };
+        }
+
         private static object ParseFile(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -174,13 +198,13 @@ namespace JijiiKobushi.Stage1Prototype
                 TimeMs = GetInt(obj, "timeMs"),
                 DurationMs = GetInt(obj, "durationMs"),
                 TargetCount = GetInt(obj, "targetCount"),
-                PhraseLabel = GetString(obj, "phraseLabel"),
-                CallText = GetString(obj, "callText"),
-                ResponseText = GetString(obj, "responseText"),
-                EnemyCue = GetBool(obj, "enemyCue"),
-                PhraseRole = GetString(obj, "phraseRole"),
-                PhraseStep = GetInt(obj, "phraseStep"),
-                Finisher = GetBool(obj, "finisher")
+                PhraseLabel = obj.ContainsKey("phraseLabel") ? GetString(obj, "phraseLabel") : "",
+                CallText = obj.ContainsKey("callText") ? GetString(obj, "callText") : "",
+                ResponseText = obj.ContainsKey("responseText") ? GetString(obj, "responseText") : "",
+                EnemyCue = obj.ContainsKey("enemyCue") && GetBool(obj, "enemyCue"),
+                PhraseRole = obj.ContainsKey("phraseRole") ? GetString(obj, "phraseRole") : "",
+                PhraseStep = obj.ContainsKey("phraseStep") ? GetInt(obj, "phraseStep") : 0,
+                Finisher = obj.ContainsKey("finisher") && GetBool(obj, "finisher")
             };
         }
 
@@ -255,6 +279,150 @@ namespace JijiiKobushi.Stage1Prototype
                 MissByType = ReadTypeCounts(GetObject(obj, "missByType")),
                 Hp = ReadHp(GetObject(obj, "hp"))
             };
+        }
+
+        private static EndingBonusMeta ReadEndingBonusMeta(Dictionary<string, object> obj)
+        {
+            return new EndingBonusMeta
+            {
+                Id = GetString(obj, "id"),
+                Title = GetString(obj, "title"),
+                Description = GetString(obj, "description"),
+                FirstLoopVideoSrc = GetString(obj, "firstLoopVideoSrc"),
+                LoopPlusVideoSrc = GetString(obj, "loopPlusVideoSrc"),
+                FallbackDurationMs = GetInt(obj, "fallbackDurationMs"),
+                FirstBeatMs = GetInt(obj, "firstBeatMs")
+            };
+        }
+
+        private static Dictionary<string, EndingBonusLoopData> ReadEndingBonusLoops(Dictionary<string, object> obj)
+        {
+            var loops = new Dictionary<string, EndingBonusLoopData>();
+            foreach (var loopKey in obj.Keys)
+            {
+                var loop = GetObject(obj, loopKey);
+                loops[loopKey] = new EndingBonusLoopData
+                {
+                    Difficulty = ReadEndingBonusDifficultyMap(GetObject(loop, "difficulty")),
+                    Charts = ReadCharts(GetObject(loop, "charts"))
+                };
+            }
+            return loops;
+        }
+
+        private static Dictionary<string, EndingBonusDifficultyData> ReadEndingBonusDifficultyMap(Dictionary<string, object> obj)
+        {
+            var map = new Dictionary<string, EndingBonusDifficultyData>();
+            foreach (var key in BattleSimulator.Difficulties)
+            {
+                var difficulty = GetObject(obj, key);
+                map[key] = new EndingBonusDifficultyData
+                {
+                    Id = GetString(difficulty, "id"),
+                    Label = GetString(difficulty, "label"),
+                    BeatMs = GetInt(difficulty, "beatMs"),
+                    HoldBeats = GetDouble(difficulty, "holdBeats"),
+                    MashBeats = GetDouble(difficulty, "mashBeats"),
+                    MashTargetBase = GetInt(difficulty, "mashTargetBase"),
+                    MashTargetStep = GetInt(difficulty, "mashTargetStep"),
+                    MashTargetMax = GetInt(difficulty, "mashTargetMax"),
+                    MinMashTapIntervalMs = GetInt(difficulty, "minMashTapIntervalMs"),
+                    LoopLevel = GetInt(difficulty, "loopLevel"),
+                    ChartSummary = ReadEndingBonusChartSummary(GetObject(difficulty, "chartSummary"))
+                };
+            }
+            return map;
+        }
+
+        private static EndingBonusChartSummaryData ReadEndingBonusChartSummary(Dictionary<string, object> obj)
+        {
+            return new EndingBonusChartSummaryData
+            {
+                NoteCount = GetInt(obj, "noteCount"),
+                TypeCounts = ReadTypeCounts(GetObject(obj, "typeCounts")),
+                FirstMs = GetInt(obj, "firstMs"),
+                LastEndMs = GetInt(obj, "lastEndMs"),
+                MaxMashTarget = GetInt(obj, "maxMashTarget"),
+                TightestMashIntervalMs = GetInt(obj, "tightestMashIntervalMs")
+            };
+        }
+
+        private static EndingBonusExpectedTiming ReadEndingBonusExpectedTiming(Dictionary<string, object> obj)
+        {
+            return new EndingBonusExpectedTiming
+            {
+                FirstBeatMs = GetInt(obj, "firstBeatMs"),
+                FallbackDurationMs = GetInt(obj, "fallbackDurationMs"),
+                WindowsMs = ReadWindows(GetObject(obj, "windowsMs")),
+                InputGraceMs = GetInt(obj, "inputGraceMs"),
+                MashInputGraceMs = GetInt(obj, "mashInputGraceMs"),
+                MashDedupMinGapMs = GetInt(obj, "mashDedupMinGapMs")
+            };
+        }
+
+        private static Dictionary<string, EndingBonusExpectedLoop> ReadEndingBonusExpectedLoops(Dictionary<string, object> obj)
+        {
+            var loops = new Dictionary<string, EndingBonusExpectedLoop>();
+            foreach (var loopKey in obj.Keys)
+            {
+                var loop = GetObject(obj, loopKey);
+                loops[loopKey] = new EndingBonusExpectedLoop
+                {
+                    Profiles = ReadEndingBonusExpectedProfiles(GetObject(loop, "profiles"))
+                };
+            }
+            return loops;
+        }
+
+        private static Dictionary<string, Dictionary<string, EndingBonusRunResult>> ReadEndingBonusExpectedProfiles(Dictionary<string, object> obj)
+        {
+            var profiles = new Dictionary<string, Dictionary<string, EndingBonusRunResult>>();
+            foreach (var profile in BattleSimulator.Profiles)
+            {
+                var byDifficulty = new Dictionary<string, EndingBonusRunResult>();
+                var profileObj = GetObject(obj, profile);
+                foreach (var difficulty in BattleSimulator.Difficulties)
+                {
+                    byDifficulty[difficulty] = ReadEndingBonusExpectedRun(GetObject(profileObj, difficulty));
+                }
+                profiles[profile] = byDifficulty;
+            }
+            return profiles;
+        }
+
+        private static EndingBonusRunResult ReadEndingBonusExpectedRun(Dictionary<string, object> obj)
+        {
+            return new EndingBonusRunResult
+            {
+                NoteCount = GetInt(obj, "noteCount"),
+                TypeCounts = ReadTypeCounts(GetObject(obj, "typeCounts")),
+                Stats = ReadStats(GetObject(obj, "stats")),
+                MissByType = ReadTypeCounts(GetObject(obj, "missByType")),
+                Hits = GetInt(obj, "hits"),
+                Misses = GetInt(obj, "misses"),
+                BestCombo = GetInt(obj, "bestCombo"),
+                Score = GetInt(obj, "score"),
+                Samples = ReadResolvedNotes(GetList(obj, "samples"))
+            };
+        }
+
+        private static List<ResolvedNote> ReadResolvedNotes(List<object> list)
+        {
+            var notes = new List<ResolvedNote>();
+            foreach (var item in list)
+            {
+                var obj = AsObject(item, "resolved note");
+                notes.Add(new ResolvedNote
+                {
+                    Rank = GetString(obj, "rank"),
+                    NoteId = GetString(obj, "noteId"),
+                    Type = GetString(obj, "type"),
+                    NoteTimeMs = GetInt(obj, "noteTimeMs"),
+                    TimelineMs = obj.ContainsKey("timelineMs") ? GetInt(obj, "timelineMs") : GetInt(obj, "noteTimeMs"),
+                    Detail = GetString(obj, "detail")
+                });
+            }
+            return notes;
         }
 
         private static JudgeWindows ReadWindows(Dictionary<string, object> obj)

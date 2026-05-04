@@ -1,0 +1,4670 @@
+{
+  "schemaVersion": 1,
+  "gameId": "jii-kobushi",
+  "exportId": "switch-ending-bonus",
+  "ending": {
+    "id": "ending-bonus",
+    "title": "ED拍ボーナス",
+    "description": "ED動画の音声をBGMとして使う本編同型のボーナスリズムゲーム。",
+    "firstLoopVideoSrc": "./assets/video/ending.mp4",
+    "loopPlusVideoSrc": "./assets/video/ending-loop2.mp4",
+    "fallbackDurationMs": 77300,
+    "firstBeatMs": 1600
+  },
+  "rhythm": {
+    "noteTypes": [
+      "tap",
+      "hold",
+      "mash"
+    ],
+    "windowsMs": {
+      "perfect": 60,
+      "good": 120,
+      "bad": 190
+    },
+    "inputGraceMs": 250,
+    "mashInputGraceMs": 80,
+    "mashDedupMinGapMs": 70,
+    "judgeScore": {
+      "perfect": 100,
+      "good": 70,
+      "bad": 30,
+      "miss": 0
+    },
+    "scoring": {
+      "rankScoreThresholds": {},
+      "perfectBase": 140,
+      "perfectComboCap": 180,
+      "goodBase": 90,
+      "goodComboCap": 120,
+      "badBase": 35,
+      "badComboCap": 60
+    }
+  },
+  "loops": {
+    "1": {
+      "difficulty": {
+        "easy": {
+          "id": "easy",
+          "label": "イージー",
+          "beatMs": 760,
+          "holdBeats": 1.35,
+          "mashBeats": 2.25,
+          "mashTargetBase": 4,
+          "mashTargetStep": 4,
+          "mashTargetMax": 7,
+          "minMashTapIntervalMs": 230,
+          "loopLevel": 0,
+          "chartSummary": {
+            "noteCount": 68,
+            "typeCounts": {
+              "tap": 44,
+              "hold": 12,
+              "mash": 12
+            },
+            "firstMs": 1600,
+            "lastEndMs": 75320,
+            "maxMashTarget": 6,
+            "tightestMashIntervalMs": 312
+          }
+        },
+        "normal": {
+          "id": "normal",
+          "label": "ノーマル",
+          "beatMs": 640,
+          "holdBeats": 1.25,
+          "mashBeats": 2,
+          "mashTargetBase": 6,
+          "mashTargetStep": 3,
+          "mashTargetMax": 9,
+          "minMashTapIntervalMs": 155,
+          "loopLevel": 0,
+          "chartSummary": {
+            "noteCount": 88,
+            "typeCounts": {
+              "tap": 59,
+              "hold": 15,
+              "mash": 14
+            },
+            "firstMs": 1600,
+            "lastEndMs": 75840,
+            "maxMashTarget": 9,
+            "tightestMashIntervalMs": 160
+          }
+        },
+        "hard": {
+          "id": "hard",
+          "label": "ハード",
+          "beatMs": 540,
+          "holdBeats": 1.12,
+          "mashBeats": 1.85,
+          "mashTargetBase": 6,
+          "mashTargetStep": 3,
+          "mashTargetMax": 8,
+          "minMashTapIntervalMs": 145,
+          "loopLevel": 0,
+          "chartSummary": {
+            "noteCount": 112,
+            "typeCounts": {
+              "tap": 78,
+              "hold": 17,
+              "mash": 17
+            },
+            "firstMs": 1600,
+            "lastEndMs": 75580,
+            "maxMashTarget": 7,
+            "tightestMashIntervalMs": 166
+          }
+        }
+      },
+      "charts": {
+        "easy": [
+          {
+            "id": "ed-l1-easy-001",
+            "type": "tap",
+            "timeMs": 1600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-002",
+            "type": "tap",
+            "timeMs": 2360,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-003",
+            "type": "hold",
+            "timeMs": 3120,
+            "durationMs": 1026,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-004",
+            "type": "tap",
+            "timeMs": 4640,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-005",
+            "type": "mash",
+            "timeMs": 5400,
+            "durationMs": 1710,
+            "targetCount": 4,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-006",
+            "type": "tap",
+            "timeMs": 7680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-007",
+            "type": "tap",
+            "timeMs": 8440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-008",
+            "type": "tap",
+            "timeMs": 9200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-009",
+            "type": "hold",
+            "timeMs": 9960,
+            "durationMs": 1292,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-010",
+            "type": "mash",
+            "timeMs": 11480,
+            "durationMs": 1710,
+            "targetCount": 4,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-011",
+            "type": "tap",
+            "timeMs": 13000,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-012",
+            "type": "tap",
+            "timeMs": 13760,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-013",
+            "type": "tap",
+            "timeMs": 14520,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-014",
+            "type": "hold",
+            "timeMs": 15280,
+            "durationMs": 1026,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-015",
+            "type": "tap",
+            "timeMs": 16800,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-016",
+            "type": "mash",
+            "timeMs": 17560,
+            "durationMs": 1710,
+            "targetCount": 4,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-017",
+            "type": "tap",
+            "timeMs": 19840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-018",
+            "type": "tap",
+            "timeMs": 20600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-019",
+            "type": "tap",
+            "timeMs": 21360,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-020",
+            "type": "hold",
+            "timeMs": 22120,
+            "durationMs": 1292,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-021",
+            "type": "mash",
+            "timeMs": 23640,
+            "durationMs": 1710,
+            "targetCount": 4,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-022",
+            "type": "tap",
+            "timeMs": 25160,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-023",
+            "type": "tap",
+            "timeMs": 25920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-024",
+            "type": "tap",
+            "timeMs": 26680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-025",
+            "type": "hold",
+            "timeMs": 27440,
+            "durationMs": 1026,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-026",
+            "type": "tap",
+            "timeMs": 28960,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-027",
+            "type": "mash",
+            "timeMs": 29720,
+            "durationMs": 1710,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-028",
+            "type": "tap",
+            "timeMs": 32000,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-029",
+            "type": "tap",
+            "timeMs": 32760,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-030",
+            "type": "tap",
+            "timeMs": 33520,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-031",
+            "type": "hold",
+            "timeMs": 34280,
+            "durationMs": 1292,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-032",
+            "type": "mash",
+            "timeMs": 35800,
+            "durationMs": 1710,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-033",
+            "type": "tap",
+            "timeMs": 37320,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-034",
+            "type": "tap",
+            "timeMs": 38080,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-035",
+            "type": "tap",
+            "timeMs": 38840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-036",
+            "type": "hold",
+            "timeMs": 39600,
+            "durationMs": 1026,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-037",
+            "type": "tap",
+            "timeMs": 41120,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-038",
+            "type": "mash",
+            "timeMs": 41880,
+            "durationMs": 1710,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-039",
+            "type": "tap",
+            "timeMs": 44160,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-040",
+            "type": "tap",
+            "timeMs": 44920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-041",
+            "type": "tap",
+            "timeMs": 45680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-042",
+            "type": "hold",
+            "timeMs": 46440,
+            "durationMs": 1292,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-043",
+            "type": "mash",
+            "timeMs": 47960,
+            "durationMs": 1710,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-044",
+            "type": "tap",
+            "timeMs": 49480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-045",
+            "type": "tap",
+            "timeMs": 50240,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-046",
+            "type": "tap",
+            "timeMs": 51000,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-047",
+            "type": "hold",
+            "timeMs": 51760,
+            "durationMs": 1026,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-048",
+            "type": "tap",
+            "timeMs": 53280,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-049",
+            "type": "mash",
+            "timeMs": 54040,
+            "durationMs": 1710,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-050",
+            "type": "tap",
+            "timeMs": 56320,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-051",
+            "type": "tap",
+            "timeMs": 57080,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-052",
+            "type": "tap",
+            "timeMs": 57840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-053",
+            "type": "hold",
+            "timeMs": 58600,
+            "durationMs": 1292,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-054",
+            "type": "mash",
+            "timeMs": 60120,
+            "durationMs": 1710,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-055",
+            "type": "tap",
+            "timeMs": 61640,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-056",
+            "type": "tap",
+            "timeMs": 62400,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-057",
+            "type": "tap",
+            "timeMs": 63160,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-058",
+            "type": "hold",
+            "timeMs": 63920,
+            "durationMs": 1026,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-059",
+            "type": "tap",
+            "timeMs": 65440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-060",
+            "type": "mash",
+            "timeMs": 66200,
+            "durationMs": 1710,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-061",
+            "type": "tap",
+            "timeMs": 68480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-062",
+            "type": "tap",
+            "timeMs": 69240,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-063",
+            "type": "tap",
+            "timeMs": 70000,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-064",
+            "type": "hold",
+            "timeMs": 70760,
+            "durationMs": 1292,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-065",
+            "type": "mash",
+            "timeMs": 72280,
+            "durationMs": 1710,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-066",
+            "type": "tap",
+            "timeMs": 73800,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-067",
+            "type": "tap",
+            "timeMs": 74560,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l1-easy-068",
+            "type": "tap",
+            "timeMs": 75320,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          }
+        ],
+        "normal": [
+          {
+            "id": "ed-l1-normal-001",
+            "type": "tap",
+            "timeMs": 1600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-002",
+            "type": "tap",
+            "timeMs": 2240,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-003",
+            "type": "hold",
+            "timeMs": 2880,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-004",
+            "type": "tap",
+            "timeMs": 4160,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-005",
+            "type": "tap",
+            "timeMs": 4480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-006",
+            "type": "mash",
+            "timeMs": 4800,
+            "durationMs": 1280,
+            "targetCount": 6,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-007",
+            "type": "tap",
+            "timeMs": 6720,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-008",
+            "type": "tap",
+            "timeMs": 7360,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-009",
+            "type": "tap",
+            "timeMs": 8000,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-010",
+            "type": "hold",
+            "timeMs": 8640,
+            "durationMs": 1024,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-011",
+            "type": "mash",
+            "timeMs": 9920,
+            "durationMs": 1280,
+            "targetCount": 6,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-012",
+            "type": "tap",
+            "timeMs": 11200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-013",
+            "type": "tap",
+            "timeMs": 11840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-014",
+            "type": "tap",
+            "timeMs": 12480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-015",
+            "type": "hold",
+            "timeMs": 13120,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-016",
+            "type": "tap",
+            "timeMs": 14400,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-017",
+            "type": "tap",
+            "timeMs": 14720,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-018",
+            "type": "mash",
+            "timeMs": 15040,
+            "durationMs": 1280,
+            "targetCount": 6,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-019",
+            "type": "tap",
+            "timeMs": 16960,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-020",
+            "type": "tap",
+            "timeMs": 17600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-021",
+            "type": "tap",
+            "timeMs": 18240,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-022",
+            "type": "hold",
+            "timeMs": 18880,
+            "durationMs": 1024,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-023",
+            "type": "mash",
+            "timeMs": 20160,
+            "durationMs": 1280,
+            "targetCount": 7,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-024",
+            "type": "tap",
+            "timeMs": 21440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-025",
+            "type": "tap",
+            "timeMs": 22080,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-026",
+            "type": "tap",
+            "timeMs": 22720,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-027",
+            "type": "hold",
+            "timeMs": 23360,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-028",
+            "type": "tap",
+            "timeMs": 24640,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-029",
+            "type": "tap",
+            "timeMs": 24960,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-030",
+            "type": "mash",
+            "timeMs": 25280,
+            "durationMs": 1280,
+            "targetCount": 7,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-031",
+            "type": "tap",
+            "timeMs": 27200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-032",
+            "type": "tap",
+            "timeMs": 27840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-033",
+            "type": "tap",
+            "timeMs": 28480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-034",
+            "type": "hold",
+            "timeMs": 29120,
+            "durationMs": 1024,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-035",
+            "type": "mash",
+            "timeMs": 30400,
+            "durationMs": 1280,
+            "targetCount": 7,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-036",
+            "type": "tap",
+            "timeMs": 31680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-037",
+            "type": "tap",
+            "timeMs": 32320,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-038",
+            "type": "tap",
+            "timeMs": 32960,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-039",
+            "type": "hold",
+            "timeMs": 33600,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-040",
+            "type": "tap",
+            "timeMs": 34880,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-041",
+            "type": "tap",
+            "timeMs": 35200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-042",
+            "type": "mash",
+            "timeMs": 35520,
+            "durationMs": 1280,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-043",
+            "type": "tap",
+            "timeMs": 37440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-044",
+            "type": "tap",
+            "timeMs": 38080,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-045",
+            "type": "tap",
+            "timeMs": 38720,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-046",
+            "type": "hold",
+            "timeMs": 39360,
+            "durationMs": 1024,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-047",
+            "type": "mash",
+            "timeMs": 40640,
+            "durationMs": 1280,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-048",
+            "type": "tap",
+            "timeMs": 41920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-049",
+            "type": "tap",
+            "timeMs": 42560,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-050",
+            "type": "tap",
+            "timeMs": 43200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-051",
+            "type": "hold",
+            "timeMs": 43840,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-052",
+            "type": "tap",
+            "timeMs": 45120,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-053",
+            "type": "tap",
+            "timeMs": 45440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-054",
+            "type": "mash",
+            "timeMs": 45760,
+            "durationMs": 1280,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-055",
+            "type": "tap",
+            "timeMs": 47680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-056",
+            "type": "tap",
+            "timeMs": 48320,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-057",
+            "type": "tap",
+            "timeMs": 48960,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-058",
+            "type": "hold",
+            "timeMs": 49600,
+            "durationMs": 1024,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-059",
+            "type": "mash",
+            "timeMs": 50880,
+            "durationMs": 1280,
+            "targetCount": 9,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-060",
+            "type": "tap",
+            "timeMs": 52160,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-061",
+            "type": "tap",
+            "timeMs": 52800,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-062",
+            "type": "tap",
+            "timeMs": 53440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-063",
+            "type": "hold",
+            "timeMs": 54080,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-064",
+            "type": "tap",
+            "timeMs": 55360,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-065",
+            "type": "tap",
+            "timeMs": 55680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-066",
+            "type": "mash",
+            "timeMs": 56000,
+            "durationMs": 1280,
+            "targetCount": 9,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-067",
+            "type": "tap",
+            "timeMs": 57920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-068",
+            "type": "tap",
+            "timeMs": 58560,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-069",
+            "type": "tap",
+            "timeMs": 59200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-070",
+            "type": "hold",
+            "timeMs": 59840,
+            "durationMs": 1024,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-071",
+            "type": "mash",
+            "timeMs": 61120,
+            "durationMs": 1280,
+            "targetCount": 9,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-072",
+            "type": "tap",
+            "timeMs": 62400,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-073",
+            "type": "tap",
+            "timeMs": 63040,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-074",
+            "type": "tap",
+            "timeMs": 63680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-075",
+            "type": "hold",
+            "timeMs": 64320,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-076",
+            "type": "tap",
+            "timeMs": 65600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-077",
+            "type": "tap",
+            "timeMs": 65920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-078",
+            "type": "mash",
+            "timeMs": 66240,
+            "durationMs": 1280,
+            "targetCount": 9,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-079",
+            "type": "tap",
+            "timeMs": 68160,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-080",
+            "type": "tap",
+            "timeMs": 68800,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-081",
+            "type": "tap",
+            "timeMs": 69440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-082",
+            "type": "hold",
+            "timeMs": 70080,
+            "durationMs": 1024,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-083",
+            "type": "mash",
+            "timeMs": 71360,
+            "durationMs": 1280,
+            "targetCount": 9,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-084",
+            "type": "tap",
+            "timeMs": 72640,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-085",
+            "type": "tap",
+            "timeMs": 73280,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-086",
+            "type": "tap",
+            "timeMs": 73920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-087",
+            "type": "hold",
+            "timeMs": 74560,
+            "durationMs": 800,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l1-normal-088",
+            "type": "tap",
+            "timeMs": 75840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          }
+        ],
+        "hard": [
+          {
+            "id": "ed-l1-hard-001",
+            "type": "tap",
+            "timeMs": 1600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-002",
+            "type": "tap",
+            "timeMs": 2140,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-003",
+            "type": "hold",
+            "timeMs": 2680,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-004",
+            "type": "tap",
+            "timeMs": 3760,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-005",
+            "type": "tap",
+            "timeMs": 4030,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-006",
+            "type": "mash",
+            "timeMs": 4300,
+            "durationMs": 999,
+            "targetCount": 6,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-007",
+            "type": "tap",
+            "timeMs": 5920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-008",
+            "type": "tap",
+            "timeMs": 6460,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-009",
+            "type": "tap",
+            "timeMs": 7000,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-010",
+            "type": "hold",
+            "timeMs": 7540,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-011",
+            "type": "tap",
+            "timeMs": 8269,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-012",
+            "type": "mash",
+            "timeMs": 8620,
+            "durationMs": 999,
+            "targetCount": 6,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-013",
+            "type": "tap",
+            "timeMs": 9700,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-014",
+            "type": "tap",
+            "timeMs": 10240,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-015",
+            "type": "tap",
+            "timeMs": 10780,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-016",
+            "type": "hold",
+            "timeMs": 11320,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-017",
+            "type": "tap",
+            "timeMs": 12400,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-018",
+            "type": "tap",
+            "timeMs": 12670,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-019",
+            "type": "mash",
+            "timeMs": 12940,
+            "durationMs": 999,
+            "targetCount": 6,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-020",
+            "type": "tap",
+            "timeMs": 14560,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-021",
+            "type": "tap",
+            "timeMs": 15100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-022",
+            "type": "tap",
+            "timeMs": 15640,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-023",
+            "type": "hold",
+            "timeMs": 16180,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-024",
+            "type": "tap",
+            "timeMs": 16909,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-025",
+            "type": "mash",
+            "timeMs": 17260,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-026",
+            "type": "tap",
+            "timeMs": 18340,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-027",
+            "type": "tap",
+            "timeMs": 18880,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-028",
+            "type": "tap",
+            "timeMs": 19420,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-029",
+            "type": "hold",
+            "timeMs": 19960,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-030",
+            "type": "tap",
+            "timeMs": 21040,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-031",
+            "type": "tap",
+            "timeMs": 21310,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-032",
+            "type": "mash",
+            "timeMs": 21580,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-033",
+            "type": "tap",
+            "timeMs": 23200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-034",
+            "type": "tap",
+            "timeMs": 23740,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-035",
+            "type": "tap",
+            "timeMs": 24280,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-036",
+            "type": "hold",
+            "timeMs": 24820,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-037",
+            "type": "tap",
+            "timeMs": 25549,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-038",
+            "type": "mash",
+            "timeMs": 25900,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-039",
+            "type": "tap",
+            "timeMs": 26980,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-040",
+            "type": "tap",
+            "timeMs": 27520,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-041",
+            "type": "tap",
+            "timeMs": 28060,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-042",
+            "type": "hold",
+            "timeMs": 28600,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-043",
+            "type": "tap",
+            "timeMs": 29680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-044",
+            "type": "tap",
+            "timeMs": 29950,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-045",
+            "type": "mash",
+            "timeMs": 30220,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-046",
+            "type": "tap",
+            "timeMs": 31840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-047",
+            "type": "tap",
+            "timeMs": 32380,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-048",
+            "type": "tap",
+            "timeMs": 32920,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-049",
+            "type": "hold",
+            "timeMs": 33460,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-050",
+            "type": "tap",
+            "timeMs": 34189,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-051",
+            "type": "mash",
+            "timeMs": 34540,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-052",
+            "type": "tap",
+            "timeMs": 35620,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-053",
+            "type": "tap",
+            "timeMs": 36160,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-054",
+            "type": "tap",
+            "timeMs": 36700,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-055",
+            "type": "hold",
+            "timeMs": 37240,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-056",
+            "type": "tap",
+            "timeMs": 38320,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-057",
+            "type": "tap",
+            "timeMs": 38590,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-058",
+            "type": "mash",
+            "timeMs": 38860,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-059",
+            "type": "tap",
+            "timeMs": 40480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-060",
+            "type": "tap",
+            "timeMs": 41020,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-061",
+            "type": "tap",
+            "timeMs": 41560,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-062",
+            "type": "hold",
+            "timeMs": 42100,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-063",
+            "type": "tap",
+            "timeMs": 42829,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-064",
+            "type": "mash",
+            "timeMs": 43180,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-065",
+            "type": "tap",
+            "timeMs": 44260,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-066",
+            "type": "tap",
+            "timeMs": 44800,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-067",
+            "type": "tap",
+            "timeMs": 45340,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-068",
+            "type": "hold",
+            "timeMs": 45880,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-069",
+            "type": "tap",
+            "timeMs": 46960,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-070",
+            "type": "tap",
+            "timeMs": 47230,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-071",
+            "type": "mash",
+            "timeMs": 47500,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-072",
+            "type": "tap",
+            "timeMs": 49120,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-073",
+            "type": "tap",
+            "timeMs": 49660,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-074",
+            "type": "tap",
+            "timeMs": 50200,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-075",
+            "type": "hold",
+            "timeMs": 50740,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-076",
+            "type": "tap",
+            "timeMs": 51469,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-077",
+            "type": "mash",
+            "timeMs": 51820,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-078",
+            "type": "tap",
+            "timeMs": 52900,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-079",
+            "type": "tap",
+            "timeMs": 53440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-080",
+            "type": "tap",
+            "timeMs": 53980,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-081",
+            "type": "hold",
+            "timeMs": 54520,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-082",
+            "type": "tap",
+            "timeMs": 55600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-083",
+            "type": "tap",
+            "timeMs": 55870,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-084",
+            "type": "mash",
+            "timeMs": 56140,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-085",
+            "type": "tap",
+            "timeMs": 57760,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-086",
+            "type": "tap",
+            "timeMs": 58300,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-087",
+            "type": "tap",
+            "timeMs": 58840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-088",
+            "type": "hold",
+            "timeMs": 59380,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-089",
+            "type": "tap",
+            "timeMs": 60109,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-090",
+            "type": "mash",
+            "timeMs": 60460,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-091",
+            "type": "tap",
+            "timeMs": 61540,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-092",
+            "type": "tap",
+            "timeMs": 62080,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-093",
+            "type": "tap",
+            "timeMs": 62620,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-094",
+            "type": "hold",
+            "timeMs": 63160,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-095",
+            "type": "tap",
+            "timeMs": 64240,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-096",
+            "type": "tap",
+            "timeMs": 64510,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-097",
+            "type": "mash",
+            "timeMs": 64780,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-098",
+            "type": "tap",
+            "timeMs": 66400,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-099",
+            "type": "tap",
+            "timeMs": 66940,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-100",
+            "type": "tap",
+            "timeMs": 67480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-101",
+            "type": "hold",
+            "timeMs": 68020,
+            "durationMs": 794,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-102",
+            "type": "tap",
+            "timeMs": 68749,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-103",
+            "type": "mash",
+            "timeMs": 69100,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-104",
+            "type": "tap",
+            "timeMs": 70180,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-105",
+            "type": "tap",
+            "timeMs": 70720,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-106",
+            "type": "tap",
+            "timeMs": 71260,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-107",
+            "type": "hold",
+            "timeMs": 71800,
+            "durationMs": 605,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-108",
+            "type": "tap",
+            "timeMs": 72880,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-109",
+            "type": "tap",
+            "timeMs": 73150,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-110",
+            "type": "mash",
+            "timeMs": 73420,
+            "durationMs": 999,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-111",
+            "type": "tap",
+            "timeMs": 75040,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l1-hard-112",
+            "type": "tap",
+            "timeMs": 75580,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          }
+        ]
+      }
+    },
+    "2": {
+      "difficulty": {
+        "easy": {
+          "id": "easy",
+          "label": "イージー",
+          "beatMs": 703,
+          "holdBeats": 1.29,
+          "mashBeats": 2.17,
+          "mashTargetBase": 5,
+          "mashTargetStep": 4,
+          "mashTargetMax": 8,
+          "minMashTapIntervalMs": 227,
+          "loopLevel": 1,
+          "chartSummary": {
+            "noteCount": 73,
+            "typeCounts": {
+              "tap": 47,
+              "hold": 13,
+              "mash": 13
+            },
+            "firstMs": 1600,
+            "lastEndMs": 75415,
+            "maxMashTarget": 7,
+            "tightestMashIntervalMs": 241
+          }
+        },
+        "normal": {
+          "id": "normal",
+          "label": "ノーマル",
+          "beatMs": 592,
+          "holdBeats": 1.19,
+          "mashBeats": 1.92,
+          "mashTargetBase": 7,
+          "mashTargetStep": 3,
+          "mashTargetMax": 10,
+          "minMashTapIntervalMs": 152,
+          "loopLevel": 1,
+          "chartSummary": {
+            "noteCount": 94,
+            "typeCounts": {
+              "tap": 63,
+              "hold": 16,
+              "mash": 15
+            },
+            "firstMs": 1600,
+            "lastEndMs": 75327,
+            "maxMashTarget": 8,
+            "tightestMashIntervalMs": 162
+          }
+        },
+        "hard": {
+          "id": "hard",
+          "label": "ハード",
+          "beatMs": 500,
+          "holdBeats": 1.06,
+          "mashBeats": 1.77,
+          "mashTargetBase": 7,
+          "mashTargetStep": 3,
+          "mashTargetMax": 9,
+          "minMashTapIntervalMs": 142,
+          "loopLevel": 1,
+          "chartSummary": {
+            "noteCount": 122,
+            "typeCounts": {
+              "tap": 85,
+              "hold": 19,
+              "mash": 18
+            },
+            "firstMs": 1600,
+            "lastEndMs": 75850,
+            "maxMashTarget": 7,
+            "tightestMashIntervalMs": 149
+          }
+        }
+      },
+      "charts": {
+        "easy": [
+          {
+            "id": "ed-l2-easy-001",
+            "type": "tap",
+            "timeMs": 1600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-002",
+            "type": "tap",
+            "timeMs": 2303,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-003",
+            "type": "hold",
+            "timeMs": 3006,
+            "durationMs": 907,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-004",
+            "type": "tap",
+            "timeMs": 4412,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-005",
+            "type": "mash",
+            "timeMs": 5115,
+            "durationMs": 1526,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-006",
+            "type": "tap",
+            "timeMs": 7224,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-007",
+            "type": "tap",
+            "timeMs": 7927,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-008",
+            "type": "tap",
+            "timeMs": 8630,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-009",
+            "type": "hold",
+            "timeMs": 9333,
+            "durationMs": 1153,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-010",
+            "type": "mash",
+            "timeMs": 10739,
+            "durationMs": 1526,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-011",
+            "type": "tap",
+            "timeMs": 12145,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-012",
+            "type": "tap",
+            "timeMs": 12848,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-013",
+            "type": "tap",
+            "timeMs": 13551,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-014",
+            "type": "hold",
+            "timeMs": 14254,
+            "durationMs": 907,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-015",
+            "type": "tap",
+            "timeMs": 15660,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-016",
+            "type": "mash",
+            "timeMs": 16363,
+            "durationMs": 1526,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-017",
+            "type": "tap",
+            "timeMs": 18472,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-018",
+            "type": "tap",
+            "timeMs": 19175,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-019",
+            "type": "tap",
+            "timeMs": 19878,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-020",
+            "type": "hold",
+            "timeMs": 20581,
+            "durationMs": 1153,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-021",
+            "type": "mash",
+            "timeMs": 21987,
+            "durationMs": 1526,
+            "targetCount": 5,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-022",
+            "type": "tap",
+            "timeMs": 23393,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-023",
+            "type": "tap",
+            "timeMs": 24096,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-024",
+            "type": "tap",
+            "timeMs": 24799,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-025",
+            "type": "hold",
+            "timeMs": 25502,
+            "durationMs": 907,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-026",
+            "type": "tap",
+            "timeMs": 26908,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-027",
+            "type": "mash",
+            "timeMs": 27611,
+            "durationMs": 1526,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-028",
+            "type": "tap",
+            "timeMs": 29720,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-029",
+            "type": "tap",
+            "timeMs": 30423,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-030",
+            "type": "tap",
+            "timeMs": 31126,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-031",
+            "type": "hold",
+            "timeMs": 31829,
+            "durationMs": 1153,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-032",
+            "type": "mash",
+            "timeMs": 33235,
+            "durationMs": 1526,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-033",
+            "type": "tap",
+            "timeMs": 34641,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-034",
+            "type": "tap",
+            "timeMs": 35344,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-035",
+            "type": "tap",
+            "timeMs": 36047,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-036",
+            "type": "hold",
+            "timeMs": 36750,
+            "durationMs": 907,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-037",
+            "type": "tap",
+            "timeMs": 38156,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-038",
+            "type": "mash",
+            "timeMs": 38859,
+            "durationMs": 1526,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-039",
+            "type": "tap",
+            "timeMs": 40968,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-040",
+            "type": "tap",
+            "timeMs": 41671,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-041",
+            "type": "tap",
+            "timeMs": 42374,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-042",
+            "type": "hold",
+            "timeMs": 43077,
+            "durationMs": 1153,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-043",
+            "type": "mash",
+            "timeMs": 44483,
+            "durationMs": 1526,
+            "targetCount": 6,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-044",
+            "type": "tap",
+            "timeMs": 45889,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-045",
+            "type": "tap",
+            "timeMs": 46592,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-046",
+            "type": "tap",
+            "timeMs": 47295,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-047",
+            "type": "hold",
+            "timeMs": 47998,
+            "durationMs": 907,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-048",
+            "type": "tap",
+            "timeMs": 49404,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-049",
+            "type": "mash",
+            "timeMs": 50107,
+            "durationMs": 1526,
+            "targetCount": 7,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-050",
+            "type": "tap",
+            "timeMs": 52216,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-051",
+            "type": "tap",
+            "timeMs": 52919,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-052",
+            "type": "tap",
+            "timeMs": 53622,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-053",
+            "type": "hold",
+            "timeMs": 54325,
+            "durationMs": 1153,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-054",
+            "type": "mash",
+            "timeMs": 55731,
+            "durationMs": 1526,
+            "targetCount": 7,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-055",
+            "type": "tap",
+            "timeMs": 57137,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-056",
+            "type": "tap",
+            "timeMs": 57840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-057",
+            "type": "tap",
+            "timeMs": 58543,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-058",
+            "type": "hold",
+            "timeMs": 59246,
+            "durationMs": 907,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-059",
+            "type": "tap",
+            "timeMs": 60652,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-060",
+            "type": "mash",
+            "timeMs": 61355,
+            "durationMs": 1526,
+            "targetCount": 7,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-061",
+            "type": "tap",
+            "timeMs": 63464,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-062",
+            "type": "tap",
+            "timeMs": 64167,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-063",
+            "type": "tap",
+            "timeMs": 64870,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-064",
+            "type": "hold",
+            "timeMs": 65573,
+            "durationMs": 1153,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-065",
+            "type": "mash",
+            "timeMs": 66979,
+            "durationMs": 1526,
+            "targetCount": 7,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-066",
+            "type": "tap",
+            "timeMs": 68385,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-067",
+            "type": "tap",
+            "timeMs": 69088,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-068",
+            "type": "tap",
+            "timeMs": 69791,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-069",
+            "type": "hold",
+            "timeMs": 70494,
+            "durationMs": 907,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-070",
+            "type": "tap",
+            "timeMs": 71900,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-071",
+            "type": "mash",
+            "timeMs": 72603,
+            "durationMs": 1526,
+            "targetCount": 7,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-072",
+            "type": "tap",
+            "timeMs": 74712,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          },
+          {
+            "id": "ed-l2-easy-073",
+            "type": "tap",
+            "timeMs": 75415,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍ゆったり"
+          }
+        ],
+        "normal": [
+          {
+            "id": "ed-l2-normal-001",
+            "type": "tap",
+            "timeMs": 1600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-002",
+            "type": "tap",
+            "timeMs": 2192,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-003",
+            "type": "hold",
+            "timeMs": 2784,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-004",
+            "type": "tap",
+            "timeMs": 3968,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-005",
+            "type": "tap",
+            "timeMs": 4264,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-006",
+            "type": "mash",
+            "timeMs": 4560,
+            "durationMs": 1137,
+            "targetCount": 7,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-007",
+            "type": "tap",
+            "timeMs": 6336,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-008",
+            "type": "tap",
+            "timeMs": 6928,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-009",
+            "type": "tap",
+            "timeMs": 7520,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-010",
+            "type": "hold",
+            "timeMs": 8112,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-011",
+            "type": "mash",
+            "timeMs": 9296,
+            "durationMs": 1137,
+            "targetCount": 7,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-012",
+            "type": "tap",
+            "timeMs": 10480,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-013",
+            "type": "tap",
+            "timeMs": 11072,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-014",
+            "type": "tap",
+            "timeMs": 11664,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-015",
+            "type": "hold",
+            "timeMs": 12256,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-016",
+            "type": "tap",
+            "timeMs": 13440,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-017",
+            "type": "tap",
+            "timeMs": 13736,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-018",
+            "type": "mash",
+            "timeMs": 14032,
+            "durationMs": 1137,
+            "targetCount": 7,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-019",
+            "type": "tap",
+            "timeMs": 15808,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-020",
+            "type": "tap",
+            "timeMs": 16400,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-021",
+            "type": "tap",
+            "timeMs": 16992,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-022",
+            "type": "hold",
+            "timeMs": 17584,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-023",
+            "type": "mash",
+            "timeMs": 18768,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-024",
+            "type": "tap",
+            "timeMs": 19952,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-025",
+            "type": "tap",
+            "timeMs": 20544,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-026",
+            "type": "tap",
+            "timeMs": 21136,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-027",
+            "type": "hold",
+            "timeMs": 21728,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-028",
+            "type": "tap",
+            "timeMs": 22912,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-029",
+            "type": "tap",
+            "timeMs": 23208,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-030",
+            "type": "mash",
+            "timeMs": 23504,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-031",
+            "type": "tap",
+            "timeMs": 25280,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-032",
+            "type": "tap",
+            "timeMs": 25872,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-033",
+            "type": "tap",
+            "timeMs": 26464,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-034",
+            "type": "hold",
+            "timeMs": 27056,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-035",
+            "type": "mash",
+            "timeMs": 28240,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-036",
+            "type": "tap",
+            "timeMs": 29424,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-037",
+            "type": "tap",
+            "timeMs": 30016,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-038",
+            "type": "tap",
+            "timeMs": 30608,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-039",
+            "type": "hold",
+            "timeMs": 31200,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-040",
+            "type": "tap",
+            "timeMs": 32384,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-041",
+            "type": "tap",
+            "timeMs": 32680,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-042",
+            "type": "mash",
+            "timeMs": 32976,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-043",
+            "type": "tap",
+            "timeMs": 34752,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-044",
+            "type": "tap",
+            "timeMs": 35344,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-045",
+            "type": "tap",
+            "timeMs": 35936,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-046",
+            "type": "hold",
+            "timeMs": 36528,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-047",
+            "type": "mash",
+            "timeMs": 37712,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-048",
+            "type": "tap",
+            "timeMs": 38896,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-049",
+            "type": "tap",
+            "timeMs": 39488,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-050",
+            "type": "tap",
+            "timeMs": 40080,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-051",
+            "type": "hold",
+            "timeMs": 40672,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-052",
+            "type": "tap",
+            "timeMs": 41856,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-053",
+            "type": "tap",
+            "timeMs": 42152,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-054",
+            "type": "mash",
+            "timeMs": 42448,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-055",
+            "type": "tap",
+            "timeMs": 44224,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-056",
+            "type": "tap",
+            "timeMs": 44816,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-057",
+            "type": "tap",
+            "timeMs": 45408,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-058",
+            "type": "hold",
+            "timeMs": 46000,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-059",
+            "type": "mash",
+            "timeMs": 47184,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-060",
+            "type": "tap",
+            "timeMs": 48368,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-061",
+            "type": "tap",
+            "timeMs": 48960,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-062",
+            "type": "tap",
+            "timeMs": 49552,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-063",
+            "type": "hold",
+            "timeMs": 50144,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-064",
+            "type": "tap",
+            "timeMs": 51328,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-065",
+            "type": "tap",
+            "timeMs": 51624,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-066",
+            "type": "mash",
+            "timeMs": 51920,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-067",
+            "type": "tap",
+            "timeMs": 53696,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-068",
+            "type": "tap",
+            "timeMs": 54288,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-069",
+            "type": "tap",
+            "timeMs": 54880,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-070",
+            "type": "hold",
+            "timeMs": 55472,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-071",
+            "type": "mash",
+            "timeMs": 56656,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-072",
+            "type": "tap",
+            "timeMs": 57840,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-073",
+            "type": "tap",
+            "timeMs": 58432,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-074",
+            "type": "tap",
+            "timeMs": 59024,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-075",
+            "type": "hold",
+            "timeMs": 59616,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-076",
+            "type": "tap",
+            "timeMs": 60800,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-077",
+            "type": "tap",
+            "timeMs": 61096,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-078",
+            "type": "mash",
+            "timeMs": 61392,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-079",
+            "type": "tap",
+            "timeMs": 63168,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-080",
+            "type": "tap",
+            "timeMs": 63760,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-081",
+            "type": "tap",
+            "timeMs": 64352,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-082",
+            "type": "hold",
+            "timeMs": 64944,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-083",
+            "type": "mash",
+            "timeMs": 66128,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-084",
+            "type": "tap",
+            "timeMs": 67312,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-085",
+            "type": "tap",
+            "timeMs": 67904,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-086",
+            "type": "tap",
+            "timeMs": 68496,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-087",
+            "type": "hold",
+            "timeMs": 69088,
+            "durationMs": 704,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-088",
+            "type": "tap",
+            "timeMs": 70272,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-089",
+            "type": "tap",
+            "timeMs": 70568,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-090",
+            "type": "mash",
+            "timeMs": 70864,
+            "durationMs": 1137,
+            "targetCount": 8,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-091",
+            "type": "tap",
+            "timeMs": 72640,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-092",
+            "type": "tap",
+            "timeMs": 73232,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-093",
+            "type": "tap",
+            "timeMs": 73824,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          },
+          {
+            "id": "ed-l2-normal-094",
+            "type": "hold",
+            "timeMs": 74416,
+            "durationMs": 911,
+            "targetCount": 0,
+            "phraseLabel": "ED拍"
+          }
+        ],
+        "hard": [
+          {
+            "id": "ed-l2-hard-001",
+            "type": "tap",
+            "timeMs": 1600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-002",
+            "type": "tap",
+            "timeMs": 2100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-003",
+            "type": "hold",
+            "timeMs": 2600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-004",
+            "type": "tap",
+            "timeMs": 3600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-005",
+            "type": "tap",
+            "timeMs": 3850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-006",
+            "type": "mash",
+            "timeMs": 4100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-007",
+            "type": "tap",
+            "timeMs": 5600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-008",
+            "type": "tap",
+            "timeMs": 6100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-009",
+            "type": "tap",
+            "timeMs": 6600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-010",
+            "type": "hold",
+            "timeMs": 7100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-011",
+            "type": "tap",
+            "timeMs": 7775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-012",
+            "type": "mash",
+            "timeMs": 8100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-013",
+            "type": "tap",
+            "timeMs": 9100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-014",
+            "type": "tap",
+            "timeMs": 9600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-015",
+            "type": "tap",
+            "timeMs": 10100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-016",
+            "type": "hold",
+            "timeMs": 10600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-017",
+            "type": "tap",
+            "timeMs": 11600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-018",
+            "type": "tap",
+            "timeMs": 11850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-019",
+            "type": "mash",
+            "timeMs": 12100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-020",
+            "type": "tap",
+            "timeMs": 13600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-021",
+            "type": "tap",
+            "timeMs": 14100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-022",
+            "type": "tap",
+            "timeMs": 14600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-023",
+            "type": "hold",
+            "timeMs": 15100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-024",
+            "type": "tap",
+            "timeMs": 15775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-025",
+            "type": "mash",
+            "timeMs": 16100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-026",
+            "type": "tap",
+            "timeMs": 17100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-027",
+            "type": "tap",
+            "timeMs": 17600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-028",
+            "type": "tap",
+            "timeMs": 18100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-029",
+            "type": "hold",
+            "timeMs": 18600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-030",
+            "type": "tap",
+            "timeMs": 19600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-031",
+            "type": "tap",
+            "timeMs": 19850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-032",
+            "type": "mash",
+            "timeMs": 20100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-033",
+            "type": "tap",
+            "timeMs": 21600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-034",
+            "type": "tap",
+            "timeMs": 22100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-035",
+            "type": "tap",
+            "timeMs": 22600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-036",
+            "type": "hold",
+            "timeMs": 23100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-037",
+            "type": "tap",
+            "timeMs": 23775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-038",
+            "type": "mash",
+            "timeMs": 24100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-039",
+            "type": "tap",
+            "timeMs": 25100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-040",
+            "type": "tap",
+            "timeMs": 25600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-041",
+            "type": "tap",
+            "timeMs": 26100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-042",
+            "type": "hold",
+            "timeMs": 26600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-043",
+            "type": "tap",
+            "timeMs": 27600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-044",
+            "type": "tap",
+            "timeMs": 27850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-045",
+            "type": "mash",
+            "timeMs": 28100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-046",
+            "type": "tap",
+            "timeMs": 29600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-047",
+            "type": "tap",
+            "timeMs": 30100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-048",
+            "type": "tap",
+            "timeMs": 30600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-049",
+            "type": "hold",
+            "timeMs": 31100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-050",
+            "type": "tap",
+            "timeMs": 31775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-051",
+            "type": "mash",
+            "timeMs": 32100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-052",
+            "type": "tap",
+            "timeMs": 33100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-053",
+            "type": "tap",
+            "timeMs": 33600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-054",
+            "type": "tap",
+            "timeMs": 34100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-055",
+            "type": "hold",
+            "timeMs": 34600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-056",
+            "type": "tap",
+            "timeMs": 35600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-057",
+            "type": "tap",
+            "timeMs": 35850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-058",
+            "type": "mash",
+            "timeMs": 36100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-059",
+            "type": "tap",
+            "timeMs": 37600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-060",
+            "type": "tap",
+            "timeMs": 38100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-061",
+            "type": "tap",
+            "timeMs": 38600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-062",
+            "type": "hold",
+            "timeMs": 39100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-063",
+            "type": "tap",
+            "timeMs": 39775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-064",
+            "type": "mash",
+            "timeMs": 40100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-065",
+            "type": "tap",
+            "timeMs": 41100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-066",
+            "type": "tap",
+            "timeMs": 41600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-067",
+            "type": "tap",
+            "timeMs": 42100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-068",
+            "type": "hold",
+            "timeMs": 42600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-069",
+            "type": "tap",
+            "timeMs": 43600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-070",
+            "type": "tap",
+            "timeMs": 43850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-071",
+            "type": "mash",
+            "timeMs": 44100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-072",
+            "type": "tap",
+            "timeMs": 45600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-073",
+            "type": "tap",
+            "timeMs": 46100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-074",
+            "type": "tap",
+            "timeMs": 46600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-075",
+            "type": "hold",
+            "timeMs": 47100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-076",
+            "type": "tap",
+            "timeMs": 47775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-077",
+            "type": "mash",
+            "timeMs": 48100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-078",
+            "type": "tap",
+            "timeMs": 49100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-079",
+            "type": "tap",
+            "timeMs": 49600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-080",
+            "type": "tap",
+            "timeMs": 50100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-081",
+            "type": "hold",
+            "timeMs": 50600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-082",
+            "type": "tap",
+            "timeMs": 51600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-083",
+            "type": "tap",
+            "timeMs": 51850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-084",
+            "type": "mash",
+            "timeMs": 52100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-085",
+            "type": "tap",
+            "timeMs": 53600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-086",
+            "type": "tap",
+            "timeMs": 54100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-087",
+            "type": "tap",
+            "timeMs": 54600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-088",
+            "type": "hold",
+            "timeMs": 55100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-089",
+            "type": "tap",
+            "timeMs": 55775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-090",
+            "type": "mash",
+            "timeMs": 56100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-091",
+            "type": "tap",
+            "timeMs": 57100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-092",
+            "type": "tap",
+            "timeMs": 57600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-093",
+            "type": "tap",
+            "timeMs": 58100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-094",
+            "type": "hold",
+            "timeMs": 58600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-095",
+            "type": "tap",
+            "timeMs": 59600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-096",
+            "type": "tap",
+            "timeMs": 59850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-097",
+            "type": "mash",
+            "timeMs": 60100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-098",
+            "type": "tap",
+            "timeMs": 61600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-099",
+            "type": "tap",
+            "timeMs": 62100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-100",
+            "type": "tap",
+            "timeMs": 62600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-101",
+            "type": "hold",
+            "timeMs": 63100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-102",
+            "type": "tap",
+            "timeMs": 63775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-103",
+            "type": "mash",
+            "timeMs": 64100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-104",
+            "type": "tap",
+            "timeMs": 65100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-105",
+            "type": "tap",
+            "timeMs": 65600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-106",
+            "type": "tap",
+            "timeMs": 66100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-107",
+            "type": "hold",
+            "timeMs": 66600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-108",
+            "type": "tap",
+            "timeMs": 67600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-109",
+            "type": "tap",
+            "timeMs": 67850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-110",
+            "type": "mash",
+            "timeMs": 68100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-111",
+            "type": "tap",
+            "timeMs": 69600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-112",
+            "type": "tap",
+            "timeMs": 70100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-113",
+            "type": "tap",
+            "timeMs": 70600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-114",
+            "type": "hold",
+            "timeMs": 71100,
+            "durationMs": 705,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-115",
+            "type": "tap",
+            "timeMs": 71775,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-116",
+            "type": "mash",
+            "timeMs": 72100,
+            "durationMs": 885,
+            "targetCount": 7,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-117",
+            "type": "tap",
+            "timeMs": 73100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-118",
+            "type": "tap",
+            "timeMs": 73600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-119",
+            "type": "tap",
+            "timeMs": 74100,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-120",
+            "type": "hold",
+            "timeMs": 74600,
+            "durationMs": 530,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-121",
+            "type": "tap",
+            "timeMs": 75600,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          },
+          {
+            "id": "ed-l2-hard-122",
+            "type": "tap",
+            "timeMs": 75850,
+            "durationMs": 0,
+            "targetCount": 0,
+            "phraseLabel": "ED拍詰め"
+          }
+        ]
+      }
+    }
+  }
+}

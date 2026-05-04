@@ -111,6 +111,29 @@ namespace JijiiKobushi.Stage1Prototype
             return results;
         }
 
+        public static List<EndingBonusRunResult> RunEndingBonusProfileParity()
+        {
+            var ending = StageJsonLoader.LoadEndingBonus(ResolveEndingPackPath("ending-bonus.stage.json"));
+            var expected = StageJsonLoader.LoadEndingBonusExpectedResults(ResolveEndingPackPath("ending-bonus.expected-results.json"));
+            ValidateEndingBonusPack(ending, expected);
+
+            var results = new List<EndingBonusRunResult>();
+            foreach (var loop in ending.Loops.Keys)
+            {
+                foreach (var profile in BattleSimulator.Profiles)
+                {
+                    foreach (var difficulty in BattleSimulator.Difficulties)
+                    {
+                        var result = EndingBonusSimulator.Simulate(ending, loop, difficulty, profile);
+                        CompareEndingExpected(expected.Loops[loop].Profiles[profile][difficulty], result, "ending loop " + loop + " " + profile + "/" + difficulty);
+                        results.Add(result);
+                    }
+                }
+            }
+
+            return results;
+        }
+
         public static string RunAllAndFormatReport(string stageJsonPath, string expectedResultsPath)
         {
             var results = RunAll(stageJsonPath, expectedResultsPath);
@@ -296,6 +319,82 @@ namespace JijiiKobushi.Stage1Prototype
             AssertEqual(expectedProfile.Hp.Max, actual.MaxHp, profile + "/" + difficulty + " hp max");
         }
 
+        private static void ValidateEndingBonusPack(EndingBonusExport ending, EndingBonusExpectedResults expected)
+        {
+            AssertEqual(1, ending.SchemaVersion, "ending schemaVersion");
+            AssertEqual("jii-kobushi", ending.GameId, "ending gameId");
+            AssertEqual("switch-ending-bonus", ending.ExportId, "ending exportId");
+            AssertEqual("ED拍ボーナス", ending.Ending.Title, "ending title");
+            AssertEqual(1600, ending.Ending.FirstBeatMs, "ending first beat");
+            AssertEqual(77300, ending.Ending.FallbackDurationMs, "ending fallback duration");
+            AssertEqual("./assets/video/ending.mp4", ending.Ending.FirstLoopVideoSrc, "ending first loop video");
+            AssertEqual("./assets/video/ending-loop2.mp4", ending.Ending.LoopPlusVideoSrc, "ending loop plus video");
+            AssertEqual(ending.Ending.FirstBeatMs, expected.Timing.FirstBeatMs, "ending expected first beat");
+            AssertEqual(ending.Ending.FallbackDurationMs, expected.Timing.FallbackDurationMs, "ending expected fallback duration");
+            AssertEqual(ending.Rhythm.WindowsMs.Perfect, expected.Timing.WindowsMs.Perfect, "ending perfect window");
+            AssertEqual(ending.Rhythm.WindowsMs.Good, expected.Timing.WindowsMs.Good, "ending good window");
+            AssertEqual(ending.Rhythm.WindowsMs.Bad, expected.Timing.WindowsMs.Bad, "ending bad window");
+            AssertEqual(250, ending.Rhythm.InputGraceMs, "ending input grace");
+            AssertEqual(80, ending.Rhythm.MashInputGraceMs, "ending mash grace");
+            AssertEqual(70, ending.Rhythm.MashDedupMinGapMs, "ending mash dedup");
+
+            foreach (var loop in new[] { "1", "2" })
+            {
+                AssertTrue(ending.Loops.ContainsKey(loop), "ending loop " + loop);
+                AssertTrue(expected.Loops.ContainsKey(loop), "ending expected loop " + loop);
+                foreach (var difficulty in BattleSimulator.Difficulties)
+                {
+                    ValidateEndingChart(ending.Loops[loop], difficulty, "ending loop " + loop + " " + difficulty);
+                }
+            }
+        }
+
+        private static void ValidateEndingChart(EndingBonusLoopData loop, string difficulty, string label)
+        {
+            AssertTrue(loop.Difficulty.ContainsKey(difficulty), label + " difficulty");
+            AssertTrue(loop.Charts.ContainsKey(difficulty), label + " chart");
+            var chart = loop.Charts[difficulty];
+            var summary = loop.Difficulty[difficulty].ChartSummary;
+            AssertTrue(chart.Count > 0, label + " not empty");
+            AssertEqual(summary.NoteCount, chart.Count, label + " note count");
+            AssertEqual(summary.TypeCounts.Tap, CountType(chart, "tap"), label + " tap count");
+            AssertEqual(summary.TypeCounts.Hold, CountType(chart, "hold"), label + " hold count");
+            AssertEqual(summary.TypeCounts.Mash, CountType(chart, "mash"), label + " mash count");
+            AssertEqual(summary.FirstMs, chart[0].TimeMs, label + " first ms");
+            AssertEqual(summary.LastEndMs, LastEndMs(chart), label + " last end ms");
+            AssertTrue(summary.TightestMashIntervalMs >= 105, label + " realistic mash interval");
+
+            for (var i = 0; i < chart.Count; i += 1)
+            {
+                var note = chart[i];
+                AssertTrue(note.Id.StartsWith("ed-l", StringComparison.Ordinal), label + " note id " + i);
+                AssertTrue(note.Type == "tap" || note.Type == "hold" || note.Type == "mash", label + " note type " + i);
+                if (i > 0) AssertTrue(note.TimeMs > chart[i - 1].TimeMs, label + " increasing time " + i);
+                if (note.Type == "tap")
+                {
+                    AssertEqual(0, note.DurationMs, label + " tap duration " + i);
+                    AssertEqual(0, note.TargetCount, label + " tap target " + i);
+                }
+                else
+                {
+                    AssertTrue(note.DurationMs > 0, label + " duration " + i);
+                    if (note.Type == "mash") AssertTrue(note.TargetCount > 0, label + " mash target " + i);
+                }
+            }
+        }
+
+        private static void CompareEndingExpected(EndingBonusRunResult expected, EndingBonusRunResult actual, string label)
+        {
+            AssertEqual(expected.NoteCount, actual.NoteCount, label + " note count");
+            AssertTypeCounts(expected.TypeCounts, actual.TypeCounts, label + " type counts");
+            AssertStats(expected.Stats, actual.Stats, label + " stats");
+            AssertTypeCounts(expected.MissByType, actual.MissByType, label + " miss by type");
+            AssertEqual(expected.Hits, actual.Hits, label + " hits");
+            AssertEqual(expected.Misses, actual.Misses, label + " misses");
+            AssertEqual(expected.BestCombo, actual.BestCombo, label + " best combo");
+            AssertEqual(expected.Score, actual.Score, label + " score");
+        }
+
         private static void AssertStats(JudgeStats expected, JudgeStats actual, string label)
         {
             AssertEqual(expected.Perfect, actual.Perfect, label + ".perfect");
@@ -383,6 +482,23 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             throw new FileNotFoundException("Could not find all-stage port pack file: " + fileName);
+        }
+
+        public static string ResolveEndingPackPath(string fileName)
+        {
+            var current = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (current != null)
+            {
+                var switchPortCandidate = Path.Combine(current.FullName, "switch-port", "ending", fileName);
+                if (File.Exists(switchPortCandidate)) return switchPortCandidate;
+
+                var siblingCandidate = Path.Combine(current.FullName, "ending", fileName);
+                if (File.Exists(siblingCandidate)) return siblingCandidate;
+
+                current = current.Parent;
+            }
+
+            throw new FileNotFoundException("Could not find ending bonus port pack file: " + fileName);
         }
     }
 }

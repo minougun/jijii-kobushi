@@ -27,6 +27,13 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void EndingBonusProfilesMatchExpectedResults()
+        {
+            var results = ProfileTestRunner.RunEndingBonusProfileParity();
+            Assert.AreEqual(2 * 6 * 3, results.Count);
+        }
+
+        [Test]
         public void InteractivePerfectRunMatchesSimulator()
         {
             var stage = LoadStage();

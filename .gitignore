@@ -1,6 +1,8 @@
 docs/
 test-results/
 unity-*-results.xml
+switch-port/unity-stage1-prototype/Stage1PortableCli.exe
+switch-port/unity-stage1-prototype/unity-portable-parity.txt
 .claude/
 node_modules/
 .DS_Store
