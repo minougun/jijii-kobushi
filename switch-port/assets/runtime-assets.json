@@ -10,6 +10,7 @@
       "src/audio.js",
       "src/main.js",
       "src/renderer.js",
+      "src/styles.css",
       "src/stages.js",
       "assets/audio/README.md",
       "assets/images/README.md",
@@ -139,6 +140,30 @@
       "gitObjectId": "35583d91749ff6a304f232f81259efef89f6f13b",
       "references": [
         "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/fonts/NotoSansJP-JiiKobushi-subset.woff2",
+      "role": "ui-font",
+      "kind": "font",
+      "importHint": "Font",
+      "codec": "woff2",
+      "gitTracked": true,
+      "gitObjectId": "590ba6eb0ea62b843ec8ca4af74770f5137097eb",
+      "references": [
+        "src/styles.css"
+      ]
+    },
+    {
+      "path": "assets/fonts/NotoSansJP-VF.ttf",
+      "role": "ui-font",
+      "kind": "font",
+      "importHint": "Font",
+      "codec": "ttf",
+      "gitTracked": true,
+      "gitObjectId": "cff100cf296ffc2c719c0545da5abbef297d2615",
+      "references": [
+        "src/styles.css"
       ]
     },
     {

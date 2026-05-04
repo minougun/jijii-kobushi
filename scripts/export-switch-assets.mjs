@@ -11,6 +11,7 @@ const scannedFiles = [
   "src/audio.js",
   "src/main.js",
   "src/renderer.js",
+  "src/styles.css",
   "src/stages.js",
   "assets/audio/README.md",
   "assets/images/README.md",
@@ -26,7 +27,7 @@ function stripQuery(src) {
 }
 
 function normalizeAssetPath(src) {
-  return stripQuery(src.replace(/\\/g, "/").replace(/^\.\//, ""));
+  return stripQuery(src.replace(/\\/g, "/").replace(/^(\.\.\/|\.\/)/, "assets/").replace(/^assets\/assets\//, "assets/"));
 }
 
 function gitTrackedAssets() {
@@ -42,7 +43,7 @@ function gitTrackedAssets() {
 
 function collectReferencedAssets() {
   const assets = new Map();
-  const pattern = /["'`](\.\/assets\/(?:audio|fonts|images|video)\/[^"'`\s)]+)["'`]/g;
+  const pattern = /["'`]((?:\.\.\/|\.\/)assets\/(?:audio|fonts|images|video)\/[^"'`\s)]+)["'`]/g;
   for (const file of scannedFiles) {
     const absolute = path.join(repoRoot, file);
     if (!existsSync(absolute)) continue;

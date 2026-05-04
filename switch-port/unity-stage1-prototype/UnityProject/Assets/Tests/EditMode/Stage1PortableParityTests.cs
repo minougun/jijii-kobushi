@@ -41,13 +41,36 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual("jii-kobushi", manifest.GameId);
             Assert.AreEqual("switch-runtime-assets", manifest.ExportId);
             Assert.AreEqual("https://minougun.github.io/jijii-kobushi/", manifest.Source.WebUrl);
-            Assert.AreEqual(33, manifest.Assets.Count);
+            Assert.AreEqual(35, manifest.Assets.Count);
 
             AssertRuntimeAsset(manifest, "assets/images/jii-kobushi-chibi-character-sheet-v1.png", "character-sheet", "raster-image");
             AssertRuntimeAsset(manifest, "assets/images/kojiro-cutin.png", "special-cutin", "raster-image");
             AssertRuntimeAsset(manifest, "assets/video/ending.mp4", "ending-video-first-loop", "video");
             AssertRuntimeAsset(manifest, "assets/video/ending-loop2.mp4", "ending-video-loop-plus", "video");
             AssertRuntimeAsset(manifest, "assets/audio/koiwazurai.mp3", "stage-bgm", "audio");
+            AssertRuntimeAsset(manifest, "assets/fonts/NotoSansJP-JiiKobushi-subset.woff2", "ui-font", "font");
+        }
+
+        [Test]
+        public void RuntimeAssetImportPlanKeepsWebAssetCoverage()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            var plan = RuntimeAssetImportPlanner.Build(manifest, "", false);
+
+            Assert.AreEqual(35, plan.TotalAssets);
+            Assert.AreEqual(10, plan.KindCounts["audio"]);
+            Assert.AreEqual(2, plan.KindCounts["video"]);
+            Assert.AreEqual(2, plan.KindCounts["font"]);
+            Assert.AreEqual(20, plan.KindCounts["raster-image"]);
+            Assert.AreEqual(1, plan.KindCounts["vector-image"]);
+            Assert.AreEqual(7, plan.StageBackgrounds.Count);
+            Assert.AreEqual(0, plan.MissingGitTracked.Count);
+            Assert.AreEqual(0, plan.IncompleteStageBackgroundPairs.Count);
+            Assert.Contains("assets/video/ending.mp4", plan.VideoAssets);
+            Assert.Contains("assets/video/ending-loop2.mp4", plan.VideoAssets);
+            AssertStageBackgroundPair(plan, "shotengai");
+            AssertStageBackgroundPair(plan, "warehouse");
+            AssertStageBackgroundPair(plan, "finalhideout");
         }
 
         [Test]
@@ -198,6 +221,21 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             Assert.Fail("Missing runtime asset: " + assetPath);
+        }
+
+        private static void AssertStageBackgroundPair(RuntimeAssetImportPlan plan, string stageKey)
+        {
+            for (var i = 0; i < plan.StageBackgrounds.Count; i += 1)
+            {
+                var pair = plan.StageBackgrounds[i];
+                if (pair.StageKey != stageKey) continue;
+
+                Assert.IsTrue(pair.WebpPath.EndsWith(stageKey + "-v1.webp", System.StringComparison.Ordinal), stageKey + " webp");
+                Assert.IsTrue(pair.PngPath.EndsWith(stageKey + "-v1.png", System.StringComparison.Ordinal), stageKey + " png");
+                return;
+            }
+
+            Assert.Fail("Missing stage background pair: " + stageKey);
         }
 
         private static void PlayPerfect(StageExport stage, string difficulty, InteractiveBattleSession session)
