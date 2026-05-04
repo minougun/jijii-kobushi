@@ -8,9 +8,9 @@ Unity project: `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototyp
 ## Current State
 
 - Branch: `main`
-- Local HEAD: `d068dee0ad7da0074c0aa57b07193b8f7f265750`
+- Local HEAD: `34319187000e2ab78ea78ae5b2c93eeb7ba65e23`
 - Remote baseline: `origin/main` at `7e2a38bc91e5510f5fdab2cbd9d2ec5a49cba47e`
-- Local branch is 37 commits ahead of `origin/main`.
+- Local branch is 40 commits ahead of `origin/main`.
 - Working tree was clean after the local verification pass.
 
 ## Included Work
@@ -53,7 +53,7 @@ ED bonus:
 - `npm run review:persona`
 - `npm run validate:switch-stages`
 - `npm run check:switch-stage1`
-- Unity EditMode batch tests: 6/6 passed.
+- Unity EditMode batch tests: 7/7 passed.
 - Unity PlayMode batch tests: 7/7 passed.
 - Unity Windows player smoke: exit code 0, `stage=誘拐の朝`, `location=うさぎ公園`.
 - Added all-stage expected profile results after this pass:
@@ -66,7 +66,7 @@ Note: Unity player smoke was run with `-nographics`, so shader unsupported logs 
 ## Pre-push Audit
 
 - Remote verified: `origin` fetch/push points to `https://github.com/minougun/jijii-kobushi.git`.
-- Ahead range: `origin/main..HEAD` contains 38 local commits.
+- Ahead range: `origin/main..HEAD` contains 40 local commits.
 - No Unity generated folders are included in the ahead diff:
   - `Library/`
   - `Temp/`
