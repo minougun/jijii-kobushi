@@ -125,6 +125,8 @@ const REDUCED_BATTLE_RENDER_INTERVAL_MS = 1000 / 30;
 const RENDER_INTERVAL_EPSILON_MS = 0.75;
 const ENDING_VIDEO_FIRST_LOOP_SRC = "./assets/video/ending.mp4?v=20260504-anime1";
 const ENDING_VIDEO_LOOP_PLUS_SRC = "./assets/video/ending-loop2.mp4?v=20260504-doodle-readable2-lite1";
+const ENDING_BONUS_CLOCK_RESET_MS = 240;
+const ENDING_BONUS_CLOCK_PULL = 0.16;
 
 function loadSave() {
   try {
@@ -1226,6 +1228,10 @@ function resetEndingBonus() {
     lastJudge: "ED譜面を待つ",
     lastOffsetMs: 0,
     pulseUntil: 0,
+    clockVideoMs: 0,
+    clockPerfMs: 0,
+    lastRawVideoMs: 0,
+    lastStatusText: "",
   };
   syncEndingBonusUi();
 }
@@ -1241,8 +1247,49 @@ function endingBonusSnapshot() {
   };
 }
 
-function endingBonusTimeMs() {
+function endingBonusRawTimeMs() {
   return (dom.endingVideo?.currentTime ?? 0) * 1000;
+}
+
+function resetEndingBonusClock(rawMs = endingBonusRawTimeMs()) {
+  const bonus = state.endingBonus;
+  if (!bonus) return rawMs;
+  bonus.clockVideoMs = rawMs;
+  bonus.clockPerfMs = performance.now();
+  bonus.lastRawVideoMs = rawMs;
+  return rawMs;
+}
+
+function endingBonusTimeMs() {
+  const video = dom.endingVideo;
+  const bonus = state.endingBonus;
+  const rawMs = endingBonusRawTimeMs();
+  if (!video || !bonus || !Number.isFinite(rawMs)) return 0;
+  const now = performance.now();
+  const rate = Number.isFinite(video.playbackRate) && video.playbackRate > 0 ? video.playbackRate : 1;
+  if (!bonus.active || video.paused || video.ended || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+    return resetEndingBonusClock(rawMs);
+  }
+  if (!Number.isFinite(bonus.clockPerfMs) || bonus.clockPerfMs <= 0) {
+    return resetEndingBonusClock(rawMs);
+  }
+
+  let estimatedMs = bonus.clockVideoMs + (now - bonus.clockPerfMs) * rate;
+  const rawStepMs = rawMs - bonus.lastRawVideoMs;
+  const driftMs = rawMs - estimatedMs;
+  if (rawStepMs < -80 || Math.abs(driftMs) > ENDING_BONUS_CLOCK_RESET_MS) {
+    return resetEndingBonusClock(rawMs);
+  }
+
+  if (rawStepMs > 0) {
+    const correctionMs = driftMs * ENDING_BONUS_CLOCK_PULL;
+    bonus.clockVideoMs += correctionMs;
+    estimatedMs += correctionMs;
+    bonus.lastRawVideoMs = rawMs;
+  }
+
+  const durationMs = Number.isFinite(video.duration) ? video.duration * 1000 : Infinity;
+  return Math.max(0, Math.min(durationMs, estimatedMs));
 }
 
 function advanceEndingBonusCursor() {
@@ -1312,7 +1359,11 @@ function syncEndingBonusUi() {
   dom.endingBonusPanel.dataset.note = noteType;
   if (dom.endingVideoStatus) {
     const label = noteType === "hold" ? (bonus.hold ? "離す" : "長押") : noteType === "mash" ? "連打" : "タップ";
-    dom.endingVideoStatus.textContent = `${label}: ${bonus.lastJudge} / ${bonus.score}点 / ${bonus.combo}連`;
+    const statusText = `${label}: ${bonus.lastJudge} / ${bonus.score}点 / ${bonus.combo}連`;
+    if (bonus.lastStatusText !== statusText) {
+      dom.endingVideoStatus.textContent = statusText;
+      bonus.lastStatusText = statusText;
+    }
   }
   bonus.timeMs = videoMs;
   renderer.drawEndingRhythmBar(dom.endingBonusPanel, bonus);
@@ -1325,7 +1376,7 @@ function updateEndingBonus() {
     syncEndingBonusUi();
     return;
   }
-  const videoMs = dom.endingVideo.currentTime * 1000;
+  const videoMs = endingBonusTimeMs();
   for (let i = bonus.nextIndex; i < bonus.noteStates.length; i += 1) {
     const entry = bonus.noteStates[i];
     if (entry.resolved) continue;
@@ -1499,7 +1550,10 @@ async function playEndingVideo() {
   requestRender();
   try {
     await dom.endingVideo.play();
-    if (state.endingBonus) state.endingBonus.active = true;
+    if (state.endingBonus) {
+      state.endingBonus.active = true;
+      resetEndingBonusClock();
+    }
     if (dom.endingVideoStatus) dom.endingVideoStatus.textContent = "ED再生中";
   } catch (error) {
     console.warn("Ending video playback failed", error);
@@ -2162,7 +2216,10 @@ dom.endingVideo?.addEventListener("error", async () => {
     dom.endingVideo.load();
     try {
       await dom.endingVideo.play();
-      if (state.endingBonus) state.endingBonus.active = true;
+      if (state.endingBonus) {
+        state.endingBonus.active = true;
+        resetEndingBonusClock();
+      }
       return;
     } catch (error) {
       console.warn("Ending fallback video playback failed", error);
