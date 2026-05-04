@@ -34,7 +34,6 @@ namespace JijiiKobushi.Stage1Prototype
         [SerializeField] private int stageNumber = 1;
         [SerializeField] private int runLoop = 1;
 
-        private readonly PlaceholderRenderer placeholderRenderer = new PlaceholderRenderer();
         private PrototypeMode prototypeMode = PrototypeMode.Stage;
         private StageExport stage;
         private InteractiveBattleSession session;
@@ -868,20 +867,6 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 HoldUpActive();
             }
-        }
-
-        private PlaceholderFrame BuildFrame()
-        {
-            var result = session.BuildResult();
-            return new PlaceholderFrame
-            {
-                TimelineMs = session.ElapsedMs,
-                BattleClockMs = session.BattleClockMs,
-                RemainingHp = session.RemainingHp,
-                MaxCombo = session.MaxCombo,
-                Stats = result.Stats,
-                RecentNotes = result.Samples
-            };
         }
 
         private bool HasActiveSession

@@ -23,11 +23,6 @@ namespace JijiiKobushi.Stage1Prototype
             get { return Math.Max(0, CountInMs - ElapsedMs); }
         }
 
-        public int ToVirtualTimelineMs(int noteBattleTimeMs)
-        {
-            return CountInMs + noteBattleTimeMs;
-        }
-
         public void SeekElapsedMs(int elapsedMs)
         {
             ElapsedMs = Math.Max(0, elapsedMs);

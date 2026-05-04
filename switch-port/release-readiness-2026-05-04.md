@@ -69,6 +69,7 @@ ED bonus:
 - 2026-05-05 continuation: Unity PlayMode batch tests: 9/9 passed after the ED video asset smoke assertion.
 - 2026-05-05 continuation: Unity PlayMode batch tests: 9/9 passed after adding the seven-stage result carryover assertion into the ED bonus handoff.
 - 2026-05-05 continuation: Unity Windows player smoke: exit code 0, `stage=誘拐の朝`, `location=うさぎ公園`, `clock=audio`.
+- 2026-05-05 continuation: Switch-port cleanup removed unused placeholder debug renderer code (`PlaceholderRenderer`/`PlaceholderFrame`, unused timeline/default-path helpers). Commented-out code and hidden UI leftovers were re-scanned; no actionable leftovers remained.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

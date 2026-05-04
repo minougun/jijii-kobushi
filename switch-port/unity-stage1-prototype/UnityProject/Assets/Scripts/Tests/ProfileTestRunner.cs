@@ -514,11 +514,6 @@ namespace JijiiKobushi.Stage1Prototype
             return Path.GetFullPath(normalized);
         }
 
-        public static string ResolveDefaultPath(string relativeFromUnityProject)
-        {
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), relativeFromUnityProject));
-        }
-
         public static string ResolveStagePackPath(string fileName)
         {
             var current = new DirectoryInfo(Directory.GetCurrentDirectory());

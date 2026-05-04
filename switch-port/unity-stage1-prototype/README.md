@@ -82,7 +82,6 @@ Key files:
 - `Tests/ProfileTestRunner.cs`
 - `UnityProject/Assets/Tests/EditMode/Stage1PortableParityTests.cs`
 - `UnityProject/Assets/Tests/PlayMode/Stage1PrototypePlayModeSmokeTests.cs`
-- `View/PlaceholderRenderer.cs`
 - `View/PlaceholderRendererBehaviour.cs`
 
 Unity-facing files:
