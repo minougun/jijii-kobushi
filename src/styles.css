@@ -2525,26 +2525,28 @@ html[data-phase="results"] .shell {
   width: 100%;
   min-height: 100svh;
   height: 100svh;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr);
-  place-content: center;
-  place-items: center;
-  justify-items: center;
+  display: block;
   gap: 0;
-  padding: max(6px, env(safe-area-inset-top, 0px)) max(6px, env(safe-area-inset-right, 0px)) max(6px, env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px));
+  padding: 0;
   overflow: hidden;
   background: #171717;
 }
 
 html[data-phase="results"] .gameSurface {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  grid-row: auto;
   width: min(1280px, calc(100vw - 12px));
   height: min(96svh, 900px);
   min-height: 0;
   max-height: none;
   aspect-ratio: auto;
-  margin: auto;
+  margin: 0;
   display: grid;
   place-items: center;
+  transform: translate(-50%, -50%);
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(255, 247, 210, 0.08), rgba(23, 23, 23, 0) 22%),
