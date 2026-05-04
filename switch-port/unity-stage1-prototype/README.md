@@ -115,6 +115,8 @@ HP 0 now enters an explicit `Failed` phase, while full chart completion with HP 
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, scenario preview, result panel, Prev/Next stage buttons, result-panel `Next Stage` progression, final-stage `ED Bonus` handoff, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line. `HOLD` notes include a yellow `RELEASE` marker at the note end so the button-up timing is visible.
 
+The local result panel mirrors the Web original result-screen redesign: a large rank badge, score headline, stat tiles, and clearer stage/ED actions instead of raw debug text. It is still IMGUI placeholder rendering, but the information hierarchy now follows the commercial-style Web result card.
+
 The ED bonus handoff currently uses the portable ED chart and the same placeholder rhythm lane/input buttons. Video/audio playback is still a later integration step; this prototype intentionally keeps the ED bonus on a deterministic rhythm clock so judgement parity can be tested before presentation work.
 
 In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.

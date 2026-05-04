@@ -1139,6 +1139,257 @@ canvas {
   font-size: clamp(15px, 2vw, 18px);
 }
 
+.overlay.resultOverlay {
+  inset: 0;
+  place-content: center;
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: clamp(12px, 2vw, 22px);
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.28), rgba(10, 10, 10, 0.52)),
+    rgba(251, 247, 239, 0.78);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+}
+
+.overlay.resultOverlay .overlayKicker {
+  color: #f6d95f;
+  font-size: 12px;
+  font-weight: 600;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.72);
+}
+
+.overlay.resultOverlay h2 {
+  display: none;
+}
+
+.overlay.resultOverlay > p {
+  display: none;
+}
+
+.resultSummary {
+  width: min(100%, 1040px);
+  max-height: min(74svh, 680px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  text-align: left;
+  scrollbar-width: thin;
+}
+
+.resultSummary[hidden] {
+  display: none;
+}
+
+.resultCard {
+  display: grid;
+  gap: 12px;
+  padding: clamp(14px, 2.2vw, 22px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 252, 242, 0.98)),
+    var(--surface);
+  color: var(--ink);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.14),
+    0 18px 42px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  border-radius: 8px;
+}
+
+.resultCardHead {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.resultRank {
+  width: clamp(78px, 11vw, 112px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.78), transparent 24%),
+    linear-gradient(145deg, #fff2ac, #d6a838 48%, #8f5d1b);
+  color: #17110d;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.46),
+    0 0 0 2px #17110d,
+    0 8px 0 rgba(23, 17, 13, 0.22);
+  border-radius: 50%;
+  font-size: clamp(42px, 6vw, 66px);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.resultRank--A {
+  background: linear-gradient(145deg, #fff6d0, #d9c279 52%, #8a7040);
+}
+
+.resultRank--B,
+.resultRank--C {
+  background: linear-gradient(145deg, #f5f5f5, #b7c1c6 52%, #5d6870);
+}
+
+.resultTitleBlock {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.resultKicker,
+.resultStatLabel,
+.resultStageListHead,
+.resultBonusLabel {
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.resultTitle {
+  color: var(--ink);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.08;
+}
+
+.resultSubtitle {
+  color: var(--muted);
+  font-size: clamp(13px, 1.5vw, 16px);
+  font-weight: 600;
+}
+
+.resultStatGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.resultStat {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--line), 0 2px 2px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+}
+
+.resultStatValue {
+  color: var(--ink);
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.05;
+}
+
+.resultStatSub,
+.resultStageMain small,
+.resultBonusText {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.resultStageList {
+  display: grid;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.resultStageRow {
+  display: grid;
+  grid-template-columns: 34px minmax(180px, 1fr) 42px 86px 68px 72px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+}
+
+.resultStageNo {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.resultStageMain {
+  min-width: 0;
+  display: grid;
+  gap: 0;
+}
+
+.resultStageMain strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resultStageRank {
+  display: grid;
+  place-items: center;
+  min-height: 30px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.resultStageRank--S {
+  background: linear-gradient(180deg, #dfb84f, #8f5d1b);
+  color: #17110d;
+}
+
+.resultStageScore,
+.resultStageCombo,
+.resultStageNotes {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.resultBonusPanel {
+  display: grid;
+  grid-template-columns: auto minmax(120px, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background:
+    linear-gradient(90deg, rgba(246, 217, 95, 0.34), rgba(255, 255, 255, 0.94));
+  box-shadow: 0 0 0 1px rgba(143, 93, 27, 0.18);
+  border-radius: 8px;
+}
+
+.resultBonusScore {
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1;
+}
+
+.resultNote {
+  max-width: none;
+  padding: 11px 12px;
+  background: rgba(23, 23, 23, 0.04);
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: clamp(13px, 1.6vw, 16px);
+  line-height: 1.55;
+}
+
+.overlay.resultOverlay .overlayActions {
+  margin-top: 0;
+}
+
+.overlay.resultOverlay .overlayActions button {
+  min-width: 170px;
+  min-height: 48px;
+  background: linear-gradient(180deg, #171717, #070707);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 8px 20px rgba(0, 0, 0, 0.24);
+}
+
 .overlay.novelOverlay p {
   width: 100%;
   max-width: none;
@@ -2198,6 +2449,58 @@ html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="re
   height: clamp(10px, 1.4vw, 18px);
   background:
     repeating-linear-gradient(90deg, #fff 0 13px, #f4f4f4 13px 18px);
+}
+
+@media (max-width: 720px), (max-height: 520px) {
+  .overlay.resultOverlay {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .resultSummary {
+    max-height: min(76svh, 560px);
+  }
+
+  .resultCard {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .resultCardHead {
+    gap: 10px;
+  }
+
+  .resultStatGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .resultStat {
+    padding: 8px;
+  }
+
+  .resultStageRow {
+    grid-template-columns: 26px minmax(0, 1fr) 34px 70px;
+    gap: 6px;
+    padding: 7px 8px;
+  }
+
+  .resultStageCombo,
+  .resultStageNotes {
+    display: none;
+  }
+
+  .resultBonusPanel {
+    grid-template-columns: 1fr auto;
+  }
+
+  .resultBonusText {
+    grid-column: 1 / -1;
+  }
+
+  .overlay.resultOverlay .overlayActions button {
+    min-height: 44px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

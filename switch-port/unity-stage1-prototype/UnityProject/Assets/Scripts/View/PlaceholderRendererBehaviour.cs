@@ -520,24 +520,31 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawResultPanel(Rect mainRect)
         {
-            var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 510, 340, 152);
-            FillRect(panel, new Color(1f, 1f, 1f));
-            StrokeRect(panel, new Color(0.12f, 0.11f, 0.1f), 2);
+            var panelWidth = Mathf.Min(620f, mainRect.width - 72f);
+            var panel = new Rect(mainRect.x + (mainRect.width - panelWidth) * 0.5f, mainRect.y + 458, panelWidth, 214);
+            FillRect(panel, new Color(1f, 0.985f, 0.94f));
+            StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 3);
+            FillRect(new Rect(panel.x, panel.y, panel.width, 44), new Color(0.08f, 0.075f, 0.07f));
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
                 var endingResult = endingSession.BuildResult();
-                GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), "ED BONUS COMPLETE", titleStyle);
-                GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "score=" + endingResult.Score + " hits=" + endingResult.Hits + " misses=" + endingResult.Misses, labelStyle);
-                GUI.Label(new Rect(panel.x + 18, panel.y + 72, 304, 34), "bestCombo=" + endingResult.BestCombo + "  notes=" + endingResult.NoteCount, labelStyle);
+                var accuracy = endingResult.NoteCount > 0 ? Mathf.RoundToInt((endingResult.Hits / (float)endingResult.NoteCount) * 100f) : 0;
+                DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), "ED");
+                GUI.Label(new Rect(panel.x + 128, panel.y + 14, 360, 24), "ENDING BONUS", panelLabelStyle);
+                GUI.Label(new Rect(panel.x + 128, panel.y + 56, 360, 38), endingResult.Score + " pts", titleStyle);
+                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 360, 24), "Loop " + CurrentRunLoop + " / " + difficulty, labelStyle);
+                DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "Hits", endingResult.Hits + "/" + endingResult.NoteCount, accuracy + "%");
+                DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "Best combo", endingResult.BestCombo.ToString(), "chain");
+                DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "Miss", endingResult.Misses.ToString(), "notes");
 
-                if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "Next Loop"))
+                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + 178, 152, 30), "Next Loop"))
                 {
                     runLoop = CurrentRunLoop + 1;
                     stageNumber = 1;
                     LoadAndStart();
                 }
 
-                if (GUI.Button(new Rect(panel.x + 176, panel.y + 108, 144, 34), "Retry ED"))
+                if (GUI.Button(new Rect(panel.x + panel.width - 338, panel.y + 178, 146, 30), "Retry ED"))
                 {
                     LoadEndingBonusAndStart();
                 }
@@ -545,13 +552,17 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             var result = session.BuildResult();
-            GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), ResultHeading + " " + result.Rank, titleStyle);
-            GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "clear=" + result.Clear + " score=" + result.Score + " maxCombo=" + result.MaxCombo, labelStyle);
-            GUI.Label(new Rect(panel.x + 18, panel.y + 72, 304, 34), ResultScenarioLine, labelStyle);
+            DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), result.Rank);
+            GUI.Label(new Rect(panel.x + 128, panel.y + 14, 360, 24), result.Clear ? "STAGE CLEAR" : "FAILED", panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 128, panel.y + 56, 360, 38), result.Score + " pts", titleStyle);
+            GUI.Label(new Rect(panel.x + 128, panel.y + 92, panel.width - 154, 24), ResultScenarioLine, labelStyle);
+            DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "Max combo", result.MaxCombo.ToString(), "chain");
+            DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "Notes", result.Stats.Perfect + "/" + result.NoteCount, "perfect");
+            DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "HP", result.RemainingHp + "/" + result.MaxHp, "remaining");
 
             if (CanStartEndingBonus)
             {
-                if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "ED Bonus"))
+                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + 178, 152, 30), "ED Bonus"))
                 {
                     LoadEndingBonusAndStart();
                 }
@@ -560,17 +571,33 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 var previousEnabled = GUI.enabled;
                 GUI.enabled = previousEnabled && CanAdvanceToNextStage;
-                if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "Next Stage"))
+                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + 178, 152, 30), "Next Stage"))
                 {
                     AdvanceToNextStage();
                 }
                 GUI.enabled = previousEnabled;
             }
 
-            if (GUI.Button(new Rect(panel.x + 176, panel.y + 108, 144, 34), "Retry"))
+            if (GUI.Button(new Rect(panel.x + panel.width - 338, panel.y + 178, 146, 30), "Retry"))
             {
                 ReloadCurrentMode();
             }
+        }
+
+        private void DrawRankBadge(Rect rect, string rank)
+        {
+            FillRect(rect, new Color(0.86f, 0.62f, 0.16f));
+            StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 3);
+            GUI.Label(rect, rank, titleStyle);
+        }
+
+        private void DrawResultStat(Rect rect, string label, string value, string sub)
+        {
+            FillRect(rect, new Color(1f, 1f, 1f));
+            StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
+            GUI.Label(new Rect(rect.x + 9, rect.y + 6, rect.width - 18, 18), label, panelLabelStyle);
+            GUI.Label(new Rect(rect.x + 9, rect.y + 20, rect.width - 18, 24), value, strongStyle);
+            GUI.Label(new Rect(rect.x + 9, rect.y + 38, rect.width - 18, 16), sub, labelStyle);
         }
 
         private void DrawFooterControls(Rect mainRect)

@@ -70,6 +70,7 @@ const dom = {
   openingArtwork: document.querySelector("#openingArtwork"),
   overlayTitle: document.querySelector("#overlayTitle"),
   overlayText: document.querySelector("#overlayText"),
+  resultSummary: document.querySelector("#resultSummary"),
   difficultySelect: document.querySelector("#difficultySelect"),
   primaryButton: document.querySelector("#primaryButton"),
   skipButton: document.querySelector("#skipButton"),
@@ -481,11 +482,13 @@ function syncSaveSlotUi() {
 function setOverlay(show, title = "", text = "", action = "進む") {
   const canSkipCleared = state.phase === "intro" && isCurrentStageCleared();
   const novelMode = state.phase === "intro" || state.phase === "finalReveal";
+  const resultMode = state.phase === "ending" || state.phase === "results";
   const openingMode = state.phase === "opening";
   const titleMode = state.phase === "title";
   const openingArtworkMode = openingMode || titleMode;
   dom.overlay.classList.toggle("hidden", !show);
   dom.overlay.classList.toggle("novelOverlay", novelMode);
+  dom.overlay.classList.toggle("resultOverlay", resultMode);
   dom.overlay.classList.toggle("openingOverlay", openingArtworkMode);
   dom.overlay.classList.toggle("titleOverlay", titleMode);
   for (const element of [dom.settingsRoot, dom.helpGuide]) {
@@ -504,11 +507,113 @@ function setOverlay(show, title = "", text = "", action = "進む") {
   dom.overlayTitle.textContent = title;
   dom.overlayText.textContent = text;
   dom.overlayText.hidden = text.length === 0;
+  if (!resultMode) clearResultSummary();
   dom.primaryButton.textContent = action;
   dom.skipButton.hidden = state.phase === "finalReveal" ? true : state.phase !== "intro" && state.phase !== "rest" && !canSkipCleared;
   dom.skipButton.textContent = canSkipCleared ? "クリア済みなのでスキップ" : "会話を送る";
   syncSaveSlotUi();
   requestRender();
+}
+
+function clearResultSummary() {
+  if (!dom.resultSummary) return;
+  dom.resultSummary.hidden = true;
+  dom.resultSummary.replaceChildren();
+}
+
+function resultNode(tag, className = "", text = "") {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text) node.textContent = text;
+  return node;
+}
+
+function resultStat(label, value, sub = "") {
+  const item = resultNode("div", "resultStat");
+  item.append(resultNode("span", "resultStatLabel", label));
+  item.append(resultNode("strong", "resultStatValue", value));
+  if (sub) item.append(resultNode("small", "resultStatSub", sub));
+  return item;
+}
+
+function resultAccuracy(stats = {}) {
+  const total = (stats.perfect ?? 0) + (stats.good ?? 0) + (stats.bad ?? 0) + (stats.miss ?? 0);
+  if (!total) return 0;
+  const weighted = (stats.perfect ?? 0) + (stats.good ?? 0) * 0.72 + (stats.bad ?? 0) * 0.34;
+  return Math.max(0, Math.min(100, Math.round((weighted / total) * 100)));
+}
+
+function summarizeStageResult(item) {
+  const notesTotal = Math.max(0, item.notesTotal ?? 0);
+  const notesResolved = Math.max(0, item.notesResolved ?? 0);
+  const noteText = !notesTotal
+    ? "保存済み"
+    : notesResolved >= notesTotal
+      ? `${notesTotal}/${notesTotal}`
+      : `${notesResolved}/${notesTotal}`;
+  const source = item.skipped ? "保存済みベスト" : item.stageClearedByHp ? "撃破" : "完走";
+  return {
+    title: item.title,
+    score: `${item.score}点`,
+    rank: item.rank,
+    combo: `${item.maxCombo}連`,
+    phrase: item.phraseGrade ? `節回し ${item.phraseGrade}` : "節回し -",
+    notes: noteText,
+    source,
+    accuracy: `${resultAccuracy(item.stats)}%`,
+  };
+}
+
+function renderResultSummary({ mode, title, rank, subtitle, stats = [], stages = [], bonus = null, note = "" }) {
+  if (!dom.resultSummary) return;
+  dom.resultSummary.hidden = false;
+  dom.resultSummary.replaceChildren();
+
+  const card = resultNode("section", `resultCard resultCard--${mode}`);
+  const head = resultNode("div", "resultCardHead");
+  const rankBadge = resultNode("div", `resultRank resultRank--${rank}`, rank);
+  const titleBlock = resultNode("div", "resultTitleBlock");
+  titleBlock.append(resultNode("span", "resultKicker", mode === "bonus" ? "ENDING BONUS" : "STAGE CLEAR"));
+  titleBlock.append(resultNode("strong", "resultTitle", title));
+  if (subtitle) titleBlock.append(resultNode("small", "resultSubtitle", subtitle));
+  head.append(rankBadge, titleBlock);
+  card.append(head);
+
+  if (stats.length) {
+    const statGrid = resultNode("div", "resultStatGrid");
+    for (const stat of stats) statGrid.append(resultStat(stat.label, stat.value, stat.sub));
+    card.append(statGrid);
+  }
+
+  if (stages.length) {
+    const list = resultNode("div", "resultStageList");
+    list.append(resultNode("div", "resultStageListHead", "ステージ別成績"));
+    stages.forEach((stage, index) => {
+      const row = resultNode("div", "resultStageRow");
+      row.append(resultNode("span", "resultStageNo", String(index + 1).padStart(2, "0")));
+      const main = resultNode("span", "resultStageMain");
+      main.append(resultNode("strong", "", stage.title));
+      main.append(resultNode("small", "", `${stage.source} / ${stage.phrase} / 精度 ${stage.accuracy}`));
+      row.append(main);
+      row.append(resultNode("span", `resultStageRank resultStageRank--${stage.rank}`, stage.rank));
+      row.append(resultNode("span", "resultStageScore", stage.score));
+      row.append(resultNode("span", "resultStageCombo", stage.combo));
+      row.append(resultNode("span", "resultStageNotes", stage.notes));
+      list.append(row);
+    });
+    card.append(list);
+  }
+
+  if (bonus) {
+    const bonusPanel = resultNode("div", "resultBonusPanel");
+    bonusPanel.append(resultNode("span", "resultBonusLabel", "ED拍ボーナス"));
+    bonusPanel.append(resultNode("strong", "resultBonusScore", `${bonus.score}点`));
+    bonusPanel.append(resultNode("small", "resultBonusText", `成功 ${bonus.hits}/${bonus.total} / 精度 ${bonus.accuracy}% / 最大 ${bonus.bestCombo}連 / ${bonus.missText}`));
+    card.append(bonusPanel);
+  }
+
+  if (note) card.append(resultNode("p", "resultNote", note));
+  dom.resultSummary.append(card);
 }
 
 function setSpeakerLabel(label, splitChars = false) {
@@ -1161,6 +1266,7 @@ function beginEnding() {
   const finalRank = rankScore(average);
   const skippedCount = state.stageScores.filter((item) => item.skipped).length;
   const resultScope = skippedCount ? `保存済みベスト${skippedCount}件を含む` : "今回プレイのみ";
+  const stageSummaries = state.stageScores.map(summarizeStageResult);
   const lines = state.stageScores
     .map((item) => {
       const notePart =
@@ -1176,16 +1282,29 @@ function beginEnding() {
       return `${sourcePart}${item.title}: ${item.score}点 ${item.rank}${phrasePart} 最大${item.maxCombo}連 追撃+${item.comboBonusDamage}${focusPart}${skipPart}${notePart}`;
     })
     .join(" / ");
-  state.results = { average, finalRank, lines, skippedCount, resultScope, loop: completedLoop, loopLabel: completedLoopLabel };
+  state.results = { average, finalRank, lines, stageSummaries, skippedCount, resultScope, loop: completedLoop, loopLabel: completedLoopLabel };
   state.runLoop = completedLoop + 1;
   state.runLoops[state.difficulty] = state.runLoop;
   save();
   setOverlay(
     true,
     `救出成功 ${completedLoopLabel} 総合${finalRank}${skippedCount ? "（保存済み含む）" : ""}`,
-    `${DIFFICULTIES[state.difficulty].label} / ${completedLoopLabel} / ${resultScope}\n${getStage(STAGES.length - 1).clearLine}\n${lines}`,
+    "",
     "結果を見る",
   );
+  renderResultSummary({
+    mode: "clear",
+    title: `総合ランク ${finalRank}`,
+    rank: finalRank,
+    subtitle: `${DIFFICULTIES[state.difficulty].label} / ${completedLoopLabel} / ${resultScope}`,
+    stats: [
+      { label: "平均スコア", value: `${average}点`, sub: "7ステージ総合" },
+      { label: "総合得点", value: `${total}点`, sub: "ステージ合計" },
+      { label: "周回", value: completedLoopLabel, sub: skippedCount ? "保存済み含む" : "今回プレイ" },
+    ],
+    stages: stageSummaries,
+    note: getStage(STAGES.length - 1).clearLine,
+  });
 }
 
 function showResults() {
@@ -1201,9 +1320,23 @@ function showResults() {
   setOverlay(
     true,
     "ED拍ボーナス 結果",
-    `${DIFFICULTIES[state.difficulty].label} / ${state.results?.loopLabel ?? loopLabel(1)}\nスコア ${bonus.score}点\n成功 ${bonus.hits}/${total}ノート（精度 ${accuracy}%）\n最大コンボ ${bonus.bestCombo}連 / ${missText}`,
+    "",
     `${nextLoopLabel}に進む`,
   );
+  renderResultSummary({
+    mode: "bonus",
+    title: `ED ${bonus.score}点`,
+    rank: state.results?.finalRank ?? "S",
+    subtitle: `${DIFFICULTIES[state.difficulty].label} / ${state.results?.loopLabel ?? loopLabel(1)} クリア後ボーナス`,
+    stats: [
+      { label: "成功ノーツ", value: `${bonus.hits}/${total}`, sub: `${accuracy}%` },
+      { label: "最大コンボ", value: `${bonus.bestCombo}連`, sub: missText },
+      { label: "次の挑戦", value: nextLoopLabel, sub: "結果確定済み" },
+    ],
+    stages: state.results?.stageSummaries ?? [],
+    bonus: { score: bonus.score, hits: bonus.hits, total, accuracy, bestCombo: bonus.bestCombo, missText },
+    note: "ボーナス結果のみを確定しました。次の周回へ進めます。",
+  });
 }
 
 function resetEndingBonus() {
