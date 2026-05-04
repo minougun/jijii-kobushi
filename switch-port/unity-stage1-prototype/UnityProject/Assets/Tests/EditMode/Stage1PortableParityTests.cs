@@ -34,6 +34,23 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void RuntimeAssetManifestLoadsForUnityImportPlanning()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            Assert.AreEqual(1, manifest.SchemaVersion);
+            Assert.AreEqual("jii-kobushi", manifest.GameId);
+            Assert.AreEqual("switch-runtime-assets", manifest.ExportId);
+            Assert.AreEqual("https://minougun.github.io/jijii-kobushi/", manifest.Source.WebUrl);
+            Assert.AreEqual(33, manifest.Assets.Count);
+
+            AssertRuntimeAsset(manifest, "assets/images/jii-kobushi-chibi-character-sheet-v1.png", "character-sheet", "raster-image");
+            AssertRuntimeAsset(manifest, "assets/images/kojiro-cutin.png", "special-cutin", "raster-image");
+            AssertRuntimeAsset(manifest, "assets/video/ending.mp4", "ending-video-first-loop", "video");
+            AssertRuntimeAsset(manifest, "assets/video/ending-loop2.mp4", "ending-video-loop-plus", "video");
+            AssertRuntimeAsset(manifest, "assets/audio/koiwazurai.mp3", "stage-bgm", "audio");
+        }
+
+        [Test]
         public void EndingBonusInteractivePerfectRunMatchesSimulator()
         {
             var ending = StageJsonLoader.LoadEndingBonus(ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json"));
@@ -163,6 +180,24 @@ namespace JijiiKobushi.Stage1Prototype
         private static StageExport LoadStage()
         {
             return StageJsonLoader.LoadStage(ProfileTestRunner.ResolveStagePackPath("shotengai.stage.json"));
+        }
+
+        private static void AssertRuntimeAsset(RuntimeAssetManifest manifest, string assetPath, string role, string kind)
+        {
+            for (var i = 0; i < manifest.Assets.Count; i += 1)
+            {
+                var asset = manifest.Assets[i];
+                if (asset.Path != assetPath) continue;
+
+                Assert.AreEqual(role, asset.Role, assetPath + " role");
+                Assert.AreEqual(kind, asset.Kind, assetPath + " kind");
+                Assert.IsTrue(asset.GitTracked, assetPath + " git tracked");
+                Assert.IsNotEmpty(asset.GitObjectId, assetPath + " object id");
+                Assert.Greater(asset.References.Count, 0, assetPath + " references");
+                return;
+            }
+
+            Assert.Fail("Missing runtime asset: " + assetPath);
         }
 
         private static void PlayPerfect(StageExport stage, string difficulty, InteractiveBattleSession session)

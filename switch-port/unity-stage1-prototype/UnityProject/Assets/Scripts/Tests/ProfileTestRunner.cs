@@ -538,5 +538,22 @@ namespace JijiiKobushi.Stage1Prototype
 
             throw new FileNotFoundException("Could not find ending bonus port pack file: " + fileName);
         }
+
+        public static string ResolveRuntimeAssetManifestPath(string fileName)
+        {
+            var current = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (current != null)
+            {
+                var switchPortCandidate = Path.Combine(current.FullName, "switch-port", "assets", fileName);
+                if (File.Exists(switchPortCandidate)) return switchPortCandidate;
+
+                var siblingCandidate = Path.Combine(current.FullName, "assets", fileName);
+                if (File.Exists(siblingCandidate)) return siblingCandidate;
+
+                current = current.Parent;
+            }
+
+            throw new FileNotFoundException("Could not find runtime asset manifest file: " + fileName);
+        }
     }
 }

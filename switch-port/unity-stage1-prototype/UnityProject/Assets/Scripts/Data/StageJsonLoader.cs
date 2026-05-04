@@ -78,6 +78,20 @@ namespace JijiiKobushi.Stage1Prototype
             };
         }
 
+        public static RuntimeAssetManifest LoadRuntimeAssetManifest(string path)
+        {
+            var root = AsObject(ParseFile(path), path);
+            return new RuntimeAssetManifest
+            {
+                SchemaVersion = GetInt(root, "schemaVersion"),
+                GameId = GetString(root, "gameId"),
+                ExportId = GetString(root, "exportId"),
+                Source = ReadRuntimeAssetManifestSource(GetObject(root, "source")),
+                Notes = ReadStringList(GetList(root, "notes")),
+                Assets = ReadRuntimeAssetEntries(GetList(root, "assets"))
+            };
+        }
+
         private static object ParseFile(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -451,6 +465,37 @@ namespace JijiiKobushi.Stage1Prototype
                 Score = GetInt(obj, "score"),
                 Samples = ReadResolvedNotes(GetList(obj, "samples"))
             };
+        }
+
+        private static RuntimeAssetManifestSource ReadRuntimeAssetManifestSource(Dictionary<string, object> obj)
+        {
+            return new RuntimeAssetManifestSource
+            {
+                WebUrl = GetString(obj, "webUrl"),
+                LocalRepo = GetString(obj, "localRepo"),
+                ScannedFiles = ReadStringList(GetList(obj, "scannedFiles"))
+            };
+        }
+
+        private static List<RuntimeAssetEntry> ReadRuntimeAssetEntries(List<object> list)
+        {
+            var entries = new List<RuntimeAssetEntry>();
+            foreach (var item in list)
+            {
+                var obj = AsObject(item, "runtime asset");
+                entries.Add(new RuntimeAssetEntry
+                {
+                    Path = GetString(obj, "path"),
+                    Role = GetString(obj, "role"),
+                    Kind = GetString(obj, "kind"),
+                    ImportHint = GetString(obj, "importHint"),
+                    Codec = GetString(obj, "codec"),
+                    GitTracked = GetBool(obj, "gitTracked"),
+                    GitObjectId = GetString(obj, "gitObjectId"),
+                    References = ReadStringList(GetList(obj, "references"))
+                });
+            }
+            return entries;
         }
 
         private static List<ResolvedNote> ReadResolvedNotes(List<object> list)

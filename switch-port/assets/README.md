@@ -20,6 +20,8 @@ npm run validate:switch-assets
 
 The default validator checks that referenced runtime assets are tracked in the Git index. It does not require every large image file to be present in the local working tree because this repo uses skip-worktree for some Web runtime images during local Switch-port work.
 
+Unity-side planning uses the same file through `StageJsonLoader.LoadRuntimeAssetManifest(...)`, and the EditMode test `RuntimeAssetManifestLoadsForUnityImportPlanning` guards the key runtime entries needed for character art, special cut-ins, ED video, and Stage 1 BGM.
+
 Before a real Unity asset import pass, run the stricter local check after restoring the asset files:
 
 ```bash
