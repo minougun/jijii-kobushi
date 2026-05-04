@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "gameId": "jii-kobushi",
+  "exportId": "switch-runtime-assets",
+  "source": {
+    "webUrl": "https://minougun.github.io/jijii-kobushi/",
+    "localRepo": "/mnt/c/Users/minou/jii-kobushi",
+    "scannedFiles": [
+      "index.html",
+      "src/audio.js",
+      "src/main.js",
+      "src/renderer.js",
+      "src/stages.js",
+      "assets/audio/README.md",
+      "assets/images/README.md",
+      "assets/video/README.md"
+    ]
+  },
+  "notes": [
+    "This manifest is source-only. It records the runtime Web assets that the Switch port must import or recreate.",
+    "gitTracked confirms that the asset exists in the repository index. Some large image files may be skip-worktree locally and are intentionally not required by the default validator."
+  ],
+  "assets": [
+    {
+      "path": "assets/audio/amenoshita3.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "0c701d045c8579f6c7216feaba79559f761b2077",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/epicbattle-j.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "04fb5bc3ce70cef8fc9ac4a01e333314288bebe0",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/hanagoyomi2.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "951ae4feee86c310fd5d9fb988624dddb73f58a8",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/harvest-festival.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "18660a5c431d2316f561d054fbc0eac5b4332747",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/koiwazurai.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "ab03acd0a005cf012cced4c741b5f02bf60410d6",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/oboro.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "16a5cfb968333bbf1a7459872bd09a047ec9be13",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/retroroman-battle3.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "e454a5a6061949f3722ef1624825e44d7b91f865",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/retroroman-city.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "343223f1df477c786909d00eb8f9a6ba8c1ac382",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/shizima4.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "77a85434b14caffbda05da14c9a91f0bd748a41e",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/audio/taishoroman-battle.mp3",
+      "role": "stage-bgm",
+      "kind": "audio",
+      "importHint": "AudioClip",
+      "codec": "mp3",
+      "gitTracked": true,
+      "gitObjectId": "35583d91749ff6a304f232f81259efef89f6f13b",
+      "references": [
+        "src/audio.js"
+      ]
+    },
+    {
+      "path": "assets/images/enka-wave-band.svg",
+      "role": "overlay-motif",
+      "kind": "vector-image",
+      "importHint": "Texture2D or VectorImage",
+      "codec": "svg",
+      "gitTracked": true,
+      "gitObjectId": "d32b3bfb8ebaae5b771c19601b7e670ffc479808",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/hasegawa-reveal-sprite-v7.png",
+      "role": "final-reveal-sprite",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "8195a56b6b8b0a8b1ac222b22ff87d4d2e714e04",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/jii-kobushi-chibi-character-sheet-v1.png",
+      "role": "character-sheet",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "7383f8a62d3ddbc52e977199003254a00367beb2",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/jii-kobushi-imagegen-atlas-v1.png",
+      "role": "fallback-atlas",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "c12646a018cf063d5bc5b49e7140f677f19f1da4",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/kojiro-cutin.png",
+      "role": "special-cutin",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "1dc9a5020cbc8601ec4c1e2ce6c47e97045f91b3",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/op-title-kakizome-hanshi-v1.png",
+      "role": "opening-still",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "c986006dfe50f73a5f9e7e065692c8a4cf28090d",
+      "references": [
+        "index.html"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-finalhideout-v1.png",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "b2b38759d1a8ce90bc1c0e590ee9d8308b421df8",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-finalhideout-v1.webp",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "webp",
+      "gitTracked": true,
+      "gitObjectId": "fbcf9480a818b953b964a8fbedb5eb8649d5824e",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-garage-v1.png",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "dda1b4debe7cdefbbde783a941af3b2192718a0a",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-garage-v1.webp",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "webp",
+      "gitTracked": true,
+      "gitObjectId": "d48ff5218beb20e627afae0999d8accbcaef408a",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-mountain-v1.png",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "7a403df45078403217d92a8625e64f7832bf4474",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-mountain-v1.webp",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "webp",
+      "gitTracked": true,
+      "gitObjectId": "ae62b60a34156c5b3094b3a592dec118f070267a",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-redgate-v1.png",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "aaa77520410431edacb44c096073107422484897",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-redgate-v1.webp",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "webp",
+      "gitTracked": true,
+      "gitObjectId": "b3ab28765b94c8cd20483d77b0e2766e4fb8e313",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-riverside-v1.png",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "679f7b31582b8a8ceda860ab4e236bd883cdb224",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-riverside-v1.webp",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "webp",
+      "gitTracked": true,
+      "gitObjectId": "b708840b53d8ae3b6900b28edf5a352493fa55c1",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-shotengai-v1.png",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "069aa30b8f424ecfe86fae64ea56fdf22a67fee6",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-shotengai-v1.webp",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "webp",
+      "gitTracked": true,
+      "gitObjectId": "6c5e4e078bf49292224beb1b363cdc4d66c0adc8",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-warehouse-v1.png",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "72d43adadfecbbbcac727da90003455fc4910503",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/stage-bg-warehouse-v1.webp",
+      "role": "stage-background",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "webp",
+      "gitTracked": true,
+      "gitObjectId": "7524bec723d4ef60f59e27e330b8b7056d41af4b",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/images/super-steroid-x-horse-mask-v1.png",
+      "role": "final-boss-sprite",
+      "kind": "raster-image",
+      "importHint": "Texture2D",
+      "codec": "png",
+      "gitTracked": true,
+      "gitObjectId": "49e01332de1353f0f65f31d3542496710cd7c37d",
+      "references": [
+        "src/renderer.js"
+      ]
+    },
+    {
+      "path": "assets/video/ending-loop2.mp4",
+      "role": "ending-video-loop-plus",
+      "kind": "video",
+      "importHint": "VideoClip",
+      "codec": "mp4",
+      "gitTracked": true,
+      "gitObjectId": "5cf59f9b9a6f4fe599a0dfea11846ad96a3505fd",
+      "references": [
+        "src/main.js"
+      ]
+    },
+    {
+      "path": "assets/video/ending.mp4",
+      "role": "ending-video-first-loop",
+      "kind": "video",
+      "importHint": "VideoClip",
+      "codec": "mp4",
+      "gitTracked": true,
+      "gitObjectId": "a726261cdd4819d1a34480686a66ab6441271a14",
+      "references": [
+        "src/main.js"
+      ]
+    }
+  ]
+}
