@@ -482,7 +482,7 @@ function syncSaveSlotUi() {
 function setOverlay(show, title = "", text = "", action = "進む") {
   const canSkipCleared = state.phase === "intro" && isCurrentStageCleared();
   const novelMode = state.phase === "intro" || state.phase === "finalReveal";
-  const resultMode = state.phase === "ending" || state.phase === "results";
+  const resultMode = state.phase === "results";
   const openingMode = state.phase === "opening";
   const titleMode = state.phase === "title";
   const openingArtworkMode = openingMode || titleMode;
@@ -1267,44 +1267,16 @@ function beginEnding() {
   const skippedCount = state.stageScores.filter((item) => item.skipped).length;
   const resultScope = skippedCount ? `保存済みベスト${skippedCount}件を含む` : "今回プレイのみ";
   const stageSummaries = state.stageScores.map(summarizeStageResult);
-  const lines = state.stageScores
-    .map((item) => {
-      const notePart =
-        item.skipped || !item.notesTotal
-          ? ""
-          : item.notesResolved >= item.notesTotal
-            ? ` 全${item.notesTotal}ノート`
-            : ` 撃破${item.notesResolved}/${item.notesTotal}ノート`;
-      const focusPart = item.spiritFocusCount ? ` 見切${item.spiritFocusCount}回/救済${item.spiritGuardUsedCount ?? 0}回` : "";
-      const phrasePart = item.phraseGrade ? ` 節回し${item.phraseGrade}` : "";
-      const sourcePart = item.skipped ? "保存済みベスト: " : "";
-      const skipPart = item.skipped ? "（スキップ適用）" : "";
-      return `${sourcePart}${item.title}: ${item.score}点 ${item.rank}${phrasePart} 最大${item.maxCombo}連 追撃+${item.comboBonusDamage}${focusPart}${skipPart}${notePart}`;
-    })
-    .join(" / ");
-  state.results = { average, finalRank, lines, stageSummaries, skippedCount, resultScope, loop: completedLoop, loopLabel: completedLoopLabel };
+  state.results = { average, total, finalRank, stageSummaries, skippedCount, resultScope, loop: completedLoop, loopLabel: completedLoopLabel };
   state.runLoop = completedLoop + 1;
   state.runLoops[state.difficulty] = state.runLoop;
   save();
   setOverlay(
     true,
-    `救出成功 ${completedLoopLabel} 総合${finalRank}${skippedCount ? "（保存済み含む）" : ""}`,
-    "",
-    "結果を見る",
+    "裕太救出",
+    "小次郎の歌声が会場を包み、物語はエンディングへ向かう。最後の拍まで叩き切れ。",
+    "EDボーナスへ",
   );
-  renderResultSummary({
-    mode: "clear",
-    title: `総合ランク ${finalRank}`,
-    rank: finalRank,
-    subtitle: `${DIFFICULTIES[state.difficulty].label} / ${completedLoopLabel} / ${resultScope}`,
-    stats: [
-      { label: "平均スコア", value: `${average}点`, sub: "7ステージ総合" },
-      { label: "総合得点", value: `${total}点`, sub: "ステージ合計" },
-      { label: "周回", value: completedLoopLabel, sub: skippedCount ? "保存済み含む" : "今回プレイ" },
-    ],
-    stages: stageSummaries,
-    note: getStage(STAGES.length - 1).clearLine,
-  });
 }
 
 function showResults() {
@@ -1317,25 +1289,31 @@ function showResults() {
   const accuracy = Math.round((bonus.hits / total) * 100);
   const missText = judged === 0 ? "入力なし" : bonus.misses ? `Miss ${bonus.misses}回` : "Missなし";
   const nextLoopLabel = loopLabel(state.runLoop);
+  const results = state.results ?? {};
+  const finalRank = results.finalRank ?? "S";
+  const average = results.average ?? 0;
+  const stageTotal = results.total ?? 0;
+  const completedLoopLabel = results.loopLabel ?? loopLabel(1);
   setOverlay(
     true,
-    "ED拍ボーナス 結果",
+    `救出成功 ${completedLoopLabel} 総合${finalRank}`,
     "",
     `${nextLoopLabel}に進む`,
   );
   renderResultSummary({
-    mode: "bonus",
-    title: `ED ${bonus.score}点`,
-    rank: state.results?.finalRank ?? "S",
-    subtitle: `${DIFFICULTIES[state.difficulty].label} / ${state.results?.loopLabel ?? loopLabel(1)} クリア後ボーナス`,
+    mode: "clear",
+    title: `総合ランク ${finalRank}`,
+    rank: finalRank,
+    subtitle: `${DIFFICULTIES[state.difficulty].label} / ${completedLoopLabel} / ${results.resultScope ?? "今回プレイのみ"}`,
     stats: [
-      { label: "成功ノーツ", value: `${bonus.hits}/${total}`, sub: `${accuracy}%` },
-      { label: "最大コンボ", value: `${bonus.bestCombo}連`, sub: missText },
+      { label: "平均スコア", value: `${average}点`, sub: "7ステージ総合" },
+      { label: "総合得点", value: `${stageTotal}点`, sub: "ステージ合計" },
+      { label: "EDボーナス", value: `${bonus.score}点`, sub: `成功 ${bonus.hits}/${total}` },
       { label: "次の挑戦", value: nextLoopLabel, sub: "結果確定済み" },
     ],
-    stages: state.results?.stageSummaries ?? [],
+    stages: results.stageSummaries ?? [],
     bonus: { score: bonus.score, hits: bonus.hits, total, accuracy, bestCombo: bonus.bestCombo, missText },
-    note: "ボーナス結果のみを確定しました。次の周回へ進めます。",
+    note: getStage(STAGES.length - 1).clearLine,
   });
 }
 
