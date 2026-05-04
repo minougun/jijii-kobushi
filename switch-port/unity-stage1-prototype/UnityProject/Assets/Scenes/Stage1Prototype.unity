@@ -170,6 +170,7 @@ MonoBehaviour:
   playbackSpeed: 1
   useAudioClock: 1
   stageNumber: 1
+  runLoop: 1
 --- !u!1 &307133559
 GameObject:
   m_ObjectHideFlags: 0
