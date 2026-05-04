@@ -22,6 +22,7 @@ Unity project: `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototyp
 - Unity-side ED bonus interactive session for tap/hold/mash API parity, including overlap-safe mash sections in the ED chart.
 - Unity prototype ED bonus video/audio integration: the local Play Mode runner now resolves the Web original ED video assets through the runtime manifest, uses `VideoPlayer.time` as the ED bonus clock when available, and falls back to the deterministic rhythm clock in headless/unavailable environments.
 - Unity prototype final result aggregation: the local Play Mode runner now keeps seven-stage result summaries through the ED bonus handoff and displays a Web-like final result panel with total rank, stage average, stage total, ED beat bonus, and compact per-stage rows.
+- Unity prototype run-progress architecture: seven-stage result aggregation now lives in `RunProgressTracker` with EditMode coverage for record/replace/reset behavior, so the view behaviour no longer owns score averaging and final-rank calculations.
 - First-loop ED video replacement: live-action video track was replaced with a fully illustrated in-game anime-style sequence while preserving the original ED audio.
 - Loop-2-and-later ED video replacement: the doodle ED is now derived from the illustrated first-loop ED instead of the older live-action-shaped sequence.
 - ED loading optimization: the ED `<video>` no longer carries an initial `src`; the first-loop video is assigned only when the ED starts.
@@ -70,6 +71,7 @@ ED bonus:
 - 2026-05-05 continuation: Unity PlayMode batch tests: 9/9 passed after adding the seven-stage result carryover assertion into the ED bonus handoff.
 - 2026-05-05 continuation: Unity Windows player smoke: exit code 0, `stage=誘拐の朝`, `location=うさぎ公園`, `clock=audio`.
 - 2026-05-05 continuation: Switch-port cleanup removed unused placeholder debug renderer code (`PlaceholderRenderer`/`PlaceholderFrame`, unused timeline/default-path helpers). Commented-out code and hidden UI leftovers were re-scanned; no actionable leftovers remained.
+- 2026-05-05 continuation: run-progress tracking was extracted from `PlaceholderRendererBehaviour` into `RunProgressTracker`; `npm run check:switch-port` passed immediately after the refactor and after adding the tracker EditMode test.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

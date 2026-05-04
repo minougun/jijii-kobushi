@@ -14,6 +14,32 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void RunProgressTrackerRecordsReplacesAndResetsStageResults()
+        {
+            var tracker = new RunProgressTracker();
+            var stage = StageJsonLoader.LoadStage(ProfileTestRunner.ResolveAllStagePackPath("stage01-shotengai.stage.json"));
+            var perfect = BattleSimulator.Simulate(stage, "1", "normal", "perfect");
+            var mashWeak = BattleSimulator.Simulate(stage, "1", "normal", "mash-weak");
+
+            tracker.ResetIfNeeded("normal", 1, 0);
+            tracker.Record(1, stage.Stage.Title, perfect);
+
+            Assert.AreEqual(1, tracker.Count);
+            Assert.AreEqual(perfect.Score, tracker.TotalScore);
+            Assert.AreEqual(perfect.Score, tracker.AverageScore);
+            Assert.AreEqual("S", tracker.FinalRank);
+            Assert.AreEqual(100, RunProgressTracker.Accuracy(tracker.Find(1)));
+
+            tracker.Record(1, stage.Stage.Title, mashWeak);
+            Assert.AreEqual(1, tracker.Count, "same stage is replaced rather than duplicated");
+            Assert.AreEqual(mashWeak.Score, tracker.TotalScore);
+            Assert.AreEqual(mashWeak.Rank, tracker.Find(1).Rank);
+
+            tracker.ResetIfNeeded("hard", 1, 0);
+            Assert.AreEqual(0, tracker.Count, "difficulty change starts a fresh run");
+        }
+
+        [Test]
         public void AllStagePacksLoadAndPassSmokeGate()
         {
             var stages = ProfileTestRunner.RunAllStageSmoke();

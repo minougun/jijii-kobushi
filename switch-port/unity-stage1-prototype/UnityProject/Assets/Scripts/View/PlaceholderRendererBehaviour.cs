@@ -76,9 +76,7 @@ namespace JijiiKobushi.Stage1Prototype
         private GUIStyle panelLabelStyle;
         private GUIStyle strongStyle;
         private GUIStyle noteStyle;
-        private readonly List<StageRunSummary> runStageResults = new List<StageRunSummary>();
-        private string runResultDifficulty = "";
-        private int runResultLoop = 0;
+        private readonly RunProgressTracker runProgress = new RunProgressTracker();
 
         private void Start()
         {
@@ -184,17 +182,17 @@ namespace JijiiKobushi.Stage1Prototype
 
         public int DebugRunStageResultCount
         {
-            get { return runStageResults.Count; }
+            get { return runProgress.Count; }
         }
 
         public int DebugRunStageTotalScore
         {
-            get { return BuildRunStageTotalScore(); }
+            get { return runProgress.TotalScore; }
         }
 
         public string DebugRunFinalRank
         {
-            get { return BuildRunFinalRank(); }
+            get { return runProgress.FinalRank; }
         }
 
         public void DebugAdvanceToNextStage()
@@ -604,13 +602,13 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 var endingResult = endingSession.BuildResult();
                 var accuracy = endingResult.NoteCount > 0 ? Mathf.RoundToInt((endingResult.Hits / (float)endingResult.NoteCount) * 100f) : 0;
-                var finalRank = BuildRunFinalRank();
-                var stageAverage = BuildRunStageAverageScore();
-                var stageTotal = BuildRunStageTotalScore();
+                var finalRank = runProgress.FinalRank;
+                var stageAverage = runProgress.AverageScore;
+                var stageTotal = runProgress.TotalScore;
                 DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), finalRank);
                 GUI.Label(new Rect(panel.x + 128, panel.y + 14, 420, 24), "FINAL RESULT", panelLabelStyle);
                 GUI.Label(new Rect(panel.x + 128, panel.y + 56, 440, 38), "総合ランク " + finalRank, titleStyle);
-                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 520, 24), "Loop " + CurrentRunLoop + " / " + difficulty + " / stages " + runStageResults.Count + "/" + StagePackFiles.Length, labelStyle);
+                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 520, 24), "Loop " + CurrentRunLoop + " / " + difficulty + " / stages " + runProgress.Count + "/" + StagePackFiles.Length, labelStyle);
                 DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "平均", stageAverage + " pts", "7 stages");
                 DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "総合", stageTotal + " pts", "stage total");
                 DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "ED拍", endingResult.Score + " pts", "bonus");
@@ -690,13 +688,13 @@ namespace JijiiKobushi.Stage1Prototype
             var columnWidth = (rect.width - 160f) / StagePackFiles.Length;
             for (var i = 0; i < StagePackFiles.Length; i += 1)
             {
-                var summary = FindStageSummary(i + 1);
+                var summary = runProgress.Find(i + 1);
                 var x = rect.x + 150 + columnWidth * i;
                 var label = summary == null
                     ? (i + 1).ToString("00") + " --"
                     : (i + 1).ToString("00") + " " + summary.Rank + " " + summary.Score;
                 GUI.Label(new Rect(x, rect.y + 6, columnWidth - 4, 18), label, panelLabelStyle);
-                GUI.Label(new Rect(x, rect.y + 27, columnWidth - 4, 18), summary == null ? "未記録" : summary.MaxCombo + "連 / " + ResultAccuracy(summary) + "%", panelLabelStyle);
+                GUI.Label(new Rect(x, rect.y + 27, columnWidth - 4, 18), summary == null ? "未記録" : summary.MaxCombo + "連 / " + RunProgressTracker.Accuracy(summary) + "%", panelLabelStyle);
             }
         }
 
@@ -1537,84 +1535,13 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void ResetRunResultsIfNeeded()
         {
-            var normalizedLoop = CurrentRunLoop;
-            if (runResultDifficulty != difficulty || runResultLoop != normalizedLoop || CurrentStageIndex == 0)
-            {
-                runStageResults.Clear();
-                runResultDifficulty = difficulty;
-                runResultLoop = normalizedLoop;
-            }
+            runProgress.ResetIfNeeded(difficulty, CurrentRunLoop, CurrentStageIndex);
         }
 
         private void RecordCurrentStageResult()
         {
             if (stage == null || stage.Stage == null || session == null) return;
-            var result = session.BuildResult();
-            var summary = new StageRunSummary
-            {
-                StageNumber = CurrentStageNumber,
-                Title = stage.Stage.Title,
-                Score = result.Score,
-                Rank = result.Rank,
-                MaxCombo = result.MaxCombo,
-                NoteCount = result.NoteCount,
-                Clear = result.Clear,
-                Perfect = result.Stats.Perfect,
-                Good = result.Stats.Good,
-                Bad = result.Stats.Bad,
-                Miss = result.Stats.Miss
-            };
-
-            for (var i = 0; i < runStageResults.Count; i += 1)
-            {
-                if (runStageResults[i].StageNumber != summary.StageNumber) continue;
-                runStageResults[i] = summary;
-                runStageResults.Sort((left, right) => left.StageNumber.CompareTo(right.StageNumber));
-                return;
-            }
-
-            runStageResults.Add(summary);
-            runStageResults.Sort((left, right) => left.StageNumber.CompareTo(right.StageNumber));
-        }
-
-        private StageRunSummary FindStageSummary(int stageNo)
-        {
-            for (var i = 0; i < runStageResults.Count; i += 1)
-            {
-                if (runStageResults[i].StageNumber == stageNo) return runStageResults[i];
-            }
-
-            return null;
-        }
-
-        private int BuildRunStageTotalScore()
-        {
-            var total = 0;
-            for (var i = 0; i < runStageResults.Count; i += 1)
-            {
-                total += runStageResults[i].Score;
-            }
-
-            return total;
-        }
-
-        private int BuildRunStageAverageScore()
-        {
-            if (runStageResults.Count == 0) return 0;
-            return Mathf.RoundToInt(BuildRunStageTotalScore() / (float)runStageResults.Count);
-        }
-
-        private string BuildRunFinalRank()
-        {
-            return BattleSimulator.RankScore(BuildRunStageAverageScore());
-        }
-
-        private static int ResultAccuracy(StageRunSummary summary)
-        {
-            var total = summary.Perfect + summary.Good + summary.Bad + summary.Miss;
-            if (total <= 0) return 0;
-            var weighted = summary.Perfect + summary.Good * 0.72f + summary.Bad * 0.34f;
-            return Mathf.Clamp(Mathf.RoundToInt((weighted / total) * 100f), 0, 100);
+            runProgress.Record(CurrentStageNumber, stage.Stage.Title, session.BuildResult());
         }
 
         private void StopBgm()
@@ -1925,20 +1852,6 @@ namespace JijiiKobushi.Stage1Prototype
             FillRect(new Rect(rect.xMax - thickness, rect.y, thickness, rect.height), color);
         }
 
-        private sealed class StageRunSummary
-        {
-            public string Title = "";
-            public string Rank = "";
-            public int StageNumber;
-            public int Score;
-            public int MaxCombo;
-            public int NoteCount;
-            public bool Clear;
-            public int Perfect;
-            public int Good;
-            public int Bad;
-            public int Miss;
-        }
     }
 }
 #endif
