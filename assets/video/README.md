@@ -10,7 +10,7 @@ Supported filenames:
 
 Current files:
 
-- `ending.mp4` is the first-loop ED movie. It is a rotoscope/anime-style conversion that keeps the original composition, timing, and audio while reducing raw live-action presentation risk.
+- `ending.mp4` is the first-loop ED movie. It keeps the original ED audio, but the video track is a fully illustrated in-game anime-style sequence instead of live-action footage.
 - `ending-loop2.mp4` is the loop-2-and-later ED movie.
 
 Guidelines:

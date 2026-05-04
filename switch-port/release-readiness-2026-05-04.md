@@ -19,6 +19,8 @@ Unity project: `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototyp
 - Switch Stage 1 portable data pack, validator, runner, and Unity-facing handoff docs.
 - Unity Stage 1 local prototype source, scene scaffold, all-stage smoke gates, and local player smoke build path.
 - ED bonus portable chart pack, expected profile results, and Unity-side parity checks.
+- First-loop ED video replacement: live-action video track was replaced with a fully illustrated in-game anime-style sequence while preserving the original ED audio.
+- ED loading optimization: the ED `<video>` no longer carries an initial `src`; the first-loop video is assigned only when the ED starts.
 - Stage 1 location correction to `うさぎ公園`.
 - HOLD visibility fixes in the Unity prototype.
 - BGM attribution display.
@@ -89,7 +91,7 @@ Note: Unity player smoke was run with `-nographics`, so shader unsupported logs 
   - `unity-*.log`
   - `unity-*.xml`
 - Secret scan over the ahead diff found no real secret values. Hits were limited to ordinary parser variable names such as `token` and blank Unity settings keys such as `metroCertificatePassword:` / `ps4NPTitleSecret:`.
-- The largest newly added tracked files are portable JSON stage packs under `switch-port/stages/`; no new audio/video binaries are included in the ahead diff.
+- The largest newly added tracked files are portable JSON stage packs under `switch-port/stages/`; `assets/video/ending.mp4` is also intentionally updated and is smaller than the previous first-loop ED video.
 - Local image/video files are intentionally sparse/skip-worktree in this workspace. `npm run check` verifies those assets through the tracked Git objects when local working-tree files are absent.
 
 ## External Operations

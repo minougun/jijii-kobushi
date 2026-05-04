@@ -134,7 +134,7 @@ const MOBILE_BATTLE_RENDER_INTERVAL_MS = 1000 / 60;
 const DESKTOP_BATTLE_RENDER_INTERVAL_MS = 1000 / 60;
 const REDUCED_BATTLE_RENDER_INTERVAL_MS = 1000 / 30;
 const RENDER_INTERVAL_EPSILON_MS = 0.75;
-const ENDING_VIDEO_FIRST_LOOP_SRC = "./assets/video/ending.mp4";
+const ENDING_VIDEO_FIRST_LOOP_SRC = "./assets/video/ending.mp4?v=20260504-anime1";
 const ENDING_VIDEO_LOOP_PLUS_SRC = "./assets/video/ending-loop2.mp4";
 
 function loadSave() {
