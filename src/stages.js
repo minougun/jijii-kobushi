@@ -192,6 +192,7 @@ function makeChart(config) {
     tapRunEvery,
     tapRunGapMs = burstTapGapMs,
     preHoldTapClearanceMs = PRE_HOLD_TAP_CLEARANCE_MS,
+    mashTargetCap = MAX_MASH_TARGET_COUNT,
     finale = false,
   } = config;
   const chart = [];
@@ -203,7 +204,7 @@ function makeChart(config) {
         ? "tap"
         : phraseItem?.type ?? (i % burstEvery === 0 ? "mash" : i % holdEvery === 0 ? "hold" : "tap");
     if (noteType === "mash") {
-      const target = Math.min(MAX_MASH_TARGET_COUNT, Math.max(3, burstTapHint + (i % (burstEvery * 2) === 0 ? 0 : 1)));
+      const target = Math.min(mashTargetCap, MAX_MASH_TARGET_COUNT, Math.max(3, burstTapHint + (i % (burstEvery * 2) === 0 ? 0 : 1)));
       chart.push(mash(at, burstSpanMs, target, noteMetaFromPhrase(phraseItem, i)));
     } else if (noteType === "hold") {
       chart.push(hold(at, holdDurationMs, noteMetaFromPhrase(phraseItem, i)));
@@ -429,7 +430,19 @@ const STAGE_TEMPLATES = [
     ],
     clearLine: "裕太は小次郎の腕の中で泣き笑いした。爺コブシは戻った。長谷川の無茶な芝居も、ここで幕を下ろした。",
     enemy: { name: "スーパーステロイドX", attackPower: 2, kind: "steroidBoss", coat: "#22415c", accent: "#f6d95f" },
-    chartConfig: { count: 260, startMs: 880, stepMs: 600, holdDurationMs: 620, burstDurationMs: 760, burstTapTarget: 7, holdEvery: 5, burstEvery: 17, finale: true, phrase: "oiwakeFinal" },
+    chartConfig: {
+      count: 260,
+      startMs: 880,
+      stepMs: 600,
+      holdDurationMs: 620,
+      burstDurationMs: 760,
+      burstTapTarget: 7,
+      holdEvery: 5,
+      burstEvery: 17,
+      finale: true,
+      phrase: "oiwakeFinal",
+      mashTargetCapByDifficulty: { easy: 4, normal: 5, hard: 6 },
+    },
     bgm: { cue: "最終決戦", track: "epicbattle", gain: 0.88, overlay: "final", lead: 440, tone: "boss", remix: "boss", variation: "ラスボス戦" },
   },
 ];
@@ -508,6 +521,7 @@ function chartConfigForDifficulty(config, difficulty) {
     holdDurationMs: Math.round(config.holdDurationMs * (difficulty === "easy" ? 1.08 : difficulty === "hard" ? 0.9 : 1)),
     burstDurationMs: Math.min(MAX_MASH_DURATION_MS, Math.round(config.burstDurationMs * (difficulty === "easy" ? 1.12 : difficulty === "hard" ? 1.02 : 1.08)) + MASH_DURATION_BONUS_MS),
     burstTapTarget: Math.max(3, Math.min(MAX_MASH_TARGET_COUNT, config.burstTapTarget + (difficulty === "easy" ? -2 : difficulty === "hard" ? 0 : -1))),
+    mashTargetCap: config.mashTargetCapByDifficulty?.[difficulty] ?? config.mashTargetCap ?? MAX_MASH_TARGET_COUNT,
     burstTapGapMs: DIFFICULTIES[difficulty].burstTapGapMs,
     tapRunEvery: DIFFICULTIES[difficulty].tapRunEvery,
     tapRunGapMs: DIFFICULTIES[difficulty].tapRunGapMs,
