@@ -8,6 +8,11 @@ Supported filenames:
 - `ending-loop2.mp4` — optional loop-2-and-later ED. The game selects this after clearing a run whose completed loop is `2` or higher.
 - `ending.webm` — reserved fallback filename if WebM source selection is added later.
 
+Current files:
+
+- `ending.mp4` is the first-loop ED movie. It is a rotoscope/anime-style conversion that keeps the original composition, timing, and audio while reducing raw live-action presentation risk.
+- `ending-loop2.mp4` is the loop-2-and-later ED movie.
+
 Guidelines:
 
 - Keep the ending video as a single file for the post-clear ED sequence.
