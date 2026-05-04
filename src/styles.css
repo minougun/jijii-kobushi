@@ -2643,6 +2643,81 @@ html.comfort-hud .inputZone strong {
   }
 }
 
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .topbar {
+  left: 50%;
+  width: min(var(--game-w, 100vw), 100vw);
+  padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px) clamp(7px, 1vw, 11px);
+  gap: clamp(4px, 0.7vw, 8px);
+  overflow: visible;
+  color: #111;
+  background:
+    linear-gradient(92deg, transparent 0 17%, rgba(255, 232, 65, 0.38) 17% 18%, transparent 18% 100%),
+    linear-gradient(177deg, #fff 0%, #fdfdfd 72%, #f1f1f1 100%);
+  border-radius: 0;
+  box-shadow:
+    0 0 0 3px #111,
+    5px 4px 0 rgba(0, 0, 0, 0.18),
+    -3px -2px 0 rgba(255, 0, 0, 0.18),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.08);
+  transform: translateX(-50%) rotate(-0.35deg);
+}
+
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .topbar::after {
+  display: block;
+}
+
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelHud {
+  grid-template-columns: minmax(0, 1fr) clamp(28px, 4vw, 50px) minmax(0, 1fr);
+  gap: clamp(4px, 0.7vw, 8px);
+  transform: rotate(0.2deg);
+}
+
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelCol {
+  gap: clamp(3px, 0.7vw, 8px);
+  padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px) clamp(7px, 1vw, 11px);
+  background: #fff;
+  clip-path: none;
+  border-radius: 0;
+  box-shadow:
+    0 0 0 3px #111,
+    4px 3px 0 rgba(0, 0, 255, 0.32),
+    inset 9px 0 0 rgba(255, 0, 0, 0.14),
+    inset -7px 0 0 rgba(255, 245, 0, 0.3);
+}
+
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelColHead {
+  font-size: clamp(9px, 1.2vw, 14px);
+}
+
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelHpNums {
+  background: #ffff84;
+  color: #111;
+  box-shadow: 0 0 0 2px #111;
+  font-family: "Comic Sans MS", "MS PGothic", "JiiKobushiNotoSansJP", sans-serif;
+  font-size: clamp(9px, 1.1vw, 13px);
+  font-weight: 600;
+  text-shadow: none;
+}
+
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .duelVs {
+  width: clamp(28px, 4vw, 50px);
+  height: clamp(28px, 4vw, 46px);
+  color: #111;
+  background: #fff;
+  border-radius: 45% 54% 42% 57%;
+  box-shadow:
+    0 0 0 4px #111,
+    3px 2px 0 #f00,
+    -2px -2px 0 #00f;
+  transform: rotate(-8deg);
+}
+
+html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .meterTrack--duel {
+  height: clamp(10px, 1.4vw, 18px);
+  background:
+    repeating-linear-gradient(90deg, #fff 0 13px, #f4f4f4 13px 18px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

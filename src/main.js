@@ -1,5 +1,5 @@
 import { createAudioEngine } from "./audio.js?v=20260430-1125";
-import { createRenderer } from "./renderer.js?v=20260503-mobileinput1";
+import { createRenderer } from "./renderer.js?v=20260504-loop2doodlehud1";
 import {
   DIFFICULTIES,
   STAGES,

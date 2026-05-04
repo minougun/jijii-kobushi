@@ -15,6 +15,7 @@ const HERO_PALETTE = {
 export function createRenderer(canvas, ctx, state) {
   const W = 960;
   const H = 540;
+  const ENABLE_WEB_DOODLE_LOOP_SCREEN = true;
   const cutinImage = new Image();
   const imagegenAtlasImage = new Image();
   const chibiCharacterSheetImage = new Image();
@@ -3609,7 +3610,7 @@ export function createRenderer(canvas, ctx, state) {
   }
 
   function isDoodleLoopScreen() {
-    return normalizeLoop(state.runLoop) >= 2 && ["intro", "battle", "rest", "finalReveal"].includes(state.phase);
+    return ENABLE_WEB_DOODLE_LOOP_SCREEN && normalizeLoop(state.runLoop) >= 2 && ["intro", "battle", "rest", "finalReveal"].includes(state.phase);
   }
 
   function doodleNoise(seed) {
@@ -3945,7 +3946,7 @@ export function createRenderer(canvas, ctx, state) {
       (state.phase === "ending" || state.phase === "results") && state.results?.loop
         ? normalizeLoop(state.results.loop)
         : normalizeLoop(state.runLoop);
-    const doodleLoopUi = currentLoop >= 2 && ["intro", "battle", "rest", "finalReveal"].includes(state.phase);
+    const doodleLoopUi = ENABLE_WEB_DOODLE_LOOP_SCREEN && currentLoop >= 2 && ["intro", "battle", "rest", "finalReveal"].includes(state.phase);
     ui.setClass(document.documentElement, "doodle-loop", doodleLoopUi);
     const loopPart = currentLoop > 1 ? ` / ${loopLabel(currentLoop)}` : "";
     ui.setText(dom.stageLabel, `${state.stage.title} / ${DIFFICULTY_LABELS[state.difficulty] ?? "ノーマル"}${loopPart}`);

@@ -15,12 +15,15 @@ Restore the browser game behavior and UI to the state before the Switch port wor
   - `assets/video/ending.mp4`
   - `assets/video/ending-loop2.mp4`
   - ED video lazy loading and cache-busted ED URLs in `src/main.js`
+- Loop 2+ ED remains a separate doodle-style video.
+- Loop 2+ battle/intro/rest UI remains doodle-style. The previous white doodle HUD is re-applied after responsive rules so both player and enemy HP gauges remain visible.
 
 ## Web Files Restored
 
 - `src/stages.js`
 - `src/styles.css`
 - `index.html`, except the ED video tag remains `preload="none"` and the script URL is cache-busted.
+- `src/renderer.js`, with loop 2+ doodle battle rendering kept enabled.
 
 ## Verification
 
