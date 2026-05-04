@@ -763,7 +763,7 @@ export function createAudioEngine() {
     },
     now() {
       const ctx = ensure();
-      return ctx ? ctx.currentTime : performance.now() / 1000;
+      return ctx && ctx.state === "running" ? ctx.currentTime : performance.now() / 1000;
     },
   };
 }

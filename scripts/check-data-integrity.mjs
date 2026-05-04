@@ -38,6 +38,7 @@ const REQUIRED_RENDERER_DOM_SYNC_TOKENS = [
   "dom.enemyNameLabel",
 ];
 const REQUIRED_MAIN_UI_TOKENS = ['if (state.stageIndex === 0) return "語り";'];
+const REQUIRED_AUDIO_CLOCK_TOKENS = ['ctx && ctx.state === "running" ? ctx.currentTime : performance.now() / 1000'];
 
 function gitObjectExists(filePath) {
   const repoPath = filePath.replaceAll("\\", "/");
@@ -126,6 +127,15 @@ const mainErrors = REQUIRED_MAIN_UI_TOKENS
   .map((token) => `main UI behavior missing ${token}`);
 if (mainErrors.length) {
   for (const error of mainErrors) console.error(error);
+  process.exit(1);
+}
+
+const audioSource = readFileSync("src/audio.js", "utf8");
+const audioErrors = REQUIRED_AUDIO_CLOCK_TOKENS
+  .filter((token) => !audioSource.includes(token))
+  .map((token) => `audio clock fallback missing ${token}`);
+if (audioErrors.length) {
+  for (const error of audioErrors) console.error(error);
   process.exit(1);
 }
 
