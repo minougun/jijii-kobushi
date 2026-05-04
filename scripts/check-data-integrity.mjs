@@ -7,12 +7,13 @@ const BGM_FILES = {
   koiwazurai: "koiwazurai.mp3",
   oboro: "oboro.mp3",
   hanagoyomi: "hanagoyomi2.mp3",
+  shizima: "shizima4.mp3",
   taishoroman: "taishoroman-battle.mp3",
   amenoshita: "amenoshita3.mp3",
   epicbattle: "epicbattle-j.mp3",
 };
 
-const EXPECTED_ENKA_CORE_TRACKS = 5;
+const EXPECTED_ENKA_CORE_TRACKS = 6;
 const BOSS_STAGE_ID = "finalhideout";
 const BOSS_TRACK = "epicbattle";
 

@@ -13,7 +13,7 @@ import {
   loopPlayerDamageMultiplier,
   normalizeLoop,
   nextNoteLabel,
-} from "./stages.js?v=20260501-0100";
+} from "./stages.js?v=20260504-stage3bgm1";
 import { normalizeLang, t } from "./i18n.js?v=20260430-1607";
 import {
   ENDING_BONUS_FALLBACK_DURATION_MS,

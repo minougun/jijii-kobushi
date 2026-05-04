@@ -327,7 +327,7 @@ const STAGE_TEMPLATES = [
   {
     id: "riverside",
     title: "伊藤道場",
-    bpm: 84,
+    bpm: 85,
     travelMs: 9000,
     palette: { sky: "#243746", far: "#668da2", mid: "#b27543", road: "#2b2d2e", accent: "#f2bd52" },
     introLines: [
@@ -340,7 +340,7 @@ const STAGE_TEMPLATES = [
     clearLine: "爺コブシ・内部破壊は完成した。小次郎は裕太の名を叫び、秘密結社Xの足取りを追って峠道へ走る。",
     enemy: { name: "伊藤道場の師範代", attackPower: 1, kind: "captain", coat: "#3a3148", accent: "#f2bd52" },
     chartConfig: { count: 153, startMs: 1120, stepMs: 730, holdDurationMs: 720, burstDurationMs: 820, burstTapTarget: 6, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
-    bgm: { cue: "恋患い 屋台", track: "koiwazurai", gain: 0.78, overlay: "kane", lead: 261.63, tone: "bright", remix: "yatai", variation: "屋台リミックス" },
+    bgm: { cue: "静寂 道場", track: "shizima", gain: 0.78, overlay: "low", lead: 220, tone: "night", variation: "道場" },
   },
   {
     id: "mountain",

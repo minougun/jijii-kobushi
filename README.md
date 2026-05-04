@@ -57,7 +57,7 @@ Stage 1 Unity port planning notes:
 - In battle, press when the marker moving from the right overlaps the black center band. Audio cues remain active as support.
 - The tap/judgment bar is displayed inside the game screen, not as a separate panel below it.
 - Cleared stages can be skipped from their intro overlay. Skipped stages use the saved best score in the final result.
-- The game has 7 stages, 5 enka/kayo core MP3 tracks, and 1 boss-only battle track. Reused tracks stay at natural `1.0x` from the beginning; stage variation comes from gain, cue overlays, light WebAudio tone filtering, and remix layers rather than different start offsets. The final stage intentionally leaves the enka frame for a final boss battle cue.
+- The game has 7 stages, 6 enka/kayo core MP3 tracks, and 1 boss-only battle track. Reused tracks stay at natural `1.0x` from the beginning; stage variation comes from gain, cue overlays, light WebAudio tone filtering, and remix layers rather than different start offsets. The final stage intentionally leaves the enka frame for a final boss battle cue.
 - Battle charts fit within one natural pass of the assigned MP3. Enemy HP reaching 0 clears the stage immediately, so a strong run does not need to wait for the remaining chart.
 - Enemy HP was retuned with `scripts/difficulty-simulation.mjs`, using 10,000 simulated runs per stage and difficulty. The HP table is shared by difficulty; per-difficulty damage normalization keeps clear timing in the song's later section while level design comes from chart density, hold spacing, and dense TAP patterns instead of enemy toughness.
 - Every 5 successful inputs triggers a kobushi combo bonus. Every 10 combo starts a special move cut-in with larger extra damage, enemy hit reaction, and a heavier cherry blossom storm; normal hits are not permanently doubled after 10 combo.
@@ -79,5 +79,6 @@ Stage 1 Unity port planning notes:
   - `https://pixabay.com/service/license-summary/`
   - `https://peritune.com/about/`
   - `https://peritune.com/koiwazurai/`
+  - `https://peritune.com/blog/2021/06/06/shizima4/`
   - `https://peritune.com/freematerial_list/`
   - `https://notofonts.github.io/noto-docs/website/use/`
