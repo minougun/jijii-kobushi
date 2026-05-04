@@ -101,6 +101,8 @@ It also supports the first pause/resume path: pause freezes the battle clock and
 
 HP 0 now enters an explicit `Failed` phase, while full chart completion with HP remaining enters `Result`. The placeholder result panel mirrors this distinction with `FAILED` versus `RESULT` headings.
 
+`EndingBonusInteractiveSession` mirrors the ED bonus tap/hold/mash API against the portable ED chart. The ED chart can place tap notes inside mash spans, so this session resolves overlapping notes by time window instead of using the stricter one-note-at-a-time stage cursor.
+
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, scenario preview, result panel, Prev/Next stage buttons, result-panel `Next Stage` progression, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line. `HOLD` notes include a yellow `RELEASE` marker at the note end so the button-up timing is visible.

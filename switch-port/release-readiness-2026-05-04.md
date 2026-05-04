@@ -19,6 +19,7 @@ Unity project: `/mnt/c/Users/minou/jii-kobushi/switch-port/unity-stage1-prototyp
 - Switch Stage 1 portable data pack, validator, runner, and Unity-facing handoff docs.
 - Unity Stage 1 local prototype source, scene scaffold, all-stage smoke gates, and local player smoke build path.
 - ED bonus portable chart pack, expected profile results, and Unity-side parity checks.
+- Unity-side ED bonus interactive session for tap/hold/mash API parity, including overlap-safe mash sections in the ED chart.
 - First-loop ED video replacement: live-action video track was replaced with a fully illustrated in-game anime-style sequence while preserving the original ED audio.
 - Loop-2-and-later ED video replacement: the doodle ED is now derived from the illustrated first-loop ED instead of the older live-action-shaped sequence.
 - ED loading optimization: the ED `<video>` no longer carries an initial `src`; the first-loop video is assigned only when the ED starts.
@@ -59,8 +60,8 @@ ED bonus:
 - `npm run check:switch-stage1`
 - `npm run check:switch-ending`
 - `npm run check:switch-port`
-- Unity EditMode batch tests: 7/7 passed.
-- Unity PlayMode batch tests: 7/7 passed.
+- Unity EditMode batch tests: 10/10 passed.
+- Unity PlayMode batch tests: 8/8 passed.
 - Unity Windows player smoke: exit code 0, `stage=誘拐の朝`, `location=うさぎ公園`.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
