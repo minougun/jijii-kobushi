@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage5-garage",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-04T01:37:07.854Z",
-  "sourceGitCommit": "26692d78ab66a52a0b81e528a58c2ddd26394e4f",
+  "generatedAt": "2026-05-04T01:56:06.838Z",
+  "sourceGitCommit": "171189026c25aee97a3908944cc08fecd9497607",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
@@ -212,7 +212,7 @@
       "tapRunGapMs": 140,
       "damageScale": 0.5720883534136546,
       "loop1": {
-        "enemyHpMultiplier": 1,
+        "enemyHpMultiplier": 0.965,
         "playerDamageMultiplier": 1,
         "enemyAttackMultiplier": 1
       },
