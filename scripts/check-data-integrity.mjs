@@ -37,6 +37,7 @@ const REQUIRED_RENDERER_DOM_SYNC_TOKENS = [
   "dom.enemyHpValue",
   "dom.enemyNameLabel",
 ];
+const REQUIRED_MAIN_UI_TOKENS = ['if (state.stageIndex === 0) return "語り";'];
 
 function gitObjectExists(filePath) {
   const repoPath = filePath.replaceAll("\\", "/");
@@ -116,6 +117,15 @@ const rendererErrors = REQUIRED_RENDERER_DOM_SYNC_TOKENS
   .map((token) => `renderer HUD sync missing ${token}`);
 if (rendererErrors.length) {
   for (const error of rendererErrors) console.error(error);
+  process.exit(1);
+}
+
+const mainSource = readFileSync("src/main.js", "utf8");
+const mainErrors = REQUIRED_MAIN_UI_TOKENS
+  .filter((token) => !mainSource.includes(token))
+  .map((token) => `main UI behavior missing ${token}`);
+if (mainErrors.length) {
+  for (const error of mainErrors) console.error(error);
   process.exit(1);
 }
 

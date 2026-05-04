@@ -854,6 +854,7 @@ function showCurrentLine() {
 }
 
 function speakerForIntroLine(line) {
+  if (state.stageIndex === 0) return "語り";
   if (line.includes("立石小次郎") || line.includes("拍を見ろ") || line.includes("溜めて") || line.includes("全力で節")) return "立石小次郎";
   const enemyWords = [
     "B-boy",
