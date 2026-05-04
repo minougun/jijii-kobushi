@@ -269,5 +269,50 @@ namespace JijiiKobushi.Stage1Prototype
 
             Object.Destroy(runnerObject);
         }
+
+        [UnityTest]
+        public IEnumerator PlaceholderRendererStartsEndingBonusAfterFinalStage()
+        {
+            var runnerObject = new GameObject("Ending Bonus Progression PlayMode Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            runner.DebugLoadStageNumber(7);
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded && runner.DebugStageNumber == 7) break;
+                yield return null;
+            }
+
+            runner.DebugCompleteStagePerfect();
+            yield return null;
+
+            Assert.IsTrue(runner.DebugCanStartEndingBonus);
+            runner.DebugStartEndingBonus();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugEndingBonusLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugEndingBonusLoaded, runner.DebugError);
+            Assert.AreEqual("endingBonus", runner.DebugPrototypeMode);
+            Assert.Greater(runner.DebugTotalNotes, 0);
+
+            runner.DebugCompleteEndingBonusPerfect();
+            yield return null;
+
+            Assert.Greater(runner.DebugEndingBonusScore, 0);
+
+            Object.Destroy(runnerObject);
+        }
     }
 }

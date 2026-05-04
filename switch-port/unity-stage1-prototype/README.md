@@ -93,7 +93,7 @@ Unity-facing files:
 
 It also runs an all-stage smoke gate over `switch-port/stages/`. The gate loads all seven stage packs, checks the expected stage id/title/location order, BGM asset path existence, shared timing constants, loop-1 and loop-plus chart summaries, note id order, note type payloads, and a perfect-run S-rank simulation for each difficulty.
 
-`Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, checks that the local BGM file referenced by the JSON can be found before manual playtesting, smoke-loads Stage 3 and Stage 7 from the all-stage pack, verifies that a cleared result can advance to Stage 2, confirms scenario lines load from the stage JSON, and runs a debug perfect-clear pass through all seven stage packs in order.
+`Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, checks that the local BGM file referenced by the JSON can be found before manual playtesting, smoke-loads Stage 3 and Stage 7 from the all-stage pack, verifies that a cleared result can advance to Stage 2, confirms scenario lines load from the stage JSON, runs a debug perfect-clear pass through all seven stage packs in order, and confirms the final stage can hand off to the playable ED bonus chart.
 
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 
@@ -105,7 +105,9 @@ HP 0 now enters an explicit `Failed` phase, while full chart completion with HP 
 
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 
-`PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, scenario preview, result panel, Prev/Next stage buttons, result-panel `Next Stage` progression, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line. `HOLD` notes include a yellow `RELEASE` marker at the note end so the button-up timing is visible.
+`PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, scenario preview, result panel, Prev/Next stage buttons, result-panel `Next Stage` progression, final-stage `ED Bonus` handoff, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line. `HOLD` notes include a yellow `RELEASE` marker at the note end so the button-up timing is visible.
+
+The ED bonus handoff currently uses the portable ED chart and the same placeholder rhythm lane/input buttons. Video/audio playback is still a later integration step; this prototype intentionally keeps the ED bonus on a deterministic rhythm clock so judgement parity can be tested before presentation work.
 
 In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.
 

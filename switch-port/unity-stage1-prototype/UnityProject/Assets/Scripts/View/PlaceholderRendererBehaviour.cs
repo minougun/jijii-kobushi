@@ -21,6 +21,12 @@ namespace JijiiKobushi.Stage1Prototype
             "stage07-finalhideout.stage.json"
         };
 
+        private enum PrototypeMode
+        {
+            Stage,
+            EndingBonus
+        }
+
         [SerializeField] private string difficulty = "normal";
         [SerializeField] private float playbackSpeed = 1f;
         [SerializeField] private bool useAudioClock = true;
@@ -28,11 +34,16 @@ namespace JijiiKobushi.Stage1Prototype
         [SerializeField] private int runLoop = 1;
 
         private readonly PlaceholderRenderer placeholderRenderer = new PlaceholderRenderer();
+        private PrototypeMode prototypeMode = PrototypeMode.Stage;
         private StageExport stage;
         private InteractiveBattleSession session;
         private List<NoteData> chart;
+        private EndingBonusExport endingBonus;
+        private EndingBonusInteractiveSession endingSession;
+        private List<NoteData> endingChart;
         private string stageJsonPath = "";
         private string expectedJsonPath = "";
+        private string endingJsonPath = "";
         private string status = "Not loaded";
         private string audioStatus = "BGM not loaded";
         private string error = "";
@@ -127,7 +138,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         public int DebugTotalNotes
         {
-            get { return session != null ? session.TotalNotes : 0; }
+            get { return ActiveTotalNotes; }
         }
 
         public bool DebugCanAdvanceToNextStage
@@ -135,9 +146,34 @@ namespace JijiiKobushi.Stage1Prototype
             get { return CanAdvanceToNextStage; }
         }
 
+        public bool DebugCanStartEndingBonus
+        {
+            get { return CanStartEndingBonus; }
+        }
+
+        public bool DebugEndingBonusLoaded
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus && endingSession != null && string.IsNullOrEmpty(error); }
+        }
+
+        public string DebugPrototypeMode
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? "endingBonus" : "stage"; }
+        }
+
+        public int DebugEndingBonusScore
+        {
+            get { return endingSession != null ? endingSession.Score : 0; }
+        }
+
         public void DebugAdvanceToNextStage()
         {
             AdvanceToNextStage();
+        }
+
+        public void DebugStartEndingBonus()
+        {
+            LoadEndingBonusAndStart();
         }
 
         public bool DebugBgmFileExists
@@ -168,7 +204,7 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (session == null) return;
             session.SeekBattleClockMs(battleClockMs);
-            HandleSessionComplete();
+            HandleStageSessionComplete();
         }
 
         public void DebugLoadStageNumber(int value)
@@ -180,13 +216,13 @@ namespace JijiiKobushi.Stage1Prototype
         public void DebugSetDifficulty(string value)
         {
             difficulty = NormalizeDifficulty(value);
-            LoadAndStart();
+            ReloadCurrentMode();
         }
 
         public void DebugSetRunLoop(int value)
         {
             runLoop = Mathf.Max(1, value);
-            LoadAndStart();
+            ReloadCurrentMode();
         }
 
         public void DebugCompleteStagePerfect()
@@ -215,15 +251,40 @@ namespace JijiiKobushi.Stage1Prototype
                 }
             }
 
-            HandleSessionComplete();
+            HandleStageSessionComplete();
+        }
+
+        public void DebugCompleteEndingBonusPerfect()
+        {
+            if (endingSession == null || endingBonus == null || endingChart == null) return;
+            var events = BuildPerfectEndingInputEvents();
+            for (var i = 0; i < events.Count; i += 1)
+            {
+                endingSession.SeekBattleClockMs(events[i].TimeMs);
+                if (events[i].Action == "tap") endingSession.Tap();
+                else if (events[i].Action == "holdDown") endingSession.HoldDown();
+                else if (events[i].Action == "holdUp") endingSession.HoldUp();
+            }
+
+            if (endingChart.Count > 0)
+            {
+                var last = endingChart[endingChart.Count - 1];
+                endingSession.SeekBattleClockMs(last.TimeMs + last.DurationMs + endingBonus.Rhythm.InputGraceMs + endingBonus.Rhythm.MashInputGraceMs + 1);
+            }
         }
 
         private void Update()
         {
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                UpdateEndingBonus();
+                return;
+            }
+
             if (session == null) return;
             if (session.IsComplete)
             {
-                HandleSessionComplete();
+                HandleStageSessionComplete();
                 return;
             }
 
@@ -249,11 +310,30 @@ namespace JijiiKobushi.Stage1Prototype
 
             if (session.IsComplete)
             {
-                HandleSessionComplete();
+                HandleStageSessionComplete();
                 return;
             }
 
             ApplyRhythmInput(input);
+        }
+
+        private void UpdateEndingBonus()
+        {
+            if (endingSession == null) return;
+            if (endingSession.IsComplete) return;
+
+            if (inputAdapter == null) inputAdapter = new KeyboardGamepadInputAdapter();
+            var input = inputAdapter.PollFrame();
+            if (HandleControlInput(input)) return;
+            if (paused) return;
+
+            var deltaMs = (int)Math.Round(Time.deltaTime * 1000.0f * Mathf.Max(0.1f, playbackSpeed), MidpointRounding.AwayFromZero);
+            endingSession.AdvanceMs(deltaMs);
+
+            if (!endingSession.IsComplete)
+            {
+                ApplyRhythmInput(input);
+            }
         }
 
         private void OnGUI()
@@ -294,13 +374,22 @@ namespace JijiiKobushi.Stage1Prototype
         private void DrawHud(Rect mainRect)
         {
             var result = session != null ? session.BuildResult() : null;
+            var endingResult = endingSession != null ? endingSession.BuildResult() : null;
             var titleRect = new Rect(mainRect.x + 24, mainRect.y + 18, 420, 42);
-            GUI.Label(titleRect, "JII KOBUSHI STAGE " + CurrentStageNumber, titleStyle);
+            GUI.Label(titleRect, prototypeMode == PrototypeMode.EndingBonus ? "JII KOBUSHI ED BONUS" : "JII KOBUSHI STAGE " + CurrentStageNumber, titleStyle);
             GUI.Label(new Rect(mainRect.x + 26, mainRect.y + 58, 720, 24), "phase=" + Phase + "  loop=" + CurrentLoopKey + "  difficulty=" + difficulty + "  speed=" + playbackSpeed + "x  clock=" + ClockMode, labelStyle);
 
             var hpRect = new Rect(mainRect.x + mainRect.width - 340, mainRect.y + 24, 290, 26);
-            DrawMeter(hpRect, session != null ? session.RemainingHp : 0, session != null ? session.MaxHp : 1, new Color(0.08f, 0.66f, 0.28f), "HP");
-            GUI.Label(new Rect(hpRect.x, hpRect.y + 32, 290, 24), "score=" + (result != null ? result.Score : 0) + "  rank=" + (result != null ? result.Rank : "-"), labelStyle);
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                DrawMeter(hpRect, endingSession != null ? endingSession.ResolvedCount : 0, endingSession != null ? endingSession.TotalNotes : 1, new Color(0.83f, 0.42f, 0.08f), "BEAT");
+                GUI.Label(new Rect(hpRect.x, hpRect.y + 32, 290, 24), "score=" + (endingResult != null ? endingResult.Score : 0) + "  bestCombo=" + (endingResult != null ? endingResult.BestCombo : 0), labelStyle);
+            }
+            else
+            {
+                DrawMeter(hpRect, session != null ? session.RemainingHp : 0, session != null ? session.MaxHp : 1, new Color(0.08f, 0.66f, 0.28f), "HP");
+                GUI.Label(new Rect(hpRect.x, hpRect.y + 32, 290, 24), "score=" + (result != null ? result.Score : 0) + "  rank=" + (result != null ? result.Rank : "-"), labelStyle);
+            }
         }
 
         private void DrawStagePanel(Rect mainRect)
@@ -325,18 +414,19 @@ namespace JijiiKobushi.Stage1Prototype
             FillRect(new Rect(hitX, lane.y + 10, 5, lane.height - 20), new Color(0.95f, 0.72f, 0.1f));
             GUI.Label(new Rect(lane.x + 18, lane.y + 18, 110, 24), "HIT LINE", strongStyle);
 
-            if (chart != null && session != null)
+            var activeChart = ActiveChart;
+            if (activeChart != null && HasActiveSession)
             {
                 const float lookAheadMs = 2600f;
                 const float pastMs = 380f;
-                var battleMs = session.BattleClockMs;
-                for (var i = 0; i < chart.Count; i += 1)
+                var battleMs = ActiveBattleClockMs;
+                for (var i = 0; i < activeChart.Count; i += 1)
                 {
-                    if (i < session.CurrentNoteIndex) continue;
+                    if (i < ActiveCurrentNoteIndex) continue;
 
-                    var note = chart[i];
+                    var note = activeChart[i];
                     var delta = note.TimeMs - battleMs;
-                    var keepActiveHoldVisible = note.Type == "hold" && session.IsHoldActiveForNoteIndex(i);
+                    var keepActiveHoldVisible = IsActiveHoldForNoteIndex(i);
                     if (keepActiveHoldVisible)
                     {
                         var endDelta = note.TimeMs + note.DurationMs - battleMs;
@@ -348,17 +438,17 @@ namespace JijiiKobushi.Stage1Prototype
                     }
 
                     var x = hitX + (delta / lookAheadMs) * (lane.width - 210);
-                    DrawNoteMarker(note, x, lane, hitX, lookAheadMs, keepActiveHoldVisible);
+                    DrawNoteMarker(note, x, lane, hitX, lookAheadMs, keepActiveHoldVisible, battleMs);
                 }
             }
 
-            if (session != null && session.CountInRemainingMs > 0)
+            if (ActiveCountInRemainingMs > 0)
             {
-                GUI.Label(new Rect(lane.x + lane.width * 0.44f, lane.y + 42, 220, 46), "COUNT " + Mathf.CeilToInt(session.CountInRemainingMs / 1000f), titleStyle);
+                GUI.Label(new Rect(lane.x + lane.width * 0.44f, lane.y + 42, 220, 46), "COUNT " + Mathf.CeilToInt(ActiveCountInRemainingMs / 1000f), titleStyle);
             }
         }
 
-        private void DrawNoteMarker(NoteData note, float x, Rect lane, float hitX, float lookAheadMs, bool keepActiveHoldVisible)
+        private void DrawNoteMarker(NoteData note, float x, Rect lane, float hitX, float lookAheadMs, bool keepActiveHoldVisible, int battleMs)
         {
             var y = lane.y + 58;
             var color = new Color(0.09f, 0.42f, 0.88f);
@@ -370,7 +460,7 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 color = new Color(0.55f, 0.28f, 0.86f);
                 label = "HOLD";
-                endX = hitX + ((note.TimeMs + note.DurationMs - session.BattleClockMs) / lookAheadMs) * (lane.width - 210);
+                endX = hitX + ((note.TimeMs + note.DurationMs - battleMs) / lookAheadMs) * (lane.width - 210);
                 if (keepActiveHoldVisible)
                 {
                     var laneLeft = lane.x + 8;
@@ -409,33 +499,64 @@ namespace JijiiKobushi.Stage1Prototype
         {
             var panel = new Rect(mainRect.x + 24, mainRect.y + 442, mainRect.width - 48, 62);
             FillRect(panel, new Color(0.12f, 0.11f, 0.1f));
-            var result = session.BuildResult();
-            GUI.Label(new Rect(panel.x + 18, panel.y + 10, 360, 26), session.LastJudgeText, strongStyle);
-            GUI.Label(new Rect(panel.x + 400, panel.y + 10, 520, 26), "combo=" + session.Combo + "  max=" + session.MaxCombo + "  notes=" + session.ResolvedCount + "/" + session.TotalNotes, panelLabelStyle);
-            GUI.Label(new Rect(panel.x + 18, panel.y + 34, 720, 22), "perfect/good/bad/miss=" + result.Stats.Perfect + "/" + result.Stats.Good + "/" + result.Stats.Bad + "/" + result.Stats.Miss, panelLabelStyle);
+            var stats = ActiveJudgeStats;
+            GUI.Label(new Rect(panel.x + 18, panel.y + 10, 360, 26), ActiveLastJudgeText, strongStyle);
+            GUI.Label(new Rect(panel.x + 400, panel.y + 10, 520, 26), "combo=" + ActiveCombo + "  max=" + ActiveMaxCombo + "  notes=" + ActiveResolvedCount + "/" + ActiveTotalNotes, panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 18, panel.y + 34, 720, 22), "perfect/good/bad/miss=" + stats.Perfect + "/" + stats.Good + "/" + stats.Bad + "/" + stats.Miss, panelLabelStyle);
         }
 
         private void DrawResultPanel(Rect mainRect)
         {
-            var result = session.BuildResult();
             var panel = new Rect(mainRect.x + mainRect.width - 390, mainRect.y + 510, 340, 152);
             FillRect(panel, new Color(1f, 1f, 1f));
             StrokeRect(panel, new Color(0.12f, 0.11f, 0.1f), 2);
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                var endingResult = endingSession.BuildResult();
+                GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), "ED BONUS COMPLETE", titleStyle);
+                GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "score=" + endingResult.Score + " hits=" + endingResult.Hits + " misses=" + endingResult.Misses, labelStyle);
+                GUI.Label(new Rect(panel.x + 18, panel.y + 72, 304, 34), "bestCombo=" + endingResult.BestCombo + "  notes=" + endingResult.NoteCount, labelStyle);
+
+                if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "Next Loop"))
+                {
+                    runLoop = CurrentRunLoop + 1;
+                    stageNumber = 1;
+                    LoadAndStart();
+                }
+
+                if (GUI.Button(new Rect(panel.x + 176, panel.y + 108, 144, 34), "Retry ED"))
+                {
+                    LoadEndingBonusAndStart();
+                }
+                return;
+            }
+
+            var result = session.BuildResult();
             GUI.Label(new Rect(panel.x + 18, panel.y + 12, 300, 30), ResultHeading + " " + result.Rank, titleStyle);
             GUI.Label(new Rect(panel.x + 18, panel.y + 48, 300, 22), "clear=" + result.Clear + " score=" + result.Score + " maxCombo=" + result.MaxCombo, labelStyle);
             GUI.Label(new Rect(panel.x + 18, panel.y + 72, 304, 34), ResultScenarioLine, labelStyle);
 
-            var previousEnabled = GUI.enabled;
-            GUI.enabled = previousEnabled && CanAdvanceToNextStage;
-            if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "Next Stage"))
+            if (CanStartEndingBonus)
             {
-                AdvanceToNextStage();
+                if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "ED Bonus"))
+                {
+                    LoadEndingBonusAndStart();
+                }
             }
-            GUI.enabled = previousEnabled;
+            else
+            {
+                var previousEnabled = GUI.enabled;
+                GUI.enabled = previousEnabled && CanAdvanceToNextStage;
+                if (GUI.Button(new Rect(panel.x + 18, panel.y + 108, 144, 34), "Next Stage"))
+                {
+                    AdvanceToNextStage();
+                }
+                GUI.enabled = previousEnabled;
+            }
 
             if (GUI.Button(new Rect(panel.x + 176, panel.y + 108, 144, 34), "Retry"))
             {
-                LoadAndStart();
+                ReloadCurrentMode();
             }
         }
 
@@ -445,19 +566,30 @@ namespace JijiiKobushi.Stage1Prototype
             DrawDifficultyButtons((int)mainRect.x + 24, (int)top + 6);
             DrawLoopButtons((int)mainRect.x + 392, (int)top + 6);
 
-            if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 72, 48), "Prev"))
+            if (prototypeMode == PrototypeMode.EndingBonus)
             {
-                ChangeStage(-1);
+                if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 110, 48), "Stages"))
+                {
+                    stageNumber = 1;
+                    LoadAndStart();
+                }
             }
-
-            if (GUI.Button(new Rect(mainRect.x + 632, top + 2, 72, 48), "Next"))
+            else
             {
-                ChangeStage(1);
+                if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 72, 48), "Prev"))
+                {
+                    ChangeStage(-1);
+                }
+
+                if (GUI.Button(new Rect(mainRect.x + 632, top + 2, 72, 48), "Next"))
+                {
+                    ChangeStage(1);
+                }
             }
 
             if (GUI.Button(new Rect(mainRect.x + 712, top + 2, 110, 48), "Restart"))
             {
-                LoadAndStart();
+                ReloadCurrentMode();
             }
 
             if (GUI.Button(new Rect(mainRect.x + 830, top + 2, 110, 48), paused ? "Resume" : "Pause"))
@@ -473,6 +605,9 @@ namespace JijiiKobushi.Stage1Prototype
             try
             {
                 error = "";
+                prototypeMode = PrototypeMode.Stage;
+                endingSession = null;
+                endingChart = null;
                 stageNumber = Mathf.Clamp(stageNumber, 1, StagePackFiles.Length);
                 stageJsonPath = ProfileTestRunner.ResolveAllStagePackPath(StagePackFiles[CurrentStageIndex]);
                 expectedJsonPath = ProfileTestRunner.ResolveStagePackPath("expected-results.json");
@@ -503,11 +638,49 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
+        private void LoadEndingBonusAndStart()
+        {
+            try
+            {
+                error = "";
+                StopBgm();
+                prototypeMode = PrototypeMode.EndingBonus;
+                session = null;
+                chart = null;
+                endingJsonPath = ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json");
+                endingBonus = StageJsonLoader.LoadEndingBonus(endingJsonPath);
+
+                difficulty = NormalizeDifficulty(difficulty);
+                var loopKey = CurrentLoopKey;
+                if (!endingBonus.Loops.ContainsKey(loopKey)) loopKey = "1";
+                if (!endingBonus.Loops[loopKey].Charts.ContainsKey(difficulty)) difficulty = "normal";
+                endingChart = endingBonus.Loops[loopKey].Charts[difficulty];
+                endingSession = new EndingBonusInteractiveSession(endingBonus, loopKey, difficulty);
+                holdButtonWasDown = false;
+                completionHandled = false;
+                paused = false;
+                audioStatus = "ED rhythm clock: video/audio integration pending";
+                status = "Loaded ED bonus loop " + loopKey + " from " + Path.GetFileName(endingJsonPath) + ". First beat is " + endingBonus.Ending.FirstBeatMs + "ms.";
+            }
+            catch (Exception ex)
+            {
+                error = ex.ToString();
+                status = "ED bonus load failed";
+                Debug.LogException(ex);
+            }
+        }
+
+        private void ReloadCurrentMode()
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus) LoadEndingBonusAndStart();
+            else LoadAndStart();
+        }
+
         private bool HandleControlInput(RhythmInputFrame input)
         {
             if (input.RestartDown)
             {
-                LoadAndStart();
+                ReloadCurrentMode();
                 return true;
             }
 
@@ -537,17 +710,17 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (input.TapOrMashDown)
             {
-                session.Tap();
+                TapActive();
             }
 
             if (input.HoldDown)
             {
-                session.HoldDown();
+                HoldDownActive();
             }
 
             if (input.HoldUp)
             {
-                session.HoldUp();
+                HoldUpActive();
             }
         }
 
@@ -565,15 +738,204 @@ namespace JijiiKobushi.Stage1Prototype
             };
         }
 
+        private bool HasActiveSession
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null : session != null; }
+        }
+
+        private List<NoteData> ActiveChart
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingChart : chart; }
+        }
+
+        private NoteData ActiveCurrentNote
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.CurrentNote : null : session != null ? session.CurrentNote : null; }
+        }
+
+        private int ActiveBattleClockMs
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.BattleClockMs : 0 : session != null ? session.BattleClockMs : 0; }
+        }
+
+        private int ActiveCountInMs
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? 0 : session != null ? session.CountInMs : 0; }
+        }
+
+        private int ActiveCountInRemainingMs
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? 0 : session != null ? session.CountInRemainingMs : 0; }
+        }
+
+        private int ActiveCurrentNoteIndex
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.CurrentNoteIndex : 0 : session != null ? session.CurrentNoteIndex : 0; }
+        }
+
+        private int ActiveResolvedCount
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.ResolvedCount : 0 : session != null ? session.ResolvedCount : 0; }
+        }
+
+        private int ActiveTotalNotes
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.TotalNotes : 0 : session != null ? session.TotalNotes : 0; }
+        }
+
+        private int ActiveCombo
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.Combo : 0 : session != null ? session.Combo : 0; }
+        }
+
+        private int ActiveMaxCombo
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.MaxCombo : 0 : session != null ? session.MaxCombo : 0; }
+        }
+
+        private string ActiveLastJudgeText
+        {
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null ? endingSession.LastJudgeText : "ED Ready" : session != null ? session.LastJudgeText : ""; }
+        }
+
+        private JudgeStats ActiveJudgeStats
+        {
+            get
+            {
+                if (prototypeMode == PrototypeMode.EndingBonus) return endingSession != null ? endingSession.BuildResult().Stats : new JudgeStats();
+                return session != null ? session.BuildResult().Stats : new JudgeStats();
+            }
+        }
+
+        private bool IsActiveHoldForNoteIndex(int noteIndex)
+        {
+            return prototypeMode == PrototypeMode.EndingBonus
+                ? endingSession != null && endingSession.IsHoldActiveForNoteIndex(noteIndex)
+                : session != null && session.IsHoldActiveForNoteIndex(noteIndex);
+        }
+
+        private void TapActive()
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                if (endingSession != null) endingSession.Tap();
+                return;
+            }
+
+            if (session != null) session.Tap();
+        }
+
+        private void HoldDownActive()
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                if (endingSession != null) endingSession.HoldDown();
+                return;
+            }
+
+            if (session != null) session.HoldDown();
+        }
+
+        private void HoldUpActive()
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                if (endingSession != null) endingSession.HoldUp();
+                return;
+            }
+
+            if (session != null) session.HoldUp();
+        }
+
+        private List<EndingInputEvent> BuildPerfectEndingInputEvents()
+        {
+            var events = new List<EndingInputEvent>();
+            if (endingBonus == null || endingChart == null) return events;
+
+            var tapTimes = new List<int>();
+            for (var i = 0; i < endingChart.Count; i += 1)
+            {
+                if (endingChart[i].Type == "tap") tapTimes.Add(endingChart[i].TimeMs);
+            }
+
+            for (var i = 0; i < endingChart.Count; i += 1)
+            {
+                var note = endingChart[i];
+                if (note.Type == "tap")
+                {
+                    events.Add(new EndingInputEvent(note.TimeMs, "tap"));
+                }
+                else if (note.Type == "hold")
+                {
+                    events.Add(new EndingInputEvent(note.TimeMs, "holdDown"));
+                    events.Add(new EndingInputEvent(note.TimeMs + note.DurationMs, "holdUp"));
+                }
+                else if (note.Type == "mash")
+                {
+                    AddPerfectEndingMashEvents(note, tapTimes, events);
+                }
+            }
+
+            events.Sort((left, right) => left.TimeMs == right.TimeMs ? string.CompareOrdinal(left.Action, right.Action) : left.TimeMs.CompareTo(right.TimeMs));
+            return events;
+        }
+
+        private void AddPerfectEndingMashEvents(NoteData note, List<int> tapTimes, List<EndingInputEvent> events)
+        {
+            var target = Mathf.Max(1, note.TargetCount);
+            var start = note.TimeMs - endingBonus.Rhythm.MashInputGraceMs + 10;
+            var end = note.TimeMs + note.DurationMs + endingBonus.Rhythm.MashInputGraceMs - 10;
+            var gap = Mathf.Max(endingBonus.Rhythm.MashDedupMinGapMs, 1);
+            var cursor = start;
+            var added = 0;
+            while (cursor <= end && added < target)
+            {
+                if (!IsNearEndingTap(cursor, tapTimes, endingBonus.Rhythm.InputGraceMs))
+                {
+                    events.Add(new EndingInputEvent(cursor, "tap"));
+                    added += 1;
+                }
+                cursor += gap;
+            }
+        }
+
+        private static bool IsNearEndingTap(int timeMs, List<int> tapTimes, int graceMs)
+        {
+            for (var i = 0; i < tapTimes.Count; i += 1)
+            {
+                if (Math.Abs(timeMs - tapTimes[i]) <= graceMs) return true;
+            }
+            return false;
+        }
+
+        private sealed class EndingInputEvent
+        {
+            public EndingInputEvent(int timeMs, string action)
+            {
+                TimeMs = timeMs;
+                Action = action;
+            }
+
+            public int TimeMs { get; private set; }
+            public string Action { get; private set; }
+        }
+
         private bool IsComplete
         {
-            get { return session != null && session.IsComplete; }
+            get { return prototypeMode == PrototypeMode.EndingBonus ? endingSession != null && endingSession.IsComplete : session != null && session.IsComplete; }
         }
 
         private string Phase
         {
             get
             {
+                if (prototypeMode == PrototypeMode.EndingBonus)
+                {
+                    if (endingSession == null) return "ED Boot";
+                    if (paused) return "Paused";
+                    return endingSession.IsComplete ? "ED Result" : "ED Bonus";
+                }
+
                 if (session == null) return "Boot";
                 if (paused) return "Paused";
                 if (session.CountInRemainingMs > 0) return "CountIn " + session.CountInRemainingMs + "ms";
@@ -630,9 +992,21 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
+                if (prototypeMode == PrototypeMode.EndingBonus) return false;
                 return session != null &&
                     session.IsCleared &&
                     CurrentStageIndex < StagePackFiles.Length - 1;
+            }
+        }
+
+        private bool CanStartEndingBonus
+        {
+            get
+            {
+                return prototypeMode == PrototypeMode.Stage &&
+                    session != null &&
+                    session.IsCleared &&
+                    CurrentStageIndex >= StagePackFiles.Length - 1;
             }
         }
 
@@ -645,14 +1019,15 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
-                if (session == null || chart == null || chart.Count == 0) return "none";
-                var note = session.CurrentNote;
+                var activeChart = ActiveChart;
+                if (!HasActiveSession || activeChart == null || activeChart.Count == 0) return "none";
+                var note = ActiveCurrentNote;
                 if (note == null) return "complete";
 
                 var release = note.Type == "hold"
                     ? " releaseAt=" + (note.TimeMs + note.DurationMs) + "ms"
                     : "";
-                return note.Id + " type=" + note.Type + " battleMs=" + note.TimeMs + release + " virtualMs=" + (session.CountInMs + note.TimeMs);
+                return note.Id + " type=" + note.Type + " battleMs=" + note.TimeMs + release + " virtualMs=" + (ActiveCountInMs + note.TimeMs);
             }
         }
 
@@ -660,6 +1035,11 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
+                if (prototypeMode == PrototypeMode.EndingBonus)
+                {
+                    return endingBonus != null ? endingBonus.Ending.Title + " / " + CurrentRunLoop + "周目" : "ED拍ボーナス";
+                }
+
                 if (stage == null || stage.Stage == null) return "誘拐の朝 / うさぎ公園";
                 if (string.IsNullOrEmpty(stage.Stage.LocationName)) return stage.Stage.Title;
                 return stage.Stage.Title + " / " + stage.Stage.LocationName;
@@ -670,6 +1050,13 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
+                if (prototypeMode == PrototypeMode.EndingBonus)
+                {
+                    if (endingBonus == null) return "ending: -";
+                    var video = CurrentRunLoop <= 1 ? endingBonus.Ending.FirstLoopVideoSrc : endingBonus.Ending.LoopPlusVideoSrc;
+                    return "ending: " + endingBonus.Ending.Description + "  video=" + video;
+                }
+
                 if (stage == null || stage.Scenario == null || stage.Scenario.IntroLines == null || stage.Scenario.IntroLines.Count == 0)
                 {
                     return "scenario: -";
@@ -696,6 +1083,7 @@ namespace JijiiKobushi.Stage1Prototype
         {
             get
             {
+                if (prototypeMode == PrototypeMode.EndingBonus) return "ed-delta";
                 if (!useAudioClock) return "delta";
                 if (audioStarted) return "audio";
                 if (audioReady) return "audio-ready";
@@ -805,7 +1193,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void TogglePause()
         {
-            if (session == null || session.IsComplete) return;
+            if (!HasActiveSession || IsComplete) return;
             if (paused) ResumeRun();
             else PauseRun();
         }
@@ -815,6 +1203,13 @@ namespace JijiiKobushi.Stage1Prototype
             if (paused) return;
             paused = true;
             holdButtonWasDown = false;
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                endingSession.Pause();
+                audioStatus = "ED rhythm paused";
+                return;
+            }
+
             session.Pause();
             if (audioSource != null && audioSource.isPlaying)
             {
@@ -828,6 +1223,13 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (!paused) return;
             paused = false;
+            if (prototypeMode == PrototypeMode.EndingBonus)
+            {
+                endingSession.Resume();
+                audioStatus = "ED rhythm clock";
+                return;
+            }
+
             session.Resume();
             if (audioStarted && audioSource != null && audioSource.clip != null)
             {
@@ -859,7 +1261,7 @@ namespace JijiiKobushi.Stage1Prototype
             audioStatus = "BGM stopped: result";
         }
 
-        private void HandleSessionComplete()
+        private void HandleStageSessionComplete()
         {
             if (completionHandled) return;
             completionHandled = true;
@@ -927,7 +1329,7 @@ namespace JijiiKobushi.Stage1Prototype
             if (GUI.Button(new Rect(left, top, 50, 32), label))
             {
                 runLoop = value;
-                LoadAndStart();
+                ReloadCurrentMode();
             }
         }
 
@@ -937,7 +1339,7 @@ namespace JijiiKobushi.Stage1Prototype
             if (GUI.Button(new Rect(left, top, 84, 32), label))
             {
                 difficulty = id;
-                LoadAndStart();
+                ReloadCurrentMode();
             }
         }
 
@@ -960,14 +1362,14 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawInputButtons(int left, int top)
         {
-            if (session == null) return;
-            var disabled = paused || session.IsComplete;
+            if (!HasActiveSession) return;
+            var disabled = paused || IsComplete;
             var previousEnabled = GUI.enabled;
             GUI.enabled = previousEnabled && !disabled;
 
             if (GUI.Button(new Rect(left, top, 160, 52), "Tap / Mash"))
             {
-                session.Tap();
+                TapActive();
             }
 
             var holdRect = new Rect(left + 172, top, 160, 52);
@@ -976,13 +1378,13 @@ namespace JijiiKobushi.Stage1Prototype
             var currentEvent = Event.current;
             if (!disabled && currentEvent.type == EventType.MouseDown && holdRect.Contains(currentEvent.mousePosition) && !holdButtonWasDown)
             {
-                session.HoldDown();
+                HoldDownActive();
                 holdButtonWasDown = true;
                 currentEvent.Use();
             }
             else if (!disabled && currentEvent.type == EventType.MouseUp && holdButtonWasDown)
             {
-                session.HoldUp();
+                HoldUpActive();
                 holdButtonWasDown = false;
                 currentEvent.Use();
             }
