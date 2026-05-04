@@ -192,7 +192,6 @@ function makeChart(config) {
     tapRunEvery,
     tapRunGapMs = burstTapGapMs,
     preHoldTapClearanceMs = PRE_HOLD_TAP_CLEARANCE_MS,
-    mashTargetCap = MAX_MASH_TARGET_COUNT,
     finale = false,
   } = config;
   const chart = [];
@@ -204,7 +203,7 @@ function makeChart(config) {
         ? "tap"
         : phraseItem?.type ?? (i % burstEvery === 0 ? "mash" : i % holdEvery === 0 ? "hold" : "tap");
     if (noteType === "mash") {
-      const target = Math.min(mashTargetCap, MAX_MASH_TARGET_COUNT, Math.max(3, burstTapHint + (i % (burstEvery * 2) === 0 ? 0 : 1)));
+      const target = Math.min(MAX_MASH_TARGET_COUNT, Math.max(3, burstTapHint + (i % (burstEvery * 2) === 0 ? 0 : 1)));
       chart.push(mash(at, burstSpanMs, target, noteMetaFromPhrase(phraseItem, i)));
     } else if (noteType === "hold") {
       chart.push(hold(at, holdDurationMs, noteMetaFromPhrase(phraseItem, i)));
@@ -269,7 +268,6 @@ const STAGE_TEMPLATES = [
   {
     id: "shotengai",
     title: "誘拐の朝",
-    locationName: "うさぎ公園",
     bpm: 78,
     travelMs: 8000,
     palette: {
@@ -298,8 +296,7 @@ const STAGE_TEMPLATES = [
   },
   {
     id: "warehouse",
-    title: "声を失う倉庫",
-    locationName: "港の倉庫",
+    title: "港の倉庫",
     bpm: 86,
     travelMs: 10000,
     palette: {
@@ -329,8 +326,7 @@ const STAGE_TEMPLATES = [
   },
   {
     id: "riverside",
-    title: "内部破壊の稽古",
-    locationName: "伊藤道場",
+    title: "伊藤道場",
     bpm: 84,
     travelMs: 9000,
     palette: { sky: "#243746", far: "#668da2", mid: "#b27543", road: "#2b2d2e", accent: "#f2bd52" },
@@ -348,8 +344,7 @@ const STAGE_TEMPLATES = [
   },
   {
     id: "mountain",
-    title: "鉄仮面の追跡",
-    locationName: "峠道",
+    title: "峠道",
     bpm: 90,
     travelMs: 11000,
     palette: { sky: "#162335", far: "#445b50", mid: "#263d35", road: "#171717", accent: "#9fd57b" },
@@ -367,8 +362,7 @@ const STAGE_TEMPLATES = [
   },
   {
     id: "garage",
-    title: "狂う拍と音響兵",
-    locationName: "改造車庫",
+    title: "改造車庫",
     bpm: 94,
     travelMs: 12000,
     palette: { sky: "#2b2029", far: "#8e3140", mid: "#49272e", road: "#1d1518", accent: "#ffcf5a" },
@@ -386,8 +380,7 @@ const STAGE_TEMPLATES = [
   },
   {
     id: "redgate",
-    title: "赤門をこじ開けろ",
-    locationName: "赤門",
+    title: "赤門",
     bpm: 98,
     travelMs: 13000,
     palette: { sky: "#1d1717", far: "#703333", mid: "#3a2020", road: "#120f0f", accent: "#e0c45a" },
@@ -405,8 +398,7 @@ const STAGE_TEMPLATES = [
   },
   {
     id: "finalhideout",
-    title: "白馬の正体",
-    locationName: "X結社本部",
+    title: "X結社本部",
     bpm: 100,
     travelMs: 14000,
     palette: { sky: "#11111a", far: "#33223f", mid: "#17151f", road: "#0b0b10", accent: "#f6d95f" },
@@ -430,19 +422,7 @@ const STAGE_TEMPLATES = [
     ],
     clearLine: "裕太は小次郎の腕の中で泣き笑いした。爺コブシは戻った。長谷川の無茶な芝居も、ここで幕を下ろした。",
     enemy: { name: "スーパーステロイドX", attackPower: 2, kind: "steroidBoss", coat: "#22415c", accent: "#f6d95f" },
-    chartConfig: {
-      count: 260,
-      startMs: 880,
-      stepMs: 600,
-      holdDurationMs: 620,
-      burstDurationMs: 760,
-      burstTapTarget: 7,
-      holdEvery: 5,
-      burstEvery: 17,
-      finale: true,
-      phrase: "oiwakeFinal",
-      mashTargetCapByDifficulty: { easy: 4, normal: 5, hard: 6 },
-    },
+    chartConfig: { count: 260, startMs: 880, stepMs: 600, holdDurationMs: 620, burstDurationMs: 760, burstTapTarget: 7, holdEvery: 5, burstEvery: 17, finale: true, phrase: "oiwakeFinal" },
     bgm: { cue: "最終決戦", track: "epicbattle", gain: 0.88, overlay: "final", lead: 440, tone: "boss", remix: "boss", variation: "ラスボス戦" },
   },
 ];
@@ -461,32 +441,14 @@ export const LOOP_DIFFICULTY = {
 };
 
 const HARD_LOOP_STAGE_RELIEF = {
-  mountain: { enemyHp: 0.971, playerDamage: 1, enemyAttack: 0.96 },
-  garage: { enemyHp: 0.975, playerDamage: 1, enemyAttack: 0.96 },
-  redgate: { enemyHp: 0.978, playerDamage: 1, enemyAttack: 0.96 },
-  finalhideout: { enemyHp: 0.978, playerDamage: 1, enemyAttack: 0.97 },
+  garage: { enemyHp: 0.965, playerDamage: 1, enemyAttack: 0.96 },
+  redgate: { enemyHp: 0.97, playerDamage: 1, enemyAttack: 0.96 },
+  finalhideout: { enemyHp: 0.97, playerDamage: 1, enemyAttack: 0.97 },
 };
-
-const HARD_STAGE_RELIEF = {
-  mountain: { enemyHp: 0.995, playerDamage: 1, enemyAttack: 1 },
-  garage: { enemyHp: 0.965, playerDamage: 1, enemyAttack: 1 },
-  redgate: { enemyHp: 0.978, playerDamage: 1, enemyAttack: 1 },
-  finalhideout: { enemyHp: 0.975, playerDamage: 1, enemyAttack: 1 },
-};
-
-function hardReliefForStage(stage, loop = 1) {
-  const stageRelief = HARD_STAGE_RELIEF[stage?.id] ?? null;
-  const loopRelief = normalizeLoop(loop) >= 2 ? HARD_LOOP_STAGE_RELIEF[stage?.id] ?? null : null;
-  return {
-    enemyHp: (stageRelief?.enemyHp ?? 1) * (loopRelief?.enemyHp ?? 1),
-    playerDamage: (stageRelief?.playerDamage ?? 1) * (loopRelief?.playerDamage ?? 1),
-    enemyAttack: (stageRelief?.enemyAttack ?? 1) * (loopRelief?.enemyAttack ?? 1),
-  };
-}
 
 function stageReliefForLoop(stage, difficulty, loop = 1) {
-  if (difficulty !== "hard") return null;
-  return hardReliefForStage(stage, loop);
+  if (difficulty !== "hard" || normalizeLoop(loop) < 2) return null;
+  return HARD_LOOP_STAGE_RELIEF[stage?.id] ?? null;
 }
 
 export function normalizeLoop(loop = 1) {
@@ -539,7 +501,6 @@ function chartConfigForDifficulty(config, difficulty) {
     holdDurationMs: Math.round(config.holdDurationMs * (difficulty === "easy" ? 1.08 : difficulty === "hard" ? 0.9 : 1)),
     burstDurationMs: Math.min(MAX_MASH_DURATION_MS, Math.round(config.burstDurationMs * (difficulty === "easy" ? 1.12 : difficulty === "hard" ? 1.02 : 1.08)) + MASH_DURATION_BONUS_MS),
     burstTapTarget: Math.max(3, Math.min(MAX_MASH_TARGET_COUNT, config.burstTapTarget + (difficulty === "easy" ? -2 : difficulty === "hard" ? 0 : -1))),
-    mashTargetCap: config.mashTargetCapByDifficulty?.[difficulty] ?? config.mashTargetCap ?? MAX_MASH_TARGET_COUNT,
     burstTapGapMs: DIFFICULTIES[difficulty].burstTapGapMs,
     tapRunEvery: DIFFICULTIES[difficulty].tapRunEvery,
     tapRunGapMs: DIFFICULTIES[difficulty].tapRunGapMs,

@@ -770,29 +770,6 @@ canvas {
   border-radius: 8px;
 }
 
-.audioCredit {
-  position: absolute;
-  left: 10px;
-  bottom: 8px;
-  z-index: 4;
-  margin: 0;
-  padding: 3px 6px;
-  color: rgba(255, 255, 255, 0.82);
-  background: rgba(0, 0, 0, 0.38);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 1.2;
-  pointer-events: auto;
-}
-
-.audioCredit a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
 .quickSaveButton,
 .pauseButton {
   position: absolute;
