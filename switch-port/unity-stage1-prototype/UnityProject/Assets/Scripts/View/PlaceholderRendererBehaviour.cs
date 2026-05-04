@@ -56,6 +56,10 @@ namespace JijiiKobushi.Stage1Prototype
         {
             inputAdapter = new KeyboardGamepadInputAdapter();
             LoadAndStart();
+            if (HasCommandLineFlag("-jijiiSmokeQuit"))
+            {
+                StartCoroutine(QuitAfterSmokeFrame());
+            }
         }
 
         public bool DebugSessionLoaded
@@ -725,6 +729,31 @@ namespace JijiiKobushi.Stage1Prototype
                 }
                 StartBgm();
             }
+        }
+
+        private IEnumerator QuitAfterSmokeFrame()
+        {
+            yield return null;
+
+            var exitCode = string.IsNullOrEmpty(error) && session != null ? 0 : 1;
+            Debug.Log(
+                "Jijii Kobushi player smoke quit: exitCode=" + exitCode +
+                " stage=" + DebugStageTitle +
+                " location=" + DebugStageLocation +
+                " clock=" + ClockMode +
+                " error=" + error);
+            Application.Quit(exitCode);
+        }
+
+        private static bool HasCommandLineFlag(string flag)
+        {
+            var args = Environment.GetCommandLineArgs();
+            for (var i = 0; i < args.Length; i += 1)
+            {
+                if (args[i] == flag) return true;
+            }
+
+            return false;
         }
 
         private void StartBgm()

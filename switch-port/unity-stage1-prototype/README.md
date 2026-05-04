@@ -109,6 +109,8 @@ In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the trac
 
 `Assets/Editor/Stage1PrototypeSceneSetup.cs` adds the `Jijii Kobushi > Setup Stage 1 Prototype Scene` editor menu. It makes `Stage1Prototype.unity` visible in Scene view by adding a Main Camera, Directional Light, placeholder stage board, gold hit line, and Tap/Hold/Mash marker cubes.
 
+`Assets/Editor/Stage1PrototypeBuild.cs` adds the `Jijii Kobushi > Build Windows Prototype` editor menu and a batch-mode `BuildWindowsPrototype` method. This is a local standalone player smoke build only; it does not use Nintendo SDK material or external submission tooling.
+
 The Stage 1 JSON uses dictionary-shaped objects and profile keys such as `mash-weak`, so the prototype does not use Unity `JsonUtility` for these files. It uses a small dependency-free loader in `StageJsonLoader.cs` and maps only the fields needed by the Stage 1 prototype.
 
 Editor check procedure:
@@ -149,6 +151,32 @@ The standalone C# CLI can also run the Unity-side all-stage smoke gate:
 ```bash
 switch-port/unity-stage1-prototype/Stage1PortableCli.exe --all-stages
 ```
+
+Unity batch mode can also build a local Windows smoke player:
+
+```bash
+"/mnt/c/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Unity.exe" \
+  -batchmode \
+  -projectPath "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\UnityProject" \
+  -executeMethod JijiiKobushi.Stage1Prototype.EditorTools.Stage1PrototypeBuild.BuildWindowsPrototype \
+  -buildOutput "Builds\Windows\Stage1Prototype.exe" \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-build-windows.log" \
+  -quit
+```
+
+The `Builds/` directory is ignored and should stay out of Git.
+
+The generated player also supports a local smoke-exit flag:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeQuit \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-smoke.log"
+```
+
+This verifies that the built player starts, loads the Stage 1 data, writes a smoke line, and exits without human input.
 
 Manual Play Mode controls:
 

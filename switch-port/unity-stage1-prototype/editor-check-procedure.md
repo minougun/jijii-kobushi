@@ -83,6 +83,40 @@ PlayMode CLI equivalent:
   -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-playmode-tests.log"
 ```
 
+Local player build smoke:
+
+```bash
+"/mnt/c/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Unity.exe" \
+  -batchmode \
+  -projectPath "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\UnityProject" \
+  -executeMethod JijiiKobushi.Stage1Prototype.EditorTools.Stage1PrototypeBuild.BuildWindowsPrototype \
+  -buildOutput "Builds\Windows\Stage1Prototype.exe" \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-build-windows.log" \
+  -quit
+```
+
+Expected build smoke behavior:
+
+- `UnityProject/Builds/Windows/Stage1Prototype.exe` exists.
+- `Builds/` remains ignored and must not be committed.
+- The log contains `Windows prototype build succeeded`.
+
+Generated player launch smoke:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeQuit \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-smoke.log"
+```
+
+Expected player smoke behavior:
+
+- The process exits with code `0`.
+- The log contains `Jijii Kobushi player smoke quit`.
+- The smoke line includes `stage=誘拐の朝` and `location=うさぎ公園`.
+
 ## 3. Run Scene
 
 1. Open `Assets/Scenes/Stage1Prototype.unity`.
