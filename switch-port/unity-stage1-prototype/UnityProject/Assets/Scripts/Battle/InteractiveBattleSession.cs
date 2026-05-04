@@ -33,11 +33,18 @@ namespace JijiiKobushi.Stage1Prototype
         private string lastJudgeText;
 
         public InteractiveBattleSession(StageExport stage, string difficulty)
+            : this(stage, "1", difficulty)
+        {
+        }
+
+        public InteractiveBattleSession(StageExport stage, string loop, string difficulty)
         {
             this.stage = stage;
+            Loop = ResolveLoopKey(stage, loop);
             Difficulty = difficulty;
-            difficultyData = stage.Difficulty[difficulty];
-            chart = stage.Charts[difficulty];
+            var loopData = ResolveLoop(stage, Loop);
+            difficultyData = loopData.Difficulty[difficulty];
+            chart = loopData.Charts[difficulty];
             clock = new AudioClock((int)Math.Round(stage.Audio.Timing.CountInLeadSeconds * 1000.0, MidpointRounding.AwayFromZero));
             resolved = new List<ResolvedNote>(chart.Count);
             mashTapTimesMs = new List<int>();
@@ -49,6 +56,8 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         public string Difficulty { get; private set; }
+
+        public string Loop { get; private set; }
 
         public int CountInMs
         {
@@ -323,6 +332,7 @@ namespace JijiiKobushi.Stage1Prototype
             return new BattleRunResult
             {
                 Difficulty = Difficulty,
+                Loop = Loop,
                 Profile = "interactive",
                 CountInMs = clock.CountInMs,
                 FinishTimelineMs = clock.CountInMs + last.TimeMs + last.DurationMs + stage.Audio.Timing.BattleDurationPaddingMs,
@@ -388,7 +398,7 @@ namespace JijiiKobushi.Stage1Prototype
             var rankName = RhythmJudge.ToJsonRank(result.Rank);
             if (result.Rank == JudgeRank.Miss && note.Type != "mash")
             {
-                var damage = stage.Enemy.AttackPower * difficultyData.Loop1.EnemyAttackMultiplier;
+                var damage = stage.Enemy.AttackPower * difficultyData.Loop.EnemyAttackMultiplier;
                 hp = Math.Max(0, hp - damage);
                 hpDamageTaken += damage;
             }
@@ -432,6 +442,23 @@ namespace JijiiKobushi.Stage1Prototype
         private static JudgeResult MissResult()
         {
             return new JudgeResult { Rank = JudgeRank.Miss, OffsetMs = 0 };
+        }
+
+        private static string ResolveLoopKey(StageExport stage, string loop)
+        {
+            if (stage.Loops != null && stage.Loops.ContainsKey(loop)) return loop;
+            return "1";
+        }
+
+        private static StageLoopData ResolveLoop(StageExport stage, string loop)
+        {
+            if (stage.Loops != null && stage.Loops.ContainsKey(loop)) return stage.Loops[loop];
+            return new StageLoopData
+            {
+                Label = "1周目",
+                Difficulty = stage.Difficulty,
+                Charts = stage.Charts
+            };
         }
 
         private static string BuildDetail(NoteData note, JudgeResult result)

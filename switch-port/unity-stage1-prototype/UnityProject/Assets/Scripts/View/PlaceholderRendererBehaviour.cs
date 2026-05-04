@@ -25,6 +25,7 @@ namespace JijiiKobushi.Stage1Prototype
         [SerializeField] private float playbackSpeed = 1f;
         [SerializeField] private bool useAudioClock = true;
         [SerializeField] private int stageNumber = 1;
+        [SerializeField] private int runLoop = 1;
 
         private readonly PlaceholderRenderer placeholderRenderer = new PlaceholderRenderer();
         private StageExport stage;
@@ -119,6 +120,16 @@ namespace JijiiKobushi.Stage1Prototype
             get { return CurrentStageNumber; }
         }
 
+        public int DebugRunLoop
+        {
+            get { return CurrentRunLoop; }
+        }
+
+        public int DebugTotalNotes
+        {
+            get { return session != null ? session.TotalNotes : 0; }
+        }
+
         public bool DebugCanAdvanceToNextStage
         {
             get { return CanAdvanceToNextStage; }
@@ -163,6 +174,18 @@ namespace JijiiKobushi.Stage1Prototype
         public void DebugLoadStageNumber(int value)
         {
             stageNumber = Mathf.Clamp(value, 1, StagePackFiles.Length);
+            LoadAndStart();
+        }
+
+        public void DebugSetDifficulty(string value)
+        {
+            difficulty = NormalizeDifficulty(value);
+            LoadAndStart();
+        }
+
+        public void DebugSetRunLoop(int value)
+        {
+            runLoop = Mathf.Max(1, value);
             LoadAndStart();
         }
 
@@ -273,7 +296,7 @@ namespace JijiiKobushi.Stage1Prototype
             var result = session != null ? session.BuildResult() : null;
             var titleRect = new Rect(mainRect.x + 24, mainRect.y + 18, 420, 42);
             GUI.Label(titleRect, "JII KOBUSHI STAGE " + CurrentStageNumber, titleStyle);
-            GUI.Label(new Rect(mainRect.x + 26, mainRect.y + 58, 720, 24), "phase=" + Phase + "  difficulty=" + difficulty + "  speed=" + playbackSpeed + "x  clock=" + ClockMode, labelStyle);
+            GUI.Label(new Rect(mainRect.x + 26, mainRect.y + 58, 720, 24), "phase=" + Phase + "  loop=" + CurrentLoopKey + "  difficulty=" + difficulty + "  speed=" + playbackSpeed + "x  clock=" + ClockMode, labelStyle);
 
             var hpRect = new Rect(mainRect.x + mainRect.width - 340, mainRect.y + 24, 290, 26);
             DrawMeter(hpRect, session != null ? session.RemainingHp : 0, session != null ? session.MaxHp : 1, new Color(0.08f, 0.66f, 0.28f), "HP");
@@ -420,28 +443,29 @@ namespace JijiiKobushi.Stage1Prototype
         {
             var top = mainRect.y + mainRect.height - 74;
             DrawDifficultyButtons((int)mainRect.x + 24, (int)top + 6);
+            DrawLoopButtons((int)mainRect.x + 392, (int)top + 6);
 
-            if (GUI.Button(new Rect(mainRect.x + 392, top + 2, 72, 48), "Prev"))
+            if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 72, 48), "Prev"))
             {
                 ChangeStage(-1);
             }
 
-            if (GUI.Button(new Rect(mainRect.x + 472, top + 2, 72, 48), "Next"))
+            if (GUI.Button(new Rect(mainRect.x + 632, top + 2, 72, 48), "Next"))
             {
                 ChangeStage(1);
             }
 
-            if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 110, 48), "Restart"))
+            if (GUI.Button(new Rect(mainRect.x + 712, top + 2, 110, 48), "Restart"))
             {
                 LoadAndStart();
             }
 
-            if (GUI.Button(new Rect(mainRect.x + 670, top + 2, 110, 48), paused ? "Resume" : "Pause"))
+            if (GUI.Button(new Rect(mainRect.x + 830, top + 2, 110, 48), paused ? "Resume" : "Pause"))
             {
                 TogglePause();
             }
 
-            DrawInputButtons((int)mainRect.x + 792, (int)top);
+            DrawInputButtons((int)mainRect.x + 952, (int)top);
         }
 
         private void LoadAndStart()
@@ -459,14 +483,16 @@ namespace JijiiKobushi.Stage1Prototype
                 }
                 stage = StageJsonLoader.LoadStage(stageJsonPath);
 
-                if (!stage.Charts.ContainsKey(difficulty)) difficulty = "normal";
-                chart = stage.Charts[difficulty];
-                session = new InteractiveBattleSession(stage, difficulty);
+                difficulty = NormalizeDifficulty(difficulty);
+                var loopData = ResolveStageLoop(stage, CurrentLoopKey);
+                if (!loopData.Charts.ContainsKey(difficulty)) difficulty = "normal";
+                chart = loopData.Charts[difficulty];
+                session = new InteractiveBattleSession(stage, CurrentLoopKey, difficulty);
                 holdButtonWasDown = false;
                 completionHandled = false;
                 paused = false;
                 StopBgm();
-                status = "Loaded Stage " + CurrentStageNumber + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
+                status = "Loaded Stage " + CurrentStageNumber + " loop " + CurrentLoopKey + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
                 PrepareBgm();
             }
             catch (Exception ex)
@@ -588,6 +614,16 @@ namespace JijiiKobushi.Stage1Prototype
         private int CurrentStageNumber
         {
             get { return CurrentStageIndex + 1; }
+        }
+
+        private int CurrentRunLoop
+        {
+            get { return Mathf.Max(1, runLoop); }
+        }
+
+        private string CurrentLoopKey
+        {
+            get { return CurrentRunLoop <= 1 ? "1" : "2"; }
         }
 
         private bool CanAdvanceToNextStage
@@ -878,6 +914,23 @@ namespace JijiiKobushi.Stage1Prototype
             DrawDifficultyButton("hard", left + 278, top);
         }
 
+        private void DrawLoopButtons(int left, int top)
+        {
+            GUI.Label(new Rect(left, top, 58, 28), "Loop");
+            DrawLoopButton(1, left + 48, top);
+            DrawLoopButton(2, left + 104, top);
+        }
+
+        private void DrawLoopButton(int value, int left, int top)
+        {
+            var label = CurrentRunLoop == value ? "[" + value + "]" : value.ToString();
+            if (GUI.Button(new Rect(left, top, 50, 32), label))
+            {
+                runLoop = value;
+                LoadAndStart();
+            }
+        }
+
         private void DrawDifficultyButton(string id, int left, int top)
         {
             var label = difficulty == id ? "[" + id + "]" : id;
@@ -886,6 +939,23 @@ namespace JijiiKobushi.Stage1Prototype
                 difficulty = id;
                 LoadAndStart();
             }
+        }
+
+        private static string NormalizeDifficulty(string value)
+        {
+            if (value == "easy" || value == "normal" || value == "hard") return value;
+            return "normal";
+        }
+
+        private static StageLoopData ResolveStageLoop(StageExport stage, string loop)
+        {
+            if (stage.Loops != null && stage.Loops.ContainsKey(loop)) return stage.Loops[loop];
+            return new StageLoopData
+            {
+                Label = "1周目",
+                Difficulty = stage.Difficulty,
+                Charts = stage.Charts
+            };
         }
 
         private void DrawInputButtons(int left, int top)

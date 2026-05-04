@@ -23,7 +23,7 @@ namespace JijiiKobushi.Stage1Prototype
         public void AllStageProfilesMatchExpectedResults()
         {
             var results = ProfileTestRunner.RunAllStageProfileParity();
-            Assert.AreEqual(7 * 6 * 3, results.Count);
+            Assert.AreEqual(2 * 7 * 6 * 3, results.Count);
         }
 
         [Test]
@@ -51,6 +51,25 @@ namespace JijiiKobushi.Stage1Prototype
                 Assert.AreEqual(expected.Stats.Perfect, actual.Stats.Perfect, difficulty + " perfect");
                 Assert.AreEqual(expected.Stats.Miss, actual.Stats.Miss, difficulty + " miss");
             }
+        }
+
+        [Test]
+        public void InteractiveLoopPlusPerfectRunMatchesSimulator()
+        {
+            var stage = StageJsonLoader.LoadStage(ProfileTestRunner.ResolveAllStagePackPath("stage01-shotengai.stage.json"));
+            var session = new InteractiveBattleSession(stage, "2", "hard");
+            PlayPerfect(stage, "2", "hard", session);
+
+            var expected = BattleSimulator.Simulate(stage, "2", "hard", "perfect");
+            var actual = session.BuildResult();
+            Assert.AreEqual("2", actual.Loop);
+            Assert.AreEqual(208, actual.NoteCount);
+            Assert.AreEqual(expected.Clear, actual.Clear, "loop2 hard clear");
+            Assert.AreEqual(expected.Score, actual.Score, "loop2 hard score");
+            Assert.AreEqual(expected.Rank, actual.Rank, "loop2 hard rank");
+            Assert.AreEqual(expected.MaxCombo, actual.MaxCombo, "loop2 hard maxCombo");
+            Assert.AreEqual(expected.Stats.Perfect, actual.Stats.Perfect, "loop2 hard perfect");
+            Assert.AreEqual(expected.Stats.Miss, actual.Stats.Miss, "loop2 hard miss");
         }
 
         [Test]
@@ -125,7 +144,12 @@ namespace JijiiKobushi.Stage1Prototype
 
         private static void PlayPerfect(StageExport stage, string difficulty, InteractiveBattleSession session)
         {
-            var chart = stage.Charts[difficulty];
+            PlayPerfect(stage, "1", difficulty, session);
+        }
+
+        private static void PlayPerfect(StageExport stage, string loop, string difficulty, InteractiveBattleSession session)
+        {
+            var chart = stage.Loops[loop].Charts[difficulty];
             for (var i = 0; i < chart.Count; i += 1)
             {
                 var note = chart[i];
