@@ -9,6 +9,7 @@ namespace JijiiKobushi.Stage1Prototype
         public static RuntimeAssetImportPlan Build(RuntimeAssetManifest manifest, string repoRoot, bool checkLocalFiles)
         {
             if (manifest == null) throw new ArgumentNullException("manifest");
+            var normalizedRepoRoot = NormalizeRepoRoot(repoRoot);
 
             var plan = new RuntimeAssetImportPlan
             {
@@ -19,7 +20,7 @@ namespace JijiiKobushi.Stage1Prototype
             foreach (var asset in manifest.Assets)
             {
                 if (!asset.GitTracked) plan.MissingGitTracked.Add(asset.Path);
-                if (checkLocalFiles && !File.Exists(Path.Combine(repoRoot, asset.Path.Replace('/', Path.DirectorySeparatorChar))))
+                if (checkLocalFiles && !File.Exists(Path.Combine(normalizedRepoRoot, asset.Path.Replace('/', Path.DirectorySeparatorChar))))
                 {
                     plan.MissingLocalFiles.Add(asset.Path);
                 }
@@ -56,6 +57,20 @@ namespace JijiiKobushi.Stage1Prototype
             plan.MissingLocalFiles.Sort(StringComparer.Ordinal);
             plan.IncompleteStageBackgroundPairs.Sort(StringComparer.Ordinal);
             return plan;
+        }
+
+        private static string NormalizeRepoRoot(string repoRoot)
+        {
+            if (string.IsNullOrWhiteSpace(repoRoot)) return repoRoot;
+            var normalized = repoRoot.Replace('\\', '/');
+            if (normalized.StartsWith("/mnt/", StringComparison.Ordinal) && normalized.Length > 6 && normalized[6] == '/')
+            {
+                var drive = normalized[5];
+                var rest = normalized.Substring(7).Replace('/', Path.DirectorySeparatorChar);
+                return char.ToUpperInvariant(drive) + ":" + Path.DirectorySeparatorChar + rest;
+            }
+
+            return repoRoot;
         }
 
         private static void Increment(Dictionary<string, int> counts, string key)

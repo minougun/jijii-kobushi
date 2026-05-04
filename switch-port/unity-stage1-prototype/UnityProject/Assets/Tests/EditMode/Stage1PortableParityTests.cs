@@ -74,6 +74,24 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void RuntimeAssetImportPlanSeparatesLocalImageGapsFromBlockingManifestGaps()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            var plan = RuntimeAssetImportPlanner.Build(manifest, manifest.Source.LocalRepo, true);
+
+            Assert.AreEqual(0, plan.MissingGitTracked.Count);
+            Assert.AreEqual(0, plan.IncompleteStageBackgroundPairs.Count);
+            Assert.IsFalse(plan.MissingLocalFiles.Contains("assets/audio/koiwazurai.mp3"), "stage 1 bgm local");
+            Assert.IsFalse(plan.MissingLocalFiles.Contains("assets/video/ending.mp4"), "ending video local");
+            Assert.IsFalse(plan.MissingLocalFiles.Contains("assets/fonts/NotoSansJP-JiiKobushi-subset.woff2"), "font local");
+
+            foreach (var missing in plan.MissingLocalFiles)
+            {
+                Assert.IsTrue(missing.StartsWith("assets/images/", System.StringComparison.Ordinal), "local missing asset is image-only warning: " + missing);
+            }
+        }
+
+        [Test]
         public void EndingBonusInteractivePerfectRunMatchesSimulator()
         {
             var ending = StageJsonLoader.LoadEndingBonus(ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json"));
