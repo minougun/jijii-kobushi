@@ -107,6 +107,8 @@ HP 0 now enters an explicit `Failed` phase, while full chart completion with HP 
 
 `RuntimeAssetCatalog` loads `../assets/runtime-assets.json` and resolves Web original asset paths such as `./assets/audio/koiwazurai.mp3` into local Unity-readable files and future `StreamingAssets` relative paths. This keeps asset lookup tied to the Web manifest instead of ad hoc directory walking. `RuntimeAssetImportPlanner` remains the import-readiness checker and separates blocking manifest gaps from local skip-worktree image warnings.
 
+`RuntimeAssetStreamingStage` can copy currently available local runtime files into `UnityProject/Assets/StreamingAssets/JiiKobushi/` for packaged-player smoke tests. The generated binaries are intentionally ignored; the source of truth remains the Web original asset manifest and tracked Git objects.
+
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, scenario preview, result panel, Prev/Next stage buttons, result-panel `Next Stage` progression, final-stage `ED Bonus` handoff, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line. `HOLD` notes include a yellow `RELEASE` marker at the note end so the button-up timing is visible.

@@ -36,6 +36,20 @@ From Unity, write a runtime asset import report before copying or transcoding bi
 
 The report treats missing Git-tracked entries and incomplete stage background WebP/PNG pairs as blocking. Missing local files are warnings because some Web runtime images can be skip-worktree during local Switch-port work.
 
+Stage available local files into Unity `StreamingAssets` for local packaged-player smoke tests:
+
+```bash
+"/mnt/c/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Unity.exe" \
+  -batchmode -nographics \
+  -projectPath "C:/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/UnityProject" \
+  -executeMethod JijiiKobushi.Stage1Prototype.EditorTools.RuntimeAssetStreamingStage.StageRuntimeAssetsToStreamingAssets \
+  -assetStageOutput "C:/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/runtime-asset-stage-report.txt" \
+  -logFile "C:/Users/minou/jii-kobushi/switch-port/unity-stage1-prototype/unity-runtime-asset-stage.log" \
+  -quit
+```
+
+`Assets/StreamingAssets/.gitignore` keeps staged binaries out of Git. The staging command copies only local files that currently exist; skip-worktree image gaps remain warnings until those files are restored for a production import pass.
+
 Before a real Unity asset import pass, run the stricter local check after restoring the asset files:
 
 ```bash
