@@ -135,6 +135,25 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void StageBackgroundAssetMapCoversAllStagePacks()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            var catalog = RuntimeAssetCatalog.FromManifest(manifest);
+            var stages = ProfileTestRunner.RunAllStageSmoke();
+
+            foreach (var stage in stages)
+            {
+                var backgroundPath = StageRuntimeVisualAssets.GetBackgroundAssetPath(stage.Stage.Id);
+                RuntimeAssetEntry entry;
+                Assert.IsNotEmpty(backgroundPath, stage.Stage.Id + " background mapped");
+                Assert.IsTrue(catalog.TryGetByPath(backgroundPath, out entry), stage.Stage.Id + " background listed in runtime manifest");
+                Assert.IsTrue(backgroundPath.EndsWith(".png", System.StringComparison.Ordinal), stage.Stage.Id + " background uses Unity-readable PNG source");
+            }
+
+            Assert.AreEqual("./assets/images/stage-bg-shotengai-v1.png", StageRuntimeVisualAssets.GetBackgroundAssetPath("shotengai"));
+        }
+
+        [Test]
         public void EndingBonusInteractivePerfectRunMatchesSimulator()
         {
             var ending = StageJsonLoader.LoadEndingBonus(ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json"));

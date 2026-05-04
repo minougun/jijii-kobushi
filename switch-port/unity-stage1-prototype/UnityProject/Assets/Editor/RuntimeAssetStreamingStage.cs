@@ -49,17 +49,27 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
             {
                 var sourcePath = catalog.ResolveLocalPath(asset.Path);
                 var relativePath = catalog.GetStreamingAssetsRelativePath(asset.Path);
-                if (string.IsNullOrEmpty(sourcePath))
-                {
-                    result.MissingLocalFiles.Add(asset.Path);
-                    continue;
-                }
-
                 var destinationPath = Path.Combine(streamingRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
                 var destinationDirectory = Path.GetDirectoryName(destinationPath);
                 if (string.IsNullOrEmpty(destinationDirectory))
                 {
                     result.FailedCopies.Add(asset.Path + " -> unresolved destination");
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(sourcePath) && asset.GitTracked)
+                {
+                    if (dryRun || TryStageGitTrackedAsset(asset.Path, catalog.RepoRoot, destinationPath, destinationDirectory, result))
+                    {
+                        result.StagedFiles.Add(relativePath);
+                        result.StagedFromGit.Add(relativePath);
+                        continue;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(sourcePath))
+                {
+                    result.MissingLocalFiles.Add(asset.Path);
                     continue;
                 }
 
@@ -78,9 +88,63 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
             }
 
             result.StagedFiles.Sort(StringComparer.Ordinal);
+            result.StagedFromGit.Sort(StringComparer.Ordinal);
             result.MissingLocalFiles.Sort(StringComparer.Ordinal);
             result.FailedCopies.Sort(StringComparer.Ordinal);
             return result;
+        }
+
+        private static bool TryStageGitTrackedAsset(string assetPath, string repoRoot, string destinationPath, string destinationDirectory, RuntimeAssetStageResult result)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(repoRoot) || string.IsNullOrEmpty(destinationDirectory))
+                {
+                    result.MissingLocalFiles.Add(assetPath);
+                    return false;
+                }
+
+                Directory.CreateDirectory(destinationDirectory);
+                var startInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "git",
+                    Arguments = "-C \"" + repoRoot + "\" show HEAD:" + RuntimeAssetPathUtility.NormalizeAssetPath(assetPath),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                using (var process = System.Diagnostics.Process.Start(startInfo))
+                {
+                    if (process == null)
+                    {
+                        result.MissingLocalFiles.Add(assetPath);
+                        return false;
+                    }
+
+                    using (var output = File.Create(destinationPath))
+                    {
+                        process.StandardOutput.BaseStream.CopyTo(output);
+                    }
+
+                    var error = process.StandardError.ReadToEnd();
+                    process.WaitForExit();
+                    if (process.ExitCode == 0 && File.Exists(destinationPath) && new FileInfo(destinationPath).Length > 0)
+                    {
+                        return true;
+                    }
+
+                    if (File.Exists(destinationPath)) File.Delete(destinationPath);
+                    result.FailedCopies.Add(assetPath + " -> git show failed: " + error.Trim());
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.FailedCopies.Add(assetPath + " -> git show exception: " + ex.Message);
+                return false;
+            }
         }
 
         private static string FormatReport(RuntimeAssetManifest manifest, RuntimeAssetImportPlan plan, RuntimeAssetStageResult result, string manifestPath, string streamingRoot, bool dryRun)
@@ -95,6 +159,8 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
             builder.AppendLine("totalAssets: " + manifest.Assets.Count);
             builder.AppendLine("stagedFiles: " + result.StagedFiles.Count);
             AppendList(builder, "staged", result.StagedFiles);
+            builder.AppendLine("stagedFromGit: " + result.StagedFromGit.Count);
+            AppendList(builder, "stagedFromGit", result.StagedFromGit);
             builder.AppendLine("missingGitTracked: " + plan.MissingGitTracked.Count);
             AppendList(builder, "missingGitTracked", plan.MissingGitTracked);
             builder.AppendLine("incompleteStageBackgroundPairs: " + plan.IncompleteStageBackgroundPairs.Count);
@@ -155,11 +221,13 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
             public RuntimeAssetStageResult()
             {
                 StagedFiles = new List<string>();
+                StagedFromGit = new List<string>();
                 MissingLocalFiles = new List<string>();
                 FailedCopies = new List<string>();
             }
 
             public List<string> StagedFiles { get; private set; }
+            public List<string> StagedFromGit { get; private set; }
             public List<string> MissingLocalFiles { get; private set; }
             public List<string> FailedCopies { get; private set; }
         }

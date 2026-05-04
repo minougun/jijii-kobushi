@@ -51,6 +51,7 @@ namespace JijiiKobushi.Stage1Prototype
         private IRhythmInputAdapter inputAdapter;
         private AudioSource audioSource;
         private RuntimeAssetCatalog runtimeAssetCatalog;
+        private readonly Dictionary<string, Texture2D> backgroundTextureCache = new Dictionary<string, Texture2D>();
         private double audioStartedDspTime;
         private double audioPausedDspTime;
         private bool audioReady;
@@ -59,6 +60,9 @@ namespace JijiiKobushi.Stage1Prototype
         private bool completionHandled;
         private bool paused;
         private Coroutine audioLoadRoutine;
+        private Texture2D stageBackgroundTexture;
+        private string stageBackgroundAssetSrc = "";
+        private string stageBackgroundStatus = "background not loaded";
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
         private GUIStyle panelLabelStyle;
@@ -346,6 +350,7 @@ namespace JijiiKobushi.Stage1Prototype
             var width = Mathf.Max(720, Screen.width - margin * 2);
             var mainRect = new Rect(margin, margin, width, Mathf.Max(500, Screen.height - margin * 2));
             FillRect(mainRect, new Color(0.96f, 0.94f, 0.88f));
+            DrawStageBackground(mainRect);
             StrokeRect(mainRect, new Color(0.12f, 0.11f, 0.1f), 3);
 
             if (!string.IsNullOrEmpty(error))
@@ -402,7 +407,14 @@ namespace JijiiKobushi.Stage1Prototype
             GUI.Label(new Rect(panel.x + 24, panel.y + 54, panel.width - 48, 42), IntroPreview, panelLabelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 98, 960, 24), "Space/Z/A: tap or mash    X/J/B: hold down, release at HOLD END    P/Esc/Select: pause    Enter/Start: restart", panelLabelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 122, panel.width - 48, 24), "current: " + CurrentNoteLabel, panelLabelStyle);
-            GUI.Label(new Rect(panel.x + 24, panel.y + 146, panel.width - 48, 24), status + "  " + audioStatus, panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 24, panel.y + 146, panel.width - 48, 24), status + "  " + audioStatus + "  " + stageBackgroundStatus, panelLabelStyle);
+        }
+
+        private void DrawStageBackground(Rect mainRect)
+        {
+            if (stageBackgroundTexture == null) return;
+            GUI.DrawTexture(mainRect, stageBackgroundTexture, ScaleMode.ScaleAndCrop, false);
+            FillRect(mainRect, new Color(0f, 0f, 0f, 0.28f));
         }
 
         private void DrawRhythmLane(Rect mainRect)
@@ -630,6 +642,7 @@ namespace JijiiKobushi.Stage1Prototype
                 paused = false;
                 StopBgm();
                 status = "Loaded Stage " + CurrentStageNumber + " loop " + CurrentLoopKey + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
+                LoadStageBackground();
                 PrepareBgm();
             }
             catch (Exception ex)
@@ -646,6 +659,7 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 error = "";
                 StopBgm();
+                ClearStageBackground();
                 prototypeMode = PrototypeMode.EndingBonus;
                 session = null;
                 chart = null;
@@ -1286,6 +1300,72 @@ namespace JijiiKobushi.Stage1Prototype
             audioFallbackClock = false;
             paused = false;
             audioStatus = "BGM not loaded";
+        }
+
+        private void LoadStageBackground()
+        {
+            ClearStageBackground();
+            if (stage == null || stage.Stage == null)
+            {
+                stageBackgroundStatus = "background unavailable";
+                return;
+            }
+
+            stageBackgroundAssetSrc = StageRuntimeVisualAssets.GetBackgroundAssetPath(stage.Stage.Id);
+            if (string.IsNullOrEmpty(stageBackgroundAssetSrc))
+            {
+                stageBackgroundStatus = "background unmapped";
+                return;
+            }
+
+            Texture2D cached;
+            if (backgroundTextureCache.TryGetValue(stageBackgroundAssetSrc, out cached) && cached != null)
+            {
+                stageBackgroundTexture = cached;
+                stageBackgroundStatus = "background cached";
+                return;
+            }
+
+            var backgroundPath = ResolveRuntimeAssetLocalPath(stageBackgroundAssetSrc);
+            if (string.IsNullOrEmpty(backgroundPath))
+            {
+                stageBackgroundStatus = "background missing: " + stageBackgroundAssetSrc;
+                return;
+            }
+
+            LoadStageBackgroundFromFile(stageBackgroundAssetSrc, backgroundPath);
+        }
+
+        private void ClearStageBackground()
+        {
+            stageBackgroundTexture = null;
+            stageBackgroundAssetSrc = "";
+            stageBackgroundStatus = "background not loaded";
+        }
+
+        private void LoadStageBackgroundFromFile(string assetSrc, string filePath)
+        {
+            try
+            {
+                var bytes = File.ReadAllBytes(filePath);
+                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!ImageConversion.LoadImage(texture, bytes))
+                {
+                    stageBackgroundStatus = "background decode failed";
+                    return;
+                }
+
+                backgroundTextureCache[assetSrc] = texture;
+                if (assetSrc == stageBackgroundAssetSrc)
+                {
+                    stageBackgroundTexture = texture;
+                    stageBackgroundStatus = "background loaded";
+                }
+            }
+            catch (Exception ex)
+            {
+                stageBackgroundStatus = "background load failed: " + ex.Message;
+            }
         }
 
         private string ResolveRuntimeAssetLocalPath(string assetSrc)
