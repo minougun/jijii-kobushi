@@ -25,6 +25,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
             Assert.IsTrue(runner.DebugCharacterSheetLoaded, runner.DebugCharacterSheetStatus);
+            Assert.IsTrue(runner.DebugSpecialCutinLoaded, runner.DebugSpecialCutinStatus);
 
             Object.Destroy(runnerObject);
         }

@@ -62,6 +62,8 @@ namespace JijiiKobushi.Stage1Prototype
         private string stageBackgroundStatus = "background not loaded";
         private Texture2D characterSheetTexture;
         private string characterSheetStatus = "characters not loaded";
+        private Texture2D specialCutinTexture;
+        private string specialCutinStatus = "cut-in not loaded";
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
         private GUIStyle panelLabelStyle;
@@ -208,6 +210,16 @@ namespace JijiiKobushi.Stage1Prototype
         public string DebugCharacterSheetStatus
         {
             get { return characterSheetStatus; }
+        }
+
+        public bool DebugSpecialCutinLoaded
+        {
+            get { return specialCutinTexture != null; }
+        }
+
+        public string DebugSpecialCutinStatus
+        {
+            get { return specialCutinStatus; }
         }
 
         public bool DebugSaveCurrentRun()
@@ -418,6 +430,7 @@ namespace JijiiKobushi.Stage1Prototype
             DrawHud(mainRect);
             DrawStagePanel(mainRect);
             DrawStageCharacters(mainRect);
+            DrawSpecialCutin(mainRect);
 
             if (HasActiveSession)
             {
@@ -461,7 +474,7 @@ namespace JijiiKobushi.Stage1Prototype
                 CurrentNoteLabel,
                 status,
                 audioStatus + " / " + saveStatus,
-                stageBackgroundStatus + " / " + characterSheetStatus,
+                stageBackgroundStatus + " / " + characterSheetStatus + " / " + specialCutinStatus,
                 strongStyle,
                 panelLabelStyle);
         }
@@ -500,6 +513,25 @@ namespace JijiiKobushi.Stage1Prototype
             var h = 1f / StageRuntimeVisualAssets.ChibiSheetRows;
             var texCoords = flipX ? new Rect(u + w, v, -w, h) : new Rect(u, v, w, h);
             GUI.DrawTextureWithTexCoords(target, characterSheetTexture, texCoords, true);
+        }
+
+        private void DrawSpecialCutin(Rect mainRect)
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus) return;
+            if (specialCutinTexture == null || !ShouldShowSpecialCutin) return;
+
+            var cutinHeight = Mathf.Min(230f, mainRect.height * 0.36f);
+            var cutinRect = new Rect(mainRect.x, mainRect.y + 18f, mainRect.width, cutinHeight);
+            PrototypeGui.FillRect(cutinRect, new Color(0.02f, 0.015f, 0.012f, 0.68f));
+            GUI.DrawTexture(cutinRect, specialCutinTexture, ScaleMode.ScaleAndCrop, true);
+            PrototypeGui.StrokeRect(cutinRect, new Color(0.96f, 0.78f, 0.18f), 3);
+
+            var badge = new Rect(cutinRect.x + cutinRect.width - 278f, cutinRect.y + 30f, 232f, 118f);
+            PrototypeGui.FillRect(badge, new Color(0.04f, 0.035f, 0.03f, 0.86f));
+            PrototypeGui.StrokeRect(badge, new Color(0.96f, 0.78f, 0.18f), 2);
+            GUI.Label(new Rect(badge.x + 18f, badge.y + 16f, 190f, 28f), CurrentStageNumber >= 4 ? "奥義" : "十連", strongStyle);
+            GUI.Label(new Rect(badge.x + 18f, badge.y + 48f, 190f, 34f), CurrentStageNumber >= 4 ? "爺コブシ" : "大追撃", strongStyle);
+            GUI.Label(new Rect(badge.x + 18f, badge.y + 84f, 190f, 24f), CurrentStageNumber >= 4 ? "内部破壊" : "追撃", panelLabelStyle);
         }
 
         private void DrawEndingVideoBackground(Rect mainRect)
@@ -711,6 +743,7 @@ namespace JijiiKobushi.Stage1Prototype
                 status = "Loaded Stage " + CurrentStageNumber + " loop " + CurrentLoopKey + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
                 LoadStageBackground();
                 LoadCharacterSheet();
+                LoadSpecialCutin();
                 PrepareBgm();
             }
             catch (Exception ex)
@@ -718,6 +751,18 @@ namespace JijiiKobushi.Stage1Prototype
                 error = ex.ToString();
                 status = "Load failed";
                 Debug.LogException(ex);
+            }
+        }
+
+        private bool ShouldShowSpecialCutin
+        {
+            get
+            {
+                if (prototypeMode == PrototypeMode.EndingBonus || session == null) return false;
+                var note = session.CurrentNote;
+                if (note == null || !note.Finisher) return false;
+                var battleMs = session.BattleClockMs;
+                return battleMs >= note.TimeMs - 900 && battleMs <= note.TimeMs + note.DurationMs + 900;
             }
         }
 
@@ -1597,6 +1642,41 @@ namespace JijiiKobushi.Stage1Prototype
             catch (Exception ex)
             {
                 characterSheetStatus = "characters load failed: " + ex.Message;
+            }
+        }
+
+        private void LoadSpecialCutin()
+        {
+            if (specialCutinTexture != null)
+            {
+                specialCutinStatus = "cut-in cached";
+                return;
+            }
+
+            var cutinAssetSrc = StageRuntimeVisualAssets.GetSpecialCutinAssetPath();
+            var cutinPath = ResolveRuntimeAssetLocalPath(cutinAssetSrc);
+            if (string.IsNullOrEmpty(cutinPath))
+            {
+                specialCutinStatus = "cut-in missing: " + cutinAssetSrc;
+                return;
+            }
+
+            try
+            {
+                var bytes = File.ReadAllBytes(cutinPath);
+                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!ImageConversion.LoadImage(texture, bytes))
+                {
+                    specialCutinStatus = "cut-in decode failed";
+                    return;
+                }
+
+                specialCutinTexture = texture;
+                specialCutinStatus = "cut-in loaded";
+            }
+            catch (Exception ex)
+            {
+                specialCutinStatus = "cut-in load failed: " + ex.Message;
             }
         }
 
