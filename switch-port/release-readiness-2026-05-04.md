@@ -107,6 +107,7 @@ ED bonus:
 - 2026-05-05 continuation: the Unity Play Mode runner now starts with a Web-like opening overlay that loads the tracked `op-title-kakizome-hanshi-v1.png`, presents Easy/Normal/Hard selection, and only reveals the preloaded Stage 1 intro after the start action.
 - 2026-05-05 continuation: the temporary opening overlay drawing was extracted into `PrototypeOpeningScreen`, reducing `PlaceholderRendererBehaviour` before the production UI migration while keeping the same PlayMode opening smoke coverage.
 - 2026-05-05 continuation: repeated temporary IMGUI texture decoding paths were centralized in `PrototypeTextureLoader`, so background, opening still, character sheet, cut-in, and final reveal assets now share one runtime load/status path.
+- 2026-05-05 continuation: stage intro, BGM attribution, and ED video preview drawing were extracted into `PrototypeScenarioPanel`, further shrinking the temporary scene driver without changing the PlayMode smoke expectations.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
