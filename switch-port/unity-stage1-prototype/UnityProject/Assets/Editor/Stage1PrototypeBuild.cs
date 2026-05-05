@@ -34,22 +34,13 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
 
             Directory.CreateDirectory(outputDirectory);
 
-            BuildReport report = null;
-            try
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
-                report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
-                {
-                    scenes = new[] { ScenePath },
-                    locationPathName = fullOutputPath,
-                    target = BuildTarget.StandaloneWindows64,
-                    options = BuildOptions.None
-                });
-            }
-            finally
-            {
-                PlayerSettings.runInBackground = false;
-                AssetDatabase.SaveAssets();
-            }
+                scenes = new[] { ScenePath },
+                locationPathName = fullOutputPath,
+                target = BuildTarget.StandaloneWindows64,
+                options = BuildOptions.None
+            });
 
             var summary = report.summary;
             if (summary.result != BuildResult.Succeeded)
