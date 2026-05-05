@@ -108,6 +108,57 @@ namespace JijiiKobushi.Stage1Prototype
             return plan;
         }
 
+        public static RunSaveSnapshot RunSaveSnapshotSmoke()
+        {
+            var stage = StageJsonLoader.LoadStage(ResolveAllStagePackPath("stage01-shotengai.stage.json"));
+            var session = new InteractiveBattleSession(stage, "1", "normal");
+            PlayStagePerfect(stage, "1", "normal", session);
+
+            var result = session.BuildResult();
+            var progress = new RunProgressTracker();
+            progress.Record(1, stage.Stage.Title, result);
+            var snapshot = RunSaveService.CreateStageSnapshot("normal", 1, 1, StagePackCatalog.Count, session, progress);
+
+            AssertEqual(1, snapshot.Version, "save version");
+            AssertEqual(RunSaveSlot.FirstLoop, snapshot.Slot, "save first-loop slot");
+            AssertEqual("normal", snapshot.Difficulty, "save difficulty");
+            AssertEqual(1, snapshot.RunLoop, "save loop");
+            AssertEqual(2, snapshot.StageNumber, "save next stage number");
+            AssertEqual(result.RemainingHp, snapshot.Hp, "save hp");
+            AssertEqual(result.Score, snapshot.TotalScore, "save total score");
+            AssertEqual(1, snapshot.StageResults.Count, "save stage result count");
+
+            var restored = new RunProgressTracker();
+            RunSaveService.RestoreProgress(snapshot, restored);
+            AssertEqual(1, restored.Count, "restored stage result count");
+            AssertEqual(result.Score, restored.TotalScore, "restored total score");
+
+            var finalStage = StageJsonLoader.LoadStage(ResolveAllStagePackPath("stage07-finalhideout.stage.json"));
+            var finalSession = new InteractiveBattleSession(finalStage, "1", "hard");
+            PlayStagePerfect(finalStage, "1", "hard", finalSession);
+            var finalSnapshot = RunSaveService.CreateStageSnapshot("hard", 1, 7, StagePackCatalog.Count, finalSession, progress);
+            AssertEqual(RunSaveSlot.LoopPlus, finalSnapshot.Slot, "final save loop-plus slot");
+            AssertEqual(2, finalSnapshot.RunLoop, "final save next loop");
+            AssertEqual(1, finalSnapshot.StageNumber, "final save stage reset");
+            AssertEqual(0, finalSnapshot.TotalScore, "final save total reset");
+
+            return snapshot;
+        }
+
+        private static void PlayStagePerfect(StageExport stage, string loop, string difficulty, InteractiveBattleSession session)
+        {
+            var events = StagePerfectInputPlanner.Build(stage, loop, difficulty);
+            for (var i = 0; i < events.Count; i += 1)
+            {
+                session.SeekBattleClockMs(events[i].TimeMs);
+                if (events[i].Action == StagePerfectInputPlanner.TapAction) session.Tap();
+                else if (events[i].Action == StagePerfectInputPlanner.HoldDownAction) session.HoldDown();
+                else if (events[i].Action == StagePerfectInputPlanner.HoldUpAction) session.HoldUp();
+            }
+
+            session.SeekBattleClockMs(StagePerfectInputPlanner.CompletionBattleClockMs(stage, loop, difficulty));
+        }
+
         public static string RunAllAndFormatReport(string stageJsonPath, string expectedResultsPath)
         {
             var results = RunAll(stageJsonPath, expectedResultsPath);

@@ -86,6 +86,8 @@ ED bonus:
 - 2026-05-05 continuation: rhythm-lane note marker rendering was extracted into `PrototypeRhythmLane`, isolating temporary lane presentation from stage/ED session state.
 - 2026-05-05 continuation: HUD, stage info, and judge-summary panel rendering was extracted into `PrototypeStatusPanel`, keeping `PlaceholderRendererBehaviour` closer to orchestration only.
 - 2026-05-05 continuation: temporary footer controls and on-screen Tap/Hold buttons were extracted into `PrototypeFooterControls`, leaving the scene driver to provide callbacks and state only.
+- 2026-05-05 continuation: platform-neutral run-save snapshots were added to the Unity prototype. The save contract mirrors the Web run-slot split (`FirstLoop` / `LoopPlus`), carries cleared-stage progress to the next stage, resets completed runs to the next loop, and keeps the storage behind `IRunSaveStore` so the later Switch save API can replace the current memory store.
+- 2026-05-05 continuation: standalone C# CLI parity now includes a run-save smoke gate (`Stage1PortableCli.exe --save` and `--all-stages`), covering save snapshot creation and progress restoration without relying on Unity Test Runner XML output.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

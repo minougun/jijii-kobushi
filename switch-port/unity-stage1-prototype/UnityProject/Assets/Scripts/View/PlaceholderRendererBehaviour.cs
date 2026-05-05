@@ -66,6 +66,8 @@ namespace JijiiKobushi.Stage1Prototype
         private GUIStyle strongStyle;
         private GUIStyle noteStyle;
         private readonly RunProgressTracker runProgress = new RunProgressTracker();
+        private readonly MemoryRunSaveStore runSaveStore = new MemoryRunSaveStore();
+        private string saveStatus = "save: empty";
 
         private void Start()
         {
@@ -182,6 +184,21 @@ namespace JijiiKobushi.Stage1Prototype
         public string DebugRunFinalRank
         {
             get { return runProgress.FinalRank; }
+        }
+
+        public string DebugSaveStatus
+        {
+            get { return saveStatus; }
+        }
+
+        public bool DebugSaveCurrentRun()
+        {
+            return SaveCurrentRun();
+        }
+
+        public bool DebugLoadCurrentRunSlot()
+        {
+            return LoadRunSave(RunSaveService.SlotForLoop(CurrentRunLoop));
         }
 
         public void DebugAdvanceToNextStage()
@@ -423,7 +440,7 @@ namespace JijiiKobushi.Stage1Prototype
                 IntroPreview,
                 CurrentNoteLabel,
                 status,
-                audioStatus,
+                audioStatus + " / " + saveStatus,
                 stageBackgroundStatus,
                 strongStyle,
                 panelLabelStyle);
@@ -714,6 +731,56 @@ namespace JijiiKobushi.Stage1Prototype
         {
             difficulty = value;
             ReloadCurrentMode();
+        }
+
+        private bool SaveCurrentRun()
+        {
+            try
+            {
+                RunSaveSnapshot snapshot;
+                if (prototypeMode == PrototypeMode.EndingBonus)
+                {
+                    var maxHp = stage != null && stage.Player != null ? stage.Player.MaxHp : 12;
+                    snapshot = RunSaveService.CreateNextLoopSnapshot(difficulty, CurrentRunLoop, maxHp);
+                }
+                else if (session != null)
+                {
+                    snapshot = RunSaveService.CreateStageSnapshot(difficulty, CurrentRunLoop, CurrentStageNumber, StagePackCatalog.Count, session, runProgress);
+                }
+                else
+                {
+                    return false;
+                }
+
+                runSaveStore.Save(snapshot);
+                saveStatus = "save: " + snapshot.Slot + " loop " + snapshot.RunLoop + " stage " + snapshot.StageNumber;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                saveStatus = "save failed";
+                error = ex.ToString();
+                Debug.LogException(ex);
+                return false;
+            }
+        }
+
+        private bool LoadRunSave(RunSaveSlot slot)
+        {
+            RunSaveSnapshot snapshot;
+            if (!runSaveStore.TryLoad(slot, out snapshot))
+            {
+                saveStatus = "load: empty " + slot;
+                return false;
+            }
+
+            difficulty = snapshot.Difficulty;
+            runLoop = Mathf.Max(1, snapshot.RunLoop);
+            stageNumber = StagePackCatalog.ClampStageNumber(snapshot.StageNumber);
+            RunSaveService.RestoreProgress(snapshot, runProgress);
+            saveStatus = "load: " + slot + " loop " + runLoop + " stage " + stageNumber;
+            LoadAndStart();
+            return true;
         }
 
         private void AdvanceToNextStage()

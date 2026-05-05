@@ -63,6 +63,22 @@ namespace JijiiKobushi.Stage1Prototype
             currentLoop = 0;
         }
 
+        public void Restore(string difficulty, int loop, IEnumerable<StageRunSummary> summaries)
+        {
+            stageResults.Clear();
+            currentDifficulty = difficulty ?? "";
+            currentLoop = loop;
+
+            if (summaries == null) return;
+            foreach (var summary in summaries)
+            {
+                if (summary == null) continue;
+                stageResults.Add(summary);
+            }
+
+            Sort();
+        }
+
         public void Record(int stageNumber, string title, BattleRunResult result)
         {
             if (result == null) throw new ArgumentNullException("result");

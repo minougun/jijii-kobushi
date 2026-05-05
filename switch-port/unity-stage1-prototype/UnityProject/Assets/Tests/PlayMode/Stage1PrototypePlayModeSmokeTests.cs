@@ -171,6 +171,40 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [UnityTest]
+        public IEnumerator PlaceholderRendererCanSaveAndLoadClearedStageProgress()
+        {
+            var runnerObject = new GameObject("Stage Save Load PlayMode Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.AreEqual(1, runner.DebugStageNumber);
+
+            runner.DebugCompleteStagePerfect();
+            yield return null;
+
+            Assert.IsTrue(runner.DebugSaveCurrentRun(), runner.DebugSaveStatus);
+            Assert.IsTrue(runner.DebugLoadCurrentRunSlot(), runner.DebugSaveStatus);
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded && runner.DebugStageNumber == 2) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.AreEqual(2, runner.DebugStageNumber);
+            Assert.AreEqual(1, runner.DebugRunStageResultCount);
+
+            Object.Destroy(runnerObject);
+        }
+
+        [UnityTest]
         public IEnumerator PlaceholderRendererCanUseLoopPlusCharts()
         {
             var runnerObject = new GameObject("Loop Plus PlayMode Smoke Runner");

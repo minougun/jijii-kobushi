@@ -96,6 +96,8 @@ It also runs an all-stage smoke gate over `switch-port/stages/`. The gate loads 
 
 `Stage1PrototypePlayModeSmokeTests` starts the playable placeholder runner in Play Mode, verifies that the Stage 1 session loads, confirms the location remains `うさぎ公園`, checks that the local BGM file referenced by the JSON can be found before manual playtesting, smoke-loads Stage 3 and Stage 7 from the all-stage pack, verifies that a cleared result can advance to Stage 2, confirms scenario lines load from the stage JSON, runs a debug perfect-clear pass through all seven stage packs in order, and confirms the final stage can hand off to the playable ED bonus chart.
 
+`RunSaveSnapshot` and `RunSaveService` define the portable save contract before wiring in any platform API. The prototype currently uses `MemoryRunSaveStore`; later Switch work should replace only the `IRunSaveStore` implementation. The snapshot preserves difficulty, loop, stage number, HP, total score, and compact stage result rows. Cleared non-final stages resume at the next stage, final-stage completion resumes at the next loop's Stage 1, and defeat snapshots keep the same stage with HP restored for retry.
+
 `InteractiveBattleSession` is the first playable prototype layer. It advances the same audio-clock timeline, accepts tap/mash and hold inputs, resolves miss timeouts, applies enemy damage on missed tap/hold notes, and returns score/rank/result data using the same scoring function as the simulator.
 
 It also supports the first pause/resume path: pause freezes the battle clock and note expiry, suspends rhythm input consumption, and pauses BGM playback when an `AudioSource` is active.
@@ -193,6 +195,12 @@ The asset-only gate is:
 
 ```bash
 switch-port/unity-stage1-prototype/Stage1PortableCli.exe --assets
+```
+
+The save-contract smoke gate is:
+
+```bash
+switch-port/unity-stage1-prototype/Stage1PortableCli.exe --save
 ```
 
 When Unity Test Runner does not emit a fresh XML file in batch mode, use the editor validation method. It compiles in Unity and runs the same portable parity gates:

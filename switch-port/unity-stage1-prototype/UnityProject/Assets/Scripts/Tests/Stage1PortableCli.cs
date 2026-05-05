@@ -15,7 +15,8 @@ namespace JijiiKobushi.Stage1Prototype
                     var profileResults = ProfileTestRunner.RunAllStageProfileParity();
                     var endingResults = ProfileTestRunner.RunEndingBonusProfileParity();
                     var assetPlan = ProfileTestRunner.RunRuntimeAssetCatalogSmoke();
-                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count + " profileResults=" + profileResults.Count + " endingResults=" + endingResults.Count + " assets=" + assetPlan.TotalAssets);
+                    var saveSnapshot = ProfileTestRunner.RunSaveSnapshotSmoke();
+                    Console.WriteLine("Unity all-stage smoke: pass stages=" + stages.Count + " profileResults=" + profileResults.Count + " endingResults=" + endingResults.Count + " assets=" + assetPlan.TotalAssets + " saveStage=" + saveSnapshot.StageNumber);
                     foreach (var stage in stages)
                     {
                         Console.WriteLine(
@@ -26,6 +27,13 @@ namespace JijiiKobushi.Stage1Prototype
                             " bgm=" + stage.Audio.Bgm.Track);
                     }
 
+                    return 0;
+                }
+
+                if (args.Length > 0 && args[0] == "--save")
+                {
+                    var snapshot = ProfileTestRunner.RunSaveSnapshotSmoke();
+                    Console.WriteLine("Unity run save snapshot: pass slot=" + snapshot.Slot + " loop=" + snapshot.RunLoop + " stage=" + snapshot.StageNumber + " score=" + snapshot.TotalScore);
                     return 0;
                 }
 

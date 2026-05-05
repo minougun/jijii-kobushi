@@ -41,6 +41,78 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void RunSaveSnapshotCarriesClearedStageProgressAndRestoresTracker()
+        {
+            var tracker = new RunProgressTracker();
+            var stage = StageJsonLoader.LoadStage(ProfileTestRunner.ResolveAllStagePackPath("stage01-shotengai.stage.json"));
+            var session = new InteractiveBattleSession(stage, "1", "normal");
+            PlayPerfect(stage, "1", "normal", session);
+            var result = session.BuildResult();
+            tracker.Record(1, stage.Stage.Title, result);
+
+            var snapshot = RunSaveService.CreateStageSnapshot("normal", 1, 1, StagePackCatalog.Count, session, tracker);
+
+            Assert.AreEqual(1, snapshot.Version);
+            Assert.AreEqual(RunSaveSlot.FirstLoop, snapshot.Slot);
+            Assert.AreEqual("normal", snapshot.Difficulty);
+            Assert.AreEqual(1, snapshot.RunLoop);
+            Assert.AreEqual(2, snapshot.StageNumber, "cleared non-final stage resumes at next stage");
+            Assert.AreEqual(result.RemainingHp, snapshot.Hp);
+            Assert.AreEqual(result.Score, snapshot.TotalScore);
+            Assert.AreEqual(1, snapshot.StageResults.Count);
+
+            var restored = new RunProgressTracker();
+            RunSaveService.RestoreProgress(snapshot, restored);
+            Assert.AreEqual(1, restored.Count);
+            Assert.AreEqual(result.Score, restored.TotalScore);
+            Assert.AreEqual(stage.Stage.Title, restored.Find(1).Title);
+        }
+
+        [Test]
+        public void RunSaveSnapshotResetsCompletedRunToNextLoop()
+        {
+            var tracker = new RunProgressTracker();
+            var stage = StageJsonLoader.LoadStage(ProfileTestRunner.ResolveAllStagePackPath("stage07-finalhideout.stage.json"));
+            var session = new InteractiveBattleSession(stage, "1", "hard");
+            PlayPerfect(stage, "1", "hard", session);
+            tracker.Record(7, stage.Stage.Title, session.BuildResult());
+
+            var snapshot = RunSaveService.CreateStageSnapshot("hard", 1, 7, StagePackCatalog.Count, session, tracker);
+
+            Assert.AreEqual(RunSaveSlot.LoopPlus, snapshot.Slot);
+            Assert.AreEqual(2, snapshot.RunLoop);
+            Assert.AreEqual(1, snapshot.StageNumber);
+            Assert.AreEqual(session.MaxHp, snapshot.Hp);
+            Assert.AreEqual(0, snapshot.TotalScore);
+            Assert.AreEqual(0, snapshot.StageResults.Count);
+        }
+
+        [Test]
+        public void RunSaveSnapshotDefeatKeepsStageButRestoresHpForRetry()
+        {
+            var tracker = new RunProgressTracker();
+            var stage = StageJsonLoader.LoadStage(ProfileTestRunner.ResolveAllStagePackPath("stage02-warehouse.stage.json"));
+            var session = new InteractiveBattleSession(stage, "1", "easy");
+
+            while (!session.IsComplete)
+            {
+                var note = session.CurrentNote;
+                if (note == null) break;
+                var grace = note.Type == "mash" ? stage.Rhythm.MashInputGraceMs : stage.Rhythm.InputGraceMs;
+                session.SeekBattleClockMs(note.TimeMs + note.DurationMs + grace + 1);
+            }
+
+            Assert.IsTrue(session.IsFailed);
+            var snapshot = RunSaveService.CreateStageSnapshot("easy", 1, 2, StagePackCatalog.Count, session, tracker);
+
+            Assert.AreEqual(RunSaveSlot.FirstLoop, snapshot.Slot);
+            Assert.AreEqual(1, snapshot.RunLoop);
+            Assert.AreEqual(2, snapshot.StageNumber);
+            Assert.AreEqual(session.MaxHp, snapshot.Hp);
+            Assert.AreEqual(0, snapshot.TotalScore);
+        }
+
+        [Test]
         public void StagePackCatalogDefinesSingleCanonicalSevenStageOrder()
         {
             Assert.AreEqual(7, StagePackCatalog.Count);
