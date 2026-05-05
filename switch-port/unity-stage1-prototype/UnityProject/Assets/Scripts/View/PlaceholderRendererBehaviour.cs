@@ -60,6 +60,8 @@ namespace JijiiKobushi.Stage1Prototype
         private Texture2D stageBackgroundTexture;
         private string stageBackgroundAssetSrc = "";
         private string stageBackgroundStatus = "background not loaded";
+        private Texture2D characterSheetTexture;
+        private string characterSheetStatus = "characters not loaded";
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
         private GUIStyle panelLabelStyle;
@@ -196,6 +198,16 @@ namespace JijiiKobushi.Stage1Prototype
         public string DebugSaveDirectory
         {
             get { return saveDirectory; }
+        }
+
+        public bool DebugCharacterSheetLoaded
+        {
+            get { return characterSheetTexture != null; }
+        }
+
+        public string DebugCharacterSheetStatus
+        {
+            get { return characterSheetStatus; }
         }
 
         public bool DebugSaveCurrentRun()
@@ -405,6 +417,7 @@ namespace JijiiKobushi.Stage1Prototype
 
             DrawHud(mainRect);
             DrawStagePanel(mainRect);
+            DrawStageCharacters(mainRect);
 
             if (HasActiveSession)
             {
@@ -448,7 +461,7 @@ namespace JijiiKobushi.Stage1Prototype
                 CurrentNoteLabel,
                 status,
                 audioStatus + " / " + saveStatus,
-                stageBackgroundStatus,
+                stageBackgroundStatus + " / " + characterSheetStatus,
                 strongStyle,
                 panelLabelStyle);
         }
@@ -458,6 +471,35 @@ namespace JijiiKobushi.Stage1Prototype
             if (stageBackgroundTexture == null) return;
             GUI.DrawTexture(mainRect, stageBackgroundTexture, ScaleMode.ScaleAndCrop, false);
             PrototypeGui.FillRect(mainRect, new Color(0f, 0f, 0f, 0.28f));
+        }
+
+        private void DrawStageCharacters(Rect mainRect)
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus) return;
+            if (stage == null || stage.Enemy == null) return;
+            if (characterSheetTexture == null) return;
+
+            var heroKey = stage.Stage != null && stage.Stage.Id == "shotengai" ? "heroStage1" : "heroKimono";
+            var heroSpec = StageRuntimeVisualAssets.GetChibiSpriteSpec(heroKey);
+            var enemySpec = StageRuntimeVisualAssets.GetChibiSpriteSpec(stage.Enemy.Kind);
+            if (heroSpec == null || enemySpec == null) return;
+
+            var baseline = mainRect.y + 430f;
+            DrawChibiSprite(new Rect(mainRect.x + 260f, baseline - heroSpec.DrawHeight, heroSpec.DrawWidth, heroSpec.DrawHeight), heroSpec, false);
+            DrawChibiSprite(new Rect(mainRect.x + mainRect.width - 410f, baseline - enemySpec.DrawHeight, enemySpec.DrawWidth, enemySpec.DrawHeight), enemySpec, false);
+        }
+
+        private void DrawChibiSprite(Rect target, CharacterSpriteSpec spec, bool flipX)
+        {
+            if (characterSheetTexture == null || spec == null) return;
+            var col = spec.Index % StageRuntimeVisualAssets.ChibiSheetColumns;
+            var row = spec.Index / StageRuntimeVisualAssets.ChibiSheetColumns;
+            var u = col / (float)StageRuntimeVisualAssets.ChibiSheetColumns;
+            var v = 1f - ((row + 1) / (float)StageRuntimeVisualAssets.ChibiSheetRows);
+            var w = 1f / StageRuntimeVisualAssets.ChibiSheetColumns;
+            var h = 1f / StageRuntimeVisualAssets.ChibiSheetRows;
+            var texCoords = flipX ? new Rect(u + w, v, -w, h) : new Rect(u, v, w, h);
+            GUI.DrawTextureWithTexCoords(target, characterSheetTexture, texCoords, true);
         }
 
         private void DrawEndingVideoBackground(Rect mainRect)
@@ -668,6 +710,7 @@ namespace JijiiKobushi.Stage1Prototype
                 StopBgm();
                 status = "Loaded Stage " + CurrentStageNumber + " loop " + CurrentLoopKey + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
                 LoadStageBackground();
+                LoadCharacterSheet();
                 PrepareBgm();
             }
             catch (Exception ex)
@@ -686,6 +729,7 @@ namespace JijiiKobushi.Stage1Prototype
                 StopBgm();
                 StopEndingVideo();
                 ClearStageBackground();
+                ClearCharacterSheetForEnding();
                 prototypeMode = PrototypeMode.EndingBonus;
                 session = null;
                 chart = null;
@@ -1521,11 +1565,51 @@ namespace JijiiKobushi.Stage1Prototype
             LoadStageBackgroundFromFile(stageBackgroundAssetSrc, backgroundPath);
         }
 
+        private void LoadCharacterSheet()
+        {
+            if (characterSheetTexture != null)
+            {
+                characterSheetStatus = "characters cached";
+                return;
+            }
+
+            var characterSheetAssetSrc = StageRuntimeVisualAssets.GetCharacterSheetAssetPath();
+            var characterSheetPath = ResolveRuntimeAssetLocalPath(characterSheetAssetSrc);
+            if (string.IsNullOrEmpty(characterSheetPath))
+            {
+                characterSheetStatus = "characters missing: " + characterSheetAssetSrc;
+                return;
+            }
+
+            try
+            {
+                var bytes = File.ReadAllBytes(characterSheetPath);
+                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!ImageConversion.LoadImage(texture, bytes))
+                {
+                    characterSheetStatus = "characters decode failed";
+                    return;
+                }
+
+                characterSheetTexture = texture;
+                characterSheetStatus = "characters loaded";
+            }
+            catch (Exception ex)
+            {
+                characterSheetStatus = "characters load failed: " + ex.Message;
+            }
+        }
+
         private void ClearStageBackground()
         {
             stageBackgroundTexture = null;
             stageBackgroundAssetSrc = "";
             stageBackgroundStatus = "background not loaded";
+        }
+
+        private void ClearCharacterSheetForEnding()
+        {
+            characterSheetStatus = characterSheetTexture != null ? "characters cached" : "characters not loaded";
         }
 
         private void LoadStageBackgroundFromFile(string assetSrc, string filePath)

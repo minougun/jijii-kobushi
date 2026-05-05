@@ -24,6 +24,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual("うさぎ公園", runner.DebugStageLocation);
             Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
+            Assert.IsTrue(runner.DebugCharacterSheetLoaded, runner.DebugCharacterSheetStatus);
 
             Object.Destroy(runnerObject);
         }

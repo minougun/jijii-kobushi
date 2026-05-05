@@ -94,6 +94,7 @@ ED bonus:
 - 2026-05-05 continuation: local Windows prototype build and `-jijiiSmokeQuit` player smoke were rerun after the run-save footer work; the player exited with `stage=誘拐の朝`, `location=うさぎ公園`, and `clock=audio`.
 - 2026-05-05 continuation: keyboard/generic-gamepad save and load actions were added to the input abstraction (`F5`/left shoulder to save, `F9`/right shoulder to load), so run-save controls no longer depend on the temporary OnGUI footer.
 - 2026-05-05 continuation: the Unity runtime visual asset map now includes the Web chibi character-sheet contract (`5x2` grid, player variants, and all current enemy kinds), plus cut-in and final-reveal asset paths, with EditMode coverage against the runtime asset manifest.
+- 2026-05-05 continuation: the Unity placeholder renderer now loads the Web chibi character sheet through the runtime asset resolver and draws the current player/enemy sprite pair from the same sprite indices used by the Web renderer. PlayMode smoke asserts that the character sheet loads.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
