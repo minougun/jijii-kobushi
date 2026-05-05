@@ -88,6 +88,7 @@ ED bonus:
 - 2026-05-05 continuation: temporary footer controls and on-screen Tap/Hold buttons were extracted into `PrototypeFooterControls`, leaving the scene driver to provide callbacks and state only.
 - 2026-05-05 continuation: platform-neutral run-save snapshots were added to the Unity prototype. The save contract mirrors the Web run-slot split (`FirstLoop` / `LoopPlus`), carries cleared-stage progress to the next stage, resets completed runs to the next loop, and keeps the storage behind `IRunSaveStore` so the later Switch save API can replace the current memory store.
 - 2026-05-05 continuation: standalone C# CLI parity now includes a run-save smoke gate (`Stage1PortableCli.exe --save` and `--all-stages`), covering save snapshot creation and progress restoration without relying on Unity Test Runner XML output.
+- 2026-05-05 continuation: run-save snapshots now have a deterministic UTF-8 codec and `FileRunSaveStore`. Japanese stage titles are Base64 encoded inside the save rows, and the CLI smoke gate verifies encode/decode plus file save/load round trips.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

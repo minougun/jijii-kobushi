@@ -133,6 +133,29 @@ namespace JijiiKobushi.Stage1Prototype
             AssertEqual(1, restored.Count, "restored stage result count");
             AssertEqual(result.Score, restored.TotalScore, "restored total score");
 
+            var encoded = RunSaveCodec.Encode(snapshot);
+            var decoded = RunSaveCodec.Decode(encoded);
+            AssertEqual(snapshot.Slot, decoded.Slot, "codec slot");
+            AssertEqual(snapshot.RunLoop, decoded.RunLoop, "codec loop");
+            AssertEqual(snapshot.StageNumber, decoded.StageNumber, "codec stage");
+            AssertEqual(snapshot.TotalScore, decoded.TotalScore, "codec total score");
+            AssertEqual(snapshot.StageResults[0].Title, decoded.StageResults[0].Title, "codec title");
+
+            var saveDirectory = Path.Combine(Path.GetTempPath(), "jii-kobushi-run-save-" + Guid.NewGuid().ToString("N"));
+            try
+            {
+                var store = new FileRunSaveStore(saveDirectory);
+                store.Save(snapshot);
+                RunSaveSnapshot loaded;
+                AssertTrue(store.TryLoad(RunSaveSlot.FirstLoop, out loaded), "file save load first-loop");
+                AssertEqual(snapshot.StageNumber, loaded.StageNumber, "file save stage");
+                AssertEqual(snapshot.StageResults[0].Title, loaded.StageResults[0].Title, "file save title");
+            }
+            finally
+            {
+                if (Directory.Exists(saveDirectory)) Directory.Delete(saveDirectory, true);
+            }
+
             var finalStage = StageJsonLoader.LoadStage(ResolveAllStagePackPath("stage07-finalhideout.stage.json"));
             var finalSession = new InteractiveBattleSession(finalStage, "1", "hard");
             PlayStagePerfect(finalStage, "1", "hard", finalSession);
