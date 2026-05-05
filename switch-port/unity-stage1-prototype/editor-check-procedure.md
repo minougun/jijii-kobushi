@@ -134,6 +134,22 @@ Expected all-stage smoke behavior:
 - The log contains `Jijii Kobushi all-stage smoke quit`.
 - The smoke line includes `visited=7`, `runResults=7`, `finalRank=S`, and `canStartEnding=True`.
 
+Generated loop-plus player launch smoke:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeLoopPlus \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-loopplus-smoke.log"
+```
+
+Expected loop-plus smoke behavior:
+
+- The process exits with code `0`.
+- The log contains `Jijii Kobushi loop-plus smoke quit`.
+- The smoke line includes `loop=2`, `difficulty=hard`, `visited=7`, `runResults=7`, `endingAsset=./assets/video/ending-loop2.mp4`, and `reachedEndingClock=True`.
+
 Generated ED player launch smoke:
 
 ```bash

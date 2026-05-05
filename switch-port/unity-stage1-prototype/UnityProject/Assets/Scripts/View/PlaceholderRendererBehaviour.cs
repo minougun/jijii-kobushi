@@ -83,7 +83,15 @@ namespace JijiiKobushi.Stage1Prototype
             inputAdapter = new KeyboardGamepadInputAdapter();
             InitializeRunSaveStore();
             LoadAndStart();
-            if (HasCommandLineFlag("-jijiiSmokeAllStages"))
+            if (HasCommandLineFlag("-jijiiSmokeLoopPlus"))
+            {
+                runLoop = 2;
+                difficulty = "hard";
+                stageNumber = 1;
+                LoadAndStart();
+                StartCoroutine(QuitAfterLoopPlusSmokeFrame());
+            }
+            else if (HasCommandLineFlag("-jijiiSmokeAllStages"))
             {
                 StartCoroutine(QuitAfterAllStagesSmokeFrame());
             }
@@ -1659,9 +1667,22 @@ namespace JijiiKobushi.Stage1Prototype
 
         private IEnumerator QuitAfterAllStagesSmokeFrame()
         {
+            yield return QuitAfterAllStagesSmokeFrame("all-stage", false);
+        }
+
+        private IEnumerator QuitAfterLoopPlusSmokeFrame()
+        {
+            yield return QuitAfterAllStagesSmokeFrame("loop-plus", true);
+        }
+
+        private IEnumerator QuitAfterAllStagesSmokeFrame(string smokeName, bool verifyEnding)
+        {
             var visited = 0;
             var failedStage = 0;
             var failedReason = "";
+            var endingVideoAssetExists = false;
+            var reachedEndingClock = false;
+            var endingAssetSrc = "";
 
             for (var targetStage = 1; targetStage <= StagePackCatalog.Count; targetStage += 1)
             {
@@ -1725,14 +1746,39 @@ namespace JijiiKobushi.Stage1Prototype
                 }
             }
 
-            var completedRun = visited == StagePackCatalog.Count && CanStartEndingBonus && runProgress.Count == StagePackCatalog.Count;
+            var canStartEndingBeforeVerify = CanStartEndingBonus;
+            var completedRun = visited == StagePackCatalog.Count && canStartEndingBeforeVerify && runProgress.Count == StagePackCatalog.Count;
+            if (completedRun && verifyEnding)
+            {
+                LoadEndingBonusAndStart();
+                yield return null;
+
+                var videoDeadline = Time.realtimeSinceStartup + 10f;
+                while (Time.realtimeSinceStartup < videoDeadline)
+                {
+                    if (!string.IsNullOrEmpty(error)) break;
+                    if (endingSession != null && (endingVideoStarted || endingVideoFallbackClock || !useAudioClock)) break;
+                    yield return null;
+                }
+
+                endingAssetSrc = CurrentEndingVideoAssetSrc;
+                endingVideoAssetExists = DebugEndingVideoAssetExists;
+                reachedEndingClock = endingSession != null && (endingVideoStarted || endingVideoFallbackClock || !useAudioClock);
+                completedRun = endingVideoAssetExists && reachedEndingClock && CurrentRunLoop >= 2 && CurrentLoopKey == "2";
+            }
+
             var exitCode = string.IsNullOrEmpty(error) && completedRun ? 0 : 1;
             Debug.Log(
-                "Jijii Kobushi all-stage smoke quit: exitCode=" + exitCode +
+                "Jijii Kobushi " + smokeName + " smoke quit: exitCode=" + exitCode +
+                " loop=" + CurrentRunLoop +
+                " difficulty=" + difficulty +
                 " visited=" + visited +
                 " runResults=" + runProgress.Count +
                 " finalRank=" + runProgress.FinalRank +
-                " canStartEnding=" + CanStartEndingBonus +
+                " canStartEnding=" + canStartEndingBeforeVerify +
+                " endingAsset=" + endingAssetSrc +
+                " endingVideoAssetExists=" + endingVideoAssetExists +
+                " reachedEndingClock=" + reachedEndingClock +
                 " failedStage=" + failedStage +
                 " failedReason=" + failedReason +
                 " clock=" + ClockMode +

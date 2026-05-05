@@ -256,6 +256,18 @@ switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.e
 
 This loads stages 1 through 7 in the built player, advances each intro gate, waits for each stage battle clock, clears each chart through the deterministic perfect-input path, verifies seven run result rows, and exits at the final-stage ED handoff.
 
+The generated player also supports a loop-plus smoke-exit flag:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeLoopPlus \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-loopplus-smoke.log"
+```
+
+This runs the built player through all seven hard-mode loop-plus charts, then enters ED bonus mode and verifies that the loop-plus ED video asset (`./assets/video/ending-loop2.mp4`) is selected before the smoke exits.
+
 The generated player also supports an ED smoke-exit flag:
 
 ```bash

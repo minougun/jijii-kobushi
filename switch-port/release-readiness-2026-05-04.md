@@ -102,6 +102,7 @@ ED bonus:
 - 2026-05-05 continuation: the Windows player smoke gate now advances the stage intro before exiting and asserts that the built player reaches the BGM-backed battle clock.
 - 2026-05-05 continuation: an ED-specific Windows player smoke gate (`-jijiiSmokeEnding`) was added to clear the final stage, enter ED bonus mode, resolve the ED video asset, and wait for the ED clock or deterministic fallback.
 - 2026-05-05 continuation: an all-stage Windows player smoke gate (`-jijiiSmokeAllStages`) was added to load stages 1-7 in the built player, advance intro gates, wait for each battle clock, perfect-clear each chart, and verify the final ED handoff state.
+- 2026-05-05 continuation: a loop-plus Windows player smoke gate (`-jijiiSmokeLoopPlus`) was added to run all seven hard-mode loop 2 charts in the built player and verify the loop-plus ED video asset (`./assets/video/ending-loop2.mp4`) before exiting.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
