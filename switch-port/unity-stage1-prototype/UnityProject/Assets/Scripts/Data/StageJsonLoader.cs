@@ -181,6 +181,9 @@ namespace JijiiKobushi.Stage1Prototype
             return new EnemyData
             {
                 Name = GetString(obj, "name"),
+                Kind = GetString(obj, "kind"),
+                Coat = GetString(obj, "coat"),
+                Accent = GetString(obj, "accent"),
                 AttackPower = GetDouble(obj, "attackPower"),
                 Hp = GetDouble(obj, "hp")
             };

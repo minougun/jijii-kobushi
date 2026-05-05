@@ -326,6 +326,38 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void CharacterSpriteAssetMapCoversPlayerEnemyAndCutinAssets()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            var catalog = RuntimeAssetCatalog.FromManifest(manifest);
+
+            Assert.AreEqual(5, StageRuntimeVisualAssets.ChibiSheetColumns);
+            Assert.AreEqual(2, StageRuntimeVisualAssets.ChibiSheetRows);
+            AssertRuntimeCatalogPath(catalog, StageRuntimeVisualAssets.GetCharacterSheetAssetPath(), "character-sheet");
+            AssertRuntimeCatalogPath(catalog, StageRuntimeVisualAssets.GetSpecialCutinAssetPath(), "special-cutin");
+            AssertRuntimeCatalogPath(catalog, StageRuntimeVisualAssets.GetFinalRevealAssetPath(), "final-reveal-sprite");
+
+            var hero = StageRuntimeVisualAssets.GetChibiSpriteSpec("heroKimono");
+            Assert.IsNotNull(hero);
+            Assert.AreEqual(1, hero.Index);
+            Assert.AreEqual(166, hero.DrawWidth);
+
+            var stages = ProfileTestRunner.RunAllStageSmoke();
+            foreach (var stage in stages)
+            {
+                CharacterSpriteSpec enemySpec;
+                Assert.IsTrue(StageRuntimeVisualAssets.TryGetChibiSpriteSpec(stage.Enemy.Kind, out enemySpec), stage.Stage.Id + " enemy sprite kind");
+                Assert.GreaterOrEqual(enemySpec.Index, 0, stage.Enemy.Kind + " index");
+                Assert.Less(enemySpec.Index, StageRuntimeVisualAssets.ChibiSheetColumns * StageRuntimeVisualAssets.ChibiSheetRows, stage.Enemy.Kind + " sheet bounds");
+                Assert.Greater(enemySpec.DrawWidth, 0, stage.Enemy.Kind + " draw width");
+                Assert.Greater(enemySpec.DrawHeight, 0, stage.Enemy.Kind + " draw height");
+            }
+
+            CharacterSpriteSpec unknown;
+            Assert.IsFalse(StageRuntimeVisualAssets.TryGetChibiSpriteSpec("unknown", out unknown));
+        }
+
+        [Test]
         public void EndingBonusInteractivePerfectRunMatchesSimulator()
         {
             var ending = StageJsonLoader.LoadEndingBonus(ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json"));
@@ -515,6 +547,14 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             Assert.Fail("Missing runtime asset: " + assetPath);
+        }
+
+        private static void AssertRuntimeCatalogPath(RuntimeAssetCatalog catalog, string assetPath, string role)
+        {
+            RuntimeAssetEntry entry;
+            Assert.IsTrue(catalog.TryGetByPath(assetPath, out entry), "runtime catalog path: " + assetPath);
+            Assert.AreEqual(role, entry.Role, assetPath + " role");
+            Assert.AreEqual("raster-image", entry.Kind, assetPath + " kind");
         }
 
         private static void AssertStageBackgroundPair(RuntimeAssetImportPlan plan, string stageKey)

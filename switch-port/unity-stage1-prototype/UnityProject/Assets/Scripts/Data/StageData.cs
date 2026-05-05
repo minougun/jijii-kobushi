@@ -171,9 +171,15 @@ namespace JijiiKobushi.Stage1Prototype
         public EnemyData()
         {
             Name = "";
+            Kind = "";
+            Coat = "";
+            Accent = "";
         }
 
         public string Name { get; set; }
+        public string Kind { get; set; }
+        public string Coat { get; set; }
+        public string Accent { get; set; }
         public double AttackPower { get; set; }
         public double Hp { get; set; }
     }
