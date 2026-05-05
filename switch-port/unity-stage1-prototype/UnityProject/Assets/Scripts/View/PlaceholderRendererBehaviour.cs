@@ -362,15 +362,15 @@ namespace JijiiKobushi.Stage1Prototype
         private void OnGUI()
         {
             EnsureStyles();
-            FillRect(new Rect(0, 0, Screen.width, Screen.height), new Color(0.07f, 0.07f, 0.08f));
+            PrototypeGui.FillRect(new Rect(0, 0, Screen.width, Screen.height), new Color(0.07f, 0.07f, 0.08f));
 
             const int margin = 24;
             var width = Mathf.Max(720, Screen.width - margin * 2);
             var mainRect = new Rect(margin, margin, width, Mathf.Max(500, Screen.height - margin * 2));
-            FillRect(mainRect, new Color(0.96f, 0.94f, 0.88f));
+            PrototypeGui.FillRect(mainRect, new Color(0.96f, 0.94f, 0.88f));
             DrawStageBackground(mainRect);
             DrawEndingVideoBackground(mainRect);
-            StrokeRect(mainRect, new Color(0.12f, 0.11f, 0.1f), 3);
+            PrototypeGui.StrokeRect(mainRect, new Color(0.12f, 0.11f, 0.1f), 3);
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -407,12 +407,12 @@ namespace JijiiKobushi.Stage1Prototype
             var hpRect = new Rect(mainRect.x + mainRect.width - 340, mainRect.y + 24, 290, 26);
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
-                DrawMeter(hpRect, endingSession != null ? endingSession.ResolvedCount : 0, endingSession != null ? endingSession.TotalNotes : 1, new Color(0.83f, 0.42f, 0.08f), "BEAT");
+                PrototypeGui.DrawMeter(hpRect, endingSession != null ? endingSession.ResolvedCount : 0, endingSession != null ? endingSession.TotalNotes : 1, new Color(0.83f, 0.42f, 0.08f), "BEAT", noteStyle);
                 GUI.Label(new Rect(hpRect.x, hpRect.y + 32, 290, 24), "score=" + (endingResult != null ? endingResult.Score : 0) + "  bestCombo=" + (endingResult != null ? endingResult.BestCombo : 0), labelStyle);
             }
             else
             {
-                DrawMeter(hpRect, session != null ? session.RemainingHp : 0, session != null ? session.MaxHp : 1, new Color(0.08f, 0.66f, 0.28f), "HP");
+                PrototypeGui.DrawMeter(hpRect, session != null ? session.RemainingHp : 0, session != null ? session.MaxHp : 1, new Color(0.08f, 0.66f, 0.28f), "HP", noteStyle);
                 GUI.Label(new Rect(hpRect.x, hpRect.y + 32, 290, 24), "score=" + (result != null ? result.Score : 0) + "  rank=" + (result != null ? result.Rank : "-"), labelStyle);
             }
         }
@@ -422,16 +422,16 @@ namespace JijiiKobushi.Stage1Prototype
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
                 var edPanel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 70);
-                FillRect(edPanel, new Color(0.06f, 0.055f, 0.05f, 0.9f));
-                StrokeRect(edPanel, new Color(0.9f, 0.72f, 0.24f), 2);
+                PrototypeGui.FillRect(edPanel, new Color(0.06f, 0.055f, 0.05f, 0.9f));
+                PrototypeGui.StrokeRect(edPanel, new Color(0.9f, 0.72f, 0.24f), 2);
                 GUI.Label(new Rect(edPanel.x + 18, edPanel.y + 10, 520, 26), StageHeading, strongStyle);
                 GUI.Label(new Rect(edPanel.x + 18, edPanel.y + 38, edPanel.width - 36, 24), audioStatus + "  " + status, panelLabelStyle);
                 return;
             }
 
             var panel = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 170);
-            FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
-            StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
+            PrototypeGui.FillRect(panel, new Color(0.15f, 0.14f, 0.13f));
+            PrototypeGui.StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 2);
             GUI.Label(new Rect(panel.x + 24, panel.y + 18, 460, 34), StageHeading, strongStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 54, panel.width - 48, 42), IntroPreview, panelLabelStyle);
             GUI.Label(new Rect(panel.x + 24, panel.y + 98, 960, 24), "Space/Z/A: tap or mash    X/J/B: hold down, release at HOLD END    P/Esc/Select: pause    Enter/Start: restart", panelLabelStyle);
@@ -443,16 +443,16 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (stageBackgroundTexture == null) return;
             GUI.DrawTexture(mainRect, stageBackgroundTexture, ScaleMode.ScaleAndCrop, false);
-            FillRect(mainRect, new Color(0f, 0f, 0f, 0.28f));
+            PrototypeGui.FillRect(mainRect, new Color(0f, 0f, 0f, 0.28f));
         }
 
         private void DrawEndingVideoBackground(Rect mainRect)
         {
             if (prototypeMode != PrototypeMode.EndingBonus) return;
 
-            FillRect(mainRect, new Color(0.04f, 0.045f, 0.055f));
+            PrototypeGui.FillRect(mainRect, new Color(0.04f, 0.045f, 0.055f));
             var videoRect = new Rect(mainRect.x + 24, mainRect.y + 96, mainRect.width - 48, 326);
-            FillRect(videoRect, new Color(0.02f, 0.02f, 0.024f));
+            PrototypeGui.FillRect(videoRect, new Color(0.02f, 0.02f, 0.024f));
             if (endingVideoTexture != null && endingVideoReady)
             {
                 GUI.DrawTexture(videoRect, endingVideoTexture, ScaleMode.ScaleToFit, false);
@@ -461,17 +461,17 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 GUI.Label(new Rect(videoRect.x + 24, videoRect.y + 132, videoRect.width - 48, 28), "ED video preview loading / fallback rhythm clock", panelLabelStyle);
             }
-            FillRect(mainRect, new Color(0f, 0f, 0f, 0.18f));
+            PrototypeGui.FillRect(mainRect, new Color(0f, 0f, 0f, 0.18f));
         }
 
         private void DrawRhythmLane(Rect mainRect)
         {
             var lane = new Rect(mainRect.x + 24, mainRect.y + 290, mainRect.width - 48, 132);
-            FillRect(lane, new Color(0.98f, 0.98f, 0.96f));
-            StrokeRect(lane, new Color(0.12f, 0.11f, 0.1f), 2);
+            PrototypeGui.FillRect(lane, new Color(0.98f, 0.98f, 0.96f));
+            PrototypeGui.StrokeRect(lane, new Color(0.12f, 0.11f, 0.1f), 2);
 
             var hitX = lane.x + 150;
-            FillRect(new Rect(hitX, lane.y + 10, 5, lane.height - 20), new Color(0.95f, 0.72f, 0.1f));
+            PrototypeGui.FillRect(new Rect(hitX, lane.y + 10, 5, lane.height - 20), new Color(0.95f, 0.72f, 0.1f));
             GUI.Label(new Rect(lane.x + 18, lane.y + 18, 110, 24), "HIT LINE", strongStyle);
 
             var activeChart = ActiveChart;
@@ -541,15 +541,15 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             var rect = new Rect(x, y, width, 34);
-            FillRect(rect, color);
-            StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 2);
+            PrototypeGui.FillRect(rect, color);
+            PrototypeGui.StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 2);
             GUI.Label(rect, label, noteStyle);
 
             if (note.Type == "hold")
             {
                 var releaseX = Mathf.Clamp(endX, lane.x + 8, lane.x + lane.width - 10);
-                FillRect(new Rect(releaseX - 3, y - 10, 6, 54), new Color(1f, 0.92f, 0.24f));
-                StrokeRect(new Rect(releaseX - 8, y - 14, 16, 62), new Color(0.05f, 0.05f, 0.05f), 2);
+                PrototypeGui.FillRect(new Rect(releaseX - 3, y - 10, 6, 54), new Color(1f, 0.92f, 0.24f));
+                PrototypeGui.StrokeRect(new Rect(releaseX - 8, y - 14, 16, 62), new Color(0.05f, 0.05f, 0.05f), 2);
                 GUI.Label(new Rect(releaseX - 44, y - 34, 88, 22), "RELEASE", noteStyle);
                 GUI.Label(new Rect(releaseX - 28, y + 38, 56, 22), "END", noteStyle);
             }
@@ -558,7 +558,7 @@ namespace JijiiKobushi.Stage1Prototype
         private void DrawJudgePanel(Rect mainRect)
         {
             var panel = new Rect(mainRect.x + 24, mainRect.y + 442, mainRect.width - 48, 62);
-            FillRect(panel, new Color(0.12f, 0.11f, 0.1f));
+            PrototypeGui.FillRect(panel, new Color(0.12f, 0.11f, 0.1f));
             var stats = ActiveJudgeStats;
             GUI.Label(new Rect(panel.x + 18, panel.y + 10, 360, 26), ActiveLastJudgeText, strongStyle);
             GUI.Label(new Rect(panel.x + 400, panel.y + 10, 520, 26), "combo=" + ActiveCombo + "  max=" + ActiveMaxCombo + "  notes=" + ActiveResolvedCount + "/" + ActiveTotalNotes, panelLabelStyle);
@@ -571,9 +571,9 @@ namespace JijiiKobushi.Stage1Prototype
             var panelWidth = Mathf.Min(isEndingResult ? 820f : 620f, mainRect.width - 72f);
             var panelHeight = isEndingResult ? 284f : 214f;
             var panel = new Rect(mainRect.x + (mainRect.width - panelWidth) * 0.5f, mainRect.y + (isEndingResult ? 424f : 458f), panelWidth, panelHeight);
-            FillRect(panel, new Color(1f, 0.985f, 0.94f));
-            StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 3);
-            FillRect(new Rect(panel.x, panel.y, panel.width, 44), new Color(0.08f, 0.075f, 0.07f));
+            PrototypeGui.FillRect(panel, new Color(1f, 0.985f, 0.94f));
+            PrototypeGui.StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 3);
+            PrototypeGui.FillRect(new Rect(panel.x, panel.y, panel.width, 44), new Color(0.08f, 0.075f, 0.07f));
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
                 var endingResult = endingSession.BuildResult();
@@ -640,15 +640,15 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawRankBadge(Rect rect, string rank)
         {
-            FillRect(rect, new Color(0.86f, 0.62f, 0.16f));
-            StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 3);
+            PrototypeGui.FillRect(rect, new Color(0.86f, 0.62f, 0.16f));
+            PrototypeGui.StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 3);
             GUI.Label(rect, rank, titleStyle);
         }
 
         private void DrawResultStat(Rect rect, string label, string value, string sub)
         {
-            FillRect(rect, new Color(1f, 1f, 1f));
-            StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
+            PrototypeGui.FillRect(rect, new Color(1f, 1f, 1f));
+            PrototypeGui.StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
             GUI.Label(new Rect(rect.x + 9, rect.y + 6, rect.width - 18, 18), label, panelLabelStyle);
             GUI.Label(new Rect(rect.x + 9, rect.y + 20, rect.width - 18, 24), value, strongStyle);
             GUI.Label(new Rect(rect.x + 9, rect.y + 38, rect.width - 18, 16), sub, labelStyle);
@@ -656,8 +656,8 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawStageResultRows(Rect rect)
         {
-            FillRect(rect, new Color(0.08f, 0.075f, 0.07f));
-            StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
+            PrototypeGui.FillRect(rect, new Color(0.08f, 0.075f, 0.07f));
+            PrototypeGui.StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
             var titleRect = new Rect(rect.x + 10, rect.y + 6, 140, 18);
             GUI.Label(titleRect, "ステージ別成績", panelLabelStyle);
 
@@ -1647,15 +1647,6 @@ namespace JijiiKobushi.Stage1Prototype
             GUI.enabled = previousEnabled;
         }
 
-        private void DrawMeter(Rect rect, int value, int max, Color color, string label)
-        {
-            FillRect(rect, new Color(0.18f, 0.18f, 0.18f));
-            var ratio = Mathf.Clamp01(max <= 0 ? 0f : value / (float)max);
-            FillRect(new Rect(rect.x + 3, rect.y + 3, (rect.width - 6) * ratio, rect.height - 6), color);
-            StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 2);
-            GUI.Label(rect, label + " " + value + "/" + max, noteStyle);
-        }
-
         private void EnsureStyles()
         {
             if (titleStyle != null) return;
@@ -1691,22 +1682,6 @@ namespace JijiiKobushi.Stage1Prototype
                 alignment = TextAnchor.MiddleCenter,
                 normal = { textColor = Color.white }
             };
-        }
-
-        private static void FillRect(Rect rect, Color color)
-        {
-            var previous = GUI.color;
-            GUI.color = color;
-            GUI.DrawTexture(rect, Texture2D.whiteTexture);
-            GUI.color = previous;
-        }
-
-        private static void StrokeRect(Rect rect, Color color, int thickness)
-        {
-            FillRect(new Rect(rect.x, rect.y, rect.width, thickness), color);
-            FillRect(new Rect(rect.x, rect.yMax - thickness, rect.width, thickness), color);
-            FillRect(new Rect(rect.x, rect.y, thickness, rect.height), color);
-            FillRect(new Rect(rect.xMax - thickness, rect.y, thickness, rect.height), color);
         }
 
     }
