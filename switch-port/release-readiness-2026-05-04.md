@@ -103,6 +103,7 @@ ED bonus:
 - 2026-05-05 continuation: an ED-specific Windows player smoke gate (`-jijiiSmokeEnding`) was added to clear the final stage, enter ED bonus mode, resolve the ED video asset, and wait for the ED clock or deterministic fallback.
 - 2026-05-05 continuation: an all-stage Windows player smoke gate (`-jijiiSmokeAllStages`) was added to load stages 1-7 in the built player, advance intro gates, wait for each battle clock, perfect-clear each chart, and verify the final ED handoff state.
 - 2026-05-05 continuation: a loop-plus Windows player smoke gate (`-jijiiSmokeLoopPlus`) was added to run all seven hard-mode loop 2 charts in the built player and verify the loop-plus ED video asset (`./assets/video/ending-loop2.mp4`) before exiting.
+- 2026-05-05 continuation: the Windows prototype build now stages the runtime asset manifest into ignored `StreamingAssets/JiiKobushi/` before `BuildPipeline.BuildPlayer`, using local files when present and `git show HEAD:<asset>` for sparse Web-original assets. The staging report passed with 35/35 assets staged, 21 restored from Git, and zero missing/failed copies before the rebuilt player passed the stage, all-stage, loop-plus, and ED smoke gates.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

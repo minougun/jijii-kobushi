@@ -21,6 +21,7 @@ namespace JijiiKobushi.Stage1Prototype.EditorTools
         public static void BuildWindowsPrototype()
         {
             Stage1PrototypeSceneSetup.EnsureSceneVisible();
+            RuntimeAssetStreamingStage.StageRuntimeAssetsToStreamingAssets();
 
             var outputPath = GetCommandLineValue("-buildOutput");
             if (string.IsNullOrEmpty(outputPath)) outputPath = DefaultOutputPath;

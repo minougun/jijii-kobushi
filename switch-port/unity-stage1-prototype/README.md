@@ -143,7 +143,7 @@ In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the trac
 
 `Assets/Editor/Stage1PrototypeSceneSetup.cs` adds the `Jijii Kobushi > Setup Stage 1 Prototype Scene` editor menu. It makes `Stage1Prototype.unity` visible in Scene view by adding a Main Camera, Directional Light, placeholder stage board, gold hit line, and Tap/Hold/Mash marker cubes.
 
-`Assets/Editor/Stage1PrototypeBuild.cs` adds the `Jijii Kobushi > Build Windows Prototype` editor menu and a batch-mode `BuildWindowsPrototype` method. This is a local standalone player smoke build only; it does not use Nintendo SDK material or external submission tooling.
+`Assets/Editor/Stage1PrototypeBuild.cs` adds the `Jijii Kobushi > Build Windows Prototype` editor menu and a batch-mode `BuildWindowsPrototype` method. Before invoking `BuildPipeline.BuildPlayer`, the build method stages the runtime asset manifest into `Assets/StreamingAssets/JiiKobushi/`, using local files when present and `git show HEAD:<asset>` for tracked Web-original assets that are sparse locally. This is a local standalone player smoke build only; it does not use Nintendo SDK material or external submission tooling.
 
 The Stage 1 JSON uses dictionary-shaped objects and profile keys such as `mash-weak`, so the prototype does not use Unity `JsonUtility` for these files. It uses a small dependency-free loader in `StageJsonLoader.cs` and maps only the fields needed by the Stage 1 prototype.
 
@@ -231,6 +231,7 @@ Unity batch mode can also build a local Windows smoke player:
 ```
 
 The `Builds/` directory is ignored and should stay out of Git.
+The generated StreamingAssets payload and runtime asset staging reports are also ignored; rerun the build or `Jijii Kobushi > Stage Runtime Assets To StreamingAssets` to refresh them locally.
 
 The generated player also supports a local smoke-exit flag:
 

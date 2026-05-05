@@ -99,6 +99,8 @@ Expected build smoke behavior:
 
 - `UnityProject/Builds/Windows/Stage1Prototype.exe` exists.
 - `Builds/` remains ignored and must not be committed.
+- Runtime assets are staged under ignored `UnityProject/Assets/StreamingAssets/JiiKobushi/` before build.
+- The staging report is written to ignored `runtime-asset-stage-report.txt`.
 - The log contains `Windows prototype build succeeded`.
 
 Generated player launch smoke:
