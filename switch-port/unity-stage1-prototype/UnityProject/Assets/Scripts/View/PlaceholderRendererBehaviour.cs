@@ -671,82 +671,38 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawResultPanel(Rect mainRect)
         {
-            var isEndingResult = prototypeMode == PrototypeMode.EndingBonus;
-            var isFinalStageResult = !isEndingResult && CurrentStageIndex >= StagePackCatalog.Count - 1;
-            var panelWidth = Mathf.Min(isEndingResult ? 820f : isFinalStageResult ? 760f : 620f, mainRect.width - 72f);
-            var panelHeight = isEndingResult ? 284f : 214f;
-            var panel = new Rect(mainRect.x + (mainRect.width - panelWidth) * 0.5f, mainRect.y + (isEndingResult ? 424f : 458f), panelWidth, panelHeight);
-            PrototypeGui.FillRect(panel, new Color(1f, 0.985f, 0.94f));
-            PrototypeGui.StrokeRect(panel, new Color(0.05f, 0.05f, 0.05f), 3);
-            PrototypeGui.FillRect(new Rect(panel.x, panel.y, panel.width, 44), new Color(0.08f, 0.075f, 0.07f));
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
-                var endingResult = endingSession.BuildResult();
-                var accuracy = endingResult.NoteCount > 0 ? Mathf.RoundToInt((endingResult.Hits / (float)endingResult.NoteCount) * 100f) : 0;
-                var finalRank = runProgress.FinalRank;
-                var stageAverage = runProgress.AverageScore;
-                var stageTotal = runProgress.TotalScore;
-                PrototypeResultPanel.DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), finalRank, titleStyle);
-                GUI.Label(new Rect(panel.x + 128, panel.y + 14, 420, 24), "FINAL RESULT", panelLabelStyle);
-                GUI.Label(new Rect(panel.x + 128, panel.y + 56, 440, 38), "総合ランク " + finalRank, titleStyle);
-                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 520, 24), "Loop " + CurrentRunLoop + " / " + difficulty + " / stages " + runProgress.Count + "/" + StagePackCatalog.Count, labelStyle);
-                DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "平均", stageAverage + " pts", "7 stages");
-                DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "総合", stageTotal + " pts", "stage total");
-                DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "ED拍", endingResult.Score + " pts", "bonus");
-                DrawResultStat(new Rect(panel.x + 554, panel.y + 124, 132, 54), "成功", endingResult.Hits + "/" + endingResult.NoteCount, accuracy + "%");
-                PrototypeResultPanel.DrawStageResultRows(new Rect(panel.x + 20, panel.y + 188, panel.width - 40, 52), runProgress, panelLabelStyle);
-
-                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + panel.height - 38, 152, 30), "Next Loop"))
-                {
-                    runLoop = CurrentRunLoop + 1;
-                    stageNumber = 1;
-                    LoadAndStart();
-                }
-
-                if (GUI.Button(new Rect(panel.x + panel.width - 338, panel.y + panel.height - 38, 146, 30), "Retry ED"))
-                {
-                    LoadEndingBonusAndStart();
-                }
+                PrototypeResultPanel.DrawEndingResultPanel(
+                    mainRect,
+                    endingSession.BuildResult(),
+                    runProgress,
+                    CurrentRunLoop,
+                    difficulty,
+                    titleStyle,
+                    labelStyle,
+                    panelLabelStyle,
+                    strongStyle,
+                    AdvanceToNextLoop,
+                    LoadEndingBonusAndStart);
                 return;
             }
 
-            var result = session.BuildResult();
-            PrototypeResultPanel.DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), result.Rank, titleStyle);
-            GUI.Label(new Rect(panel.x + 128, panel.y + 14, 360, 24), result.Clear ? "STAGE CLEAR" : "FAILED", panelLabelStyle);
-            GUI.Label(new Rect(panel.x + 128, panel.y + 56, 360, 38), result.Score + " pts", titleStyle);
-            GUI.Label(new Rect(panel.x + 128, panel.y + 92, panel.width - 154, 24), ResultScenarioLine, labelStyle);
-            DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "Max combo", result.MaxCombo.ToString(), "chain");
-            DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "Notes", result.Stats.Perfect + "/" + result.NoteCount, "perfect");
-            DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "HP", result.RemainingHp + "/" + result.MaxHp, "remaining");
-            DrawFinalRevealSprite(panel);
-
-            if (CanStartEndingBonus)
-            {
-                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + 178, 152, 30), "ED Bonus"))
-                {
-                    LoadEndingBonusAndStart();
-                }
-            }
-            else
-            {
-                var previousEnabled = GUI.enabled;
-                GUI.enabled = previousEnabled && CanAdvanceToNextStage;
-                if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + 178, 152, 30), "Next Stage"))
-                {
-                    AdvanceToNextStage();
-                }
-                GUI.enabled = previousEnabled;
-            }
-
-            if (GUI.Button(new Rect(panel.x + panel.width - 338, panel.y + 178, 146, 30), "Retry"))
-            {
-                ReloadCurrentMode();
-            }
-        }
-
-        private void DrawResultStat(Rect rect, string label, string value, string sub)
-        {
-            PrototypeResultPanel.DrawResultStat(rect, label, value, sub, panelLabelStyle, strongStyle, labelStyle);
+            PrototypeResultPanel.DrawStageResultPanel(
+                mainRect,
+                session.BuildResult(),
+                ResultScenarioLine,
+                CurrentStageIndex >= StagePackCatalog.Count - 1,
+                CanStartEndingBonus,
+                CanAdvanceToNextStage,
+                finalRevealTexture,
+                titleStyle,
+                labelStyle,
+                panelLabelStyle,
+                strongStyle,
+                LoadEndingBonusAndStart,
+                AdvanceToNextStage,
+                ReloadCurrentMode);
         }
 
         private void DrawFooterControls(Rect mainRect)
@@ -1107,6 +1063,13 @@ namespace JijiiKobushi.Stage1Prototype
         {
             if (!CanAdvanceToNextStage) return;
             stageNumber = CurrentStageNumber + 1;
+            LoadAndStart();
+        }
+
+        private void AdvanceToNextLoop()
+        {
+            runLoop = CurrentRunLoop + 1;
+            stageNumber = 1;
             LoadAndStart();
         }
 
@@ -2105,12 +2068,6 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 finalRevealTexture = loaded;
             }
-        }
-
-        private void DrawFinalRevealSprite(Rect panel)
-        {
-            if (prototypeMode == PrototypeMode.EndingBonus) return;
-            PrototypeCharacterPanel.DrawFinalRevealSprite(panel, finalRevealTexture, session != null && session.IsCleared && CurrentStageIndex >= StagePackCatalog.Count - 1);
         }
 
         private void ClearStageBackground()

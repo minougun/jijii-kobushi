@@ -111,6 +111,7 @@ ED bonus:
 - 2026-05-05 continuation: chibi sprite-sheet drawing, finisher cut-in presentation, and final reveal sprite drawing were extracted into `PrototypeCharacterPanel`, keeping Web-derived character art presentation out of the main scene driver.
 - 2026-05-05 continuation: `npm run check:switch-local-complete` was added as the local 100% gate. It runs the Web integrity check, portable Switch gates, standalone C# all-stage parity, Unity EditMode/PlayMode tests, Unity portable parity, Windows player build, and stage/all-stage/loop-plus/ED player smokes in one reproducible command.
 - 2026-05-05 continuation: the local 100% gate passed end-to-end with `Switch local completion gate: pass`. This covers Web-original integrity without modifying Web source, portable Switch data parity, C# CLI parity, Unity EditMode/PlayMode, local Windows build, and all smoke-exit paths.
+- 2026-05-05 continuation: stage and ED result-card drawing was consolidated into `PrototypeResultPanel`, removing result layout branching from `PlaceholderRendererBehaviour` while preserving the same callbacks and panel structure.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
