@@ -99,6 +99,8 @@ ED bonus:
 - 2026-05-05 continuation: the Unity final-stage result panel now loads and displays `hasegawa-reveal-sprite-v7.png`, with PlayMode smoke coverage on the Stage 7 pack.
 - 2026-05-05 continuation: stage intros now open as a page-advancing overlay in the Unity placeholder. BGM/count-in wait until the intro lines are advanced, and PlayMode smoke covers the Stage 1 intro gate.
 - 2026-05-05 continuation: the Unity placeholder now draws the current stage BGM attribution line (`Music: PeriTune`) at the lower-left of stage screens, with EditMode coverage across all seven stage packs.
+- 2026-05-05 continuation: the Windows player smoke gate now advances the stage intro before exiting and asserts that the built player reaches the BGM-backed battle clock.
+- 2026-05-05 continuation: an ED-specific Windows player smoke gate (`-jijiiSmokeEnding`) was added to clear the final stage, enter ED bonus mode, resolve the ED video asset, and wait for the ED clock or deterministic fallback.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

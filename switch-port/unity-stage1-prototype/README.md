@@ -242,7 +242,19 @@ switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.e
   -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-smoke.log"
 ```
 
-This verifies that the built player starts, loads the Stage 1 data, writes a smoke line, and exits without human input.
+This verifies that the built player starts, loads the Stage 1 data, advances the intro gate, reaches the BGM-backed battle clock, writes a smoke line, and exits without human input.
+
+The generated player also supports an ED smoke-exit flag:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeEnding \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-ending-smoke.log"
+```
+
+This loads the final stage, clears it through the deterministic perfect-input path, enters ED bonus mode, verifies that the ED video asset can be resolved, waits for the ED clock or deterministic fallback to start, writes a smoke line, and exits.
 
 Manual Play Mode controls:
 

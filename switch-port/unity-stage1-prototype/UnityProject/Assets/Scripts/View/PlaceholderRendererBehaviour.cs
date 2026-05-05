@@ -83,7 +83,11 @@ namespace JijiiKobushi.Stage1Prototype
             inputAdapter = new KeyboardGamepadInputAdapter();
             InitializeRunSaveStore();
             LoadAndStart();
-            if (HasCommandLineFlag("-jijiiSmokeQuit"))
+            if (HasCommandLineFlag("-jijiiSmokeEnding"))
+            {
+                StartCoroutine(QuitAfterEndingSmokeFrame());
+            }
+            else if (HasCommandLineFlag("-jijiiSmokeQuit"))
             {
                 StartCoroutine(QuitAfterSmokeFrame());
             }
@@ -1590,6 +1594,59 @@ namespace JijiiKobushi.Stage1Prototype
                 " introOpen=" + stageIntroOpen +
                 " introLines=" + introCount +
                 " reachedBattleClock=" + reachedBattleClock +
+                " clock=" + ClockMode +
+                " audio=" + audioStatus +
+                " error=" + error);
+            Application.Quit(exitCode);
+        }
+
+        private IEnumerator QuitAfterEndingSmokeFrame()
+        {
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (session != null || !string.IsNullOrEmpty(error)) break;
+                yield return null;
+            }
+
+            stageNumber = StagePackCatalog.Count;
+            LoadAndStart();
+            for (var i = 0; i < 180; i += 1)
+            {
+                if ((session != null && CurrentStageNumber == StagePackCatalog.Count) || !string.IsNullOrEmpty(error)) break;
+                yield return null;
+            }
+
+            if (session != null && string.IsNullOrEmpty(error))
+            {
+                DebugCompleteStagePerfect();
+                yield return null;
+            }
+
+            if (CanStartEndingBonus)
+            {
+                LoadEndingBonusAndStart();
+                yield return null;
+            }
+
+            var videoDeadline = Time.realtimeSinceStartup + 10f;
+            while (Time.realtimeSinceStartup < videoDeadline)
+            {
+                if (!string.IsNullOrEmpty(error)) break;
+                if (endingSession != null && (endingVideoStarted || endingVideoFallbackClock || !useAudioClock)) break;
+                yield return null;
+            }
+
+            var endingVideoAssetExists = DebugEndingVideoAssetExists;
+            var reachedEndingClock = endingSession != null && (endingVideoStarted || endingVideoFallbackClock || !useAudioClock);
+            var exitCode = string.IsNullOrEmpty(error) && endingVideoAssetExists && reachedEndingClock ? 0 : 1;
+            Debug.Log(
+                "Jijii Kobushi ending smoke quit: exitCode=" + exitCode +
+                " mode=" + DebugPrototypeMode +
+                " stage=" + DebugStageTitle +
+                " location=" + DebugStageLocation +
+                " videoAssetExists=" + endingVideoAssetExists +
+                " reachedEndingClock=" + reachedEndingClock +
+                " videoClockActive=" + DebugEndingVideoClockActive +
                 " clock=" + ClockMode +
                 " audio=" + audioStatus +
                 " error=" + error);

@@ -116,6 +116,23 @@ Expected player smoke behavior:
 - The process exits with code `0`.
 - The log contains `Jijii Kobushi player smoke quit`.
 - The smoke line includes `stage=誘拐の朝` and `location=うさぎ公園`.
+- The smoke line includes `introOpen=False`, `reachedBattleClock=True`, and `clock=audio` when the local BGM can be loaded.
+
+Generated ED player launch smoke:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeEnding \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-ending-smoke.log"
+```
+
+Expected ED smoke behavior:
+
+- The process exits with code `0`.
+- The log contains `Jijii Kobushi ending smoke quit`.
+- The smoke line includes `mode=endingBonus`, `videoAssetExists=True`, and `reachedEndingClock=True`.
 
 ## 3. Run Scene
 
