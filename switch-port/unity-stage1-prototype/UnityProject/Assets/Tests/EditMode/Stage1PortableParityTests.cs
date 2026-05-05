@@ -358,6 +358,16 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void BgmCreditCoversAllStagePacks()
+        {
+            var stages = ProfileTestRunner.RunAllStageSmoke();
+            foreach (var stage in stages)
+            {
+                Assert.AreEqual("Music: PeriTune", StageBgmCredit.ForStage(stage), stage.Stage.Id + " bgm credit");
+            }
+        }
+
+        [Test]
         public void EndingBonusInteractivePerfectRunMatchesSimulator()
         {
             var ending = StageJsonLoader.LoadEndingBonus(ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json"));

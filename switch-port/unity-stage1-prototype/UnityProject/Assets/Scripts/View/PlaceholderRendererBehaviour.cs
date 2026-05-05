@@ -484,6 +484,7 @@ namespace JijiiKobushi.Stage1Prototype
                 GUI.Label(new Rect(mainRect.x + 24, mainRect.y + 160, 1000, 24), status, labelStyle);
             }
 
+            DrawBgmAttribution(mainRect);
             DrawFooterControls(mainRect);
         }
 
@@ -592,6 +593,17 @@ namespace JijiiKobushi.Stage1Prototype
                 AdvanceStageIntro();
             }
             GUI.Label(new Rect(panel.x + 24f, panel.y + panel.height - 36f, panel.width - 200f, 24f), "Tap / A button advances scenario before the count-in starts.", panelLabelStyle);
+        }
+
+        private void DrawBgmAttribution(Rect mainRect)
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus) return;
+            var credit = StageBgmCredit.ForStage(stage);
+            if (string.IsNullOrEmpty(credit)) return;
+
+            var rect = new Rect(mainRect.x + 24f, mainRect.y + mainRect.height - 104f, 220f, 24f);
+            PrototypeGui.FillRect(rect, new Color(0.03f, 0.03f, 0.028f, 0.76f));
+            GUI.Label(new Rect(rect.x + 8f, rect.y + 2f, rect.width - 16f, rect.height), credit, panelLabelStyle);
         }
 
         private void DrawEndingVideoBackground(Rect mainRect)

@@ -140,6 +140,7 @@ Expected Play Mode behavior:
 - Shows current note id, note type, battle time, and virtual time.
 - Shows a short scenario preview from the loaded stage JSON and a clear/failure scenario line in the result panel.
 - Shows a placeholder HUD with HP, score, rank, current combo, judge counts, and a rhythm lane.
+- Shows `Music: PeriTune` at the lower-left of stage screens.
 - Draws upcoming `TAP`, `HOLD`, and `MASH` notes moving toward the gold hit line.
 - Draws a yellow `RELEASE` marker at the end of each `HOLD` note so the release timing is visible.
 - Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `P`/`Esc` for pause/resume, `Enter` for restart, `F5` for save, and `F9` for load.
