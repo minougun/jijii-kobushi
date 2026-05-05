@@ -1558,14 +1558,40 @@ namespace JijiiKobushi.Stage1Prototype
 
         private IEnumerator QuitAfterSmokeFrame()
         {
-            yield return null;
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (session != null || !string.IsNullOrEmpty(error)) break;
+                yield return null;
+            }
 
-            var exitCode = string.IsNullOrEmpty(error) && session != null ? 0 : 1;
+            var introWasOpen = stageIntroOpen;
+            var introCount = DebugIntroLineCount;
+            for (var i = 0; i < introCount && stageIntroOpen; i += 1)
+            {
+                AdvanceStageIntro();
+                yield return null;
+            }
+
+            var audioDeadline = Time.realtimeSinceStartup + 8f;
+            while (Time.realtimeSinceStartup < audioDeadline)
+            {
+                if (!string.IsNullOrEmpty(error)) break;
+                if (!stageIntroOpen && (audioStarted || audioFallbackClock || !useAudioClock)) break;
+                yield return null;
+            }
+
+            var reachedBattleClock = !stageIntroOpen && (audioStarted || audioFallbackClock || !useAudioClock);
+            var exitCode = string.IsNullOrEmpty(error) && session != null && reachedBattleClock ? 0 : 1;
             Debug.Log(
                 "Jijii Kobushi player smoke quit: exitCode=" + exitCode +
                 " stage=" + DebugStageTitle +
                 " location=" + DebugStageLocation +
+                " introWasOpen=" + introWasOpen +
+                " introOpen=" + stageIntroOpen +
+                " introLines=" + introCount +
+                " reachedBattleClock=" + reachedBattleClock +
                 " clock=" + ClockMode +
+                " audio=" + audioStatus +
                 " error=" + error);
             Application.Quit(exitCode);
         }
