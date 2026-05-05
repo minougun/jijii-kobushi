@@ -118,6 +118,8 @@ In Play Mode, the ED bonus now attempts to load the Web original ED video path f
 
 The local Play Mode runner now starts with a Web-like opening overlay. It loads `op-title-kakizome-hanshi-v1.png`, shows the `爺コブシ。` opening text, lets the player choose Easy/Normal/Hard, and keeps Stage 1 preloaded behind the overlay so the stage intro remains gated until the player starts. The temporary opening IMGUI is isolated in `PrototypeOpeningScreen` so the scene driver does not own the opening layout details.
 
+Runtime PNG/JPG-like texture decoding for the temporary IMGUI layer is centralized in `PrototypeTextureLoader`, keeping background, opening still, character sheet, cut-in, and final reveal loading on the same error/status path.
+
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions through `RhythmInputBindingProfile`. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 The same input path now covers run-save controls: `F5` / generic shoulder-left saves the current run slot, and `F9` / generic shoulder-right loads the current loop slot.
 

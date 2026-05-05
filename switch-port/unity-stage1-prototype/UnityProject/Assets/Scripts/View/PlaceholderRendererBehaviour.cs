@@ -2085,22 +2085,10 @@ namespace JijiiKobushi.Stage1Prototype
                 return;
             }
 
-            try
+            Texture2D loaded;
+            if (PrototypeTextureLoader.TryLoadRgbaTexture(openingPath, "opening", out loaded, out openingStillStatus))
             {
-                var bytes = File.ReadAllBytes(openingPath);
-                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                if (!ImageConversion.LoadImage(texture, bytes))
-                {
-                    openingStillStatus = "opening decode failed";
-                    return;
-                }
-
-                openingStillTexture = texture;
-                openingStillStatus = "opening loaded";
-            }
-            catch (Exception ex)
-            {
-                openingStillStatus = "opening load failed: " + ex.Message;
+                openingStillTexture = loaded;
             }
         }
 
@@ -2120,22 +2108,10 @@ namespace JijiiKobushi.Stage1Prototype
                 return;
             }
 
-            try
+            Texture2D loaded;
+            if (PrototypeTextureLoader.TryLoadRgbaTexture(characterSheetPath, "characters", out loaded, out characterSheetStatus))
             {
-                var bytes = File.ReadAllBytes(characterSheetPath);
-                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                if (!ImageConversion.LoadImage(texture, bytes))
-                {
-                    characterSheetStatus = "characters decode failed";
-                    return;
-                }
-
-                characterSheetTexture = texture;
-                characterSheetStatus = "characters loaded";
-            }
-            catch (Exception ex)
-            {
-                characterSheetStatus = "characters load failed: " + ex.Message;
+                characterSheetTexture = loaded;
             }
         }
 
@@ -2155,22 +2131,10 @@ namespace JijiiKobushi.Stage1Prototype
                 return;
             }
 
-            try
+            Texture2D loaded;
+            if (PrototypeTextureLoader.TryLoadRgbaTexture(cutinPath, "cut-in", out loaded, out specialCutinStatus))
             {
-                var bytes = File.ReadAllBytes(cutinPath);
-                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                if (!ImageConversion.LoadImage(texture, bytes))
-                {
-                    specialCutinStatus = "cut-in decode failed";
-                    return;
-                }
-
-                specialCutinTexture = texture;
-                specialCutinStatus = "cut-in loaded";
-            }
-            catch (Exception ex)
-            {
-                specialCutinStatus = "cut-in load failed: " + ex.Message;
+                specialCutinTexture = loaded;
             }
         }
 
@@ -2190,22 +2154,10 @@ namespace JijiiKobushi.Stage1Prototype
                 return;
             }
 
-            try
+            Texture2D loaded;
+            if (PrototypeTextureLoader.TryLoadRgbaTexture(finalRevealPath, "final reveal", out loaded, out finalRevealStatus))
             {
-                var bytes = File.ReadAllBytes(finalRevealPath);
-                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                if (!ImageConversion.LoadImage(texture, bytes))
-                {
-                    finalRevealStatus = "final reveal decode failed";
-                    return;
-                }
-
-                finalRevealTexture = texture;
-                finalRevealStatus = "final reveal loaded";
-            }
-            catch (Exception ex)
-            {
-                finalRevealStatus = "final reveal load failed: " + ex.Message;
+                finalRevealTexture = loaded;
             }
         }
 
@@ -2235,26 +2187,13 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void LoadStageBackgroundFromFile(string assetSrc, string filePath)
         {
-            try
-            {
-                var bytes = File.ReadAllBytes(filePath);
-                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                if (!ImageConversion.LoadImage(texture, bytes))
-                {
-                    stageBackgroundStatus = "background decode failed";
-                    return;
-                }
+            Texture2D loaded;
+            if (!PrototypeTextureLoader.TryLoadRgbaTexture(filePath, "background", out loaded, out stageBackgroundStatus)) return;
 
-                backgroundTextureCache[assetSrc] = texture;
-                if (assetSrc == stageBackgroundAssetSrc)
-                {
-                    stageBackgroundTexture = texture;
-                    stageBackgroundStatus = "background loaded";
-                }
-            }
-            catch (Exception ex)
+            backgroundTextureCache[assetSrc] = loaded;
+            if (assetSrc == stageBackgroundAssetSrc)
             {
-                stageBackgroundStatus = "background load failed: " + ex.Message;
+                stageBackgroundTexture = loaded;
             }
         }
 

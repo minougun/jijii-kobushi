@@ -106,6 +106,7 @@ ED bonus:
 - 2026-05-05 continuation: the Windows prototype build now stages the runtime asset manifest into ignored `StreamingAssets/JiiKobushi/` before `BuildPipeline.BuildPlayer`, using local files when present and `git show HEAD:<asset>` for sparse Web-original assets. The staging report passed with 35/35 assets staged, 21 restored from Git, and zero missing/failed copies before the rebuilt player passed the stage, all-stage, loop-plus, and ED smoke gates.
 - 2026-05-05 continuation: the Unity Play Mode runner now starts with a Web-like opening overlay that loads the tracked `op-title-kakizome-hanshi-v1.png`, presents Easy/Normal/Hard selection, and only reveals the preloaded Stage 1 intro after the start action.
 - 2026-05-05 continuation: the temporary opening overlay drawing was extracted into `PrototypeOpeningScreen`, reducing `PlaceholderRendererBehaviour` before the production UI migration while keeping the same PlayMode opening smoke coverage.
+- 2026-05-05 continuation: repeated temporary IMGUI texture decoding paths were centralized in `PrototypeTextureLoader`, so background, opening still, character sheet, cut-in, and final reveal assets now share one runtime load/status path.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
