@@ -34,6 +34,11 @@ namespace JijiiKobushi.Stage1Prototype
             return "./assets/images/jii-kobushi-chibi-character-sheet-v1.png";
         }
 
+        public static string GetOpeningStillAssetPath()
+        {
+            return "./assets/images/op-title-kakizome-hanshi-v1.png";
+        }
+
         public static string GetSpecialCutinAssetPath()
         {
             return "./assets/images/kojiro-cutin.png";

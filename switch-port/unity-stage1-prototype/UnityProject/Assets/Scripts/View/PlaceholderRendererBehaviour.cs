@@ -60,6 +60,9 @@ namespace JijiiKobushi.Stage1Prototype
         private Texture2D stageBackgroundTexture;
         private string stageBackgroundAssetSrc = "";
         private string stageBackgroundStatus = "background not loaded";
+        private Texture2D openingStillTexture;
+        private string openingStillStatus = "opening not loaded";
+        private bool openingVisible = true;
         private Texture2D characterSheetTexture;
         private string characterSheetStatus = "characters not loaded";
         private Texture2D specialCutinTexture;
@@ -83,8 +86,10 @@ namespace JijiiKobushi.Stage1Prototype
             inputAdapter = new KeyboardGamepadInputAdapter();
             InitializeRunSaveStore();
             LoadAndStart();
+            LoadOpeningStill();
             if (HasCommandLineFlag("-jijiiSmokeLoopPlus"))
             {
+                openingVisible = false;
                 runLoop = 2;
                 difficulty = "hard";
                 stageNumber = 1;
@@ -93,14 +98,17 @@ namespace JijiiKobushi.Stage1Prototype
             }
             else if (HasCommandLineFlag("-jijiiSmokeAllStages"))
             {
+                openingVisible = false;
                 StartCoroutine(QuitAfterAllStagesSmokeFrame());
             }
             else if (HasCommandLineFlag("-jijiiSmokeEnding"))
             {
+                openingVisible = false;
                 StartCoroutine(QuitAfterEndingSmokeFrame());
             }
             else if (HasCommandLineFlag("-jijiiSmokeQuit"))
             {
+                openingVisible = false;
                 StartCoroutine(QuitAfterSmokeFrame());
             }
         }
@@ -245,6 +253,26 @@ namespace JijiiKobushi.Stage1Prototype
         public string DebugSaveDirectory
         {
             get { return saveDirectory; }
+        }
+
+        public bool DebugOpeningVisible
+        {
+            get { return openingVisible; }
+        }
+
+        public bool DebugOpeningStillLoaded
+        {
+            get { return openingStillTexture != null; }
+        }
+
+        public string DebugOpeningStillStatus
+        {
+            get { return openingStillStatus; }
+        }
+
+        public void DebugStartFromOpening()
+        {
+            StartGameFromOpening();
         }
 
         public bool DebugCharacterSheetLoaded
@@ -410,6 +438,11 @@ namespace JijiiKobushi.Stage1Prototype
 
             if (inputAdapter == null) inputAdapter = new KeyboardGamepadInputAdapter();
             var input = inputAdapter.PollFrame();
+            if (openingVisible)
+            {
+                HandleOpeningInput(input);
+                return;
+            }
             if (HandleControlInput(input)) return;
             if (stageIntroOpen) return;
             if (paused) return;
@@ -474,8 +507,6 @@ namespace JijiiKobushi.Stage1Prototype
             var width = Mathf.Max(720, Screen.width - margin * 2);
             var mainRect = new Rect(margin, margin, width, Mathf.Max(500, Screen.height - margin * 2));
             PrototypeGui.FillRect(mainRect, new Color(0.96f, 0.94f, 0.88f));
-            DrawStageBackground(mainRect);
-            DrawEndingVideoBackground(mainRect);
             PrototypeGui.StrokeRect(mainRect, new Color(0.12f, 0.11f, 0.1f), 3);
 
             if (!string.IsNullOrEmpty(error))
@@ -484,6 +515,16 @@ namespace JijiiKobushi.Stage1Prototype
                 DrawFooterControls(mainRect);
                 return;
             }
+
+            if (openingVisible)
+            {
+                DrawOpeningScreen(mainRect);
+                return;
+            }
+
+            DrawStageBackground(mainRect);
+            DrawEndingVideoBackground(mainRect);
+            PrototypeGui.StrokeRect(mainRect, new Color(0.12f, 0.11f, 0.1f), 3);
 
             DrawHud(mainRect);
             DrawStagePanel(mainRect);
@@ -614,6 +655,49 @@ namespace JijiiKobushi.Stage1Prototype
                 AdvanceStageIntro();
             }
             GUI.Label(new Rect(panel.x + 24f, panel.y + panel.height - 36f, panel.width - 200f, 24f), "Tap / A button advances scenario before the count-in starts.", panelLabelStyle);
+        }
+
+        private void DrawOpeningScreen(Rect mainRect)
+        {
+            PrototypeGui.FillRect(mainRect, new Color(0.10f, 0.075f, 0.045f));
+            var imageRect = new Rect(mainRect.x + 48f, mainRect.y + 26f, mainRect.width - 96f, Mathf.Min(340f, mainRect.height - 206f));
+            PrototypeGui.FillRect(imageRect, new Color(0.72f, 0.56f, 0.34f));
+            if (openingStillTexture != null)
+            {
+                GUI.DrawTexture(imageRect, openingStillTexture, ScaleMode.ScaleToFit, true);
+            }
+            else
+            {
+                GUI.Label(new Rect(imageRect.x + 24f, imageRect.y + imageRect.height * 0.44f, imageRect.width - 48f, 28f), openingStillStatus, strongStyle);
+            }
+            PrototypeGui.StrokeRect(imageRect, new Color(0.04f, 0.035f, 0.03f), 3);
+
+            var textPanel = new Rect(mainRect.x + 74f, imageRect.yMax + 14f, mainRect.width - 148f, 64f);
+            PrototypeGui.FillRect(textPanel, new Color(0.05f, 0.045f, 0.04f, 0.92f));
+            GUI.Label(new Rect(textPanel.x + 22f, textPanel.y + 12f, textPanel.width - 44f, 24f), "爺コブシ。", strongStyle);
+            GUI.Label(new Rect(textPanel.x + 22f, textPanel.y + 36f, textPanel.width - 44f, 22f), "この物語は、立石小次郎と、その仲間たちが巻き起こす一大感動巨編である。", panelLabelStyle);
+
+            var controls = new Rect(mainRect.x + (mainRect.width - 600f) * 0.5f, textPanel.yMax + 18f, 600f, 70f);
+            PrototypeGui.FillRect(controls, new Color(1f, 0.985f, 0.94f, 0.96f));
+            PrototypeGui.StrokeRect(controls, new Color(0.05f, 0.05f, 0.05f), 2);
+            GUI.Label(new Rect(controls.x + 18f, controls.y + 12f, 112f, 24f), "難易度", strongStyle);
+            DrawOpeningDifficultyButton("easy", controls.x + 126f, controls.y + 14f);
+            DrawOpeningDifficultyButton("normal", controls.x + 222f, controls.y + 14f);
+            DrawOpeningDifficultyButton("hard", controls.x + 342f, controls.y + 14f);
+            if (GUI.Button(new Rect(controls.x + 458f, controls.y + 12f, 122f, 42f), "開始"))
+            {
+                StartGameFromOpening();
+            }
+            GUI.Label(new Rect(controls.x + 18f, controls.y + 44f, 430f, 20f), "Tap / A button also starts the selected difficulty.", panelLabelStyle);
+        }
+
+        private void DrawOpeningDifficultyButton(string value, float left, float top)
+        {
+            var label = difficulty == value ? "[" + value + "]" : value;
+            if (GUI.Button(new Rect(left, top, value == "normal" ? 102f : 82f, 34f), label))
+            {
+                difficulty = NormalizeDifficulty(value);
+            }
         }
 
         private void DrawBgmAttribution(Rect mainRect)
@@ -947,6 +1031,36 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             return false;
+        }
+
+        private bool HandleOpeningInput(RhythmInputFrame input)
+        {
+            if (input.SaveDown)
+            {
+                SaveCurrentRun();
+                return true;
+            }
+
+            if (input.LoadDown)
+            {
+                LoadCurrentRunSlot();
+                return true;
+            }
+
+            if (input.TapOrMashDown || input.RestartDown)
+            {
+                StartGameFromOpening();
+                return true;
+            }
+
+            return false;
+        }
+
+        private void StartGameFromOpening()
+        {
+            openingVisible = false;
+            stageNumber = 1;
+            LoadAndStart();
         }
 
         private bool AdvanceStageIntro()
@@ -1978,6 +2092,41 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             LoadStageBackgroundFromFile(stageBackgroundAssetSrc, backgroundPath);
+        }
+
+        private void LoadOpeningStill()
+        {
+            if (openingStillTexture != null)
+            {
+                openingStillStatus = "opening cached";
+                return;
+            }
+
+            var openingAssetSrc = StageRuntimeVisualAssets.GetOpeningStillAssetPath();
+            var openingPath = ResolveRuntimeAssetLocalPath(openingAssetSrc);
+            if (string.IsNullOrEmpty(openingPath))
+            {
+                openingStillStatus = "opening missing: " + openingAssetSrc;
+                return;
+            }
+
+            try
+            {
+                var bytes = File.ReadAllBytes(openingPath);
+                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!ImageConversion.LoadImage(texture, bytes))
+                {
+                    openingStillStatus = "opening decode failed";
+                    return;
+                }
+
+                openingStillTexture = texture;
+                openingStillStatus = "opening loaded";
+            }
+            catch (Exception ex)
+            {
+                openingStillStatus = "opening load failed: " + ex.Message;
+            }
         }
 
         private void LoadCharacterSheet()

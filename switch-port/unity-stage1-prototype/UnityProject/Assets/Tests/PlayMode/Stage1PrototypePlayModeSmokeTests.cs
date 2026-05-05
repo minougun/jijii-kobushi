@@ -42,6 +42,33 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [UnityTest]
+        public IEnumerator PlaceholderRendererShowsOpeningStillBeforeStageStart()
+        {
+            var runnerObject = new GameObject("Opening PlayMode Smoke Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded && runner.DebugOpeningStillLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.IsTrue(runner.DebugOpeningVisible);
+            Assert.IsTrue(runner.DebugOpeningStillLoaded, runner.DebugOpeningStillStatus);
+            Assert.IsTrue(runner.DebugStageIntroOpen, "stage intro is preloaded behind the opening");
+
+            runner.DebugStartFromOpening();
+            yield return null;
+
+            Assert.IsFalse(runner.DebugOpeningVisible);
+            Assert.IsTrue(runner.DebugStageIntroOpen, "stage intro remains gated after opening");
+            Assert.AreEqual("うさぎ公園", runner.DebugStageLocation);
+
+            Object.Destroy(runnerObject);
+        }
+
+        [UnityTest]
         public IEnumerator PlaceholderRendererStopsBgmWhenSessionCompletes()
         {
             var runnerObject = new GameObject("Stage1 PlayMode Result Runner");

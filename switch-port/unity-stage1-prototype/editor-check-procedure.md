@@ -180,6 +180,7 @@ Expected Play Mode behavior:
 
 - Loads `switch-port/stage1/shotengai.stage.json`.
 - Runs parity validation against `switch-port/stage1/expected-results.json`.
+- Starts with an opening overlay that shows `op-title-kakizome-hanshi-v1.png`, the `爺コブシ。` opening text, difficulty selection, and a start action.
 - Shows the Stage 1 intro text overlay before count-in.
 - Starts BGM/count-in only after all intro lines are advanced with `Tap / Mash` or the overlay button.
 - Starts count-in at `3000ms`.

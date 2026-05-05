@@ -334,6 +334,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual(5, StageRuntimeVisualAssets.ChibiSheetColumns);
             Assert.AreEqual(2, StageRuntimeVisualAssets.ChibiSheetRows);
             AssertRuntimeCatalogPath(catalog, StageRuntimeVisualAssets.GetCharacterSheetAssetPath(), "character-sheet");
+            AssertRuntimeCatalogPath(catalog, StageRuntimeVisualAssets.GetOpeningStillAssetPath(), "opening-still");
             AssertRuntimeCatalogPath(catalog, StageRuntimeVisualAssets.GetSpecialCutinAssetPath(), "special-cutin");
             AssertRuntimeCatalogPath(catalog, StageRuntimeVisualAssets.GetFinalRevealAssetPath(), "final-reveal-sprite");
 
