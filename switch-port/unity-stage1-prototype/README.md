@@ -244,6 +244,18 @@ switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.e
 
 This verifies that the built player starts, loads the Stage 1 data, advances the intro gate, reaches the BGM-backed battle clock, writes a smoke line, and exits without human input.
 
+The generated player also supports an all-stage smoke-exit flag:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeAllStages \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-allstages-smoke.log"
+```
+
+This loads stages 1 through 7 in the built player, advances each intro gate, waits for each stage battle clock, clears each chart through the deterministic perfect-input path, verifies seven run result rows, and exits at the final-stage ED handoff.
+
 The generated player also supports an ED smoke-exit flag:
 
 ```bash

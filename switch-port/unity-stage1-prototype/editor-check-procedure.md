@@ -118,6 +118,22 @@ Expected player smoke behavior:
 - The smoke line includes `stage=誘拐の朝` and `location=うさぎ公園`.
 - The smoke line includes `introOpen=False`, `reachedBattleClock=True`, and `clock=audio` when the local BGM can be loaded.
 
+Generated all-stage player launch smoke:
+
+```bash
+switch-port/unity-stage1-prototype/UnityProject/Builds/Windows/Stage1Prototype.exe \
+  -batchmode \
+  -nographics \
+  -jijiiSmokeAllStages \
+  -logFile "C:\Users\minou\jii-kobushi\switch-port\unity-stage1-prototype\unity-player-allstages-smoke.log"
+```
+
+Expected all-stage smoke behavior:
+
+- The process exits with code `0`.
+- The log contains `Jijii Kobushi all-stage smoke quit`.
+- The smoke line includes `visited=7`, `runResults=7`, `finalRank=S`, and `canStartEnding=True`.
+
 Generated ED player launch smoke:
 
 ```bash

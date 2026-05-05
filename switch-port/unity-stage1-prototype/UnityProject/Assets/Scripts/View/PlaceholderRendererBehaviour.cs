@@ -83,7 +83,11 @@ namespace JijiiKobushi.Stage1Prototype
             inputAdapter = new KeyboardGamepadInputAdapter();
             InitializeRunSaveStore();
             LoadAndStart();
-            if (HasCommandLineFlag("-jijiiSmokeEnding"))
+            if (HasCommandLineFlag("-jijiiSmokeAllStages"))
+            {
+                StartCoroutine(QuitAfterAllStagesSmokeFrame());
+            }
+            else if (HasCommandLineFlag("-jijiiSmokeEnding"))
             {
                 StartCoroutine(QuitAfterEndingSmokeFrame());
             }
@@ -1647,6 +1651,90 @@ namespace JijiiKobushi.Stage1Prototype
                 " videoAssetExists=" + endingVideoAssetExists +
                 " reachedEndingClock=" + reachedEndingClock +
                 " videoClockActive=" + DebugEndingVideoClockActive +
+                " clock=" + ClockMode +
+                " audio=" + audioStatus +
+                " error=" + error);
+            Application.Quit(exitCode);
+        }
+
+        private IEnumerator QuitAfterAllStagesSmokeFrame()
+        {
+            var visited = 0;
+            var failedStage = 0;
+            var failedReason = "";
+
+            for (var targetStage = 1; targetStage <= StagePackCatalog.Count; targetStage += 1)
+            {
+                if (CurrentStageNumber != targetStage)
+                {
+                    stageNumber = targetStage;
+                    LoadAndStart();
+                }
+
+                for (var i = 0; i < 180; i += 1)
+                {
+                    if ((session != null && CurrentStageNumber == targetStage) || !string.IsNullOrEmpty(error)) break;
+                    yield return null;
+                }
+
+                if (!string.IsNullOrEmpty(error) || session == null || CurrentStageNumber != targetStage)
+                {
+                    failedStage = targetStage;
+                    failedReason = "stage load failed";
+                    break;
+                }
+
+                var introCount = DebugIntroLineCount;
+                for (var i = 0; i < introCount && stageIntroOpen; i += 1)
+                {
+                    AdvanceStageIntro();
+                    yield return null;
+                }
+
+                var audioDeadline = Time.realtimeSinceStartup + 8f;
+                while (Time.realtimeSinceStartup < audioDeadline)
+                {
+                    if (!string.IsNullOrEmpty(error)) break;
+                    if (!stageIntroOpen && (audioStarted || audioFallbackClock || !useAudioClock)) break;
+                    yield return null;
+                }
+
+                var reachedBattleClock = !stageIntroOpen && (audioStarted || audioFallbackClock || !useAudioClock);
+                if (!reachedBattleClock || !DebugBgmFileExists)
+                {
+                    failedStage = targetStage;
+                    failedReason = "battle clock or BGM missing";
+                    break;
+                }
+
+                DebugCompleteStagePerfect();
+                yield return null;
+                visited += 1;
+
+                if (targetStage < StagePackCatalog.Count)
+                {
+                    if (!CanAdvanceToNextStage)
+                    {
+                        failedStage = targetStage;
+                        failedReason = "next stage unavailable";
+                        break;
+                    }
+
+                    AdvanceToNextStage();
+                    yield return null;
+                }
+            }
+
+            var completedRun = visited == StagePackCatalog.Count && CanStartEndingBonus && runProgress.Count == StagePackCatalog.Count;
+            var exitCode = string.IsNullOrEmpty(error) && completedRun ? 0 : 1;
+            Debug.Log(
+                "Jijii Kobushi all-stage smoke quit: exitCode=" + exitCode +
+                " visited=" + visited +
+                " runResults=" + runProgress.Count +
+                " finalRank=" + runProgress.FinalRank +
+                " canStartEnding=" + CanStartEndingBonus +
+                " failedStage=" + failedStage +
+                " failedReason=" + failedReason +
                 " clock=" + ClockMode +
                 " audio=" + audioStatus +
                 " error=" + error);
