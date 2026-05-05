@@ -109,6 +109,8 @@ ED bonus:
 - 2026-05-05 continuation: repeated temporary IMGUI texture decoding paths were centralized in `PrototypeTextureLoader`, so background, opening still, character sheet, cut-in, and final reveal assets now share one runtime load/status path.
 - 2026-05-05 continuation: stage intro, BGM attribution, and ED video preview drawing were extracted into `PrototypeScenarioPanel`, further shrinking the temporary scene driver without changing the PlayMode smoke expectations.
 - 2026-05-05 continuation: chibi sprite-sheet drawing, finisher cut-in presentation, and final reveal sprite drawing were extracted into `PrototypeCharacterPanel`, keeping Web-derived character art presentation out of the main scene driver.
+- 2026-05-05 continuation: `npm run check:switch-local-complete` was added as the local 100% gate. It runs the Web integrity check, portable Switch gates, standalone C# all-stage parity, Unity EditMode/PlayMode tests, Unity portable parity, Windows player build, and stage/all-stage/loop-plus/ED player smokes in one reproducible command.
+- 2026-05-05 continuation: the local 100% gate passed end-to-end with `Switch local completion gate: pass`. This covers Web-original integrity without modifying Web source, portable Switch data parity, C# CLI parity, Unity EditMode/PlayMode, local Windows build, and all smoke-exit paths.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

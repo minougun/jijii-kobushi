@@ -188,6 +188,12 @@ npm run validate:switch-stages
 npm run check:switch-ending
 ```
 
+The full local completion gate wraps the Web integrity check, all portable Switch data gates, standalone C# parity, Unity EditMode/PlayMode tests, Unity portable parity, the local Windows build, and all four player smoke modes:
+
+```bash
+npm run check:switch-local-complete
+```
+
 Unity test output should be compared to `../stage1/expected-results.json`, not hand-entered chart constants.
 
 The standalone C# CLI can also run the Unity-side all-stage smoke gate:
