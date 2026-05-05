@@ -1535,7 +1535,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         private string ResolveRuntimeAssetLocalPath(string assetSrc)
         {
-            return ResolveRuntimeAssetPath(assetSrc, RuntimeCatalog, Application.streamingAssetsPath);
+            return RuntimeAssetPathUtility.ResolveRuntimePath(assetSrc, RuntimeCatalog, Application.streamingAssetsPath, Directory.GetCurrentDirectory());
         }
 
         private RuntimeAssetCatalog RuntimeCatalog
@@ -1556,39 +1556,6 @@ namespace JijiiKobushi.Stage1Prototype
 
                 return runtimeAssetCatalog;
             }
-        }
-
-        private static string ResolveRuntimeAssetPath(string assetSrc, RuntimeAssetCatalog catalog, string streamingAssetsRoot)
-        {
-            if (string.IsNullOrEmpty(assetSrc)) return "";
-            var normalized = RuntimeAssetPathUtility.NormalizeAssetPath(assetSrc);
-
-            if (catalog != null)
-            {
-                var streamingPath = catalog.ResolveStreamingAssetsPath(normalized, streamingAssetsRoot);
-                if (!string.IsNullOrEmpty(streamingPath)) return streamingPath;
-            }
-            else
-            {
-                var streamingPath = RuntimeAssetPathUtility.ResolveStreamingAssetsPath(normalized, streamingAssetsRoot);
-                if (!string.IsNullOrEmpty(streamingPath)) return streamingPath;
-            }
-
-            if (catalog != null)
-            {
-                var catalogPath = catalog.ResolveLocalPath(normalized);
-                if (!string.IsNullOrEmpty(catalogPath)) return catalogPath;
-            }
-
-            var current = new DirectoryInfo(Directory.GetCurrentDirectory());
-            while (current != null)
-            {
-                var candidate = Path.Combine(current.FullName, normalized.Replace('/', Path.DirectorySeparatorChar));
-                if (File.Exists(candidate)) return candidate;
-                current = current.Parent;
-            }
-
-            return "";
         }
 
         private static string ToFileUri(string path)

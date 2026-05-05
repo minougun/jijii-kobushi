@@ -80,6 +80,7 @@ ED bonus:
 - 2026-05-05 continuation: stage battle perfect-input generation was extracted into `StagePerfectInputPlanner`; `npm run check:switch-port`, standalone C# all-stage smoke, Unity portable parity, Unity PlayMode 9/9, Unity EditMode 20/20, and `npm run check` passed after the change.
 - 2026-05-05 continuation: keyboard/generic-gamepad controls were centralized in `RhythmInputBindingProfile` so later platform controller mappings can replace bindings without changing rhythm judgement or the Play Mode runner.
 - 2026-05-05 continuation: stale Unity prototype docs were updated after cleanup so they no longer refer to the removed `PlaceholderRenderer.cs` helper or obsolete Resource-copy paths.
+- 2026-05-05 continuation: runtime asset path resolution was centralized in `RuntimeAssetPathUtility.ResolveRuntimePath`; the Play Mode renderer now shares the same StreamingAssets-first/local-Web-original fallback path as EditMode tests.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

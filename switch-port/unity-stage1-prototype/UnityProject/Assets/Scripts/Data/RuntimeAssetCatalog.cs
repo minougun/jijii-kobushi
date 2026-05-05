@@ -121,5 +121,32 @@ namespace JijiiKobushi.Stage1Prototype
             var candidate = Path.Combine(streamingAssetsRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
             return File.Exists(candidate) ? candidate : "";
         }
+
+        public static string ResolveRuntimePath(string assetSrc, RuntimeAssetCatalog catalog, string streamingAssetsRoot, string searchStartDirectory)
+        {
+            if (string.IsNullOrEmpty(assetSrc)) return "";
+            var normalized = NormalizeAssetPath(assetSrc);
+
+            var streamingPath = catalog != null
+                ? catalog.ResolveStreamingAssetsPath(normalized, streamingAssetsRoot)
+                : ResolveStreamingAssetsPath(normalized, streamingAssetsRoot);
+            if (!string.IsNullOrEmpty(streamingPath)) return streamingPath;
+
+            if (catalog != null)
+            {
+                var catalogPath = catalog.ResolveLocalPath(normalized);
+                if (!string.IsNullOrEmpty(catalogPath)) return catalogPath;
+            }
+
+            var current = new DirectoryInfo(string.IsNullOrEmpty(searchStartDirectory) ? Directory.GetCurrentDirectory() : searchStartDirectory);
+            while (current != null)
+            {
+                var candidate = Path.Combine(current.FullName, normalized.Replace('/', Path.DirectorySeparatorChar));
+                if (File.Exists(candidate)) return candidate;
+                current = current.Parent;
+            }
+
+            return "";
+        }
     }
 }

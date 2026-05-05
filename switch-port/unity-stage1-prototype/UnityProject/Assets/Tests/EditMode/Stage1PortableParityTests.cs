@@ -178,6 +178,37 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void RuntimeAssetPathUtilityResolvesStreamingLocalAndDirectoryFallbacks()
+        {
+            var manifest = StageJsonLoader.LoadRuntimeAssetManifest(ProfileTestRunner.ResolveRuntimeAssetManifestPath("runtime-assets.json"));
+            var catalog = RuntimeAssetCatalog.FromManifest(manifest);
+            var tempRoot = Path.Combine(Path.GetTempPath(), "jii-kobushi-runtime-path-test-" + System.Guid.NewGuid().ToString("N"));
+            try
+            {
+                var stagedPath = Path.Combine(tempRoot, "streaming", "JiiKobushi", "assets", "audio", "koiwazurai.mp3");
+                Directory.CreateDirectory(Path.GetDirectoryName(stagedPath));
+                File.WriteAllText(stagedPath, "placeholder");
+
+                Assert.AreEqual(stagedPath, RuntimeAssetPathUtility.ResolveRuntimePath("./assets/audio/koiwazurai.mp3", catalog, Path.Combine(tempRoot, "streaming"), tempRoot));
+
+                var localPath = RuntimeAssetPathUtility.ResolveRuntimePath("./assets/audio/koiwazurai.mp3", catalog, Path.Combine(tempRoot, "empty-streaming"), tempRoot);
+                Assert.IsTrue(File.Exists(localPath), "local Web-original fallback exists");
+                Assert.IsTrue(localPath.Replace('\\', '/').EndsWith("/assets/audio/koiwazurai.mp3", System.StringComparison.Ordinal), "local fallback path");
+
+                var fallbackPath = Path.Combine(tempRoot, "assets", "audio", "fallback-test.mp3");
+                Directory.CreateDirectory(Path.GetDirectoryName(fallbackPath));
+                File.WriteAllText(fallbackPath, "fallback");
+                var nestedSearchRoot = Path.Combine(tempRoot, "nested", "child");
+                Directory.CreateDirectory(nestedSearchRoot);
+                Assert.AreEqual(fallbackPath, RuntimeAssetPathUtility.ResolveRuntimePath("./assets/audio/fallback-test.mp3", null, "", nestedSearchRoot));
+            }
+            finally
+            {
+                if (Directory.Exists(tempRoot)) Directory.Delete(tempRoot, true);
+            }
+        }
+
+        [Test]
         public void DefaultInputBindingsCoverKeyboardAndGenericGamepadActions()
         {
             var bindings = RhythmInputBindingProfile.CreateDefault();
