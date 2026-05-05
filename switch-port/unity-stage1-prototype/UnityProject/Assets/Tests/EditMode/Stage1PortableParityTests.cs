@@ -1,5 +1,6 @@
 using System.IO;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace JijiiKobushi.Stage1Prototype
 {
@@ -174,6 +175,27 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 if (Directory.Exists(tempRoot)) Directory.Delete(tempRoot, true);
             }
+        }
+
+        [Test]
+        public void DefaultInputBindingsCoverKeyboardAndGenericGamepadActions()
+        {
+            var bindings = RhythmInputBindingProfile.CreateDefault();
+
+            CollectionAssert.Contains(bindings.TapOrMashKeys, KeyCode.Space);
+            CollectionAssert.Contains(bindings.TapOrMashKeys, KeyCode.Z);
+            CollectionAssert.Contains(bindings.TapOrMashKeys, KeyCode.JoystickButton0);
+            CollectionAssert.Contains(bindings.TapOrMashKeys, KeyCode.JoystickButton2);
+            CollectionAssert.Contains(bindings.TapOrMashButtons, "Submit");
+            CollectionAssert.Contains(bindings.HoldKeys, KeyCode.X);
+            CollectionAssert.Contains(bindings.HoldKeys, KeyCode.J);
+            CollectionAssert.Contains(bindings.HoldKeys, KeyCode.JoystickButton1);
+            CollectionAssert.Contains(bindings.HoldKeys, KeyCode.JoystickButton3);
+            CollectionAssert.Contains(bindings.PauseKeys, KeyCode.P);
+            CollectionAssert.Contains(bindings.PauseKeys, KeyCode.Escape);
+            CollectionAssert.Contains(bindings.PauseKeys, KeyCode.JoystickButton9);
+            CollectionAssert.Contains(bindings.RestartKeys, KeyCode.Return);
+            CollectionAssert.Contains(bindings.RestartKeys, KeyCode.JoystickButton7);
         }
 
         [Test]

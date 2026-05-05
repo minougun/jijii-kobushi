@@ -6,31 +6,62 @@ namespace JijiiKobushi.Stage1Prototype
 {
     public sealed class KeyboardGamepadInputAdapter : IRhythmInputAdapter
     {
+        private readonly RhythmInputBindingProfile bindings;
+
+        public KeyboardGamepadInputAdapter()
+            : this(RhythmInputBindingProfile.CreateDefault())
+        {
+        }
+
+        public KeyboardGamepadInputAdapter(RhythmInputBindingProfile bindings)
+        {
+            this.bindings = bindings ?? RhythmInputBindingProfile.CreateDefault();
+        }
+
+        public RhythmInputBindingProfile Bindings
+        {
+            get { return bindings; }
+        }
+
         public RhythmInputFrame PollFrame()
         {
             return new RhythmInputFrame
             {
                 TapOrMashDown =
-                    Input.GetKeyDown(KeyCode.Space) ||
-                    Input.GetKeyDown(KeyCode.Z) ||
-                    Input.GetKeyDown(KeyCode.JoystickButton0) ||
-                    GetButtonDownSafe("Submit"),
-                HoldDown =
-                    Input.GetKeyDown(KeyCode.X) ||
-                    Input.GetKeyDown(KeyCode.J) ||
-                    Input.GetKeyDown(KeyCode.JoystickButton1),
-                HoldUp =
-                    Input.GetKeyUp(KeyCode.X) ||
-                    Input.GetKeyUp(KeyCode.J) ||
-                    Input.GetKeyUp(KeyCode.JoystickButton1),
-                PauseDown =
-                    Input.GetKeyDown(KeyCode.P) ||
-                    Input.GetKeyDown(KeyCode.Escape) ||
-                    Input.GetKeyDown(KeyCode.JoystickButton9),
-                RestartDown =
-                    Input.GetKeyDown(KeyCode.Return) ||
-                    Input.GetKeyDown(KeyCode.JoystickButton7)
+                    AnyKeyDown(bindings.TapOrMashKeys) ||
+                    AnyButtonDown(bindings.TapOrMashButtons),
+                HoldDown = AnyKeyDown(bindings.HoldKeys),
+                HoldUp = AnyKeyUp(bindings.HoldKeys),
+                PauseDown = AnyKeyDown(bindings.PauseKeys),
+                RestartDown = AnyKeyDown(bindings.RestartKeys)
             };
+        }
+
+        private static bool AnyKeyDown(KeyCode[] keys)
+        {
+            for (var i = 0; i < keys.Length; i += 1)
+            {
+                if (Input.GetKeyDown(keys[i])) return true;
+            }
+            return false;
+        }
+
+        private static bool AnyKeyUp(KeyCode[] keys)
+        {
+            for (var i = 0; i < keys.Length; i += 1)
+            {
+                if (Input.GetKeyUp(keys[i])) return true;
+            }
+            return false;
+        }
+
+        private static bool AnyButtonDown(string[] buttonNames)
+        {
+            for (var i = 0; i < buttonNames.Length; i += 1)
+            {
+                if (GetButtonDownSafe(buttonNames[i])) return true;
+            }
+            return false;
         }
 
         private static bool GetButtonDownSafe(string buttonName)
