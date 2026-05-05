@@ -85,6 +85,7 @@ ED bonus:
 - 2026-05-05 continuation: reusable result-card drawing helpers were extracted into `PrototypeResultPanel`, further separating temporary IMGUI presentation pieces from the Unity scene driver.
 - 2026-05-05 continuation: rhythm-lane note marker rendering was extracted into `PrototypeRhythmLane`, isolating temporary lane presentation from stage/ED session state.
 - 2026-05-05 continuation: HUD, stage info, and judge-summary panel rendering was extracted into `PrototypeStatusPanel`, keeping `PlaceholderRendererBehaviour` closer to orchestration only.
+- 2026-05-05 continuation: temporary footer controls and on-screen Tap/Hold buttons were extracted into `PrototypeFooterControls`, leaving the scene driver to provide callbacks and state only.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

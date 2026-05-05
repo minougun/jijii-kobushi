@@ -563,42 +563,25 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void DrawFooterControls(Rect mainRect)
         {
-            var top = mainRect.y + mainRect.height - 74;
-            DrawDifficultyButtons((int)mainRect.x + 24, (int)top + 6);
-            DrawLoopButtons((int)mainRect.x + 392, (int)top + 6);
-
-            if (prototypeMode == PrototypeMode.EndingBonus)
-            {
-                if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 110, 48), "Stages"))
-                {
-                    stageNumber = 1;
-                    LoadAndStart();
-                }
-            }
-            else
-            {
-                if (GUI.Button(new Rect(mainRect.x + 552, top + 2, 72, 48), "Prev"))
-                {
-                    ChangeStage(-1);
-                }
-
-                if (GUI.Button(new Rect(mainRect.x + 632, top + 2, 72, 48), "Next"))
-                {
-                    ChangeStage(1);
-                }
-            }
-
-            if (GUI.Button(new Rect(mainRect.x + 712, top + 2, 110, 48), "Restart"))
-            {
-                ReloadCurrentMode();
-            }
-
-            if (GUI.Button(new Rect(mainRect.x + 830, top + 2, 110, 48), paused ? "Resume" : "Pause"))
-            {
-                TogglePause();
-            }
-
-            DrawInputButtons((int)mainRect.x + 952, (int)top);
+            PrototypeFooterControls.Draw(
+                mainRect,
+                prototypeMode == PrototypeMode.EndingBonus,
+                HasActiveSession,
+                paused,
+                IsComplete,
+                difficulty,
+                CurrentRunLoop,
+                ref holdButtonWasDown,
+                SelectDifficulty,
+                SelectLoop,
+                ShowStages,
+                PreviousStage,
+                NextStage,
+                ReloadCurrentMode,
+                TogglePause,
+                TapActive,
+                HoldDownActive,
+                HoldUpActive);
         }
 
         private void LoadAndStart()
@@ -703,6 +686,34 @@ namespace JijiiKobushi.Stage1Prototype
         {
             stageNumber = StagePackCatalog.ClampStageNumber(CurrentStageNumber + delta);
             LoadAndStart();
+        }
+
+        private void PreviousStage()
+        {
+            ChangeStage(-1);
+        }
+
+        private void NextStage()
+        {
+            ChangeStage(1);
+        }
+
+        private void ShowStages()
+        {
+            stageNumber = 1;
+            LoadAndStart();
+        }
+
+        private void SelectLoop(int value)
+        {
+            runLoop = value;
+            ReloadCurrentMode();
+        }
+
+        private void SelectDifficulty(string value)
+        {
+            difficulty = value;
+            ReloadCurrentMode();
         }
 
         private void AdvanceToNextStage()
@@ -1450,41 +1461,6 @@ namespace JijiiKobushi.Stage1Prototype
             return new Uri(Path.GetFullPath(path)).AbsoluteUri;
         }
 
-        private void DrawDifficultyButtons(int left, int top)
-        {
-            GUI.Label(new Rect(left, top, 100, 28), "Difficulty");
-            DrawDifficultyButton("easy", left + 92, top);
-            DrawDifficultyButton("normal", left + 176, top);
-            DrawDifficultyButton("hard", left + 278, top);
-        }
-
-        private void DrawLoopButtons(int left, int top)
-        {
-            GUI.Label(new Rect(left, top, 58, 28), "Loop");
-            DrawLoopButton(1, left + 48, top);
-            DrawLoopButton(2, left + 104, top);
-        }
-
-        private void DrawLoopButton(int value, int left, int top)
-        {
-            var label = CurrentRunLoop == value ? "[" + value + "]" : value.ToString();
-            if (GUI.Button(new Rect(left, top, 50, 32), label))
-            {
-                runLoop = value;
-                ReloadCurrentMode();
-            }
-        }
-
-        private void DrawDifficultyButton(string id, int left, int top)
-        {
-            var label = difficulty == id ? "[" + id + "]" : id;
-            if (GUI.Button(new Rect(left, top, 84, 32), label))
-            {
-                difficulty = id;
-                ReloadCurrentMode();
-            }
-        }
-
         private static string NormalizeDifficulty(string value)
         {
             if (value == "easy" || value == "normal" || value == "hard") return value;
@@ -1500,38 +1476,6 @@ namespace JijiiKobushi.Stage1Prototype
                 Difficulty = stage.Difficulty,
                 Charts = stage.Charts
             };
-        }
-
-        private void DrawInputButtons(int left, int top)
-        {
-            if (!HasActiveSession) return;
-            var disabled = paused || IsComplete;
-            var previousEnabled = GUI.enabled;
-            GUI.enabled = previousEnabled && !disabled;
-
-            if (GUI.Button(new Rect(left, top, 160, 52), "Tap / Mash"))
-            {
-                TapActive();
-            }
-
-            var holdRect = new Rect(left + 172, top, 160, 52);
-            GUI.RepeatButton(holdRect, "Hold");
-
-            var currentEvent = Event.current;
-            if (!disabled && currentEvent.type == EventType.MouseDown && holdRect.Contains(currentEvent.mousePosition) && !holdButtonWasDown)
-            {
-                HoldDownActive();
-                holdButtonWasDown = true;
-                currentEvent.Use();
-            }
-            else if (!disabled && currentEvent.type == EventType.MouseUp && holdButtonWasDown)
-            {
-                HoldUpActive();
-                holdButtonWasDown = false;
-                currentEvent.Use();
-            }
-
-            GUI.enabled = previousEnabled;
         }
 
         private void EnsureStyles()
