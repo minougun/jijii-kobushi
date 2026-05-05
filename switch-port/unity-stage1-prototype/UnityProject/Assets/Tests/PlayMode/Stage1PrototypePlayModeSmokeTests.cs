@@ -65,6 +65,38 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [UnityTest]
+        public IEnumerator PlaceholderRendererFooterTapAdvancesStageIntro()
+        {
+            var runnerObject = new GameObject("Stage1 Intro Footer Tap Runner");
+            var runner = runnerObject.AddComponent<PlaceholderRendererBehaviour>();
+
+            for (var i = 0; i < 180; i += 1)
+            {
+                if (runner.DebugSessionLoaded) break;
+                yield return null;
+            }
+
+            Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
+            Assert.IsTrue(runner.DebugStageIntroOpen);
+            Assert.AreEqual(0, runner.DebugStageIntroLineIndex);
+
+            runner.DebugTapActive();
+            yield return null;
+
+            if (runner.DebugIntroLineCount > 1)
+            {
+                Assert.IsTrue(runner.DebugStageIntroOpen);
+                Assert.AreEqual(1, runner.DebugStageIntroLineIndex);
+            }
+            else
+            {
+                Assert.IsFalse(runner.DebugStageIntroOpen);
+            }
+
+            Object.Destroy(runnerObject);
+        }
+
+        [UnityTest]
         public IEnumerator PlaceholderRendererTogglesPause()
         {
             var runnerObject = new GameObject("Stage1 PlayMode Pause Runner");

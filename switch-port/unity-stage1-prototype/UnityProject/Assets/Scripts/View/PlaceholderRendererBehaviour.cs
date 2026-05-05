@@ -156,6 +156,11 @@ namespace JijiiKobushi.Stage1Prototype
             AdvanceStageIntro();
         }
 
+        public void DebugTapActive()
+        {
+            TapActive();
+        }
+
         public string DebugResultScenarioLine
         {
             get { return ResultScenarioLine; }
@@ -1150,6 +1155,12 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void TapActive()
         {
+            if (stageIntroOpen)
+            {
+                AdvanceStageIntro();
+                return;
+            }
+
             if (prototypeMode == PrototypeMode.EndingBonus)
             {
                 if (endingSession != null) endingSession.Tap();
