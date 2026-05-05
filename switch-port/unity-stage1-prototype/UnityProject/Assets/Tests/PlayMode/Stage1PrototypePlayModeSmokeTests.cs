@@ -23,9 +23,20 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
             Assert.AreEqual("うさぎ公園", runner.DebugStageLocation);
             Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
+            Assert.IsTrue(runner.DebugStageIntroOpen);
+            Assert.AreEqual(0, runner.DebugStageIntroLineIndex);
+            Assert.IsNotEmpty(runner.DebugCurrentIntroLine);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
             Assert.IsTrue(runner.DebugCharacterSheetLoaded, runner.DebugCharacterSheetStatus);
             Assert.IsTrue(runner.DebugSpecialCutinLoaded, runner.DebugSpecialCutinStatus);
+
+            for (var i = 0; i < runner.DebugIntroLineCount; i += 1)
+            {
+                runner.DebugAdvanceStageIntro();
+                yield return null;
+            }
+
+            Assert.IsFalse(runner.DebugStageIntroOpen);
 
             Object.Destroy(runnerObject);
         }

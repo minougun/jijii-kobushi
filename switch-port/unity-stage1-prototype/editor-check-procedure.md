@@ -129,6 +129,8 @@ Expected Play Mode behavior:
 
 - Loads `switch-port/stage1/shotengai.stage.json`.
 - Runs parity validation against `switch-port/stage1/expected-results.json`.
+- Shows the Stage 1 intro text overlay before count-in.
+- Starts BGM/count-in only after all intro lines are advanced with `Tap / Mash` or the overlay button.
 - Starts count-in at `3000ms`.
 - Shows the first note virtual timeline as `4200ms`.
 - Shows the Stage 1 location as `うさぎ公園`.

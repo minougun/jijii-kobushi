@@ -75,6 +75,8 @@ namespace JijiiKobushi.Stage1Prototype
         private IRunSaveStore runSaveStore;
         private string saveDirectory = "";
         private string saveStatus = "save: empty";
+        private bool stageIntroOpen;
+        private int stageIntroLineIndex;
 
         private void Start()
         {
@@ -132,6 +134,26 @@ namespace JijiiKobushi.Stage1Prototype
                 if (stage == null || stage.Scenario == null || stage.Scenario.IntroLines == null) return 0;
                 return stage.Scenario.IntroLines.Count;
             }
+        }
+
+        public bool DebugStageIntroOpen
+        {
+            get { return stageIntroOpen; }
+        }
+
+        public int DebugStageIntroLineIndex
+        {
+            get { return stageIntroLineIndex; }
+        }
+
+        public string DebugCurrentIntroLine
+        {
+            get { return CurrentIntroLine; }
+        }
+
+        public void DebugAdvanceStageIntro()
+        {
+            AdvanceStageIntro();
         }
 
         public string DebugResultScenarioLine
@@ -291,6 +313,7 @@ namespace JijiiKobushi.Stage1Prototype
         public void DebugSeekBattleClockMs(int battleClockMs)
         {
             if (session == null) return;
+            stageIntroOpen = false;
             session.SeekBattleClockMs(battleClockMs);
             HandleStageSessionComplete();
         }
@@ -316,6 +339,7 @@ namespace JijiiKobushi.Stage1Prototype
         public void DebugCompleteStagePerfect()
         {
             if (session == null || stage == null || chart == null) return;
+            stageIntroOpen = false;
             var events = StagePerfectInputPlanner.Build(stage, CurrentLoopKey, difficulty);
             for (var i = 0; i < events.Count && !session.IsComplete; i += 1)
             {
@@ -366,6 +390,7 @@ namespace JijiiKobushi.Stage1Prototype
             if (inputAdapter == null) inputAdapter = new KeyboardGamepadInputAdapter();
             var input = inputAdapter.PollFrame();
             if (HandleControlInput(input)) return;
+            if (stageIntroOpen) return;
             if (paused) return;
 
             if (audioStarted)
@@ -444,7 +469,11 @@ namespace JijiiKobushi.Stage1Prototype
             DrawStageCharacters(mainRect);
             DrawSpecialCutin(mainRect);
 
-            if (HasActiveSession)
+            if (stageIntroOpen)
+            {
+                DrawStageIntroOverlay(mainRect);
+            }
+            else if (HasActiveSession)
             {
                 DrawRhythmLane(mainRect);
                 DrawJudgePanel(mainRect);
@@ -544,6 +573,25 @@ namespace JijiiKobushi.Stage1Prototype
             GUI.Label(new Rect(badge.x + 18f, badge.y + 16f, 190f, 28f), CurrentStageNumber >= 4 ? "奥義" : "十連", strongStyle);
             GUI.Label(new Rect(badge.x + 18f, badge.y + 48f, 190f, 34f), CurrentStageNumber >= 4 ? "爺コブシ" : "大追撃", strongStyle);
             GUI.Label(new Rect(badge.x + 18f, badge.y + 84f, 190f, 24f), CurrentStageNumber >= 4 ? "内部破壊" : "追撃", panelLabelStyle);
+        }
+
+        private void DrawStageIntroOverlay(Rect mainRect)
+        {
+            var panelWidth = Mathf.Min(860f, mainRect.width - 96f);
+            var panelHeight = 174f;
+            var panel = new Rect(mainRect.x + (mainRect.width - panelWidth) * 0.5f, mainRect.y + mainRect.height - panelHeight - 96f, panelWidth, panelHeight);
+            PrototypeGui.FillRect(panel, new Color(0.05f, 0.048f, 0.044f, 0.94f));
+            PrototypeGui.StrokeRect(panel, new Color(0.92f, 0.74f, 0.28f), 3);
+            GUI.Label(new Rect(panel.x + 24f, panel.y + 16f, 360f, 28f), "語り", strongStyle);
+            GUI.Label(new Rect(panel.x + panel.width - 154f, panel.y + 18f, 128f, 24f), (stageIntroLineIndex + 1) + " / " + Mathf.Max(1, DebugIntroLineCount), panelLabelStyle);
+            GUI.Label(new Rect(panel.x + 24f, panel.y + 52f, panel.width - 48f, 72f), CurrentIntroLine, panelLabelStyle);
+
+            var actionLabel = stageIntroLineIndex + 1 >= DebugIntroLineCount ? "戦闘へ" : "次へ";
+            if (GUI.Button(new Rect(panel.x + panel.width - 156f, panel.y + panel.height - 42f, 132f, 30f), actionLabel))
+            {
+                AdvanceStageIntro();
+            }
+            GUI.Label(new Rect(panel.x + 24f, panel.y + panel.height - 36f, panel.width - 200f, 24f), "Tap / A button advances scenario before the count-in starts.", panelLabelStyle);
         }
 
         private void DrawEndingVideoBackground(Rect mainRect)
@@ -754,12 +802,21 @@ namespace JijiiKobushi.Stage1Prototype
                 completionHandled = false;
                 paused = false;
                 StopBgm();
-                status = "Loaded Stage " + CurrentStageNumber + " loop " + CurrentLoopKey + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms.";
+                stageIntroOpen = HasStageIntroLines;
+                stageIntroLineIndex = 0;
+                status = StageLoadStatus;
                 LoadStageBackground();
                 LoadCharacterSheet();
                 LoadSpecialCutin();
                 LoadFinalRevealSprite();
-                PrepareBgm();
+                if (stageIntroOpen)
+                {
+                    audioStatus = "BGM waiting for intro";
+                }
+                else
+                {
+                    PrepareBgm();
+                }
             }
             catch (Exception ex)
             {
@@ -805,6 +862,8 @@ namespace JijiiKobushi.Stage1Prototype
                 holdButtonWasDown = false;
                 completionHandled = false;
                 paused = false;
+                stageIntroOpen = false;
+                stageIntroLineIndex = 0;
                 PrepareEndingVideo();
                 status = "Loaded ED bonus loop " + loopKey + " from " + Path.GetFileName(endingJsonPath) + ". First beat is " + endingBonus.Ending.FirstBeatMs + "ms.";
             }
@@ -842,6 +901,12 @@ namespace JijiiKobushi.Stage1Prototype
                 return true;
             }
 
+            if (stageIntroOpen && input.TapOrMashDown)
+            {
+                AdvanceStageIntro();
+                return true;
+            }
+
             if (input.PauseDown)
             {
                 TogglePause();
@@ -849,6 +914,34 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             return false;
+        }
+
+        private bool AdvanceStageIntro()
+        {
+            if (!stageIntroOpen) return false;
+            if (stage == null || stage.Scenario == null || stage.Scenario.IntroLines == null || stage.Scenario.IntroLines.Count == 0)
+            {
+                StartStageBattleAfterIntro();
+                return true;
+            }
+
+            if (stageIntroLineIndex + 1 < stage.Scenario.IntroLines.Count)
+            {
+                stageIntroLineIndex += 1;
+                status = "Intro " + (stageIntroLineIndex + 1) + "/" + stage.Scenario.IntroLines.Count + ": " + StageHeading;
+                return true;
+            }
+
+            StartStageBattleAfterIntro();
+            return true;
+        }
+
+        private void StartStageBattleAfterIntro()
+        {
+            stageIntroOpen = false;
+            stageIntroLineIndex = 0;
+            status = "Battle started. " + StageLoadStatus;
+            PrepareBgm();
         }
 
         private void ChangeStage(int delta)
@@ -1093,6 +1186,7 @@ namespace JijiiKobushi.Stage1Prototype
                 }
 
                 if (session == null) return "Boot";
+                if (stageIntroOpen) return "Intro " + (stageIntroLineIndex + 1) + "/" + Mathf.Max(1, DebugIntroLineCount);
                 if (paused) return "Paused";
                 if (session.CountInRemainingMs > 0) return "CountIn " + session.CountInRemainingMs + "ms";
                 if (session.IsFailed) return "Failed";
@@ -1156,6 +1250,26 @@ namespace JijiiKobushi.Stage1Prototype
         private string StageParityStatus
         {
             get { return CurrentStageIndex == 0 ? " with parity tests passed" : ""; }
+        }
+
+        private bool HasStageIntroLines
+        {
+            get { return stage != null && stage.Scenario != null && stage.Scenario.IntroLines != null && stage.Scenario.IntroLines.Count > 0; }
+        }
+
+        private string StageLoadStatus
+        {
+            get { return "Loaded Stage " + CurrentStageNumber + " loop " + CurrentLoopKey + " from " + Path.GetFileName(stageJsonPath) + StageParityStatus + ". First note virtual timeline is " + (session.CountInMs + chart[0].TimeMs) + "ms."; }
+        }
+
+        private string CurrentIntroLine
+        {
+            get
+            {
+                if (!HasStageIntroLines) return "";
+                var index = Mathf.Clamp(stageIntroLineIndex, 0, stage.Scenario.IntroLines.Count - 1);
+                return stage.Scenario.IntroLines[index];
+            }
         }
 
         private string CurrentNoteLabel
@@ -1234,6 +1348,7 @@ namespace JijiiKobushi.Stage1Prototype
                     return "ed-video-loading";
                 }
                 if (!useAudioClock) return "delta";
+                if (stageIntroOpen) return "intro";
                 if (audioStarted) return "audio";
                 if (audioReady) return "audio-ready";
                 if (audioFallbackClock) return "delta-fallback";
