@@ -48,6 +48,8 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual("うさぎ公園", StagePackCatalog.GetByIndex(0).LocationName);
             Assert.AreEqual("stage07-finalhideout.stage.json", StagePackCatalog.GetFileNameByIndex(6));
             Assert.AreEqual("finalhideout", StagePackCatalog.GetByIndex(6).Id);
+            Assert.IsTrue(StagePackCatalog.ContainsStageId("riverside"));
+            Assert.IsNull(StagePackCatalog.FindById("unknown"));
             Assert.AreEqual(1, StagePackCatalog.ClampStageNumber(-1));
             Assert.AreEqual(7, StagePackCatalog.ClampStageNumber(999));
             CollectionAssert.AreEqual(StagePackCatalog.FileNames(), ProfileTestRunner.AllStagePackFiles);
@@ -191,6 +193,7 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             Assert.AreEqual("./assets/images/stage-bg-shotengai-v1.png", StageRuntimeVisualAssets.GetBackgroundAssetPath("shotengai"));
+            Assert.AreEqual("", StageRuntimeVisualAssets.GetBackgroundAssetPath("unknown"));
         }
 
         [Test]

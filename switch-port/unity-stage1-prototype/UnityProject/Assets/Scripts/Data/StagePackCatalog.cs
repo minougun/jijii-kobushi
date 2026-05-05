@@ -35,6 +35,22 @@ namespace JijiiKobushi.Stage1Prototype
             return GetByIndex(index).FileName;
         }
 
+        public static bool ContainsStageId(string stageId)
+        {
+            return FindById(stageId) != null;
+        }
+
+        public static StagePackEntry FindById(string stageId)
+        {
+            if (string.IsNullOrEmpty(stageId)) return null;
+            for (var i = 0; i < Entries.Length; i += 1)
+            {
+                if (string.Equals(Entries[i].Id, stageId, StringComparison.Ordinal)) return Entries[i];
+            }
+
+            return null;
+        }
+
         public static int ClampStageNumber(int stageNumber)
         {
             if (stageNumber < 1) return 1;

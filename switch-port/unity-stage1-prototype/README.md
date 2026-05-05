@@ -126,6 +126,8 @@ The seven-stage order is owned by `Assets/Scripts/Data/StagePackCatalog.cs`. The
 
 PlayMode progression tests also use `StagePackCatalog` for expected titles and locations, keeping manual scene flow, data validation, and Unity smoke tests on the same stage order.
 
+Stage background paths are now derived from `StagePackCatalog` through `StageRuntimeVisualAssets`, so the background lookup cannot keep a separate stale stage-id map.
+
 The ED bonus handoff uses the portable ED chart, the same placeholder rhythm lane/input buttons, and the Web original video/audio asset when Unity can prepare it. The deterministic rhythm clock remains as the fallback path for CI/headless validation.
 
 In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.
