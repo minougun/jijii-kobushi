@@ -299,6 +299,10 @@ namespace JijiiKobushi.Stage1Prototype
             CollectionAssert.Contains(bindings.PauseKeys, KeyCode.JoystickButton9);
             CollectionAssert.Contains(bindings.RestartKeys, KeyCode.Return);
             CollectionAssert.Contains(bindings.RestartKeys, KeyCode.JoystickButton7);
+            CollectionAssert.Contains(bindings.SaveKeys, KeyCode.F5);
+            CollectionAssert.Contains(bindings.SaveKeys, KeyCode.JoystickButton4);
+            CollectionAssert.Contains(bindings.LoadKeys, KeyCode.F9);
+            CollectionAssert.Contains(bindings.LoadKeys, KeyCode.JoystickButton5);
         }
 
         [Test]

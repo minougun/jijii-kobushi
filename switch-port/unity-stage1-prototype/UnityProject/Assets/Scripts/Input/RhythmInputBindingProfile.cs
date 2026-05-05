@@ -9,14 +9,18 @@ namespace JijiiKobushi.Stage1Prototype
         private readonly KeyCode[] holdKeys;
         private readonly KeyCode[] pauseKeys;
         private readonly KeyCode[] restartKeys;
+        private readonly KeyCode[] saveKeys;
+        private readonly KeyCode[] loadKeys;
         private readonly string[] tapOrMashButtons;
 
-        public RhythmInputBindingProfile(KeyCode[] tapOrMashKeys, KeyCode[] holdKeys, KeyCode[] pauseKeys, KeyCode[] restartKeys, string[] tapOrMashButtons)
+        public RhythmInputBindingProfile(KeyCode[] tapOrMashKeys, KeyCode[] holdKeys, KeyCode[] pauseKeys, KeyCode[] restartKeys, KeyCode[] saveKeys, KeyCode[] loadKeys, string[] tapOrMashButtons)
         {
             this.tapOrMashKeys = CopyKeys(tapOrMashKeys);
             this.holdKeys = CopyKeys(holdKeys);
             this.pauseKeys = CopyKeys(pauseKeys);
             this.restartKeys = CopyKeys(restartKeys);
+            this.saveKeys = CopyKeys(saveKeys);
+            this.loadKeys = CopyKeys(loadKeys);
             this.tapOrMashButtons = CopyStrings(tapOrMashButtons);
         }
 
@@ -38,6 +42,16 @@ namespace JijiiKobushi.Stage1Prototype
         public KeyCode[] RestartKeys
         {
             get { return CopyKeys(restartKeys); }
+        }
+
+        public KeyCode[] SaveKeys
+        {
+            get { return CopyKeys(saveKeys); }
+        }
+
+        public KeyCode[] LoadKeys
+        {
+            get { return CopyKeys(loadKeys); }
         }
 
         public string[] TapOrMashButtons
@@ -72,6 +86,16 @@ namespace JijiiKobushi.Stage1Prototype
                 {
                     KeyCode.Return,
                     KeyCode.JoystickButton7
+                },
+                new[]
+                {
+                    KeyCode.F5,
+                    KeyCode.JoystickButton4
+                },
+                new[]
+                {
+                    KeyCode.F9,
+                    KeyCode.JoystickButton5
                 },
                 new[]
                 {

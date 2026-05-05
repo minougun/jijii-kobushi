@@ -115,6 +115,7 @@ In Play Mode, the ED bonus now attempts to load the Web original ED video path f
 `StageRuntimeVisualAssets` maps the seven portable stage ids to the Web original PNG background sources. `PlaceholderRendererBehaviour` loads those backgrounds through the same runtime asset resolver, so the Editor and built smoke player can draw staged `StreamingAssets` backgrounds when available while still falling back to local Web-original files during development.
 
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions through `RhythmInputBindingProfile`. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
+The same input path now covers run-save controls: `F5` / generic shoulder-left saves the current run slot, and `F9` / generic shoulder-right loads the current loop slot.
 
 `PlaceholderRendererBehaviour` now includes a temporary playable HUD: HP, score, combo, judge counts, current note, scenario preview, result panel, Prev/Next stage buttons, footer `Save`/`Load` buttons, result-panel `Next Stage` progression, final-stage `ED Bonus` handoff, and a simple rhythm lane that draws upcoming `TAP`, `HOLD`, and `MASH` notes against a gold hit line. Low-level IMGUI rectangle and meter drawing lives in `PrototypeGui`, reusable status panels live in `PrototypeStatusPanel`, footer/input controls live in `PrototypeFooterControls`, result-card pieces live in `PrototypeResultPanel`, and note-lane presentation lives in `PrototypeRhythmLane`, keeping the scene driver focused on game state and layout. `HOLD` notes include a yellow `RELEASE` marker at the note end so the button-up timing is visible.
 
@@ -249,6 +250,9 @@ Manual Play Mode controls:
 - Gamepad `B`: hold down / hold release
 - `P` or `Esc`: pause / resume
 - `Enter`: restart
+- `F5`: save current run slot
+- `F9`: load current loop slot
 - Gamepad `Select`: pause / resume
 - Gamepad `Start`: restart
-- On-screen `Tap / Mash`, `Hold`, `Pause/Resume`, `Restart`, and difficulty buttons provide the same local placeholder controls.
+- Generic gamepad left/right shoulder: save / load current run slot
+- On-screen `Tap / Mash`, `Hold`, `Save`, `Load`, `Pause/Resume`, `Restart`, and difficulty buttons provide the same local placeholder controls.

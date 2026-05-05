@@ -720,6 +720,18 @@ namespace JijiiKobushi.Stage1Prototype
 
         private bool HandleControlInput(RhythmInputFrame input)
         {
+            if (input.SaveDown)
+            {
+                SaveCurrentRun();
+                return true;
+            }
+
+            if (input.LoadDown)
+            {
+                LoadCurrentRunSlot();
+                return true;
+            }
+
             if (input.RestartDown)
             {
                 ReloadCurrentMode();

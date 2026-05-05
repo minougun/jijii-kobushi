@@ -8,6 +8,8 @@ namespace JijiiKobushi.Stage1Prototype
         public bool HoldUp { get; set; }
         public bool PauseDown { get; set; }
         public bool RestartDown { get; set; }
+        public bool SaveDown { get; set; }
+        public bool LoadDown { get; set; }
     }
 }
 #endif

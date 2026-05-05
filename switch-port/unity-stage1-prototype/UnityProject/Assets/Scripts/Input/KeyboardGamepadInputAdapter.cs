@@ -33,7 +33,9 @@ namespace JijiiKobushi.Stage1Prototype
                 HoldDown = AnyKeyDown(bindings.HoldKeys),
                 HoldUp = AnyKeyUp(bindings.HoldKeys),
                 PauseDown = AnyKeyDown(bindings.PauseKeys),
-                RestartDown = AnyKeyDown(bindings.RestartKeys)
+                RestartDown = AnyKeyDown(bindings.RestartKeys),
+                SaveDown = AnyKeyDown(bindings.SaveKeys),
+                LoadDown = AnyKeyDown(bindings.LoadKeys)
             };
         }
 

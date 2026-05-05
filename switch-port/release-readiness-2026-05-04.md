@@ -92,6 +92,7 @@ ED bonus:
 - 2026-05-05 continuation: the Unity Play Mode placeholder now wires run saves into the footer with `Save`/`Load` controls. Runtime storage uses `FileRunSaveStore` at `Application.persistentDataPath/JiiKobushiRunSaves` with a memory-store fallback, keeping the later Switch storage replacement isolated behind `IRunSaveStore`.
 - 2026-05-05 continuation: Unity PlayMode smoke now asserts that run-save data is written as an actual `first-loop.jksave` file and can be loaded back into Stage 2 progress. PlayMode batch tests passed 10/10 after this gate.
 - 2026-05-05 continuation: local Windows prototype build and `-jijiiSmokeQuit` player smoke were rerun after the run-save footer work; the player exited with `stage=誘拐の朝`, `location=うさぎ公園`, and `clock=audio`.
+- 2026-05-05 continuation: keyboard/generic-gamepad save and load actions were added to the input abstraction (`F5`/left shoulder to save, `F9`/right shoulder to load), so run-save controls no longer depend on the temporary OnGUI footer.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

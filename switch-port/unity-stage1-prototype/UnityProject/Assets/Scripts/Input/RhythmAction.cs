@@ -7,7 +7,9 @@ namespace JijiiKobushi.Stage1Prototype
         HoldDown,
         HoldUp,
         Pause,
-        Restart
+        Restart,
+        Save,
+        Load
     }
 }
 #endif

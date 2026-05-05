@@ -140,9 +140,9 @@ Expected Play Mode behavior:
 - Shows a placeholder HUD with HP, score, rank, current combo, judge counts, and a rhythm lane.
 - Draws upcoming `TAP`, `HOLD`, and `MASH` notes moving toward the gold hit line.
 - Draws a yellow `RELEASE` marker at the end of each `HOLD` note so the release timing is visible.
-- Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `P`/`Esc` for pause/resume, `Enter` for restart.
-- Accepts default gamepad-style input: `A`/Submit for tap or mash, `B` for hold down/up, `Select` for pause/resume, `Start` for restart.
-- Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Pause/Resume`, `Restart`, `Prev/Next`, and Easy/Normal/Hard.
+- Accepts keyboard input: `Space`/`Z` for tap or mash, `X`/`J` down/up for hold, `P`/`Esc` for pause/resume, `Enter` for restart, `F5` for save, and `F9` for load.
+- Accepts default gamepad-style input: `A`/Submit for tap or mash, `B` for hold down/up, `Select` for pause/resume, `Start` for restart, shoulder-left for save, and shoulder-right for load.
+- Accepts placeholder OnGUI input buttons: `Tap / Mash`, `Hold`, `Save`, `Load`, `Pause/Resume`, `Restart`, `Prev/Next`, and Easy/Normal/Hard.
 - Uses the all-stage JSON pack under `switch-port/stages/` for placeholder stage switching. Stage 1 still runs the stricter `expected-results.json` parity gate when loaded.
 - EditMode tests now also run a Unity-side all-stage smoke gate over `switch-port/stages/`, checking stage order, titles, locations, BGM asset paths, chart summaries, note payload shape, and perfect-run sanity for Easy/Normal/Hard.
 - Shows `Next Stage` in the result panel after a cleared stage and advances to the next stage pack. Failed stages keep `Next Stage` disabled and use `Retry`.
