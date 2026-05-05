@@ -84,6 +84,7 @@ ED bonus:
 - 2026-05-05 continuation: low-level IMGUI rectangle and meter drawing was extracted into `PrototypeGui`, reducing `PlaceholderRendererBehaviour` surface area before the production UI migration.
 - 2026-05-05 continuation: reusable result-card drawing helpers were extracted into `PrototypeResultPanel`, further separating temporary IMGUI presentation pieces from the Unity scene driver.
 - 2026-05-05 continuation: rhythm-lane note marker rendering was extracted into `PrototypeRhythmLane`, isolating temporary lane presentation from stage/ED session state.
+- 2026-05-05 continuation: HUD, stage info, and judge-summary panel rendering was extracted into `PrototypeStatusPanel`, keeping `PlaceholderRendererBehaviour` closer to orchestration only.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
