@@ -6,49 +6,7 @@ namespace JijiiKobushi.Stage1Prototype
 {
     public static class ProfileTestRunner
     {
-        public static readonly string[] AllStagePackFiles =
-        {
-            "stage01-shotengai.stage.json",
-            "stage02-warehouse.stage.json",
-            "stage03-riverside.stage.json",
-            "stage04-mountain.stage.json",
-            "stage05-garage.stage.json",
-            "stage06-redgate.stage.json",
-            "stage07-finalhideout.stage.json"
-        };
-
-        private static readonly string[] ExpectedStageIds =
-        {
-            "shotengai",
-            "warehouse",
-            "riverside",
-            "mountain",
-            "garage",
-            "redgate",
-            "finalhideout"
-        };
-
-        private static readonly string[] ExpectedStageTitles =
-        {
-            "誘拐の朝",
-            "港の倉庫",
-            "伊藤道場",
-            "峠道",
-            "改造車庫",
-            "赤門",
-            "X結社本部"
-        };
-
-        private static readonly string[] ExpectedStageLocations =
-        {
-            "うさぎ公園",
-            "港の倉庫",
-            "伊藤道場",
-            "峠道",
-            "改造車庫",
-            "赤門",
-            "X結社本部"
-        };
+        public static readonly string[] AllStagePackFiles = StagePackCatalog.FileNames();
 
         public static List<BattleRunResult> RunAll(string stageJsonPath, string expectedResultsPath)
         {
@@ -66,9 +24,9 @@ namespace JijiiKobushi.Stage1Prototype
         public static List<StageExport> RunAllStageSmoke()
         {
             var stages = new List<StageExport>();
-            for (var index = 0; index < AllStagePackFiles.Length; index += 1)
+            for (var index = 0; index < StagePackCatalog.Count; index += 1)
             {
-                var path = ResolveAllStagePackPath(AllStagePackFiles[index]);
+                var path = ResolveAllStagePackPath(StagePackCatalog.GetFileNameByIndex(index));
                 var stage = StageJsonLoader.LoadStage(path);
                 ValidateAllStagePack(stage, index, path);
                 stages.Add(stage);
@@ -80,10 +38,11 @@ namespace JijiiKobushi.Stage1Prototype
         public static List<BattleRunResult> RunAllStageProfileParity()
         {
             var results = new List<BattleRunResult>();
-            for (var index = 0; index < AllStagePackFiles.Length; index += 1)
+            for (var index = 0; index < StagePackCatalog.Count; index += 1)
             {
-                var stagePath = ResolveAllStagePackPath(AllStagePackFiles[index]);
-                var expectedPath = ResolveAllStagePackPath(AllStagePackFiles[index].Replace(".stage.json", ".expected-results.json"));
+                var fileName = StagePackCatalog.GetFileNameByIndex(index);
+                var stagePath = ResolveAllStagePackPath(fileName);
+                var expectedPath = ResolveAllStagePackPath(fileName.Replace(".stage.json", ".expected-results.json"));
                 var stage = StageJsonLoader.LoadStage(stagePath);
                 var expected = StageJsonLoader.LoadExpectedResults(expectedPath);
                 ValidateAllStagePack(stage, index, stagePath);
@@ -219,14 +178,15 @@ namespace JijiiKobushi.Stage1Prototype
 
         private static void ValidateAllStagePack(StageExport stage, int index, string path)
         {
+            var expected = StagePackCatalog.GetByIndex(index);
             var stageLabel = "stage " + (index + 1) + " " + path;
             AssertEqual(1, stage.SchemaVersion, stageLabel + " schemaVersion");
             AssertEqual("jii-kobushi", stage.GameId, stageLabel + " gameId");
             AssertEqual(index, stage.Stage.Index, stageLabel + " index");
-            AssertEqual(ExpectedStageIds[index], stage.Stage.Id, stageLabel + " id");
+            AssertEqual(expected.Id, stage.Stage.Id, stageLabel + " id");
             AssertEqual("switch-stage" + (index + 1) + "-" + stage.Stage.Id, stage.ExportId, stageLabel + " exportId");
-            AssertEqual(ExpectedStageTitles[index], stage.Stage.Title, stageLabel + " title");
-            AssertEqual(ExpectedStageLocations[index], stage.Stage.LocationName, stageLabel + " location");
+            AssertEqual(expected.Title, stage.Stage.Title, stageLabel + " title");
+            AssertEqual(expected.LocationName, stage.Stage.LocationName, stageLabel + " location");
             AssertTrue(stage.Stage.Bpm > 0, stageLabel + " bpm");
             AssertTrue(stage.Scenario.IntroLines.Count > 0, stageLabel + " intro lines");
             AssertTrue(!string.IsNullOrWhiteSpace(stage.Scenario.RestLine), stageLabel + " rest line");

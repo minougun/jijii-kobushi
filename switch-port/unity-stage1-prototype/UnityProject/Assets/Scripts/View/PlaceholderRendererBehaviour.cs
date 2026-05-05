@@ -11,17 +11,6 @@ namespace JijiiKobushi.Stage1Prototype
 {
     public sealed class PlaceholderRendererBehaviour : MonoBehaviour
     {
-        private static readonly string[] StagePackFiles =
-        {
-            "stage01-shotengai.stage.json",
-            "stage02-warehouse.stage.json",
-            "stage03-riverside.stage.json",
-            "stage04-mountain.stage.json",
-            "stage05-garage.stage.json",
-            "stage06-redgate.stage.json",
-            "stage07-finalhideout.stage.json"
-        };
-
         private enum PrototypeMode
         {
             Stage,
@@ -248,7 +237,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         public void DebugLoadStageNumber(int value)
         {
-            stageNumber = Mathf.Clamp(value, 1, StagePackFiles.Length);
+            stageNumber = StagePackCatalog.ClampStageNumber(value);
             LoadAndStart();
         }
 
@@ -608,7 +597,7 @@ namespace JijiiKobushi.Stage1Prototype
                 DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), finalRank);
                 GUI.Label(new Rect(panel.x + 128, panel.y + 14, 420, 24), "FINAL RESULT", panelLabelStyle);
                 GUI.Label(new Rect(panel.x + 128, panel.y + 56, 440, 38), "総合ランク " + finalRank, titleStyle);
-                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 520, 24), "Loop " + CurrentRunLoop + " / " + difficulty + " / stages " + runProgress.Count + "/" + StagePackFiles.Length, labelStyle);
+                GUI.Label(new Rect(panel.x + 128, panel.y + 92, 520, 24), "Loop " + CurrentRunLoop + " / " + difficulty + " / stages " + runProgress.Count + "/" + StagePackCatalog.Count, labelStyle);
                 DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "平均", stageAverage + " pts", "7 stages");
                 DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "総合", stageTotal + " pts", "stage total");
                 DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "ED拍", endingResult.Score + " pts", "bonus");
@@ -685,8 +674,8 @@ namespace JijiiKobushi.Stage1Prototype
             var titleRect = new Rect(rect.x + 10, rect.y + 6, 140, 18);
             GUI.Label(titleRect, "ステージ別成績", panelLabelStyle);
 
-            var columnWidth = (rect.width - 160f) / StagePackFiles.Length;
-            for (var i = 0; i < StagePackFiles.Length; i += 1)
+            var columnWidth = (rect.width - 160f) / StagePackCatalog.Count;
+            for (var i = 0; i < StagePackCatalog.Count; i += 1)
             {
                 var summary = runProgress.Find(i + 1);
                 var x = rect.x + 150 + columnWidth * i;
@@ -746,8 +735,8 @@ namespace JijiiKobushi.Stage1Prototype
                 prototypeMode = PrototypeMode.Stage;
                 endingSession = null;
                 endingChart = null;
-                stageNumber = Mathf.Clamp(stageNumber, 1, StagePackFiles.Length);
-                stageJsonPath = ProfileTestRunner.ResolveAllStagePackPath(StagePackFiles[CurrentStageIndex]);
+                stageNumber = StagePackCatalog.ClampStageNumber(stageNumber);
+                stageJsonPath = ProfileTestRunner.ResolveAllStagePackPath(StagePackCatalog.GetFileNameByIndex(CurrentStageIndex));
                 expectedJsonPath = ProfileTestRunner.ResolveStagePackPath("expected-results.json");
 
                 if (CurrentStageIndex == 0)
@@ -838,7 +827,7 @@ namespace JijiiKobushi.Stage1Prototype
 
         private void ChangeStage(int delta)
         {
-            stageNumber = Mathf.Clamp(CurrentStageNumber + delta, 1, StagePackFiles.Length);
+            stageNumber = StagePackCatalog.ClampStageNumber(CurrentStageNumber + delta);
             LoadAndStart();
         }
 
@@ -1093,13 +1082,13 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 if (session == null) return "RESULT";
                 if (session.IsFailed) return "FAILED";
-                return CurrentStageIndex >= StagePackFiles.Length - 1 ? "COMPLETE" : "RESULT";
+                return CurrentStageIndex >= StagePackCatalog.Count - 1 ? "COMPLETE" : "RESULT";
             }
         }
 
         private int CurrentStageIndex
         {
-            get { return Mathf.Clamp(stageNumber, 1, StagePackFiles.Length) - 1; }
+            get { return StagePackCatalog.ClampStageNumber(stageNumber) - 1; }
         }
 
         private int CurrentStageNumber
@@ -1124,7 +1113,7 @@ namespace JijiiKobushi.Stage1Prototype
                 if (prototypeMode == PrototypeMode.EndingBonus) return false;
                 return session != null &&
                     session.IsCleared &&
-                    CurrentStageIndex < StagePackFiles.Length - 1;
+                    CurrentStageIndex < StagePackCatalog.Count - 1;
             }
         }
 
@@ -1135,7 +1124,7 @@ namespace JijiiKobushi.Stage1Prototype
                 return prototypeMode == PrototypeMode.Stage &&
                     session != null &&
                     session.IsCleared &&
-                    CurrentStageIndex >= StagePackFiles.Length - 1;
+                    CurrentStageIndex >= StagePackCatalog.Count - 1;
             }
         }
 
@@ -1200,7 +1189,7 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 if (session == null || stage == null || stage.Scenario == null) return "";
                 if (session.IsFailed) return "もう一度、拍を取り戻せ。";
-                if (CurrentStageIndex >= StagePackFiles.Length - 1 && stage.Scenario.FinalRevealLines.Count > 0)
+                if (CurrentStageIndex >= StagePackCatalog.Count - 1 && stage.Scenario.FinalRevealLines.Count > 0)
                 {
                     return stage.Scenario.FinalRevealLines[0];
                 }

@@ -40,6 +40,20 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void StagePackCatalogDefinesSingleCanonicalSevenStageOrder()
+        {
+            Assert.AreEqual(7, StagePackCatalog.Count);
+            Assert.AreEqual("stage01-shotengai.stage.json", StagePackCatalog.GetFileNameByIndex(0));
+            Assert.AreEqual("shotengai", StagePackCatalog.GetByIndex(0).Id);
+            Assert.AreEqual("うさぎ公園", StagePackCatalog.GetByIndex(0).LocationName);
+            Assert.AreEqual("stage07-finalhideout.stage.json", StagePackCatalog.GetFileNameByIndex(6));
+            Assert.AreEqual("finalhideout", StagePackCatalog.GetByIndex(6).Id);
+            Assert.AreEqual(1, StagePackCatalog.ClampStageNumber(-1));
+            Assert.AreEqual(7, StagePackCatalog.ClampStageNumber(999));
+            CollectionAssert.AreEqual(StagePackCatalog.FileNames(), ProfileTestRunner.AllStagePackFiles);
+        }
+
+        [Test]
         public void AllStagePacksLoadAndPassSmokeGate()
         {
             var stages = ProfileTestRunner.RunAllStageSmoke();

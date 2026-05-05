@@ -122,6 +122,8 @@ The playable placeholder now keeps a run-level stage result list while advancing
 
 Run-level result aggregation is owned by `Assets/Scripts/Battle/RunProgressTracker.cs`, not the view behaviour. The tracker records or replaces each stage summary, resets on difficulty/loop changes, calculates the stage total and average, and derives the final rank through the same score thresholds as `BattleSimulator`.
 
+The seven-stage order is owned by `Assets/Scripts/Data/StagePackCatalog.cs`. The Play Mode renderer and parity runner both resolve stage file names, ids, titles, and location labels through this catalog so the visible Unity stage flow cannot drift from the validation gates.
+
 The ED bonus handoff uses the portable ED chart, the same placeholder rhythm lane/input buttons, and the Web original video/audio asset when Unity can prepare it. The deterministic rhythm clock remains as the fallback path for CI/headless validation.
 
 In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.
