@@ -108,6 +108,7 @@ ED bonus:
 - 2026-05-05 continuation: the temporary opening overlay drawing was extracted into `PrototypeOpeningScreen`, reducing `PlaceholderRendererBehaviour` before the production UI migration while keeping the same PlayMode opening smoke coverage.
 - 2026-05-05 continuation: repeated temporary IMGUI texture decoding paths were centralized in `PrototypeTextureLoader`, so background, opening still, character sheet, cut-in, and final reveal assets now share one runtime load/status path.
 - 2026-05-05 continuation: stage intro, BGM attribution, and ED video preview drawing were extracted into `PrototypeScenarioPanel`, further shrinking the temporary scene driver without changing the PlayMode smoke expectations.
+- 2026-05-05 continuation: chibi sprite-sheet drawing, finisher cut-in presentation, and final reveal sprite drawing were extracted into `PrototypeCharacterPanel`, keeping Web-derived character art presentation out of the main scene driver.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

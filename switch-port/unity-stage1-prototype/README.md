@@ -122,6 +122,8 @@ Runtime PNG/JPG-like texture decoding for the temporary IMGUI layer is centraliz
 
 Scenario-oriented temporary panels live in `PrototypeScenarioPanel`: stage intro pages, BGM attribution, and the ED video preview background are separated from the main scene driver while the prototype remains IMGUI-based.
 
+Character-facing temporary presentation lives in `PrototypeCharacterPanel`: chibi sprite-sheet slicing, finisher cut-in drawing, and the final reveal sprite are separated from the main scene driver so asset loading/state progression can keep shrinking independently from presentation.
+
 `KeyboardGamepadInputAdapter` maps the temporary keyboard/gamepad controls into logical rhythm actions through `RhythmInputBindingProfile`. `PlaceholderRendererBehaviour` consumes those actions instead of reading physical keys directly, so later controller mappings can be swapped without touching battle judgement.
 The same input path now covers run-save controls: `F5` / generic shoulder-left saves the current run slot, and `F9` / generic shoulder-right loads the current loop slot.
 
