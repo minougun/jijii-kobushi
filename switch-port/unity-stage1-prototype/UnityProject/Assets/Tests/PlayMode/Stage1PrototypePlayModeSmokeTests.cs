@@ -103,6 +103,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.AreEqual("X結社本部", runner.DebugStageLocation);
             Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1);
             Assert.IsTrue(runner.DebugBgmFileExists, runner.DebugAudioStatus);
+            Assert.IsTrue(runner.DebugFinalRevealLoaded, runner.DebugFinalRevealStatus);
 
             Object.Destroy(runnerObject);
         }

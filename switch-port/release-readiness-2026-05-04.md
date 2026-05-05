@@ -96,6 +96,7 @@ ED bonus:
 - 2026-05-05 continuation: the Unity runtime visual asset map now includes the Web chibi character-sheet contract (`5x2` grid, player variants, and all current enemy kinds), plus cut-in and final-reveal asset paths, with EditMode coverage against the runtime asset manifest.
 - 2026-05-05 continuation: the Unity placeholder renderer now loads the Web chibi character sheet through the runtime asset resolver and draws the current player/enemy sprite pair from the same sprite indices used by the Web renderer. PlayMode smoke asserts that the character sheet loads.
 - 2026-05-05 continuation: the Unity placeholder renderer now also loads `kojiro-cutin.png` through the runtime asset resolver and flashes it during finisher-note windows, with PlayMode smoke coverage for the cut-in texture load.
+- 2026-05-05 continuation: the Unity final-stage result panel now loads and displays `hasegawa-reveal-sprite-v7.png`, with PlayMode smoke coverage on the Stage 7 pack.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

@@ -64,6 +64,8 @@ namespace JijiiKobushi.Stage1Prototype
         private string characterSheetStatus = "characters not loaded";
         private Texture2D specialCutinTexture;
         private string specialCutinStatus = "cut-in not loaded";
+        private Texture2D finalRevealTexture;
+        private string finalRevealStatus = "final reveal not loaded";
         private GUIStyle titleStyle;
         private GUIStyle labelStyle;
         private GUIStyle panelLabelStyle;
@@ -220,6 +222,16 @@ namespace JijiiKobushi.Stage1Prototype
         public string DebugSpecialCutinStatus
         {
             get { return specialCutinStatus; }
+        }
+
+        public bool DebugFinalRevealLoaded
+        {
+            get { return finalRevealTexture != null; }
+        }
+
+        public string DebugFinalRevealStatus
+        {
+            get { return finalRevealStatus; }
         }
 
         public bool DebugSaveCurrentRun()
@@ -584,7 +596,8 @@ namespace JijiiKobushi.Stage1Prototype
         private void DrawResultPanel(Rect mainRect)
         {
             var isEndingResult = prototypeMode == PrototypeMode.EndingBonus;
-            var panelWidth = Mathf.Min(isEndingResult ? 820f : 620f, mainRect.width - 72f);
+            var isFinalStageResult = !isEndingResult && CurrentStageIndex >= StagePackCatalog.Count - 1;
+            var panelWidth = Mathf.Min(isEndingResult ? 820f : isFinalStageResult ? 760f : 620f, mainRect.width - 72f);
             var panelHeight = isEndingResult ? 284f : 214f;
             var panel = new Rect(mainRect.x + (mainRect.width - panelWidth) * 0.5f, mainRect.y + (isEndingResult ? 424f : 458f), panelWidth, panelHeight);
             PrototypeGui.FillRect(panel, new Color(1f, 0.985f, 0.94f));
@@ -629,6 +642,7 @@ namespace JijiiKobushi.Stage1Prototype
             DrawResultStat(new Rect(panel.x + 128, panel.y + 124, 132, 54), "Max combo", result.MaxCombo.ToString(), "chain");
             DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "Notes", result.Stats.Perfect + "/" + result.NoteCount, "perfect");
             DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "HP", result.RemainingHp + "/" + result.MaxHp, "remaining");
+            DrawFinalRevealSprite(panel);
 
             if (CanStartEndingBonus)
             {
@@ -744,6 +758,7 @@ namespace JijiiKobushi.Stage1Prototype
                 LoadStageBackground();
                 LoadCharacterSheet();
                 LoadSpecialCutin();
+                LoadFinalRevealSprite();
                 PrepareBgm();
             }
             catch (Exception ex)
@@ -1678,6 +1693,53 @@ namespace JijiiKobushi.Stage1Prototype
             {
                 specialCutinStatus = "cut-in load failed: " + ex.Message;
             }
+        }
+
+        private void LoadFinalRevealSprite()
+        {
+            if (finalRevealTexture != null)
+            {
+                finalRevealStatus = "final reveal cached";
+                return;
+            }
+
+            var finalRevealAssetSrc = StageRuntimeVisualAssets.GetFinalRevealAssetPath();
+            var finalRevealPath = ResolveRuntimeAssetLocalPath(finalRevealAssetSrc);
+            if (string.IsNullOrEmpty(finalRevealPath))
+            {
+                finalRevealStatus = "final reveal missing: " + finalRevealAssetSrc;
+                return;
+            }
+
+            try
+            {
+                var bytes = File.ReadAllBytes(finalRevealPath);
+                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!ImageConversion.LoadImage(texture, bytes))
+                {
+                    finalRevealStatus = "final reveal decode failed";
+                    return;
+                }
+
+                finalRevealTexture = texture;
+                finalRevealStatus = "final reveal loaded";
+            }
+            catch (Exception ex)
+            {
+                finalRevealStatus = "final reveal load failed: " + ex.Message;
+            }
+        }
+
+        private void DrawFinalRevealSprite(Rect panel)
+        {
+            if (prototypeMode == PrototypeMode.EndingBonus) return;
+            if (finalRevealTexture == null || session == null || !session.IsCleared) return;
+            if (CurrentStageIndex < StagePackCatalog.Count - 1) return;
+
+            var imageRect = new Rect(panel.x + panel.width - 146f, panel.y + 54f, 104f, 116f);
+            PrototypeGui.FillRect(imageRect, new Color(0.08f, 0.075f, 0.07f, 0.82f));
+            GUI.DrawTexture(imageRect, finalRevealTexture, ScaleMode.ScaleToFit, true);
+            PrototypeGui.StrokeRect(imageRect, new Color(0.96f, 0.78f, 0.18f), 2);
         }
 
         private void ClearStageBackground()
