@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -184,11 +185,17 @@ namespace JijiiKobushi.Stage1Prototype
 
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
             Assert.AreEqual(1, runner.DebugStageNumber);
+            Assert.IsNotEmpty(runner.DebugSaveDirectory, runner.DebugSaveStatus);
+            var firstLoopSavePath = Path.Combine(runner.DebugSaveDirectory, "first-loop.jksave");
+            if (File.Exists(firstLoopSavePath)) File.Delete(firstLoopSavePath);
 
             runner.DebugCompleteStagePerfect();
             yield return null;
 
             Assert.IsTrue(runner.DebugSaveCurrentRun(), runner.DebugSaveStatus);
+            Assert.IsTrue(Directory.Exists(runner.DebugSaveDirectory), runner.DebugSaveDirectory);
+            Assert.IsTrue(File.Exists(firstLoopSavePath), runner.DebugSaveStatus);
+            Assert.Greater(new FileInfo(firstLoopSavePath).Length, 0);
             Assert.IsTrue(runner.DebugLoadCurrentRunSlot(), runner.DebugSaveStatus);
 
             for (var i = 0; i < 180; i += 1)
@@ -200,6 +207,7 @@ namespace JijiiKobushi.Stage1Prototype
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
             Assert.AreEqual(2, runner.DebugStageNumber);
             Assert.AreEqual(1, runner.DebugRunStageResultCount);
+            if (File.Exists(firstLoopSavePath)) File.Delete(firstLoopSavePath);
 
             Object.Destroy(runnerObject);
         }

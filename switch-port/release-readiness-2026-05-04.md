@@ -90,6 +90,7 @@ ED bonus:
 - 2026-05-05 continuation: standalone C# CLI parity now includes a run-save smoke gate (`Stage1PortableCli.exe --save` and `--all-stages`), covering save snapshot creation and progress restoration without relying on Unity Test Runner XML output.
 - 2026-05-05 continuation: run-save snapshots now have a deterministic UTF-8 codec and `FileRunSaveStore`. Japanese stage titles are Base64 encoded inside the save rows, and the CLI smoke gate verifies encode/decode plus file save/load round trips.
 - 2026-05-05 continuation: the Unity Play Mode placeholder now wires run saves into the footer with `Save`/`Load` controls. Runtime storage uses `FileRunSaveStore` at `Application.persistentDataPath/JiiKobushiRunSaves` with a memory-store fallback, keeping the later Switch storage replacement isolated behind `IRunSaveStore`.
+- 2026-05-05 continuation: Unity PlayMode smoke now asserts that run-save data is written as an actual `first-loop.jksave` file and can be loaded back into Stage 2 progress. PlayMode batch tests passed 10/10 after this gate.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
