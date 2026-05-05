@@ -66,12 +66,14 @@ namespace JijiiKobushi.Stage1Prototype
         private GUIStyle strongStyle;
         private GUIStyle noteStyle;
         private readonly RunProgressTracker runProgress = new RunProgressTracker();
-        private readonly MemoryRunSaveStore runSaveStore = new MemoryRunSaveStore();
+        private IRunSaveStore runSaveStore;
+        private string saveDirectory = "";
         private string saveStatus = "save: empty";
 
         private void Start()
         {
             inputAdapter = new KeyboardGamepadInputAdapter();
+            InitializeRunSaveStore();
             LoadAndStart();
             if (HasCommandLineFlag("-jijiiSmokeQuit"))
             {
@@ -189,6 +191,11 @@ namespace JijiiKobushi.Stage1Prototype
         public string DebugSaveStatus
         {
             get { return saveStatus; }
+        }
+
+        public string DebugSaveDirectory
+        {
+            get { return saveDirectory; }
         }
 
         public bool DebugSaveCurrentRun()
@@ -596,9 +603,38 @@ namespace JijiiKobushi.Stage1Prototype
                 NextStage,
                 ReloadCurrentMode,
                 TogglePause,
+                SaveCurrentRunFromFooter,
+                LoadCurrentRunSlotFromFooter,
                 TapActive,
                 HoldDownActive,
                 HoldUpActive);
+        }
+
+        private void InitializeRunSaveStore()
+        {
+            try
+            {
+                saveDirectory = Path.Combine(Application.persistentDataPath, "JiiKobushiRunSaves");
+                runSaveStore = new FileRunSaveStore(saveDirectory);
+                saveStatus = "save: file store";
+            }
+            catch (Exception ex)
+            {
+                runSaveStore = new MemoryRunSaveStore();
+                saveDirectory = "";
+                saveStatus = "save: memory fallback";
+                Debug.LogWarning("Run save store fell back to memory: " + ex.Message);
+            }
+        }
+
+        private void SaveCurrentRunFromFooter()
+        {
+            SaveCurrentRun();
+        }
+
+        private void LoadCurrentRunSlotFromFooter()
+        {
+            LoadCurrentRunSlot();
         }
 
         private void LoadAndStart()
@@ -737,6 +773,7 @@ namespace JijiiKobushi.Stage1Prototype
         {
             try
             {
+                if (runSaveStore == null) InitializeRunSaveStore();
                 RunSaveSnapshot snapshot;
                 if (prototypeMode == PrototypeMode.EndingBonus)
                 {
@@ -765,8 +802,14 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
+        private bool LoadCurrentRunSlot()
+        {
+            return LoadRunSave(RunSaveService.SlotForLoop(CurrentRunLoop));
+        }
+
         private bool LoadRunSave(RunSaveSlot slot)
         {
+            if (runSaveStore == null) InitializeRunSaveStore();
             RunSaveSnapshot snapshot;
             if (!runSaveStore.TryLoad(slot, out snapshot))
             {

@@ -22,6 +22,8 @@ namespace JijiiKobushi.Stage1Prototype
             Action nextStage,
             Action restart,
             Action togglePause,
+            Action saveRun,
+            Action loadRun,
             Action tapOrMash,
             Action holdDown,
             Action holdUp)
@@ -50,17 +52,27 @@ namespace JijiiKobushi.Stage1Prototype
                 }
             }
 
-            if (GUI.Button(new Rect(mainRect.x + 712, top + 2, 110, 48), "Restart"))
+            if (GUI.Button(new Rect(mainRect.x + 712, top + 2, 68, 48), "Save"))
+            {
+                if (saveRun != null) saveRun();
+            }
+
+            if (GUI.Button(new Rect(mainRect.x + 786, top + 2, 68, 48), "Load"))
+            {
+                if (loadRun != null) loadRun();
+            }
+
+            if (GUI.Button(new Rect(mainRect.x + 860, top + 2, 88, 48), "Restart"))
             {
                 if (restart != null) restart();
             }
 
-            if (GUI.Button(new Rect(mainRect.x + 830, top + 2, 110, 48), paused ? "Resume" : "Pause"))
+            if (GUI.Button(new Rect(mainRect.x + 954, top + 2, 88, 48), paused ? "Resume" : "Pause"))
             {
                 if (togglePause != null) togglePause();
             }
 
-            DrawInputButtons((int)mainRect.x + 952, (int)top, hasActiveSession, paused || isComplete, ref holdButtonWasDown, tapOrMash, holdDown, holdUp);
+            DrawInputButtons((int)mainRect.x + 1052, (int)top, hasActiveSession, paused || isComplete, ref holdButtonWasDown, tapOrMash, holdDown, holdUp);
         }
 
         private static void DrawDifficultyButtons(int left, int top, string difficulty, Action<string> selectDifficulty)
@@ -110,12 +122,12 @@ namespace JijiiKobushi.Stage1Prototype
             var previousEnabled = GUI.enabled;
             GUI.enabled = previousEnabled && !disabled;
 
-            if (GUI.Button(new Rect(left, top, 160, 52), "Tap / Mash"))
+            if (GUI.Button(new Rect(left, top, 128, 52), "Tap / Mash"))
             {
                 if (tapOrMash != null) tapOrMash();
             }
 
-            var holdRect = new Rect(left + 172, top, 160, 52);
+            var holdRect = new Rect(left + 140, top, 128, 52);
             GUI.RepeatButton(holdRect, "Hold");
 
             var currentEvent = Event.current;
