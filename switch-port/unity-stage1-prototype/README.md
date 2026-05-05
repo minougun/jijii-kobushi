@@ -130,6 +130,8 @@ Stage background paths are now derived from `StagePackCatalog` through `StageRun
 
 The ED bonus handoff uses the portable ED chart, the same placeholder rhythm lane/input buttons, and the Web original video/audio asset when Unity can prepare it. The deterministic rhythm clock remains as the fallback path for CI/headless validation.
 
+ED bonus debug-perfect input generation is owned by `Assets/Scripts/Battle/EndingBonusPerfectInputPlanner.cs`. The Play Mode runner and EditMode parity tests both use the same planner, so mash-safe perfect input scheduling does not drift between UI smoke tests and deterministic validation.
+
 In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.
 
 `Assets/Editor/Stage1PrototypeSceneSetup.cs` adds the `Jijii Kobushi > Setup Stage 1 Prototype Scene` editor menu. It makes `Stage1Prototype.unity` visible in Scene view by adding a Main Camera, Directional Light, placeholder stage board, gold hit line, and Tap/Hold/Mash marker cubes.

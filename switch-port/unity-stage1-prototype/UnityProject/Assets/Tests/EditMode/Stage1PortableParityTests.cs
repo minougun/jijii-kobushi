@@ -220,6 +220,27 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void EndingBonusPerfectInputPlannerMatchesSimulator()
+        {
+            var ending = StageJsonLoader.LoadEndingBonus(ProfileTestRunner.ResolveEndingPackPath("ending-bonus.stage.json"));
+            var events = EndingBonusPerfectInputPlanner.Build(ending, "2", "hard");
+            Assert.Greater(events.Count, ending.Loops["2"].Charts["hard"].Count);
+
+            for (var i = 1; i < events.Count; i += 1)
+            {
+                Assert.GreaterOrEqual(events[i].TimeMs, events[i - 1].TimeMs, "events sorted");
+            }
+
+            var session = new EndingBonusInteractiveSession(ending, "2", "hard");
+            PlayEndingEvents(ending, "2", "hard", session, events);
+            var expected = EndingBonusSimulator.Simulate(ending, "2", "hard", "perfect");
+            var actual = session.BuildResult();
+            Assert.AreEqual(expected.Score, actual.Score);
+            Assert.AreEqual(expected.Stats.Perfect, actual.Stats.Perfect);
+            Assert.AreEqual(0, actual.Misses);
+        }
+
+        [Test]
         public void InteractivePerfectRunMatchesSimulator()
         {
             var stage = LoadStage();
@@ -405,87 +426,22 @@ namespace JijiiKobushi.Stage1Prototype
 
         private static void PlayEndingPerfect(EndingBonusExport ending, string loop, string difficulty, EndingBonusInteractiveSession session)
         {
-            var chart = ending.Loops[loop].Charts[difficulty];
-            var events = new System.Collections.Generic.List<EndingInputEvent>();
-            var tapTimes = new System.Collections.Generic.List<int>();
-            for (var i = 0; i < chart.Count; i += 1)
-            {
-                if (chart[i].Type == "tap") tapTimes.Add(chart[i].TimeMs);
-            }
+            PlayEndingEvents(ending, loop, difficulty, session, EndingBonusPerfectInputPlanner.Build(ending, loop, difficulty));
+        }
 
-            for (var i = 0; i < chart.Count; i += 1)
-            {
-                var note = chart[i];
-                if (note.Type == "tap")
-                {
-                    events.Add(new EndingInputEvent(note.TimeMs, "tap"));
-                }
-                else if (note.Type == "hold")
-                {
-                    events.Add(new EndingInputEvent(note.TimeMs, "holdDown"));
-                    events.Add(new EndingInputEvent(note.TimeMs + note.DurationMs, "holdUp"));
-                }
-                else if (note.Type == "mash")
-                {
-                    AddEndingPerfectMashEvents(ending, note, tapTimes, events);
-                }
-            }
-
-            events.Sort((left, right) => left.TimeMs == right.TimeMs ? string.CompareOrdinal(left.Action, right.Action) : left.TimeMs.CompareTo(right.TimeMs));
+        private static void PlayEndingEvents(EndingBonusExport ending, string loop, string difficulty, EndingBonusInteractiveSession session, System.Collections.Generic.List<EndingBonusInputEvent> events)
+        {
             for (var i = 0; i < events.Count; i += 1)
             {
                 session.SeekBattleClockMs(events[i].TimeMs);
-                if (events[i].Action == "tap") session.Tap();
-                else if (events[i].Action == "holdDown") session.HoldDown();
-                else if (events[i].Action == "holdUp") session.HoldUp();
+                if (events[i].Action == EndingBonusPerfectInputPlanner.TapAction) session.Tap();
+                else if (events[i].Action == EndingBonusPerfectInputPlanner.HoldDownAction) session.HoldDown();
+                else if (events[i].Action == EndingBonusPerfectInputPlanner.HoldUpAction) session.HoldUp();
             }
 
+            var chart = ending.Loops[loop].Charts[difficulty];
             var last = chart[chart.Count - 1];
             session.SeekBattleClockMs(last.TimeMs + last.DurationMs + ending.Rhythm.InputGraceMs + ending.Rhythm.MashInputGraceMs + 1);
-        }
-
-        private static void AddEndingPerfectMashEvents(EndingBonusExport ending, NoteData note, System.Collections.Generic.List<int> tapTimes, System.Collections.Generic.List<EndingInputEvent> events)
-        {
-            var target = note.TargetCount;
-            var start = note.TimeMs - ending.Rhythm.MashInputGraceMs + 10;
-            var end = note.TimeMs + note.DurationMs + ending.Rhythm.MashInputGraceMs - 10;
-            var gap = System.Math.Max(ending.Rhythm.MashDedupMinGapMs, 1);
-            var cursor = start;
-            var added = 0;
-            while (cursor <= end && added < target)
-            {
-                if (!IsNearTap(cursor, tapTimes, ending.Rhythm.InputGraceMs))
-                {
-                    events.Add(new EndingInputEvent(cursor, "tap"));
-                    added += 1;
-                    cursor += gap;
-                    continue;
-                }
-                cursor += gap;
-            }
-
-            Assert.AreEqual(target, added, "ending perfect mash event capacity for " + note.Id);
-        }
-
-        private static bool IsNearTap(int timeMs, System.Collections.Generic.List<int> tapTimes, int graceMs)
-        {
-            for (var i = 0; i < tapTimes.Count; i += 1)
-            {
-                if (System.Math.Abs(timeMs - tapTimes[i]) <= graceMs) return true;
-            }
-            return false;
-        }
-
-        private sealed class EndingInputEvent
-        {
-            public EndingInputEvent(int timeMs, string action)
-            {
-                TimeMs = timeMs;
-                Action = action;
-            }
-
-            public int TimeMs { get; private set; }
-            public string Action { get; private set; }
         }
     }
 }

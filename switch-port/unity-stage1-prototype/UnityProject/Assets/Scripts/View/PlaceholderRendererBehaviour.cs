@@ -285,13 +285,13 @@ namespace JijiiKobushi.Stage1Prototype
         public void DebugCompleteEndingBonusPerfect()
         {
             if (endingSession == null || endingBonus == null || endingChart == null) return;
-            var events = BuildPerfectEndingInputEvents();
+            var events = EndingBonusPerfectInputPlanner.Build(endingBonus, CurrentLoopKey, difficulty);
             for (var i = 0; i < events.Count; i += 1)
             {
                 endingSession.SeekBattleClockMs(events[i].TimeMs);
-                if (events[i].Action == "tap") endingSession.Tap();
-                else if (events[i].Action == "holdDown") endingSession.HoldDown();
-                else if (events[i].Action == "holdUp") endingSession.HoldUp();
+                if (events[i].Action == EndingBonusPerfectInputPlanner.TapAction) endingSession.Tap();
+                else if (events[i].Action == EndingBonusPerfectInputPlanner.HoldDownAction) endingSession.HoldDown();
+                else if (events[i].Action == EndingBonusPerfectInputPlanner.HoldUpAction) endingSession.HoldUp();
             }
 
             if (endingChart.Count > 0)
@@ -963,79 +963,6 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             if (session != null) session.HoldUp();
-        }
-
-        private List<EndingInputEvent> BuildPerfectEndingInputEvents()
-        {
-            var events = new List<EndingInputEvent>();
-            if (endingBonus == null || endingChart == null) return events;
-
-            var tapTimes = new List<int>();
-            for (var i = 0; i < endingChart.Count; i += 1)
-            {
-                if (endingChart[i].Type == "tap") tapTimes.Add(endingChart[i].TimeMs);
-            }
-
-            for (var i = 0; i < endingChart.Count; i += 1)
-            {
-                var note = endingChart[i];
-                if (note.Type == "tap")
-                {
-                    events.Add(new EndingInputEvent(note.TimeMs, "tap"));
-                }
-                else if (note.Type == "hold")
-                {
-                    events.Add(new EndingInputEvent(note.TimeMs, "holdDown"));
-                    events.Add(new EndingInputEvent(note.TimeMs + note.DurationMs, "holdUp"));
-                }
-                else if (note.Type == "mash")
-                {
-                    AddPerfectEndingMashEvents(note, tapTimes, events);
-                }
-            }
-
-            events.Sort((left, right) => left.TimeMs == right.TimeMs ? string.CompareOrdinal(left.Action, right.Action) : left.TimeMs.CompareTo(right.TimeMs));
-            return events;
-        }
-
-        private void AddPerfectEndingMashEvents(NoteData note, List<int> tapTimes, List<EndingInputEvent> events)
-        {
-            var target = Mathf.Max(1, note.TargetCount);
-            var start = note.TimeMs - endingBonus.Rhythm.MashInputGraceMs + 10;
-            var end = note.TimeMs + note.DurationMs + endingBonus.Rhythm.MashInputGraceMs - 10;
-            var gap = Mathf.Max(endingBonus.Rhythm.MashDedupMinGapMs, 1);
-            var cursor = start;
-            var added = 0;
-            while (cursor <= end && added < target)
-            {
-                if (!IsNearEndingTap(cursor, tapTimes, endingBonus.Rhythm.InputGraceMs))
-                {
-                    events.Add(new EndingInputEvent(cursor, "tap"));
-                    added += 1;
-                }
-                cursor += gap;
-            }
-        }
-
-        private static bool IsNearEndingTap(int timeMs, List<int> tapTimes, int graceMs)
-        {
-            for (var i = 0; i < tapTimes.Count; i += 1)
-            {
-                if (Math.Abs(timeMs - tapTimes[i]) <= graceMs) return true;
-            }
-            return false;
-        }
-
-        private sealed class EndingInputEvent
-        {
-            public EndingInputEvent(int timeMs, string action)
-            {
-                TimeMs = timeMs;
-                Action = action;
-            }
-
-            public int TimeMs { get; private set; }
-            public string Action { get; private set; }
         }
 
         private bool IsComplete
