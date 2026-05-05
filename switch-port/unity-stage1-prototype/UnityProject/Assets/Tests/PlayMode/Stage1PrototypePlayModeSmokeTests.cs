@@ -7,28 +7,6 @@ namespace JijiiKobushi.Stage1Prototype
 {
     public sealed class Stage1PrototypePlayModeSmokeTests
     {
-        private static readonly string[] ExpectedStageTitles =
-        {
-            "誘拐の朝",
-            "港の倉庫",
-            "伊藤道場",
-            "峠道",
-            "改造車庫",
-            "赤門",
-            "X結社本部"
-        };
-
-        private static readonly string[] ExpectedStageLocations =
-        {
-            "うさぎ公園",
-            "港の倉庫",
-            "伊藤道場",
-            "峠道",
-            "改造車庫",
-            "赤門",
-            "X結社本部"
-        };
-
         [UnityTest]
         public IEnumerator PlaceholderRendererLoadsStageAndFindsBgm()
         {
@@ -235,11 +213,12 @@ namespace JijiiKobushi.Stage1Prototype
 
             Assert.IsTrue(runner.DebugSessionLoaded, runner.DebugError);
 
-            for (var stageNumber = 1; stageNumber <= ExpectedStageTitles.Length; stageNumber += 1)
+            for (var stageNumber = 1; stageNumber <= StagePackCatalog.Count; stageNumber += 1)
             {
+                var expected = StagePackCatalog.GetByIndex(stageNumber - 1);
                 Assert.AreEqual(stageNumber, runner.DebugStageNumber, "stage number before clear");
-                Assert.AreEqual(ExpectedStageTitles[stageNumber - 1], runner.DebugStageTitle, "stage title before clear");
-                Assert.AreEqual(ExpectedStageLocations[stageNumber - 1], runner.DebugStageLocation, "stage location before clear");
+                Assert.AreEqual(expected.Title, runner.DebugStageTitle, "stage title before clear");
+                Assert.AreEqual(expected.LocationName, runner.DebugStageLocation, "stage location before clear");
                 Assert.GreaterOrEqual(runner.DebugIntroLineCount, 1, "intro lines before clear");
 
                 runner.DebugCompleteStagePerfect();
@@ -248,7 +227,7 @@ namespace JijiiKobushi.Stage1Prototype
                 Assert.IsNotEmpty(runner.DebugResultScenarioLine, "result scenario line after clear");
                 Assert.AreEqual(stageNumber, runner.DebugRunStageResultCount, "stage result count after clear");
 
-                if (stageNumber < ExpectedStageTitles.Length)
+                if (stageNumber < StagePackCatalog.Count)
                 {
                     Assert.IsTrue(runner.DebugCanAdvanceToNextStage, "can advance after clear");
                     runner.DebugAdvanceToNextStage();

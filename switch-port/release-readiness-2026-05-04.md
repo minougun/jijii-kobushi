@@ -74,6 +74,7 @@ ED bonus:
 - 2026-05-05 continuation: Switch-port cleanup removed unused placeholder debug renderer code (`PlaceholderRenderer`/`PlaceholderFrame`, unused timeline/default-path helpers). Commented-out code and hidden UI leftovers were re-scanned; no actionable leftovers remained.
 - 2026-05-05 continuation: run-progress tracking was extracted from `PlaceholderRendererBehaviour` into `RunProgressTracker`; `npm run check:switch-port` passed immediately after the refactor and after adding the tracker EditMode test.
 - 2026-05-05 continuation: duplicated stage pack arrays were replaced with `StagePackCatalog`; `npm run check:switch-port` and standalone C# all-stage smoke passed after the change.
+- 2026-05-05 continuation: PlayMode stage progression tests now read expected titles/locations from `StagePackCatalog`; Unity PlayMode batch tests regenerated `unity-playmode-results.xml` with 9/9 passed.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`
