@@ -156,7 +156,6 @@ Purpose:
 ## Placeholder View
 
 ```text
-Assets/Scripts/View/PlaceholderRenderer.cs
 Assets/Scripts/View/PlaceholderRendererBehaviour.cs
 ```
 
@@ -171,14 +170,13 @@ Purpose:
 
 ```text
 Assets/Scenes/Stage1Prototype.unity
-Assets/Resources/Stage1/shotengai.stage.json
-Assets/Resources/Stage1/expected-results.json
-Assets/Audio/koiwazurai.mp3
+Assets/StreamingAssets/JiiKobushi/...
 ```
 
 Notes:
 
 - The current placeholder scene reads `switch-port/stage1/` directly through `ProfileTestRunner.ResolveStagePackPath`.
 - The current placeholder scene reads all-stage progression data through `switch-port/stages/` and `ProfileTestRunner.ResolveAllStagePackPath`.
-- Resource copies should be made from `switch-port/stage1/` and project assets only after the Unity project needs packaged runtime assets.
+- The runtime asset manifest lives at `switch-port/assets/runtime-assets.json`; `RuntimeAssetCatalog` prefers staged `Assets/StreamingAssets/JiiKobushi/...` files when present and otherwise falls back to the local Web-original repo path for Editor work.
+- Resource copies should be staged through the runtime asset manifest only after the Unity project needs packaged runtime assets.
 - Do not place external portal, SDK, certificate, or private documentation files under this tree.

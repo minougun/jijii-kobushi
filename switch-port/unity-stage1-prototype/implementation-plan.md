@@ -161,7 +161,7 @@ Status: implemented in `UnityProject/Assets/Scripts/Tests/ProfileTestRunner.cs` 
 
 ## Phase 7: Placeholder Runtime View
 
-Implement `PlaceholderRenderer`.
+Implement the local Editor placeholder view.
 
 Deliverables:
 
@@ -178,7 +178,7 @@ Acceptance:
 - Judgement remains driven by `AudioClock` and timestamped input events.
 - Placeholder visuals can be replaced later without changing the portable core.
 
-Status: placeholder debug formatting is implemented in `UnityProject/Assets/Scripts/View/PlaceholderRenderer.cs`, and `UnityProject/Assets/Scripts/View/PlaceholderRendererBehaviour.cs` provides the local Editor scene driver. `UnityProject/Assets/Scenes/Stage1Prototype.unity` loads JSON, runs Stage 1 parity validation when Stage 1 is active, advances count-in and the selected stage timeline, displays the result, and can advance cleared results through all seven tracked stage packs. No final renderer work is included.
+Status: `UnityProject/Assets/Scripts/View/PlaceholderRendererBehaviour.cs` provides the local Editor scene driver. `UnityProject/Assets/Scenes/Stage1Prototype.unity` loads JSON, runs Stage 1 parity validation when Stage 1 is active, advances count-in and the selected stage timeline, displays the result, and can advance cleared results through all seven tracked stage packs. The old split-out `PlaceholderRenderer.cs` debug helper was removed during cleanup; no final renderer work is included.
 
 ## Phase 8: All-Stage Placeholder Progression
 
@@ -189,7 +189,7 @@ Deliverables:
 - Stage switching over `../stages/stage01-*.stage.json` through `stage07-*.stage.json`
 - Result-panel `Next Stage` progression after clear
 - Stage subtitle and location assertions for every stage
-- Final-stage stop condition
+- Final-stage ED bonus handoff
 
 Acceptance:
 
@@ -198,7 +198,7 @@ Acceptance:
 - Stage 7 loads as `白馬の正体 / X結社本部`.
 - All seven stages match generated expected profile results for `perfect`, `steady`, `early`, `late`, `mash-weak`, and `mash-heavy`.
 - A debug perfect-clear run can advance from Stage 1 through Stage 7 in PlayMode.
-- Stage 7 clear shows a result line but does not expose another `Next Stage` transition.
+- Stage 7 clear exposes `ED Bonus` rather than another `Next Stage` transition.
 
 Status: implemented in `PlaceholderRendererBehaviour` and covered by `PlaceholderRendererCanPerfectClearAllSevenStagesInOrder`.
 
