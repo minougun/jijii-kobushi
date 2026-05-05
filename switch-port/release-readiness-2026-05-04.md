@@ -82,6 +82,7 @@ ED bonus:
 - 2026-05-05 continuation: stale Unity prototype docs were updated after cleanup so they no longer refer to the removed `PlaceholderRenderer.cs` helper or obsolete Resource-copy paths.
 - 2026-05-05 continuation: runtime asset path resolution was centralized in `RuntimeAssetPathUtility.ResolveRuntimePath`; the Play Mode renderer now shares the same StreamingAssets-first/local-Web-original fallback path as EditMode tests.
 - 2026-05-05 continuation: low-level IMGUI rectangle and meter drawing was extracted into `PrototypeGui`, reducing `PlaceholderRendererBehaviour` surface area before the production UI migration.
+- 2026-05-05 continuation: reusable result-card drawing helpers were extracted into `PrototypeResultPanel`, further separating temporary IMGUI presentation pieces from the Unity scene driver.
 - Added all-stage expected profile results after this pass:
   - `npm run export:switch-stage-results`
   - `npm run validate:switch-stage-results`

@@ -581,7 +581,7 @@ namespace JijiiKobushi.Stage1Prototype
                 var finalRank = runProgress.FinalRank;
                 var stageAverage = runProgress.AverageScore;
                 var stageTotal = runProgress.TotalScore;
-                DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), finalRank);
+                PrototypeResultPanel.DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), finalRank, titleStyle);
                 GUI.Label(new Rect(panel.x + 128, panel.y + 14, 420, 24), "FINAL RESULT", panelLabelStyle);
                 GUI.Label(new Rect(panel.x + 128, panel.y + 56, 440, 38), "総合ランク " + finalRank, titleStyle);
                 GUI.Label(new Rect(panel.x + 128, panel.y + 92, 520, 24), "Loop " + CurrentRunLoop + " / " + difficulty + " / stages " + runProgress.Count + "/" + StagePackCatalog.Count, labelStyle);
@@ -589,7 +589,7 @@ namespace JijiiKobushi.Stage1Prototype
                 DrawResultStat(new Rect(panel.x + 270, panel.y + 124, 132, 54), "総合", stageTotal + " pts", "stage total");
                 DrawResultStat(new Rect(panel.x + 412, panel.y + 124, 132, 54), "ED拍", endingResult.Score + " pts", "bonus");
                 DrawResultStat(new Rect(panel.x + 554, panel.y + 124, 132, 54), "成功", endingResult.Hits + "/" + endingResult.NoteCount, accuracy + "%");
-                DrawStageResultRows(new Rect(panel.x + 20, panel.y + 188, panel.width - 40, 52));
+                PrototypeResultPanel.DrawStageResultRows(new Rect(panel.x + 20, panel.y + 188, panel.width - 40, 52), runProgress, panelLabelStyle);
 
                 if (GUI.Button(new Rect(panel.x + panel.width - 178, panel.y + panel.height - 38, 152, 30), "Next Loop"))
                 {
@@ -606,7 +606,7 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             var result = session.BuildResult();
-            DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), result.Rank);
+            PrototypeResultPanel.DrawRankBadge(new Rect(panel.x + 20, panel.y + 58, 92, 92), result.Rank, titleStyle);
             GUI.Label(new Rect(panel.x + 128, panel.y + 14, 360, 24), result.Clear ? "STAGE CLEAR" : "FAILED", panelLabelStyle);
             GUI.Label(new Rect(panel.x + 128, panel.y + 56, 360, 38), result.Score + " pts", titleStyle);
             GUI.Label(new Rect(panel.x + 128, panel.y + 92, panel.width - 154, 24), ResultScenarioLine, labelStyle);
@@ -638,40 +638,9 @@ namespace JijiiKobushi.Stage1Prototype
             }
         }
 
-        private void DrawRankBadge(Rect rect, string rank)
-        {
-            PrototypeGui.FillRect(rect, new Color(0.86f, 0.62f, 0.16f));
-            PrototypeGui.StrokeRect(rect, new Color(0.05f, 0.05f, 0.05f), 3);
-            GUI.Label(rect, rank, titleStyle);
-        }
-
         private void DrawResultStat(Rect rect, string label, string value, string sub)
         {
-            PrototypeGui.FillRect(rect, new Color(1f, 1f, 1f));
-            PrototypeGui.StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
-            GUI.Label(new Rect(rect.x + 9, rect.y + 6, rect.width - 18, 18), label, panelLabelStyle);
-            GUI.Label(new Rect(rect.x + 9, rect.y + 20, rect.width - 18, 24), value, strongStyle);
-            GUI.Label(new Rect(rect.x + 9, rect.y + 38, rect.width - 18, 16), sub, labelStyle);
-        }
-
-        private void DrawStageResultRows(Rect rect)
-        {
-            PrototypeGui.FillRect(rect, new Color(0.08f, 0.075f, 0.07f));
-            PrototypeGui.StrokeRect(rect, new Color(0.82f, 0.78f, 0.7f), 1);
-            var titleRect = new Rect(rect.x + 10, rect.y + 6, 140, 18);
-            GUI.Label(titleRect, "ステージ別成績", panelLabelStyle);
-
-            var columnWidth = (rect.width - 160f) / StagePackCatalog.Count;
-            for (var i = 0; i < StagePackCatalog.Count; i += 1)
-            {
-                var summary = runProgress.Find(i + 1);
-                var x = rect.x + 150 + columnWidth * i;
-                var label = summary == null
-                    ? (i + 1).ToString("00") + " --"
-                    : (i + 1).ToString("00") + " " + summary.Rank + " " + summary.Score;
-                GUI.Label(new Rect(x, rect.y + 6, columnWidth - 4, 18), label, panelLabelStyle);
-                GUI.Label(new Rect(x, rect.y + 27, columnWidth - 4, 18), summary == null ? "未記録" : summary.MaxCombo + "連 / " + RunProgressTracker.Accuracy(summary) + "%", panelLabelStyle);
-            }
+            PrototypeResultPanel.DrawResultStat(rect, label, value, sub, panelLabelStyle, strongStyle, labelStyle);
         }
 
         private void DrawFooterControls(Rect mainRect)
