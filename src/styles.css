@@ -795,6 +795,49 @@ canvas {
   opacity: 0.82;
 }
 
+.mobileTapPad {
+  display: none;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px 16px;
+  color: #fff8e8;
+  background:
+    linear-gradient(180deg, rgba(33, 36, 42, 0.98), rgba(7, 8, 10, 0.98)),
+    linear-gradient(90deg, rgba(227, 191, 85, 0.34), rgba(184, 59, 41, 0.24));
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.72),
+    0 0 0 2px rgba(227, 191, 85, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -5px 0 rgba(0, 0, 0, 0.32);
+  border-radius: 0 0 8px 8px;
+  font-weight: 800;
+  line-height: 1.1;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobileTapPad strong {
+  font-size: 18px;
+}
+
+.mobileTapPad span {
+  color: rgba(255, 248, 232, 0.82);
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.mobileTapPad:active {
+  transform: translateY(1px);
+  background:
+    linear-gradient(180deg, rgba(60, 46, 22, 0.98), rgba(15, 13, 9, 0.98)),
+    linear-gradient(90deg, rgba(227, 191, 85, 0.54), rgba(184, 59, 41, 0.34));
+}
+
 .pauseMenu {
   position: absolute;
   inset: 16px;
@@ -1844,20 +1887,27 @@ canvas {
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell,
   html[data-phase="battle"] .shell {
     --hud-h: 58px;
-    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9));
-    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16));
+    --tap-pad-h: 52px;
+    --game-w: min(100vw, calc((100svh - var(--hud-h) - var(--tap-pad-h)) * 16 / 9));
+    --game-h: min(calc(100svh - var(--hud-h) - var(--tap-pad-h)), calc(100vw * 9 / 16));
     position: relative;
     width: 100%;
     min-height: 100svh;
     height: 100svh;
     display: grid;
-    grid-template-rows: var(--hud-h) var(--game-h);
+    grid-template-rows: var(--hud-h) var(--game-h) var(--tap-pad-h);
     align-content: center;
     justify-items: center;
     gap: 0;
     padding: 0;
     overflow: hidden;
     background: #171717;
+  }
+
+  html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell {
+    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9));
+    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16));
+    grid-template-rows: var(--hud-h) var(--game-h);
   }
 
   html:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .gameSurface {
@@ -2023,6 +2073,15 @@ canvas {
     margin: 0 auto;
   }
 
+  html[data-phase="battle"] .mobileTapPad {
+    grid-row: 3;
+    display: flex;
+    width: var(--game-w);
+    max-width: 100vw;
+    min-height: var(--tap-pad-h);
+    border-radius: 0 0 8px 8px;
+  }
+
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) canvas,
   html[data-phase="battle"] canvas {
     border-radius: 0;
@@ -2174,8 +2233,9 @@ canvas {
 
   html[data-phase="battle"] .shell {
     --hud-h: 89px;
-    --game-w: min(100vw, calc((100svh - var(--hud-h)) * 16 / 9));
-    --game-h: min(calc(100svh - var(--hud-h)), calc(100vw * 9 / 16));
+    --tap-pad-h: 58px;
+    --game-w: min(100vw, calc((100svh - var(--hud-h) - var(--tap-pad-h)) * 16 / 9));
+    --game-h: min(calc(100svh - var(--hud-h) - var(--tap-pad-h)), calc(100vw * 9 / 16));
     position: relative;
     width: 100%;
     min-height: 100svh;
@@ -2183,7 +2243,7 @@ canvas {
     padding: 0;
     gap: 0;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: var(--hud-h) var(--game-h);
+    grid-template-rows: var(--hud-h) var(--game-h) var(--tap-pad-h);
     align-content: center;
     justify-items: center;
     overflow: hidden;
@@ -2309,6 +2369,16 @@ canvas {
     width: var(--game-w);
     min-height: 0;
     overflow: hidden;
+  }
+
+  html[data-phase="battle"] .mobileTapPad {
+    grid-row: 3;
+    display: flex;
+    width: var(--game-w);
+    max-width: 100vw;
+    min-height: var(--tap-pad-h);
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    border-radius: 0;
   }
 
   html[data-phase="battle"] canvas {

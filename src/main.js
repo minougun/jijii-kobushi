@@ -103,6 +103,7 @@ const dom = {
   langEnButton: document.querySelector("#langEnButton"),
   portraitHint: document.querySelector("#portraitHint"),
   portraitDismiss: document.querySelector("#portraitDismiss"),
+  mobileTapPad: document.querySelector("#mobileTapPad"),
   helpGuide: document.querySelector("#helpGuide"),
   settingsRoot,
 };
@@ -2395,6 +2396,9 @@ dom.pauseLoadLoopPlusButton?.addEventListener("click", () => loadRunSnapshot(RUN
 canvas.addEventListener("pointerdown", onInputDown);
 canvas.addEventListener("pointerup", onInputUp);
 canvas.addEventListener("pointercancel", onInputUp);
+dom.mobileTapPad?.addEventListener("pointerdown", onInputDown);
+dom.mobileTapPad?.addEventListener("pointerup", onInputUp);
+dom.mobileTapPad?.addEventListener("pointercancel", onInputUp);
 dom.shell.addEventListener("pointerdown", onMobileBlankTapDown);
 dom.shell.addEventListener("pointerup", onMobileBlankTapUp);
 dom.shell.addEventListener("pointercancel", onMobileBlankTapUp);
