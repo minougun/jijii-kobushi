@@ -132,6 +132,8 @@ The ED bonus handoff uses the portable ED chart, the same placeholder rhythm lan
 
 ED bonus debug-perfect input generation is owned by `Assets/Scripts/Battle/EndingBonusPerfectInputPlanner.cs`. The Play Mode runner and EditMode parity tests both use the same planner, so mash-safe perfect input scheduling does not drift between UI smoke tests and deterministic validation.
 
+Stage battle debug-perfect input generation is owned by `Assets/Scripts/Battle/StagePerfectInputPlanner.cs`. The Play Mode runner and EditMode parity tests both use the same planner, so tap/hold/mash perfect-clear scheduling does not drift between manual smoke shortcuts and simulator parity checks.
+
 In Play Mode, `PlaceholderRendererBehaviour` loads the Stage 1 BGM from the tracked Web asset path in the JSON (`./assets/audio/koiwazurai.mp3`) and drives the battle clock from Unity DSP time while the clip is playing. If the local BGM file cannot be found or decoded, it falls back to the deterministic `deltaTime` clock and shows the fallback status in the HUD.
 
 `Assets/Editor/Stage1PrototypeSceneSetup.cs` adds the `Jijii Kobushi > Setup Stage 1 Prototype Scene` editor menu. It makes `Stage1Prototype.unity` visible in Scene view by adding a Main Camera, Directional Light, placeholder stage board, gold hit line, and Tap/Hold/Mash marker cubes.

@@ -241,6 +241,27 @@ namespace JijiiKobushi.Stage1Prototype
         }
 
         [Test]
+        public void StagePerfectInputPlannerMatchesSimulator()
+        {
+            var stage = StageJsonLoader.LoadStage(ProfileTestRunner.ResolveAllStagePackPath("stage07-finalhideout.stage.json"));
+            var events = StagePerfectInputPlanner.Build(stage, "2", "hard");
+            Assert.Greater(events.Count, stage.Loops["2"].Charts["hard"].Count);
+
+            for (var i = 1; i < events.Count; i += 1)
+            {
+                Assert.GreaterOrEqual(events[i].TimeMs, events[i - 1].TimeMs, "events sorted");
+            }
+
+            var session = new InteractiveBattleSession(stage, "2", "hard");
+            PlayStageEvents(stage, "2", "hard", session, events);
+            var expected = BattleSimulator.Simulate(stage, "2", "hard", "perfect");
+            var actual = session.BuildResult();
+            Assert.AreEqual(expected.Score, actual.Score);
+            Assert.AreEqual(expected.Stats.Perfect, actual.Stats.Perfect);
+            Assert.AreEqual(0, actual.Stats.Miss);
+        }
+
+        [Test]
         public void InteractivePerfectRunMatchesSimulator()
         {
             var stage = LoadStage();
@@ -389,39 +410,20 @@ namespace JijiiKobushi.Stage1Prototype
 
         private static void PlayPerfect(StageExport stage, string loop, string difficulty, InteractiveBattleSession session)
         {
-            var chart = stage.Loops[loop].Charts[difficulty];
-            for (var i = 0; i < chart.Count; i += 1)
-            {
-                var note = chart[i];
-                session.SeekBattleClockMs(note.TimeMs);
-
-                if (note.Type == "tap")
-                {
-                    session.Tap();
-                }
-                else if (note.Type == "hold")
-                {
-                    session.HoldDown();
-                    session.SeekBattleClockMs(note.TimeMs + note.DurationMs);
-                    session.HoldUp();
-                }
-                else if (note.Type == "mash")
-                {
-                    PlayPerfectMash(stage, note, session);
-                    session.SeekBattleClockMs(note.TimeMs + note.DurationMs + stage.Rhythm.MashInputGraceMs + 1);
-                }
-            }
+            PlayStageEvents(stage, loop, difficulty, session, StagePerfectInputPlanner.Build(stage, loop, difficulty));
         }
 
-        private static void PlayPerfectMash(StageExport stage, NoteData note, InteractiveBattleSession session)
+        private static void PlayStageEvents(StageExport stage, string loop, string difficulty, InteractiveBattleSession session, System.Collections.Generic.List<StagePerfectInputEvent> events)
         {
-            var target = note.TargetCount;
-            var gap = target <= 1 ? 0 : System.Math.Max(stage.Rhythm.MashDedupMinGapMs, (note.DurationMs - 20) / (target - 1));
-            for (var i = 0; i < target; i += 1)
+            for (var i = 0; i < events.Count; i += 1)
             {
-                session.SeekBattleClockMs(note.TimeMs + 10 + i * gap);
-                session.Tap();
+                session.SeekBattleClockMs(events[i].TimeMs);
+                if (events[i].Action == StagePerfectInputPlanner.TapAction) session.Tap();
+                else if (events[i].Action == StagePerfectInputPlanner.HoldDownAction) session.HoldDown();
+                else if (events[i].Action == StagePerfectInputPlanner.HoldUpAction) session.HoldUp();
             }
+
+            session.SeekBattleClockMs(StagePerfectInputPlanner.CompletionBattleClockMs(stage, loop, difficulty));
         }
 
         private static void PlayEndingPerfect(EndingBonusExport ending, string loop, string difficulty, EndingBonusInteractiveSession session)

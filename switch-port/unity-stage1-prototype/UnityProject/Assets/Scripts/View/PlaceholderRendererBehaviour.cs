@@ -256,29 +256,16 @@ namespace JijiiKobushi.Stage1Prototype
         public void DebugCompleteStagePerfect()
         {
             if (session == null || stage == null || chart == null) return;
-            for (var i = 0; i < chart.Count && !session.IsComplete; i += 1)
+            var events = StagePerfectInputPlanner.Build(stage, CurrentLoopKey, difficulty);
+            for (var i = 0; i < events.Count && !session.IsComplete; i += 1)
             {
-                var note = session.CurrentNote;
-                if (note == null) break;
-                session.SeekBattleClockMs(note.TimeMs);
-
-                if (note.Type == "tap")
-                {
-                    session.Tap();
-                }
-                else if (note.Type == "hold")
-                {
-                    session.HoldDown();
-                    session.SeekBattleClockMs(note.TimeMs + note.DurationMs);
-                    session.HoldUp();
-                }
-                else if (note.Type == "mash")
-                {
-                    DebugPlayPerfectMash(note);
-                    session.SeekBattleClockMs(note.TimeMs + note.DurationMs + stage.Rhythm.MashInputGraceMs + 1);
-                }
+                session.SeekBattleClockMs(events[i].TimeMs);
+                if (events[i].Action == StagePerfectInputPlanner.TapAction) session.Tap();
+                else if (events[i].Action == StagePerfectInputPlanner.HoldDownAction) session.HoldDown();
+                else if (events[i].Action == StagePerfectInputPlanner.HoldUpAction) session.HoldUp();
             }
 
+            session.SeekBattleClockMs(StagePerfectInputPlanner.CompletionBattleClockMs(stage, CurrentLoopKey, difficulty));
             HandleStageSessionComplete();
         }
 
@@ -987,19 +974,6 @@ namespace JijiiKobushi.Stage1Prototype
                 if (session.IsFailed) return "Failed";
                 if (session.IsCleared) return "Result";
                 return "Battle";
-            }
-        }
-
-        private void DebugPlayPerfectMash(NoteData note)
-        {
-            var target = Mathf.Max(1, note.TargetCount);
-            var gap = target <= 1
-                ? 0
-                : Mathf.Max(stage.Rhythm.MashDedupMinGapMs, (note.DurationMs - 20) / (target - 1));
-            for (var i = 0; i < target; i += 1)
-            {
-                session.SeekBattleClockMs(note.TimeMs + 10 + i * gap);
-                session.Tap();
             }
         }
 
