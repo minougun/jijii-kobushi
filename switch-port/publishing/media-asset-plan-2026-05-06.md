@@ -69,6 +69,7 @@ Recommended icon concept:
 - High contrast background, not too text-heavy.
 - Avoid tiny rhythm-lane details.
 - Keep visible at small sizes.
+- Match the Web favicon/OGP hook so browser sharing and eShop browsing feel like the same product.
 
 Candidate source elements:
 
@@ -81,6 +82,7 @@ Open task:
 - [ ] Generate or hand-compose a final icon after portal size requirements are known.
 - [ ] Verify legibility at icon sizes used by Nintendo UI.
 - [ ] Confirm no hidden third-party text or logos.
+- [ ] Prepare a Web OGP card variant from the same composition if the current opening-still preview underperforms in social previews.
 
 ## Trailer Plan
 

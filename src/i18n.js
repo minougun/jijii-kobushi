@@ -43,7 +43,7 @@ const JA = {
     savedRun: "周回をセーブしました",
     loadedRun: "セーブから再開します",
     defeatTitle: "膝をついた",
-    defeatBody: "まだ声は届く。入力補正を見直して、もう一度コブシを効かせろ。",
+    defeatBody: "まだ声は届く。必要なら設定で入力補正を見直して、もう一度コブシを効かせろ。",
     retry: "再挑戦",
   },
   settings: {
@@ -81,6 +81,7 @@ const JA = {
     saveRun: "現在の周回をセーブ",
     loadFirst: "1周目をロード",
     loadLoopPlus: "2周目以降をロード",
+    openSettings: "設定を開く",
     returnTitle: "タイトルへ戻る",
   },
   hud: {
@@ -134,7 +135,7 @@ const EN = {
     savedRun: "Run saved",
     loadedRun: "Loaded save",
     defeatTitle: "You went down",
-    defeatBody: "Adjust input offset in Settings, then try again.",
+    defeatBody: "Adjust input offset in Settings if needed, then try again.",
     retry: "Retry stage",
   },
   settings: {
@@ -172,6 +173,7 @@ const EN = {
     saveRun: "Save current loop",
     loadFirst: "Load first loop",
     loadLoopPlus: "Load loop 2+",
+    openSettings: "Open settings",
     returnTitle: "Return to title",
   },
   hud: {

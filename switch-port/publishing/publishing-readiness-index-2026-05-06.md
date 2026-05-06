@@ -14,6 +14,7 @@ GitHub: `https://github.com/minougun/jijii-kobushi`
 - Hardware QA matrix: `switch-port/publishing/switch-hardware-qa-matrix-2026-05-06.md`
 - Unity build preflight: `switch-port/publishing/unity-switch-build-preflight-2026-05-06.md`
 - Web/Unity diff register: `switch-port/publishing/web-unity-port-diff-2026-05-06.md`
+- Persona review follow-up: `switch-port/publishing/persona-review-web-switch-followup-2026-05-06.md`
 
 ## Current Readiness
 
@@ -22,6 +23,7 @@ GitHub: `https://github.com/minougun/jijii-kobushi`
 | Local Unity port | Complete locally; `npm run check:switch-local-complete` exists |
 | Store copy | Drafted; needs portal field limits and final publisher info |
 | Screenshots/icon/trailer | Shot list and direction drafted; needs portal specs and hardware capture |
+| Web/social metadata parity | Web OGP/favicon fixed; Switch equivalent tracked as store icon/media plan |
 | License register | Drafted; needs final official license evidence archive |
 | Hardware QA | Matrix drafted; blocked on dev kit |
 | Unity Switch preflight | Checklist drafted; blocked on SDK/module/dev kit access |
@@ -42,6 +44,8 @@ GitHub: `https://github.com/minougun/jijii-kobushi`
 - [ ] Archive official PeriTune and font license evidence.
 - [ ] Prepare icon concept from `kojiro-cutin.png` and opening brush title.
 - [ ] Prepare trailer storyboard captures from Web/Unity prototype, then replace with hardware captures later.
+- [ ] Confirm eShop store text and media convey the same first-impression hook as Web OGP.
+- [ ] Run keyboard/controller accessibility smoke on the Unity build after production UI replacement.
 - [ ] Keep Web original untouched unless explicitly requested.
 
 `Issue/PR: not_applicable` for this local preparation pass unless a GitHub issue is created later.

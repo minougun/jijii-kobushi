@@ -24,6 +24,9 @@ This is the practical QA grid to run once dev kit access is available. It is wri
 | Display | Handheld mode | Rhythm lane, HP, text, and notes remain readable | Pending dev kit |
 | Display | TV mode | Game area centered and not cropped | Pending dev kit |
 | Display | Safe area | No essential UI touches screen edges | Pending dev kit |
+| Accessibility | Text readability | Story, result, and status text remain readable in handheld and TV modes | Pending dev kit |
+| Accessibility | Menu focus | Pause/result/settings equivalents keep focus within the active panel | Pending dev kit |
+| Accessibility | Language mode | Japanese/English text is not mixed in a single user-facing help view | Pending dev kit |
 | Performance | Stage 1 battle | Stable frame pacing during simple chart | Pending dev kit |
 | Performance | Stage 7 hard | Stable frame pacing during dense chart | Pending dev kit |
 | Performance | Loop 2 doodle UI | No extra jank from doodle rendering | Pending dev kit |

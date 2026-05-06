@@ -70,9 +70,12 @@ const dom = {
   openingArtwork: document.querySelector("#openingArtwork"),
   overlayTitle: document.querySelector("#overlayTitle"),
   overlayText: document.querySelector("#overlayText"),
+  srGameNarration: document.querySelector("#srGameNarration"),
+  srJudgeStatus: document.querySelector("#srJudgeStatus"),
   resultSummary: document.querySelector("#resultSummary"),
   difficultySelect: document.querySelector("#difficultySelect"),
   primaryButton: document.querySelector("#primaryButton"),
+  openSettingsButton: document.querySelector("#openSettingsButton"),
   skipButton: document.querySelector("#skipButton"),
   quickSaveButton: document.querySelector("#quickSaveButton"),
   pauseButton: document.querySelector("#pauseButton"),
@@ -145,6 +148,81 @@ const saved = loadSave();
 let battleSession = 0;
 let renderDirty = true;
 let lastRenderAt = 0;
+let lastSrNarration = "";
+let lastSrJudge = "";
+const focusTrapState = {
+  element: null,
+  previous: null,
+};
+
+function setSrText(element, text, cacheName) {
+  if (!element) return;
+  const normalized = String(text ?? "").trim();
+  if (!normalized) return;
+  if (cacheName === "judge") {
+    if (lastSrJudge === normalized) return;
+    lastSrJudge = normalized;
+  } else {
+    if (lastSrNarration === normalized) return;
+    lastSrNarration = normalized;
+  }
+  element.textContent = normalized;
+}
+
+function syncSrJudge(text = state.judgeText) {
+  setSrText(dom.srJudgeStatus, text, "judge");
+}
+
+function syncSrNarration(text) {
+  setSrText(dom.srGameNarration, text, "narration");
+}
+
+function focusableElements(root) {
+  if (!root) return [];
+  return Array.from(root.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+    .filter((element) => element.offsetParent !== null || element === document.activeElement);
+}
+
+function handleFocusTrapKeydown(event) {
+  if (event.key !== "Tab" || !focusTrapState.element) return;
+  const focusable = focusableElements(focusTrapState.element);
+  if (!focusable.length) {
+    event.preventDefault();
+    focusTrapState.element.focus?.();
+    return;
+  }
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+function setFocusTrap(element, active) {
+  if (!element) return;
+  if (active) {
+    if (focusTrapState.element === element) return;
+    setFocusTrap(focusTrapState.element, false);
+    focusTrapState.element = element;
+    focusTrapState.previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    element.addEventListener("keydown", handleFocusTrapKeydown);
+    window.setTimeout(() => {
+      const first = focusableElements(element)[0];
+      (first ?? element).focus?.();
+    }, 0);
+    return;
+  }
+  if (focusTrapState.element !== element) return;
+  element.removeEventListener("keydown", handleFocusTrapKeydown);
+  const previous = focusTrapState.previous;
+  focusTrapState.element = null;
+  focusTrapState.previous = null;
+  if (previous && document.contains(previous)) previous.focus?.();
+}
 
 function loadRunLoops(savedData) {
   const fallback = normalizeLoop(savedData?.runLoop);
@@ -305,7 +383,12 @@ function refreshOpeningOverlay() {
 }
 
 function updatePortraitHint() {
-  if (dom.portraitHint) dom.portraitHint.hidden = true;
+  if (!dom.portraitHint) return;
+  const shouldShow =
+    !state.portraitHintDismissed &&
+    window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches &&
+    !window.matchMedia("(display-mode: fullscreen)").matches;
+  dom.portraitHint.hidden = !shouldShow;
   requestRender();
 }
 
@@ -492,10 +575,11 @@ function setOverlay(show, title = "", text = "", action = "進む") {
   dom.overlay.classList.toggle("resultOverlay", resultMode);
   dom.overlay.classList.toggle("openingOverlay", openingArtworkMode);
   dom.overlay.classList.toggle("titleOverlay", titleMode);
+  const lockSidePanels = show && state.phase !== "defeat";
   for (const element of [dom.settingsRoot, dom.helpGuide]) {
     if (!element) continue;
-    element.inert = show;
-    element.setAttribute("aria-hidden", String(show));
+    element.inert = lockSidePanels;
+    element.setAttribute("aria-hidden", String(lockSidePanels));
   }
   if (dom.openingArtwork) dom.openingArtwork.hidden = !openingArtworkMode;
   dom.gameSurface?.classList.toggle("novelActive", show && novelMode);
@@ -508,8 +592,10 @@ function setOverlay(show, title = "", text = "", action = "進む") {
   dom.overlayTitle.textContent = title;
   dom.overlayText.textContent = text;
   dom.overlayText.hidden = text.length === 0;
+  if (show) syncSrNarration([title, text].filter(Boolean).join("。"));
   if (!resultMode) clearResultSummary();
   dom.primaryButton.textContent = action;
+  if (dom.openSettingsButton) dom.openSettingsButton.hidden = state.phase !== "defeat";
   dom.skipButton.hidden = state.phase === "finalReveal" ? true : state.phase !== "intro" && state.phase !== "rest" && !canSkipCleared;
   dom.skipButton.textContent = canSkipCleared ? "クリア済みなのでスキップ" : "会話を送る";
   syncSaveSlotUi();
@@ -765,6 +851,7 @@ async function resumeGame() {
 function syncPauseUi() {
   const lang = normalizeLang(state.uiLang);
   if (dom.pauseMenu) dom.pauseMenu.hidden = !state.paused;
+  setFocusTrap(dom.pauseMenu, state.paused);
   if (dom.pauseTitle) dom.pauseTitle.textContent = t(lang, "overlay.paused");
   if (dom.pauseText) dom.pauseText.textContent = t(lang, "overlay.pauseBody");
   if (dom.resumeButton) dom.resumeButton.textContent = t(lang, "chrome.resume");
@@ -784,6 +871,7 @@ function syncPauseUi() {
     dom.pauseButton.textContent = t(lang, "chrome.pauseShort");
     dom.pauseButton.setAttribute("aria-label", t(lang, "a11y.pause"));
   }
+  if (dom.openSettingsButton) dom.openSettingsButton.textContent = t(lang, "chrome.openSettings");
   syncSaveSlotUi();
 }
 
@@ -1615,6 +1703,7 @@ function stopEndingVideo() {
     dom.endingVideo.currentTime = 0;
   }
   if (dom.endingVideoLayer) dom.endingVideoLayer.hidden = true;
+  setFocusTrap(dom.endingVideoLayer, false);
   if (dom.endingBonusPanel) dom.endingBonusPanel.hidden = true;
 }
 
@@ -1657,6 +1746,7 @@ async function playEndingVideo() {
   const selection = applyEndingVideoSource();
   resetEndingBonus();
   dom.endingVideoLayer.hidden = false;
+  setFocusTrap(dom.endingVideoLayer, true);
   if (dom.endingVideoStatus) dom.endingVideoStatus.textContent = selection?.kind === "loopPlus" ? "2周目ED読込中" : "ED読込中";
   dom.endingVideo.currentTime = 0;
   dom.endingVideo.load();
@@ -1862,6 +1952,7 @@ function resolveNote(index, rank, offsetMs = 0, detail = "", mashJudge = null) {
       triggerEnemyAttack(entry.note.type === "hold");
     }
     state.judgeText = mashMiss ? `Miss${detail ? ` ${detail}` : ""}` : "Miss";
+    syncSrJudge();
     addEffect(mashMiss ? "届かず" : "ズレた", 450, 210, mashMiss ? "#8a7a72" : "#d04b36");
     if (!state.reducedMotion) state.shake = mashMiss ? 4 : 10;
   } else {
@@ -1914,6 +2005,7 @@ function resolveNote(index, rank, offsetMs = 0, detail = "", mashJudge = null) {
     }
     state.spirit = Math.max(0, Math.min(100, state.spirit + noteSpirit(rank)));
     state.judgeText = `${rank.toUpperCase()} ${offsetMs ? `${offsetMs}ms` : detail}`;
+    syncSrJudge();
     addEffect(rank.toUpperCase(), 430, 210, rank === "perfect" ? "#f6d95f" : "#ffffff");
     if (state.spirit >= 100) {
       state.spirit = 0;
@@ -2258,7 +2350,9 @@ function syncSettings() {
   if (dom.spiritLabel) dom.spiritLabel.textContent = t(lang, "hud.spirit");
   syncPauseUi();
   for (const button of dom.difficultySelect.querySelectorAll("button[data-difficulty]")) {
-    button.setAttribute("aria-pressed", String(button.dataset.difficulty === state.difficulty));
+    const selected = button.dataset.difficulty === state.difficulty;
+    button.setAttribute("aria-pressed", String(selected));
+    button.setAttribute("aria-checked", String(selected));
   }
   document.documentElement.classList.toggle("muted", !state.audioEnabled);
   if (state.phase === "opening") refreshOpeningOverlay();
@@ -2372,6 +2466,14 @@ dom.skipButton.addEventListener("click", async () => {
     advanceIntro();
   } else if (state.phase === "rest") {
     advanceRest();
+  }
+});
+
+dom.openSettingsButton?.addEventListener("click", () => {
+  if (dom.settingsRoot) {
+    dom.settingsRoot.open = true;
+    dom.settingsRoot.scrollIntoView({ block: "nearest", behavior: isReducedMotion() ? "auto" : "smooth" });
+    dom.offsetRange?.focus();
   }
 });
 

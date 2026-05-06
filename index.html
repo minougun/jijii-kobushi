@@ -4,10 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#fbf7ef" />
+    <meta name="description" content="孫を救うため、立石小次郎が演歌のコブシで秘密結社に挑む。ブラウザで遊べる演歌風リズムアクション。" />
+    <meta property="og:site_name" content="爺コブシ" />
+    <meta property="og:title" content="爺コブシ — 演歌風タイミング活劇" />
+    <meta property="og:description" content="おじいちゃんが演歌のコブシで秘密結社を倒す7ステージのブラウザ完結リズムアクション。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://minougun.github.io/jijii-kobushi/" />
+    <meta property="og:image" content="https://minougun.github.io/jijii-kobushi/assets/images/op-title-kakizome-hanshi-v1.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="爺コブシ — 演歌風タイミング活劇" />
+    <meta name="twitter:description" content="孫を救うため、演歌のコブシで秘密結社に挑むブラウザ完結リズムアクション。" />
+    <meta name="twitter:image" content="https://minougun.github.io/jijii-kobushi/assets/images/op-title-kakizome-hanshi-v1.png" />
     <title>爺コブシ</title>
+    <link rel="icon" type="image/png" href="./assets/images/op-title-kakizome-hanshi-v1.png" />
+    <link rel="apple-touch-icon" href="./assets/images/op-title-kakizome-hanshi-v1.png" />
     <link rel="stylesheet" href="./src/styles.css?v=20260505-mobiletap1" />
   </head>
   <body>
+    <noscript>
+      <p class="noscriptNotice">爺コブシを遊ぶには JavaScript と Canvas 対応ブラウザが必要です。</p>
+    </noscript>
     <main class="shell" aria-label="爺コブシ">
       <section class="topbar" aria-label="状況">
         <div class="topbarTop">
@@ -49,7 +65,9 @@
       </section>
 
       <section class="gameSurface">
-        <canvas id="game" width="960" height="540" aria-label="ゲーム画面"></canvas>
+        <canvas id="game" width="960" height="540" aria-label="ゲーム画面">爺コブシのゲーム画面です。Canvas と JavaScript を有効にしてください。</canvas>
+        <p id="srGameNarration" class="srOnly" aria-live="polite"></p>
+        <p id="srJudgeStatus" class="srOnly" aria-live="assertive"></p>
         <button id="quickSaveButton" class="quickSaveButton" type="button" hidden>セーブ</button>
         <button id="pauseButton" class="pauseButton" type="button" hidden>一時停止</button>
         <div id="overlay" class="overlay openingOverlay">
@@ -61,22 +79,23 @@
             この物語は、立石小次郎と、その仲間たちが巻き起こす一大感動巨編である。
           </p>
           <div id="resultSummary" class="resultSummary" hidden></div>
-          <div id="difficultySelect" class="difficultySelect" aria-label="難易度選択" hidden>
-            <button type="button" data-difficulty="easy">
+          <div id="difficultySelect" class="difficultySelect" role="radiogroup" aria-label="難易度選択" hidden>
+            <button type="button" role="radio" data-difficulty="easy" aria-checked="false" aria-pressed="false">
               <strong>イージー</strong>
               <span>気楽に救出</span>
             </button>
-            <button type="button" data-difficulty="normal" aria-pressed="true">
+            <button type="button" role="radio" data-difficulty="normal" aria-checked="true" aria-pressed="true">
               <strong>ノーマル</strong>
               <span>標準勝負</span>
             </button>
-            <button type="button" data-difficulty="hard">
+            <button type="button" role="radio" data-difficulty="hard" aria-checked="false" aria-pressed="false">
               <strong>ハード</strong>
               <span>上級者向け</span>
             </button>
           </div>
           <div class="overlayActions">
             <button id="primaryButton" type="button">ゲームへ進む</button>
+            <button id="openSettingsButton" type="button" class="secondary" hidden>設定を開く</button>
             <button id="skipButton" type="button" class="secondary" hidden>会話を送る</button>
           </div>
           <div id="titleSaveSlots" class="saveSlotPanel" hidden>
@@ -172,7 +191,7 @@
       </details>
     </main>
 
-    <div id="portraitHint" class="portraitHint" hidden>
+    <div id="portraitHint" class="portraitHint">
       <p class="portraitHintText">スマホでは横向き推奨。判定ラインとノーツが見やすくなります。</p>
       <button id="portraitDismiss" type="button" class="secondary">了解</button>
     </div>

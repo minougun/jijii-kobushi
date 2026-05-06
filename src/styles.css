@@ -13,7 +13,7 @@
   --app-vw: 100vw;
   --app-vh: 100vh;
   --ink: #171717;
-  --muted: #5f574f;
+  --muted: #4e453d;
   --paper: #fbf7ef;
   --surface: #ffffff;
   --line: rgba(0, 0, 0, 0.08);
@@ -56,6 +56,29 @@ button:focus-visible,
 input:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.noscriptNotice {
+  max-width: 720px;
+  margin: 16px auto;
+  padding: 12px 16px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--line);
+  border-radius: 8px;
+  font-weight: 700;
 }
 
 .shell {
@@ -446,6 +469,7 @@ html[data-phase="endingVideo"] .gameSurface {
 
 .spiritLabel {
   color: #d9c7a4;
+  font-weight: 800;
 }
 
 .meterTrack {
@@ -836,6 +860,14 @@ canvas {
   background:
     linear-gradient(180deg, rgba(60, 46, 22, 0.98), rgba(15, 13, 9, 0.98)),
     linear-gradient(90deg, rgba(227, 191, 85, 0.54), rgba(184, 59, 41, 0.34));
+}
+
+.portraitHint {
+  display: none;
+}
+
+.portraitHint[hidden] {
+  display: none;
 }
 
 .pauseMenu {
@@ -1501,6 +1533,12 @@ canvas {
   box-shadow: 0 0 0 2px var(--gold), 0 8px 18px rgba(0, 0, 0, 0.16);
 }
 
+.difficultySelect button[aria-checked="true"] {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 0 0 2px var(--gold), 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
 .difficultySelect span {
   font-size: 12px;
   color: inherit;
@@ -1659,6 +1697,25 @@ canvas {
 
 .settings input {
   width: min(220px, 34vw);
+}
+
+html[data-ui-lang="ja"] .helpColEn,
+html[data-ui-lang="en"] .helpColJa {
+  display: none;
+}
+
+html[data-phase="defeat"] .settings[open] {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  display: block;
+  max-width: 920px;
+  margin: 0 auto;
+  background: var(--paper);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24), 0 0 0 1px var(--line);
+  border-radius: 8px;
 }
 
 
@@ -2185,6 +2242,37 @@ canvas {
 }
 
 @media (max-width: 900px) and (orientation: portrait) {
+  .portraitHint:not([hidden]) {
+    position: fixed;
+    inset: auto 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: rgba(23, 23, 23, 0.94);
+    color: #fff8e8;
+    box-shadow: 0 0 0 1px rgba(227, 191, 85, 0.36), 0 12px 30px rgba(0, 0, 0, 0.28);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .portraitHint p {
+    margin: 0;
+  }
+
+  .portraitHint button {
+    min-height: 40px;
+    padding: 6px 12px;
+    background: #fff8e8;
+    color: var(--ink);
+    border-radius: 6px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
   html:is([data-phase="opening"], [data-phase="title"]),
   html:is([data-phase="opening"], [data-phase="title"]) body,
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]),
@@ -2678,6 +2766,10 @@ html[data-phase="results"] .resultStat {
 
 html[data-phase="results"] .resultStageRow {
   padding: clamp(8px, 0.9vw, 12px) clamp(10px, 1.2vw, 16px);
+}
+
+html[data-phase="defeat"] .settings[open] {
+  display: block;
 }
 
 @media (prefers-reduced-motion: reduce) {

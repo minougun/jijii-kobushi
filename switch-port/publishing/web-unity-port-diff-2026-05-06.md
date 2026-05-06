@@ -33,6 +33,8 @@ The Web original remains the product source of truth. The Unity local prototype 
 | --- | --- | --- | --- |
 | Rendering layer | Web uses Canvas/DOM; Unity uses temporary IMGUI prototype | Fast local port and validation | Replace with production Unity UI after platform build is stable |
 | Browser mobile UI | Web has touch-specific layout | Switch uses controller/hardware UI | Map to Joy-Con/Pro Controller after module/dev kit setup |
+| Social metadata | Web uses OGP/Twitter/favicons for link sharing and browser tabs | Switch has no browser metadata surface | Mirror the same hook through eShop icon, screenshots, trailer, and store copy |
+| HTML accessibility helpers | Web uses live regions, `lang`, noscript, and focus traps | Unity needs native UI focus and platform text handling | Recreate equivalent focus/readability behavior in production Unity UI |
 | Local Windows smoke | Uses Windows build and `-nographics` smoke flags | Pre-Switch automation | Replace/add hardware smoke once SDK/dev kit is available |
 | Asset loading | Unity uses StreamingAssets-first fallback/local resolver | Local dev and sparse asset support | Confirm final platform packaging path |
 | Save backend | Unity local uses file/memory store | Platform-neutral abstraction | Replace `IRunSaveStore` implementation with platform save API |
