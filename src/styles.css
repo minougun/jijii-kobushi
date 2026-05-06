@@ -821,22 +821,26 @@ canvas {
 
 .mobileTapPad {
   display: none;
-  width: 100%;
-  min-height: 52px;
+  width: 88px;
+  min-height: 88px;
+  aspect-ratio: 1;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 8px 16px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px;
   color: #fff8e8;
   background:
-    linear-gradient(180deg, rgba(33, 36, 42, 0.98), rgba(7, 8, 10, 0.98)),
-    linear-gradient(90deg, rgba(227, 191, 85, 0.34), rgba(184, 59, 41, 0.24));
+    radial-gradient(circle at 50% 24%, rgba(255, 248, 232, 0.22), rgba(255, 248, 232, 0) 32%),
+    linear-gradient(180deg, rgba(48, 33, 22, 0.98), rgba(9, 9, 10, 0.98)),
+    linear-gradient(135deg, rgba(227, 191, 85, 0.52), rgba(184, 59, 41, 0.38));
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.72),
-    0 0 0 2px rgba(227, 191, 85, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    inset 0 -5px 0 rgba(0, 0, 0, 0.32);
-  border-radius: 0 0 8px 8px;
+    0 0 0 2px rgba(7, 8, 10, 0.88),
+    0 0 0 5px rgba(227, 191, 85, 0.34),
+    0 10px 18px rgba(0, 0, 0, 0.28),
+    inset 0 2px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -8px 0 rgba(0, 0, 0, 0.36);
+  border-radius: 999px;
   font-weight: 800;
   line-height: 1.1;
   touch-action: none;
@@ -846,20 +850,21 @@ canvas {
 }
 
 .mobileTapPad strong {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .mobileTapPad span {
   color: rgba(255, 248, 232, 0.82);
-  font-size: 12px;
+  font-size: 10px;
   letter-spacing: 0;
 }
 
 .mobileTapPad:active {
-  transform: translateY(1px);
+  transform: translateY(2px) scale(0.97);
   background:
-    linear-gradient(180deg, rgba(60, 46, 22, 0.98), rgba(15, 13, 9, 0.98)),
-    linear-gradient(90deg, rgba(227, 191, 85, 0.54), rgba(184, 59, 41, 0.34));
+    radial-gradient(circle at 50% 30%, rgba(255, 248, 232, 0.16), rgba(255, 248, 232, 0) 28%),
+    linear-gradient(180deg, rgba(74, 48, 22, 0.98), rgba(13, 12, 10, 0.98)),
+    linear-gradient(135deg, rgba(227, 191, 85, 0.64), rgba(184, 59, 41, 0.46));
 }
 
 .portraitHint {
@@ -1944,7 +1949,8 @@ html[data-phase="defeat"] .settings[open] {
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell,
   html[data-phase="battle"] .shell {
     --hud-h: 58px;
-    --tap-pad-h: 52px;
+    --tap-pad-h: clamp(78px, 22svh, 96px);
+    --tap-button-size: min(84px, calc(var(--tap-pad-h) - 8px));
     --game-w: min(100vw, calc((100svh - var(--hud-h) - var(--tap-pad-h)) * 16 / 9));
     --game-h: min(calc(100svh - var(--hud-h) - var(--tap-pad-h)), calc(100vw * 9 / 16));
     position: relative;
@@ -2133,10 +2139,10 @@ html[data-phase="defeat"] .settings[open] {
   html[data-phase="battle"] .mobileTapPad {
     grid-row: 3;
     display: flex;
-    width: var(--game-w);
-    max-width: 100vw;
-    min-height: var(--tap-pad-h);
-    border-radius: 0 0 8px 8px;
+    width: var(--tap-button-size);
+    min-height: var(--tap-button-size);
+    align-self: center;
+    justify-self: center;
   }
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) canvas,
@@ -2321,7 +2327,8 @@ html[data-phase="defeat"] .settings[open] {
 
   html[data-phase="battle"] .shell {
     --hud-h: 89px;
-    --tap-pad-h: 58px;
+    --tap-pad-h: clamp(84px, 12svh, 98px);
+    --tap-button-size: min(88px, calc(var(--tap-pad-h) - 8px));
     --game-w: min(100vw, calc((100svh - var(--hud-h) - var(--tap-pad-h)) * 16 / 9));
     --game-h: min(calc(100svh - var(--hud-h) - var(--tap-pad-h)), calc(100vw * 9 / 16));
     position: relative;
@@ -2462,11 +2469,10 @@ html[data-phase="defeat"] .settings[open] {
   html[data-phase="battle"] .mobileTapPad {
     grid-row: 3;
     display: flex;
-    width: var(--game-w);
-    max-width: 100vw;
-    min-height: var(--tap-pad-h);
-    padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
-    border-radius: 0;
+    width: var(--tap-button-size);
+    min-height: var(--tap-button-size);
+    align-self: center;
+    justify-self: center;
   }
 
   html[data-phase="battle"] canvas {
