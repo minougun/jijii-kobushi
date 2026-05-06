@@ -1949,8 +1949,8 @@ html[data-phase="defeat"] .settings[open] {
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell,
   html[data-phase="battle"] .shell {
     --hud-h: 58px;
-    --tap-pad-h: clamp(78px, 22svh, 96px);
-    --tap-button-size: min(84px, calc(var(--tap-pad-h) - 8px));
+    --tap-pad-h: clamp(108px, 28svh, 124px);
+    --tap-button-size: min(84px, calc(var(--tap-pad-h) - 20px));
     --game-w: min(100vw, calc((100svh - var(--hud-h) - var(--tap-pad-h)) * 16 / 9));
     --game-h: min(calc(100svh - var(--hud-h) - var(--tap-pad-h)), calc(100vw * 9 / 16));
     position: relative;
@@ -2141,8 +2141,9 @@ html[data-phase="defeat"] .settings[open] {
     display: flex;
     width: var(--tap-button-size);
     min-height: var(--tap-button-size);
-    align-self: center;
+    align-self: end;
     justify-self: center;
+    margin-bottom: max(8px, env(safe-area-inset-bottom, 0px));
   }
 
   html:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) canvas,
@@ -2327,8 +2328,8 @@ html[data-phase="defeat"] .settings[open] {
 
   html[data-phase="battle"] .shell {
     --hud-h: 89px;
-    --tap-pad-h: clamp(84px, 12svh, 98px);
-    --tap-button-size: min(88px, calc(var(--tap-pad-h) - 8px));
+    --tap-pad-h: clamp(112px, 16svh, 136px);
+    --tap-button-size: min(88px, calc(var(--tap-pad-h) - 24px));
     --game-w: min(100vw, calc((100svh - var(--hud-h) - var(--tap-pad-h)) * 16 / 9));
     --game-h: min(calc(100svh - var(--hud-h) - var(--tap-pad-h)), calc(100vw * 9 / 16));
     position: relative;
@@ -2471,8 +2472,9 @@ html[data-phase="defeat"] .settings[open] {
     display: flex;
     width: var(--tap-button-size);
     min-height: var(--tap-button-size);
-    align-self: center;
+    align-self: end;
     justify-self: center;
+    margin-bottom: max(12px, env(safe-area-inset-bottom, 0px));
   }
 
   html[data-phase="battle"] canvas {
