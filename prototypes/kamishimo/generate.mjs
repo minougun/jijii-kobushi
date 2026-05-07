@@ -210,7 +210,7 @@ function buildQa(creatures) {
     });
   const weakReversePairs = samePairChecks.filter((check) => !check.pass);
   return {
-    generated_at: new Date().toISOString(),
+    generated_at: "static-prototype",
     term_count: terms.length,
     creature_count: creatures.length,
     duplicateIds,

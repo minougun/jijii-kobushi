@@ -197,7 +197,7 @@ function buildQa(terms, creatures) {
       };
     });
   return {
-    generated_at: new Date().toISOString(),
+    generated_at: "static-full-set-prototype",
     term_count: terms.length,
     creature_count: creatures.length,
     duplicateIds,
