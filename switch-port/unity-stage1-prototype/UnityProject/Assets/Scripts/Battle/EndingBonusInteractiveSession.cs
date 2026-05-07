@@ -337,7 +337,7 @@ namespace JijiiKobushi.Stage1Prototype
                 Detail = BuildDetail(note, result)
             });
 
-            lastJudgeText = rankName.ToUpperInvariant() + " " + BuildDetail(note, result);
+            lastJudgeText = (rankName.ToUpperInvariant() + " " + BuildPlayFeedback(note, result)).Trim();
             currentNoteIndex = FindFirstUnresolvedIndex();
         }
 
@@ -373,6 +373,44 @@ namespace JijiiKobushi.Stage1Prototype
             }
 
             return result.OffsetMs + "ms";
+        }
+
+        private static string BuildPlayFeedback(NoteData note, JudgeResult result)
+        {
+            if (result.Rank == JudgeRank.Miss && note.Type == "mash") return "Mash short " + BuildMashProgress(result);
+            if (note.Type == "mash") return BuildMashFeedback(result);
+            if (note.Type == "hold" && result.Start != null && result.End != null) return BuildHoldFeedback(result);
+            return BuildTimingFeedback(result.OffsetMs);
+        }
+
+        private static string BuildHoldFeedback(JudgeResult result)
+        {
+            var release = BuildTimingFeedback(result.End.OffsetMs, "release ");
+            var start = BuildTimingFeedback(result.Start.OffsetMs);
+            if (result.End.Rank == result.Rank && release.Length > 0) return release;
+            if (result.Start.Rank == result.Rank && start.Length > 0) return start;
+            if (release.Length > 0) return release;
+            if (start.Length > 0) return start;
+            return BuildDetail(new NoteData { Type = "hold" }, result);
+        }
+
+        private static string BuildMashFeedback(JudgeResult result)
+        {
+            var progress = BuildMashProgress(result);
+            if (result.Count < result.TargetCount) return "Mash short " + progress;
+            if (result.Count > result.TargetCount + 2) return "Overmash " + progress;
+            return progress;
+        }
+
+        private static string BuildMashProgress(JudgeResult result)
+        {
+            return result.Count + "/" + result.TargetCount;
+        }
+
+        private static string BuildTimingFeedback(int offsetMs, string prefix = "")
+        {
+            if (Math.Abs(offsetMs) <= 32) return "";
+            return offsetMs < 0 ? prefix + "early " + Math.Abs(offsetMs) + "ms" : prefix + "late " + Math.Abs(offsetMs) + "ms";
         }
 
         private bool CountActiveMashTaps(int now)

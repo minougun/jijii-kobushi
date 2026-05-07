@@ -2046,6 +2046,29 @@ function triggerEnemyCallCue(entry, index) {
   requestRender();
 }
 
+function timingFeedback(offsetMs, prefix = "") {
+  if (!offsetMs || Math.abs(offsetMs) <= 32) return "";
+  const abs = Math.abs(offsetMs);
+  return offsetMs < 0 ? `${prefix}早い ${abs}ms` : `${prefix}遅い ${abs}ms`;
+}
+
+function holdFeedback(result) {
+  if (!result?.start || !result?.end) return timingFeedback(result?.offsetMs ?? 0);
+  const releaseFeedback = timingFeedback(result.end.offsetMs, "離すのが");
+  const startFeedback = timingFeedback(result.start.offsetMs);
+  if (result.end.rank === result.rank && releaseFeedback) return releaseFeedback;
+  if (result.start.rank === result.rank && startFeedback) return startFeedback;
+  return releaseFeedback || startFeedback || "";
+}
+
+function mashFeedbackText(mashJudge) {
+  if (!mashJudge) return "";
+  const progress = `${mashJudge.count}/${mashJudge.targetCount}`;
+  if (mashJudge.count < mashJudge.targetCount) return `連打不足 ${progress}`;
+  if (mashJudge.count > mashJudge.targetCount + 2) return `押しすぎ ${progress}`;
+  return progress;
+}
+
 function resolveNote(index, rank, offsetMs = 0, detail = "", mashJudge = null) {
   const entry = state.noteStates[index];
   if (!entry || entry.resolved) return;
@@ -2074,7 +2097,7 @@ function resolveNote(index, rank, offsetMs = 0, detail = "", mashJudge = null) {
       state.hp -= (state.stage.enemy?.attackPower ?? 1) * loopEnemyAttackMultiplier(state.runLoop, state.stage, state.difficulty);
       triggerEnemyAttack(entry.note.type === "hold");
     }
-    state.judgeText = mashMiss ? `Miss${detail ? ` ${detail}` : ""}` : "Miss";
+    state.judgeText = detail ? `Miss ${detail}` : mashMiss ? "Miss 連打不足" : "Miss";
     syncSrJudge();
     addEffect(mashMiss ? "届かず" : "ズレた", 450, 210, mashMiss ? "#8a7a72" : "#d04b36");
     if (!state.reducedMotion) state.shake = mashMiss ? 4 : 10;
@@ -2127,7 +2150,8 @@ function resolveNote(index, rank, offsetMs = 0, detail = "", mashJudge = null) {
       if (!state.reducedMotion) state.shake = Math.max(state.shake, 12);
     }
     state.spirit = Math.max(0, Math.min(100, state.spirit + noteSpirit(rank)));
-    state.judgeText = `${rank.toUpperCase()} ${offsetMs ? `${offsetMs}ms` : detail}`;
+    const feedback = detail || timingFeedback(offsetMs) || (offsetMs ? `${offsetMs}ms` : "");
+    state.judgeText = `${rank.toUpperCase()} ${feedback}`.trim();
     syncSrJudge();
     addEffect(rank.toUpperCase(), 430, 210, rank === "perfect" ? "#f6d95f" : "#ffffff");
     if (state.spirit >= 100) {
@@ -2228,7 +2252,7 @@ function onInputDown(event) {
   const tap = findActiveNote(timeMs, ["tap"]);
   if (tap && tap.distance <= INPUT_GRACE_MS) {
     const result = judgeTap(tap.entry.note, timeMs, state.inputOffsetMs, activeJudgementBonusMs());
-    resolveNote(tap.index, result.rank, result.offsetMs);
+    resolveNote(tap.index, result.rank, result.offsetMs, timingFeedback(result.offsetMs));
   }
 }
 
@@ -2241,7 +2265,7 @@ function onInputUp(event) {
   if (!state.hold || state.phase !== "battle") return;
   if (!state.battleClockReady) return;
   const result = judgeHold(state.hold.note, state.hold.downAtMs, currentMs(), state.inputOffsetMs, activeJudgementBonusMs());
-  resolveNote(state.hold.index, result.rank, result.offsetMs);
+  resolveNote(state.hold.index, result.rank, result.offsetMs, holdFeedback(result));
   state.hold = null;
   state.inputHint = "次の拍へ";
 }
@@ -2310,7 +2334,7 @@ function updateNotes() {
       if (state.hold?.index === i) state.hold = null;
       if (note.type === "mash") {
         const judged = judgeMash(note, entry.mashTaps ?? []);
-        resolveNote(i, judged.rank, 0, `${judged.count}/${judged.targetCount}`, judged);
+        resolveNote(i, judged.rank, 0, mashFeedbackText(judged), judged);
       } else {
         resolveNote(i, "miss");
       }

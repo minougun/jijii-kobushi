@@ -23,6 +23,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Write build metadata
+        run: |
+          cat > version.json <<EOF
+          {
+            "gameId": "jii-kobushi",
+            "commit": "${GITHUB_SHA}",
+            "ref": "${GITHUB_REF_NAME}",
+            "runId": "${GITHUB_RUN_ID}",
+            "builtAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:

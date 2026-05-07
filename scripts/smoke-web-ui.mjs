@@ -132,6 +132,25 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function localHeadCommit() {
+  const result = spawnSync("git", ["rev-parse", "HEAD"], { cwd: repoRoot, encoding: "utf8" });
+  return result.status === 0 ? result.stdout.trim() : "";
+}
+
+async function assertProductionVersion(url) {
+  if (!url.includes("minougun.github.io/jijii-kobushi")) return;
+  const versionUrl = new URL("version.json", url).toString();
+  const response = await fetch(versionUrl, { cache: "no-store" });
+  assert(response.ok, `production version metadata missing: ${response.status} ${versionUrl}`);
+  const payload = await response.json();
+  assert(payload.gameId === "jii-kobushi", `unexpected production gameId: ${payload.gameId}`);
+  assert(/^[0-9a-f]{40}$/i.test(payload.commit ?? ""), `invalid production commit: ${payload.commit}`);
+  const expected = process.env.JII_KOBUSHI_EXPECT_COMMIT || localHeadCommit();
+  if (expected) {
+    assert(payload.commit === expected, `production commit mismatch: expected ${expected}, got ${payload.commit}`);
+  }
+}
+
 async function openTitle(page) {
   await page.goto(baseUrl, { waitUntil: "networkidle" });
   await page.locator("#primaryButton").waitFor({ state: "visible" });
@@ -169,6 +188,7 @@ async function assertStorageFailureAnnounced(page, expected = "保存できま�
 if (options.pagesStrict && !explicitUrl) assertNoDeletedTrackedFiles();
 const local = explicitUrl ? null : await startStaticServer({ allowHeadAssetFallback: options.allowHeadAssetFallback });
 const baseUrl = explicitUrl || local.url;
+if (explicitUrl) await assertProductionVersion(baseUrl);
 const browser = await chromium.launch();
 
 try {
