@@ -1,0 +1,82 @@
+[
+  {
+    "upper_tag": "老人",
+    "lower_tag": "武器",
+    "name": "熟練",
+    "attack": 1,
+    "hp": 0,
+    "speed": -1,
+    "weird": 0,
+    "bonus_text": "後攻時、反撃できる。"
+  },
+  {
+    "upper_tag": "学校",
+    "lower_tag": "不良",
+    "name": "校内抗争",
+    "attack": 0,
+    "hp": 0,
+    "speed": 0,
+    "weird": 1,
+    "bonus_text": "召喚時、敵1体の速度-1。"
+  },
+  {
+    "upper_tag": "動物",
+    "lower_tag": "怪異",
+    "name": "妖獣",
+    "attack": 1,
+    "hp": 0,
+    "speed": 0,
+    "weird": 1,
+    "bonus_text": "攻撃時、奇怪+1。"
+  },
+  {
+    "upper_tag": "食べ物",
+    "lower_tag": "魔王",
+    "name": "暴食支配",
+    "attack": 0,
+    "hp": 1,
+    "speed": 0,
+    "weird": 1,
+    "bonus_text": "敵を倒したとき、次のターンまで攻撃+1。"
+  },
+  {
+    "upper_tag": "透明",
+    "lower_tag": "暗殺",
+    "name": "見えざる刃",
+    "attack": 0,
+    "hp": 0,
+    "speed": 1,
+    "weird": 1,
+    "bonus_text": "最初の攻撃は反撃されない。"
+  },
+  {
+    "upper_tag": "暴走",
+    "lower_tag": "金属",
+    "name": "過熱機構",
+    "attack": 2,
+    "hp": -1,
+    "speed": 0,
+    "weird": 0,
+    "bonus_text": "攻撃後、自分に1ダメージ。"
+  },
+  {
+    "upper_tag": "概念",
+    "lower_tag": "概念",
+    "name": "抽象怪異",
+    "attack": 0,
+    "hp": 0,
+    "speed": 0,
+    "weird": 1,
+    "bonus_text": "直接攻撃されにくい。"
+  },
+  {
+    "upper_tag": "呪術",
+    "lower_tag": "人物",
+    "name": "取り憑き",
+    "attack": 0,
+    "hp": 0,
+    "speed": -1,
+    "weird": 2,
+    "bonus_text": "倒されたとき、正面の敵の攻撃-1。"
+  }
+]

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>句獣大戦 カミシモ バトル検証</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./battle.css" />
+  </head>
+  <body>
+    <main class="app-shell battle-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Playable Battle Prototype</p>
+          <h1>バトル検証</h1>
+        </div>
+        <nav class="battle-nav" aria-label="プロトタイプ移動">
+          <a href="./">図鑑</a>
+          <button id="resetButton" type="button">リセット</button>
+        </nav>
+      </header>
+
+      <section class="battle-status" id="battleStatus" aria-live="polite"></section>
+      <section class="battle-board" id="battleBoard"></section>
+      <section class="hand-panel" id="handPanel"></section>
+      <section class="battle-actions">
+        <button id="autoSummonButton" type="button">おすすめ召喚</button>
+        <button id="attackButton" type="button">攻撃</button>
+        <button id="endTurnButton" type="button">ターン終了</button>
+      </section>
+      <section class="battle-log" aria-label="ログ">
+        <h2>ログ</h2>
+        <ol id="battleLog"></ol>
+      </section>
+    </main>
+    <script type="module" src="./battle-app.mjs"></script>
+  </body>
+</html>

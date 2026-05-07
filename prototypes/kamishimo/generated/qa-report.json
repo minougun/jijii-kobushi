@@ -1,0 +1,1364 @@
+{
+  "generated_at": "2026-05-07T10:41:48.525Z",
+  "term_count": 20,
+  "creature_count": 400,
+  "duplicateIds": [],
+  "status_counts": {
+    "pending_images": 400,
+    "unchecked_qa": 0,
+    "balance_needs_review": 0
+  },
+  "cost_distribution": {
+    "1": 0,
+    "2": 0,
+    "3": 3,
+    "4": 234,
+    "5": 118,
+    "6": 45,
+    "7": 0,
+    "8": 0
+  },
+  "rarity_distribution": {
+    "Common": 227,
+    "Rare": 83,
+    "Super Rare": 85,
+    "Legendary": 0,
+    "Mythic": 5
+  },
+  "samePairChecks": [
+    {
+      "pair": "爺番長 / 番長爺",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺忍者 / 忍者爺",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺受験 / 受験爺",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺宿題 / 宿題爺",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺校長 / 校長爺",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺コブシ / コブシ爺",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺牙 / 牙爺",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺雷 / 雷爺",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺猫 / 猫爺",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺犬 / 犬爺",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺鬼 / 鬼爺",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺幽霊 / 幽霊爺",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺魔王 / 魔王爺",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺呪い / 呪い爺",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺饅頭 / 饅頭爺",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺鍋 / 鍋爺",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺鍵 / 鍵爺",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺透明 / 透明爺",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "爺暴走 / 暴走爺",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長忍者 / 忍者番長",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長受験 / 受験番長",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長宿題 / 宿題番長",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長校長 / 校長番長",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長コブシ / コブシ番長",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長牙 / 牙番長",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長雷 / 雷番長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長猫 / 猫番長",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長犬 / 犬番長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長鬼 / 鬼番長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長幽霊 / 幽霊番長",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長魔王 / 魔王番長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長呪い / 呪い番長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長饅頭 / 饅頭番長",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長鍋 / 鍋番長",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長鍵 / 鍵番長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長透明 / 透明番長",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "番長暴走 / 暴走番長",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者受験 / 受験忍者",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者宿題 / 宿題忍者",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者校長 / 校長忍者",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者コブシ / コブシ忍者",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者牙 / 牙忍者",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者雷 / 雷忍者",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者猫 / 猫忍者",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者犬 / 犬忍者",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者鬼 / 鬼忍者",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者幽霊 / 幽霊忍者",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者魔王 / 魔王忍者",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者呪い / 呪い忍者",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者饅頭 / 饅頭忍者",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者鍋 / 鍋忍者",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者鍵 / 鍵忍者",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者透明 / 透明忍者",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "忍者暴走 / 暴走忍者",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験宿題 / 宿題受験",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験校長 / 校長受験",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験コブシ / コブシ受験",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験牙 / 牙受験",
+      "stat_delta": 8,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験雷 / 雷受験",
+      "stat_delta": 8,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験猫 / 猫受験",
+      "stat_delta": 9,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験犬 / 犬受験",
+      "stat_delta": 8,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験鬼 / 鬼受験",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験幽霊 / 幽霊受験",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験魔王 / 魔王受験",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験呪い / 呪い受験",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験饅頭 / 饅頭受験",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験鍋 / 鍋受験",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験鍵 / 鍵受験",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験透明 / 透明受験",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "受験暴走 / 暴走受験",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題校長 / 校長宿題",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題コブシ / コブシ宿題",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題牙 / 牙宿題",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題雷 / 雷宿題",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題猫 / 猫宿題",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題犬 / 犬宿題",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題鬼 / 鬼宿題",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題幽霊 / 幽霊宿題",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題魔王 / 魔王宿題",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題呪い / 呪い宿題",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題饅頭 / 饅頭宿題",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題鍋 / 鍋宿題",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題鍵 / 鍵宿題",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題透明 / 透明宿題",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "宿題暴走 / 暴走宿題",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長コブシ / コブシ校長",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長牙 / 牙校長",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長雷 / 雷校長",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長猫 / 猫校長",
+      "stat_delta": 8,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長犬 / 犬校長",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長鬼 / 鬼校長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長幽霊 / 幽霊校長",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長魔王 / 魔王校長",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長呪い / 呪い校長",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長饅頭 / 饅頭校長",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長鍋 / 鍋校長",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長鍵 / 鍵校長",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長透明 / 透明校長",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "校長暴走 / 暴走校長",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ牙 / 牙コブシ",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ雷 / 雷コブシ",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ猫 / 猫コブシ",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ犬 / 犬コブシ",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ鬼 / 鬼コブシ",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ幽霊 / 幽霊コブシ",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ魔王 / 魔王コブシ",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ呪い / 呪いコブシ",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ饅頭 / 饅頭コブシ",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ鍋 / 鍋コブシ",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ鍵 / 鍵コブシ",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ透明 / 透明コブシ",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "コブシ暴走 / 暴走コブシ",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙雷 / 雷牙",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙猫 / 猫牙",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙犬 / 犬牙",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙鬼 / 鬼牙",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙幽霊 / 幽霊牙",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙魔王 / 魔王牙",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙呪い / 呪い牙",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙饅頭 / 饅頭牙",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙鍋 / 鍋牙",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙鍵 / 鍵牙",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙透明 / 透明牙",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "牙暴走 / 暴走牙",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷猫 / 猫雷",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷犬 / 犬雷",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷鬼 / 鬼雷",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷幽霊 / 幽霊雷",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷魔王 / 魔王雷",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷呪い / 呪い雷",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷饅頭 / 饅頭雷",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷鍋 / 鍋雷",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷鍵 / 鍵雷",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷透明 / 透明雷",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "雷暴走 / 暴走雷",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫犬 / 犬猫",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫鬼 / 鬼猫",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫幽霊 / 幽霊猫",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫魔王 / 魔王猫",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫呪い / 呪い猫",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫饅頭 / 饅頭猫",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫鍋 / 鍋猫",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫鍵 / 鍵猫",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫透明 / 透明猫",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "猫暴走 / 暴走猫",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬鬼 / 鬼犬",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬幽霊 / 幽霊犬",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬魔王 / 魔王犬",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬呪い / 呪い犬",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬饅頭 / 饅頭犬",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬鍋 / 鍋犬",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬鍵 / 鍵犬",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬透明 / 透明犬",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "犬暴走 / 暴走犬",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼幽霊 / 幽霊鬼",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼魔王 / 魔王鬼",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼呪い / 呪い鬼",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼饅頭 / 饅頭鬼",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼鍋 / 鍋鬼",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼鍵 / 鍵鬼",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼透明 / 透明鬼",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鬼暴走 / 暴走鬼",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "幽霊魔王 / 魔王幽霊",
+      "stat_delta": 8,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "幽霊呪い / 呪い幽霊",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "幽霊饅頭 / 饅頭幽霊",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "幽霊鍋 / 鍋幽霊",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "幽霊鍵 / 鍵幽霊",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "幽霊透明 / 透明幽霊",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "幽霊暴走 / 暴走幽霊",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "魔王呪い / 呪い魔王",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "魔王饅頭 / 饅頭魔王",
+      "stat_delta": 7,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "魔王鍋 / 鍋魔王",
+      "stat_delta": 8,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "魔王鍵 / 鍵魔王",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "魔王透明 / 透明魔王",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "魔王暴走 / 暴走魔王",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "呪い饅頭 / 饅頭呪い",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "呪い鍋 / 鍋呪い",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "呪い鍵 / 鍵呪い",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "呪い透明 / 透明呪い",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "呪い暴走 / 暴走呪い",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "饅頭鍋 / 鍋饅頭",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "饅頭鍵 / 鍵饅頭",
+      "stat_delta": 2,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "饅頭透明 / 透明饅頭",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "饅頭暴走 / 暴走饅頭",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鍋鍵 / 鍵鍋",
+      "stat_delta": 1,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鍋透明 / 透明鍋",
+      "stat_delta": 5,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鍋暴走 / 暴走鍋",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鍵透明 / 透明鍵",
+      "stat_delta": 4,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "鍵暴走 / 暴走鍵",
+      "stat_delta": 6,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    },
+    {
+      "pair": "透明暴走 / 暴走透明",
+      "stat_delta": 3,
+      "different_body": true,
+      "different_ability": true,
+      "pass": true
+    }
+  ],
+  "weakReversePairs": [],
+  "outOfBandPower": [],
+  "abilityWarnings": [],
+  "imagePromptWarnings": []
+}

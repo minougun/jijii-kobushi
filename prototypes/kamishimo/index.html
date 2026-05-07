@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>句獣大戦 カミシモ 20語プロトタイプ</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar" aria-label="プロトタイプ概要">
+        <div>
+          <p class="eyebrow">Kamishimo Prototype</p>
+          <h1>句獣大戦 カミシモ</h1>
+        </div>
+        <dl class="metrics" aria-label="生成状況">
+          <div>
+            <dt>語札</dt>
+            <dd id="termCount">--</dd>
+          </div>
+          <div>
+            <dt>句獣</dt>
+            <dd id="creatureCount">--</dd>
+          </div>
+          <div>
+            <dt>QA</dt>
+            <dd id="qaStatus">--</dd>
+          </div>
+        </dl>
+      </header>
+
+      <section class="composer" aria-label="句合わせ召喚">
+        <div class="controls-panel">
+          <label>
+            上の句
+            <select id="upperSelect"></select>
+          </label>
+          <label>
+            下の句
+            <select id="lowerSelect"></select>
+          </label>
+          <button id="swapButton" type="button" title="上の句と下の句を入れ替える">入替</button>
+        </div>
+        <article class="creature-focus" id="creatureFocus" aria-live="polite"></article>
+        <article class="reverse-focus" id="reverseFocus" aria-live="polite"></article>
+      </section>
+
+      <section class="browser-grid" aria-label="図鑑ブラウザ">
+        <aside class="filters">
+          <label>
+            検索
+            <input id="searchInput" type="search" autocomplete="off" placeholder="名前・能力・タグ" />
+          </label>
+          <label>
+            レアリティ
+            <select id="rarityFilter">
+              <option value="">すべて</option>
+            </select>
+          </label>
+          <label>
+            本体
+            <select id="bodyFilter">
+              <option value="">すべて</option>
+            </select>
+          </label>
+          <div class="qa-panel" id="qaPanel"></div>
+        </aside>
+        <section class="catalog">
+          <div class="catalog-head">
+            <h2>400体図鑑</h2>
+            <p id="resultCount">--</p>
+          </div>
+          <div class="card-grid" id="catalogGrid"></div>
+        </section>
+      </section>
+    </main>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>

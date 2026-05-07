@@ -31,6 +31,9 @@
     "check:web-commercial-complete": "node scripts/check-web-commercial-complete.mjs",
     "check:local-100": "npm run check:web-commercial-complete && npm run check:switch-local-complete",
     "audit:timing": "node scripts/audit-stage-timing.mjs",
+    "kamishimo:generate": "node prototypes/kamishimo/generate.mjs",
+    "kamishimo:generate-full": "node prototypes/kamishimo/generate-full-set.mjs",
+    "kamishimo:check": "node --check prototypes/kamishimo/generate.mjs && node --check prototypes/kamishimo/app.mjs && node --check prototypes/kamishimo/battle-engine.mjs && node --check prototypes/kamishimo/battle-app.mjs && node prototypes/kamishimo/generate.mjs",
     "serve": "node scripts/serve-no-cache.mjs 4188"
   },
   "devDependencies": {
