@@ -50,11 +50,23 @@ Capture or verify:
 ## Release Evidence Commands
 
 ```bash
-npm run check
-npm run test:web-smoke:strict
-npm run check:switch-local-complete
+npm run check:local-100
 npm run test:web-smoke:pages
 ```
+
+`npm run check:local-100` regenerates the local screenshot evidence set:
+
+- `docs/commercial-review-evidence-2026-05-07/01-op-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/02-title-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/03-help-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/04-mobile-portrait-hint.png`
+- `docs/commercial-review-evidence-2026-05-07/05-mobile-landscape-title.png`
+- `docs/commercial-review-evidence-2026-05-07/06-battle-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/07-pause-help-popout-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/08-ending-overlay-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/09-ed-bonus-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/10-results-desktop.png`
+- `docs/commercial-review-evidence-2026-05-07/11-loop2-doodle-battle-desktop.png`
 
 ## 95+ Claim Rule
 

@@ -26,14 +26,14 @@ This file records which Web original build is being reviewed and which Switch-po
 Before claiming a production build is current:
 
 ```bash
-npm run check
-npm run test:web-smoke:strict
-npm run check:switch-local-complete
+npm run check:local-100
 git push origin main
 npm run test:web-smoke:pages
 ```
 
 `npm run test:web-smoke:pages` now fetches `https://minougun.github.io/jijii-kobushi/version.json` and verifies the deployed commit matches the local `HEAD` by default.
+
+`npm run check:local-100` is the local completion gate for this repository. It runs the Web commercial completion gate, captures the commercial review evidence screenshots under `docs/commercial-review-evidence-2026-05-07/`, then runs the Switch local completion gate including Unity tests, parity validation, Windows prototype build, and player smoke checks.
 
 ## Commercial Persona Score Gate
 
