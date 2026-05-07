@@ -146,15 +146,15 @@
             <span id="offsetLabel">0ms</span>
           </label>
           <button id="motionButton" type="button">動き 自動</button>
-          <div class="settingsLangRow" role="group" aria-label="表示言語">
-            <button id="langJaButton" type="button" class="secondary" aria-pressed="true">日本語</button>
-            <button id="langEnButton" type="button" class="secondary" aria-pressed="false">English</button>
+          <div class="settingsLangRow" role="radiogroup" aria-label="表示言語">
+            <button id="langJaButton" type="button" class="secondary" role="radio" aria-checked="true" aria-pressed="true">日本語</button>
+            <button id="langEnButton" type="button" class="secondary" role="radio" aria-checked="false" aria-pressed="false">English</button>
           </div>
           <button id="resetButton" type="button" class="danger">記録リセット</button>
         </div>
       </details>
 
-      <details id="helpGuide" class="helpGuide">
+      <details id="helpGuide" class="helpGuide" aria-label="操作ガイド">
         <summary>操作ガイド（初回は開いておく）</summary>
         <div class="helpBody">
           <div class="helpCol helpColJa">

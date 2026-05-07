@@ -2458,10 +2458,12 @@ function syncSettings() {
   if (sum) sum.textContent = t(lang, "settings.summary");
   if (dom.langJaButton) {
     dom.langJaButton.setAttribute("aria-pressed", String(lang === "ja"));
+    dom.langJaButton.setAttribute("aria-checked", String(lang === "ja"));
     dom.langJaButton.textContent = t(lang, "settings.langJa");
   }
   if (dom.langEnButton) {
     dom.langEnButton.setAttribute("aria-pressed", String(lang === "en"));
+    dom.langEnButton.setAttribute("aria-checked", String(lang === "en"));
     dom.langEnButton.textContent = t(lang, "settings.langEn");
   }
   if (dom.portraitDismiss) dom.portraitDismiss.textContent = t(lang, "portrait.dismiss");

@@ -2037,7 +2037,7 @@ html.show-help-popout .helpGuide[open] {
   }
 
   html[data-phase="title"] .overlay.openingOverlay.titleOverlay .difficultySelect button {
-    min-width: 116px;
+    min-width: 128px;
     min-height: 44px;
     padding: 6px 10px;
   }

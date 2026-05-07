@@ -6,8 +6,8 @@
 
 - `NotoSansJP-JiiKobushi-subset.woff2`
   - Use: active first-choice UI font loaded by `src/styles.css`.
-  - Creation date: 2026-04-30.
-  - Source: subset of `NotoSansJP-VF.ttf`, generated from current `index.html` and `src/*.{js,css}` glyphs plus ASCII punctuation.
+  - Creation date: 2026-05-07.
+  - Source: subset of `NotoSansJP-VF.ttf`, generated from current `index.html`, `README.md`, `src/**/*.js`, and `src/**/*.css` glyphs plus ASCII punctuation.
   - Generation command: `uvx --from fonttools --with brotli pyftsubset assets/fonts/NotoSansJP-VF.ttf --output-file=assets/fonts/NotoSansJP-JiiKobushi-subset.woff2 --flavor=woff2 --text-file=/tmp/jii-kobushi-font-glyphs.txt --layout-features='*' --no-hinting --desubroutinize`.
   - Fallback: the full TTF remains in CSS after the WOFF2 source for missing glyphs or unsupported browsers.
 
