@@ -96,6 +96,7 @@
           <div class="overlayActions">
             <button id="primaryButton" type="button">ゲームへ進む</button>
             <button id="openSettingsButton" type="button" class="secondary" hidden>設定を開く</button>
+            <button id="openHelpButton" type="button" class="secondary" hidden>遊び方</button>
             <button id="skipButton" type="button" class="secondary" hidden>会話を送る</button>
           </div>
           <div id="titleSaveSlots" class="saveSlotPanel" hidden>
@@ -112,6 +113,9 @@
           <p id="pauseText">現在のステージ冒頭から再開できるように保存できます。</p>
           <div class="pauseActions">
             <button id="resumeButton" type="button">再開</button>
+            <button id="pauseOffsetButton" type="button" class="secondary">入力補正</button>
+            <button id="pauseHelpButton" type="button" class="secondary">遊び方</button>
+            <button id="pauseSettingsButton" type="button" class="secondary">設定</button>
             <button id="saveRunButton" type="button" class="secondary">現在の周回をセーブ</button>
             <button id="pauseLoadFirstButton" type="button" class="secondary">1周目をロード</button>
             <button id="pauseLoadLoopPlusButton" type="button" class="secondary">2周目以降をロード</button>
@@ -162,6 +166,13 @@
               <li><strong>細かいTAP</strong>：同じレーンで短く続くノーツはすべてタップ。長押しではない。</li>
               <li><strong>連撃</strong>：5連、10連で追撃。短いTAPをつなぐほど敵体力を大きく削れる。</li>
             </ul>
+            <h3>PC操作</h3>
+            <ul>
+              <li><strong>Space</strong>：TAP / HOLD / 連打を入力。</li>
+              <li><strong>Space長押し</strong>：HOLD。白い「離す」が判定線に来たら離す。</li>
+              <li><strong>Space連打</strong>：連打。赤い枠のあいだ目標回数まで押す。</li>
+              <li><strong>Esc</strong>：一時停止。<strong>Tab / Enter</strong>：ボタン移動・決定。</li>
+            </ul>
             <h3>便利機能</h3>
             <ul>
               <li>入力補正：音や画面の遅れに合わせて ms でずらせます。</li>
@@ -179,6 +190,13 @@
               </li>
               <li><strong>Dense TAP</strong>: quick taps on the same lane are still taps—release between each one, not a hold.</li>
               <li><strong>Combo strikes</strong>: 5- and 10-hit chains add pursuit damage, so dense taps matter.</li>
+            </ul>
+            <h3>Desktop</h3>
+            <ul>
+              <li><strong>Space</strong>: TAP / HOLD / MASH.</li>
+              <li><strong>Hold Space</strong>: HOLD; release when the white release marker reaches the line.</li>
+              <li><strong>Mash Space</strong>: MASH to the target count while the red window is active.</li>
+              <li><strong>Esc</strong>: pause. <strong>Tab / Enter</strong>: move focus and activate buttons.</li>
             </ul>
             <h3>Comfort</h3>
             <ul>

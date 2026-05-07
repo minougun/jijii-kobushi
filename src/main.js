@@ -76,6 +76,7 @@ const dom = {
   difficultySelect: document.querySelector("#difficultySelect"),
   primaryButton: document.querySelector("#primaryButton"),
   openSettingsButton: document.querySelector("#openSettingsButton"),
+  openHelpButton: document.querySelector("#openHelpButton"),
   skipButton: document.querySelector("#skipButton"),
   quickSaveButton: document.querySelector("#quickSaveButton"),
   pauseButton: document.querySelector("#pauseButton"),
@@ -89,6 +90,9 @@ const dom = {
   pauseTitle: document.querySelector("#pauseTitle"),
   pauseText: document.querySelector("#pauseText"),
   resumeButton: document.querySelector("#resumeButton"),
+  pauseOffsetButton: document.querySelector("#pauseOffsetButton"),
+  pauseHelpButton: document.querySelector("#pauseHelpButton"),
+  pauseSettingsButton: document.querySelector("#pauseSettingsButton"),
   saveRunButton: document.querySelector("#saveRunButton"),
   returnTitleButton: document.querySelector("#returnTitleButton"),
   titleSaveSlots: document.querySelector("#titleSaveSlots"),
@@ -132,19 +136,76 @@ const ENDING_VIDEO_FIRST_LOOP_SRC = "./assets/video/ending.mp4?v=20260504-anime1
 const ENDING_VIDEO_LOOP_PLUS_SRC = "./assets/video/ending-loop2.mp4?v=20260504-doodle-readable2-lite1";
 const ENDING_BONUS_CLOCK_RESET_MS = 240;
 const ENDING_BONUS_CLOCK_PULL = 0.16;
+let stateReady = false;
 
-function loadSave() {
+function storageFailureMessage(action, lang = "ja") {
+  if (lang === "en") {
+    if (action === "remove") return "Could not delete saved data. The game can continue.";
+    if (action === "load") return "Could not read saved data. Starting without it.";
+    return "Could not save. The game can continue.";
+  }
+  if (action === "remove") return "記録を削除できませんでした。ゲームは続行できます。";
+  if (action === "load") return "保存データを読めませんでした。初期状態で続行します。";
+  return "保存できませんでした。ゲームは続行できます。";
+}
+
+function currentStorageLang() {
+  return stateReady ? normalizeLang(state.uiLang) : "ja";
+}
+
+function notifyStorageFailure(action, error) {
+  const lang = currentStorageLang();
+  const message = storageFailureMessage(action, lang);
+  console.warn(`[storage] ${action} failed`, error);
+  syncSrJudge(message);
+  if (stateReady) {
+    state.judgeText = message;
+    requestRender();
+  }
+  return message;
+}
+
+function safeGetStorage(key, action = "load") {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    return parsed && parsed.version === 1 ? parsed : null;
-  } catch {
+    return localStorage.getItem(key);
+  } catch (error) {
+    notifyStorageFailure(action, error);
     return null;
   }
 }
 
-const saved = loadSave();
+function safeSetStorage(key, value, action = "save") {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch (error) {
+    notifyStorageFailure(action, error);
+    return false;
+  }
+}
+
+function safeRemoveStorage(key, action = "remove") {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch (error) {
+    notifyStorageFailure(action, error);
+    return false;
+  }
+}
+
+function loadSave() {
+  try {
+    const raw = safeGetStorage(STORAGE_KEY, "load");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.version === 1 ? parsed : null;
+  } catch (error) {
+    notifyStorageFailure("load", error);
+    return null;
+  }
+}
+
 let battleSession = 0;
 let renderDirty = true;
 let lastRenderAt = 0;
@@ -154,6 +215,7 @@ const focusTrapState = {
   element: null,
   previous: null,
 };
+const saved = loadSave();
 
 function setSrText(element, text, cacheName) {
   if (!element) return;
@@ -307,6 +369,7 @@ const state = {
   endingBonus: null,
   pixelRatio: 1,
 };
+stateReady = true;
 
 function requestRender() {
   renderDirty = true;
@@ -406,25 +469,23 @@ function requestLandscapeOrientation() {
 }
 
 function save() {
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify({
-      version: 1,
-      runLoop: normalizeLoop(state.runLoop),
-      runLoops: state.runLoops,
-      runSaves: state.runSaves,
-      clearedStages: state.clearedStages,
-      bestScores: state.bestScores,
-      settings: {
-        audioEnabled: state.audioEnabled,
-        inputOffsetMs: state.inputOffsetMs,
-        reducedMotionOverride: state.reducedMotionOverride,
-        difficulty: state.difficulty,
-        uiLang: state.uiLang,
-        portraitHintDismissed: state.portraitHintDismissed,
-      },
-    }),
-  );
+  const payload = JSON.stringify({
+    version: 1,
+    runLoop: normalizeLoop(state.runLoop),
+    runLoops: state.runLoops,
+    runSaves: state.runSaves,
+    clearedStages: state.clearedStages,
+    bestScores: state.bestScores,
+    settings: {
+      audioEnabled: state.audioEnabled,
+      inputOffsetMs: state.inputOffsetMs,
+      reducedMotionOverride: state.reducedMotionOverride,
+      difficulty: state.difficulty,
+      uiLang: state.uiLang,
+      portraitHintDismissed: state.portraitHintDismissed,
+    },
+  });
+  return safeSetStorage(STORAGE_KEY, payload, "save");
 }
 
 function runSaveSlotForLoop(loop = state.runLoop) {
@@ -484,9 +545,9 @@ function saveCurrentRunSnapshot() {
   const slot = runSaveSlotForLoop(snapshot.runLoop);
   state.runSaves[slot] = snapshot;
   if (pendingRestResult) persistStageClearRecord(pendingRestResult);
-  save();
+  const stored = save();
   syncSaveSlotUi();
-  return { slot, snapshot };
+  return { slot, snapshot, stored };
 }
 
 function isQuickSaveLocked() {
@@ -519,16 +580,17 @@ function showQuickSaveFeedback() {
 }
 
 function saveCurrentRunFromUi(messageTarget = null, { quick = false } = {}) {
-  const { slot } = saveCurrentRunSnapshot();
+  const { slot, stored } = saveCurrentRunSnapshot();
   const lang = normalizeLang(state.uiLang);
-  const message = `${t(lang, "overlay.savedRun")}（${slotLabel(slot)}）`;
+  const message = stored ? `${t(lang, "overlay.savedRun")}（${slotLabel(slot)}）` : storageFailureMessage("save", lang);
   if (messageTarget) messageTarget.textContent = message;
   if (state.phase !== "battle") {
     state.judgeText = message;
   }
-  if (quick) showQuickSaveFeedback();
+  syncSrJudge(message);
+  if (quick && stored) showQuickSaveFeedback();
   requestRender();
-  return { slot };
+  return { slot, stored };
 }
 
 function slotLabel(slot) {
@@ -563,6 +625,47 @@ function syncSaveSlotUi() {
   }
 }
 
+function hasPanelPopout() {
+  return document.documentElement.classList.contains("show-settings-popout") ||
+    document.documentElement.classList.contains("show-help-popout");
+}
+
+function closePanelPopouts() {
+  document.documentElement.classList.remove("show-settings-popout", "show-help-popout");
+}
+
+function enablePanelForPopout(element) {
+  if (!element) return;
+  element.inert = false;
+  element.setAttribute("aria-hidden", "false");
+  element.open = true;
+}
+
+function openSettingsPanel({ focusOffset = true } = {}) {
+  if (!dom.settingsRoot) return;
+  document.documentElement.classList.remove("show-help-popout");
+  document.documentElement.classList.add("show-settings-popout");
+  enablePanelForPopout(dom.settingsRoot);
+  if (dom.helpGuide) dom.helpGuide.open = false;
+  setFocusTrap(dom.pauseMenu, false);
+  window.setTimeout(() => {
+    const target = focusOffset ? dom.offsetRange : dom.settingsRoot.querySelector("summary");
+    target?.focus?.();
+  }, 0);
+}
+
+function openHelpPanel() {
+  if (!dom.helpGuide) return;
+  document.documentElement.classList.remove("show-settings-popout");
+  document.documentElement.classList.add("show-help-popout");
+  enablePanelForPopout(dom.helpGuide);
+  if (dom.settingsRoot) dom.settingsRoot.open = false;
+  setFocusTrap(dom.pauseMenu, false);
+  window.setTimeout(() => {
+    dom.helpGuide.querySelector("summary")?.focus?.();
+  }, 0);
+}
+
 function setOverlay(show, title = "", text = "", action = "進む") {
   const canSkipCleared = state.phase === "intro" && isCurrentStageCleared();
   const novelMode = state.phase === "intro" || state.phase === "finalReveal";
@@ -575,7 +678,7 @@ function setOverlay(show, title = "", text = "", action = "進む") {
   dom.overlay.classList.toggle("resultOverlay", resultMode);
   dom.overlay.classList.toggle("openingOverlay", openingArtworkMode);
   dom.overlay.classList.toggle("titleOverlay", titleMode);
-  const lockSidePanels = show && state.phase !== "defeat";
+  const lockSidePanels = show && state.phase !== "defeat" && !hasPanelPopout();
   for (const element of [dom.settingsRoot, dom.helpGuide]) {
     if (!element) continue;
     element.inert = lockSidePanels;
@@ -595,7 +698,9 @@ function setOverlay(show, title = "", text = "", action = "進む") {
   if (show) syncSrNarration([title, text].filter(Boolean).join("。"));
   if (!resultMode) clearResultSummary();
   dom.primaryButton.textContent = action;
-  if (dom.openSettingsButton) dom.openSettingsButton.hidden = state.phase !== "defeat";
+  const canOpenTitleHelp = state.phase === "title" || state.phase === "defeat";
+  if (dom.openSettingsButton) dom.openSettingsButton.hidden = !canOpenTitleHelp;
+  if (dom.openHelpButton) dom.openHelpButton.hidden = !canOpenTitleHelp;
   dom.skipButton.hidden = state.phase === "finalReveal" ? true : state.phase !== "intro" && state.phase !== "rest" && !canSkipCleared;
   dom.skipButton.textContent = canSkipCleared ? "クリア済みなのでスキップ" : "会話を送る";
   syncSaveSlotUi();
@@ -719,6 +824,7 @@ function setSpeakerLabel(label, splitChars = false) {
 
 function setPhase(phase) {
   state.phase = phase;
+  closePanelPopouts();
   if (phase !== "battle") state.paused = false;
   document.documentElement.dataset.phase = phase;
   if (typeof window !== "undefined") {
@@ -851,10 +957,13 @@ async function resumeGame() {
 function syncPauseUi() {
   const lang = normalizeLang(state.uiLang);
   if (dom.pauseMenu) dom.pauseMenu.hidden = !state.paused;
-  setFocusTrap(dom.pauseMenu, state.paused);
+  setFocusTrap(dom.pauseMenu, state.paused && !hasPanelPopout());
   if (dom.pauseTitle) dom.pauseTitle.textContent = t(lang, "overlay.paused");
   if (dom.pauseText) dom.pauseText.textContent = t(lang, "overlay.pauseBody");
   if (dom.resumeButton) dom.resumeButton.textContent = t(lang, "chrome.resume");
+  if (dom.pauseOffsetButton) dom.pauseOffsetButton.textContent = t(lang, "chrome.inputOffsetShort");
+  if (dom.pauseHelpButton) dom.pauseHelpButton.textContent = t(lang, "chrome.openHelp");
+  if (dom.pauseSettingsButton) dom.pauseSettingsButton.textContent = t(lang, "chrome.settingsShort");
   if (dom.saveRunButton) dom.saveRunButton.textContent = t(lang, "chrome.saveRun");
   if (dom.quickSaveButton) {
     if (!isQuickSaveLocked()) {
@@ -872,6 +981,7 @@ function syncPauseUi() {
     dom.pauseButton.setAttribute("aria-label", t(lang, "a11y.pause"));
   }
   if (dom.openSettingsButton) dom.openSettingsButton.textContent = t(lang, "chrome.openSettings");
+  if (dom.openHelpButton) dom.openHelpButton.textContent = t(lang, "chrome.openHelp");
   syncSaveSlotUi();
 }
 
@@ -2470,11 +2580,18 @@ dom.skipButton.addEventListener("click", async () => {
 });
 
 dom.openSettingsButton?.addEventListener("click", () => {
-  if (dom.settingsRoot) {
-    dom.settingsRoot.open = true;
-    dom.settingsRoot.scrollIntoView({ block: "nearest", behavior: isReducedMotion() ? "auto" : "smooth" });
-    dom.offsetRange?.focus();
-  }
+  openSettingsPanel({ focusOffset: true });
+});
+dom.openHelpButton?.addEventListener("click", openHelpPanel);
+dom.settingsRoot?.addEventListener("toggle", () => {
+  if (dom.settingsRoot.open) return;
+  document.documentElement.classList.remove("show-settings-popout");
+  syncPauseUi();
+});
+dom.helpGuide?.addEventListener("toggle", () => {
+  if (dom.helpGuide.open) return;
+  document.documentElement.classList.remove("show-help-popout");
+  syncPauseUi();
 });
 
 dom.pauseButton?.addEventListener("click", () => {
@@ -2482,6 +2599,13 @@ dom.pauseButton?.addEventListener("click", () => {
 });
 dom.resumeButton?.addEventListener("click", () => {
   void resumeGame();
+});
+dom.pauseOffsetButton?.addEventListener("click", () => {
+  openSettingsPanel({ focusOffset: true });
+});
+dom.pauseHelpButton?.addEventListener("click", openHelpPanel);
+dom.pauseSettingsButton?.addEventListener("click", () => {
+  openSettingsPanel({ focusOffset: false });
 });
 dom.saveRunButton?.addEventListener("click", () => {
   saveCurrentRunFromUi(dom.pauseText);
@@ -2558,7 +2682,7 @@ dom.motionButton.addEventListener("click", () => {
 
 dom.resetButton.addEventListener("click", () => {
   if (!window.confirm(t(normalizeLang(state.uiLang), "confirm.reset"))) return;
-  localStorage.removeItem(STORAGE_KEY);
+  safeRemoveStorage(STORAGE_KEY, "remove");
   state.bestScores = {};
   state.clearedStages = [];
   state.runSaves = loadRunSaves(null);
@@ -2616,9 +2740,9 @@ async function boot() {
   syncViewportVars();
   syncSettings();
   updatePortraitHint();
-  if (dom.helpGuide && !localStorage.getItem("jiiKobushi:onboarding:v1")) {
+  if (dom.helpGuide && !safeGetStorage("jiiKobushi:onboarding:v1", "load")) {
     dom.helpGuide.open = true;
-    localStorage.setItem("jiiKobushi:onboarding:v1", "1");
+    safeSetStorage("jiiKobushi:onboarding:v1", "1", "save");
   }
   await waitForCanvasFonts();
   requestAnimationFrame(update);

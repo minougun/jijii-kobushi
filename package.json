@@ -24,7 +24,13 @@
     "simulate:difficulty": "node scripts/difficulty-simulation.mjs",
     "simulate:ending": "node scripts/ending-bonus-simulation.mjs",
     "review:persona": "node scripts/persona-review-score.mjs",
+    "test:web-smoke": "node scripts/smoke-web-ui.mjs --allow-head-asset-fallback",
+    "test:web-smoke:strict": "node scripts/smoke-web-ui.mjs --pages-strict",
+    "test:web-smoke:pages": "node scripts/smoke-web-ui.mjs --base-url=https://minougun.github.io/jijii-kobushi/",
     "audit:timing": "node scripts/audit-stage-timing.mjs",
     "serve": "node scripts/serve-no-cache.mjs 4188"
+  },
+  "devDependencies": {
+    "playwright": "1.55.1"
   }
 }

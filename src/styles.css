@@ -1723,6 +1723,29 @@ html[data-phase="defeat"] .settings[open] {
   border-radius: 8px;
 }
 
+html.show-settings-popout .settings[open],
+html.show-help-popout .helpGuide[open] {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  z-index: 24;
+  display: block !important;
+  max-width: 920px;
+  max-height: min(74svh, 560px);
+  margin: 0 auto;
+  overflow: auto;
+  background: var(--paper);
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 18px 48px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+html.show-help-popout .helpGuide[open] {
+  max-width: 760px;
+}
+
 
 @media (max-width: 720px) {
   .shell {
