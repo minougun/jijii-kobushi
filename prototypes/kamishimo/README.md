@@ -22,6 +22,37 @@ npm run kamishimo:generate
 - `generated/creatures-400.csv`: 表計算確認用
 - `generated/qa-report.json`: 自動QA集計
 - `generated/starter-reference.md`: 紙テスト用の代表カード一覧
+- `generated/image-candidates-40.json`: 代表40体の画像生成プロンプトと検品観点
+
+## ブラウザ確認
+
+ローカルサーバーを起動します。
+
+```bash
+cd /mnt/c/Users/minou/jii-kobushi
+npm run serve
+```
+
+- 図鑑/句合わせ: `http://localhost:4188/prototypes/kamishimo/`
+- バトル検証: `http://localhost:4188/prototypes/kamishimo/battle.html`
+
+バトル検証は、2人分の手札、3スロット、ライフ20、エネルギー、召喚、攻撃、分解/捨て札を確認するためのローカル手動プロトタイプです。
+
+## 100語/10,000体生成
+
+企画書の100語セットから全量データを生成します。
+
+```bash
+cd /mnt/c/Users/minou/jii-kobushi
+npm run kamishimo:generate-full
+```
+
+出力:
+
+- `generated/full-set/terms-100.json`: 100語マスタ
+- `generated/full-set/creatures-10000.json`: 10,000体データ
+- `generated/full-set/creatures-10000.csv`: 表計算確認用
+- `generated/full-set/qa-report.json`: 全量QA
 
 ## プレイテスト最小ルール
 
@@ -41,5 +72,5 @@ npm run kamishimo:generate
 
 ## 次の判断
 
-400体のうち、代表30-50体で画像を作り、下の句が本体として見えるか検品します。
+400体のうち、代表40体で画像を作り、下の句が本体として見えるか検品します。
 この段階で逆順差が弱い場合は、100語へ増やさず、語札マスタの造形と補正を直します。

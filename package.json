@@ -34,6 +34,7 @@
     "kamishimo:generate": "node prototypes/kamishimo/generate.mjs",
     "kamishimo:generate-full": "node prototypes/kamishimo/generate-full-set.mjs",
     "kamishimo:check": "node --check prototypes/kamishimo/generate.mjs && node --check prototypes/kamishimo/app.mjs && node --check prototypes/kamishimo/battle-engine.mjs && node --check prototypes/kamishimo/battle-app.mjs && node prototypes/kamishimo/generate.mjs",
+    "kamishimo:check-full": "node --check prototypes/kamishimo/generate-full-set.mjs && node prototypes/kamishimo/generate-full-set.mjs",
     "serve": "node scripts/serve-no-cache.mjs 4188"
   },
   "devDependencies": {

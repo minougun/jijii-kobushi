@@ -243,7 +243,7 @@ function buildQa(creatures) {
   };
 }
 
-function starterReference(creatures) {
+function selectRepresentativeCreatures(creatures) {
   const requiredIds = [
     "001-007",
     "007-001",
@@ -291,6 +291,10 @@ function starterReference(creatures) {
     picked.push(creature);
     seenIds.add(creature.creature_id);
   }
+  return picked;
+}
+
+function starterReference(picked) {
   const lines = [
     "# 句獣大戦 カミシモ 代表カード参照",
     "",
@@ -313,15 +317,35 @@ function starterReference(creatures) {
   return `${lines.join("\n")}\n`;
 }
 
+function imageCandidateJson(picked) {
+  return picked.map((creature, index) => ({
+    priority: index + 1,
+    creature_id: creature.creature_id,
+    display_name: creature.display_name,
+    body: creature.body,
+    trait: creature.trait,
+    reverse_check: `${String(creature.lower_term_id).padStart(3, "0")}-${String(creature.upper_term_id).padStart(3, "0")}`,
+    prompt: creature.illustration_prompt,
+    qa_focus: [
+      `下の句「${creature.body}」が本体に見える`,
+      `上の句「${creature.trait}」は性質や装飾として見える`,
+      "画像内に文字やロゴがない",
+      "逆順クリーチャーと構図や主役が違う",
+    ],
+  }));
+}
+
 await mkdir(generatedDir, { recursive: true });
 
 const creatures = terms.flatMap((upper) => terms.map((lower) => buildCreature(upper, lower)));
 const qa = buildQa(creatures);
+const representativeCreatures = selectRepresentativeCreatures(creatures);
 
 await writeFile(path.join(generatedDir, "creatures-400.json"), `${JSON.stringify(creatures, null, 2)}\n`);
 await writeFile(path.join(generatedDir, "creatures-400.csv"), `${toCsv(creatures)}\n`);
 await writeFile(path.join(generatedDir, "qa-report.json"), `${JSON.stringify(qa, null, 2)}\n`);
-await writeFile(path.join(generatedDir, "starter-reference.md"), starterReference(creatures));
+await writeFile(path.join(generatedDir, "starter-reference.md"), starterReference(representativeCreatures));
+await writeFile(path.join(generatedDir, "image-candidates-40.json"), `${JSON.stringify(imageCandidateJson(representativeCreatures), null, 2)}\n`);
 
 if (
   qa.duplicateIds.length > 0 ||
