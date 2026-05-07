@@ -149,7 +149,7 @@
       "importHint": "Font",
       "codec": "woff2",
       "gitTracked": true,
-      "gitObjectId": "590ba6eb0ea62b843ec8ca4af74770f5137097eb",
+      "gitObjectId": "085e7580cd64e3176fdcf6889f01ed3cbd8fadc8",
       "references": [
         "src/styles.css"
       ]
