@@ -215,6 +215,7 @@ const focusTrapState = {
   element: null,
   previous: null,
 };
+let panelRestoreFocusTarget = null;
 const saved = loadSave();
 
 function setSrText(element, text, cacheName) {
@@ -543,9 +544,13 @@ function saveCurrentRunSnapshot() {
   const pendingRestResult = state.phase === "rest" ? buildCurrentStageResult() : null;
   const snapshot = createRunSnapshot(pendingRestResult);
   const slot = runSaveSlotForLoop(snapshot.runLoop);
+  const previousSnapshot = state.runSaves[slot] ?? null;
   state.runSaves[slot] = snapshot;
   if (pendingRestResult) persistStageClearRecord(pendingRestResult);
   const stored = save();
+  if (!stored) {
+    state.runSaves[slot] = previousSnapshot;
+  }
   syncSaveSlotUi();
   return { slot, snapshot, stored };
 }
@@ -630,8 +635,14 @@ function hasPanelPopout() {
     document.documentElement.classList.contains("show-help-popout");
 }
 
-function closePanelPopouts() {
+function closePanelPopouts({ restoreFocus = false } = {}) {
   document.documentElement.classList.remove("show-settings-popout", "show-help-popout");
+  const restoreTarget = panelRestoreFocusTarget;
+  panelRestoreFocusTarget = null;
+  if (stateReady && state.paused) syncPauseUi();
+  if (restoreFocus && restoreTarget && document.contains(restoreTarget)) {
+    window.setTimeout(() => restoreTarget.focus?.(), 0);
+  }
 }
 
 function enablePanelForPopout(element) {
@@ -641,8 +652,9 @@ function enablePanelForPopout(element) {
   element.open = true;
 }
 
-function openSettingsPanel({ focusOffset = true } = {}) {
+function openSettingsPanel({ focusOffset = true, restoreFocusTo = null } = {}) {
   if (!dom.settingsRoot) return;
+  panelRestoreFocusTarget = restoreFocusTo ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
   document.documentElement.classList.remove("show-help-popout");
   document.documentElement.classList.add("show-settings-popout");
   enablePanelForPopout(dom.settingsRoot);
@@ -654,8 +666,9 @@ function openSettingsPanel({ focusOffset = true } = {}) {
   }, 0);
 }
 
-function openHelpPanel() {
+function openHelpPanel({ restoreFocusTo = null } = {}) {
   if (!dom.helpGuide) return;
+  panelRestoreFocusTarget = restoreFocusTo ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
   document.documentElement.classList.remove("show-settings-popout");
   document.documentElement.classList.add("show-help-popout");
   enablePanelForPopout(dom.helpGuide);
@@ -824,7 +837,7 @@ function setSpeakerLabel(label, splitChars = false) {
 
 function setPhase(phase) {
   state.phase = phase;
-  closePanelPopouts();
+  closePanelPopouts({ restoreFocus: false });
   if (phase !== "battle") state.paused = false;
   document.documentElement.dataset.phase = phase;
   if (typeof window !== "undefined") {
@@ -2580,18 +2593,18 @@ dom.skipButton.addEventListener("click", async () => {
 });
 
 dom.openSettingsButton?.addEventListener("click", () => {
-  openSettingsPanel({ focusOffset: true });
+  openSettingsPanel({ focusOffset: true, restoreFocusTo: dom.openSettingsButton });
 });
-dom.openHelpButton?.addEventListener("click", openHelpPanel);
+dom.openHelpButton?.addEventListener("click", () => {
+  openHelpPanel({ restoreFocusTo: dom.openHelpButton });
+});
 dom.settingsRoot?.addEventListener("toggle", () => {
   if (dom.settingsRoot.open) return;
-  document.documentElement.classList.remove("show-settings-popout");
-  syncPauseUi();
+  if (document.documentElement.classList.contains("show-settings-popout")) closePanelPopouts({ restoreFocus: true });
 });
 dom.helpGuide?.addEventListener("toggle", () => {
   if (dom.helpGuide.open) return;
-  document.documentElement.classList.remove("show-help-popout");
-  syncPauseUi();
+  if (document.documentElement.classList.contains("show-help-popout")) closePanelPopouts({ restoreFocus: true });
 });
 
 dom.pauseButton?.addEventListener("click", () => {
@@ -2601,11 +2614,13 @@ dom.resumeButton?.addEventListener("click", () => {
   void resumeGame();
 });
 dom.pauseOffsetButton?.addEventListener("click", () => {
-  openSettingsPanel({ focusOffset: true });
+  openSettingsPanel({ focusOffset: true, restoreFocusTo: dom.pauseOffsetButton });
 });
-dom.pauseHelpButton?.addEventListener("click", openHelpPanel);
+dom.pauseHelpButton?.addEventListener("click", () => {
+  openHelpPanel({ restoreFocusTo: dom.pauseHelpButton });
+});
 dom.pauseSettingsButton?.addEventListener("click", () => {
-  openSettingsPanel({ focusOffset: false });
+  openSettingsPanel({ focusOffset: false, restoreFocusTo: dom.pauseSettingsButton });
 });
 dom.saveRunButton?.addEventListener("click", () => {
   saveCurrentRunFromUi(dom.pauseText);
@@ -2630,6 +2645,13 @@ dom.shell.addEventListener("pointerup", onMobileBlankTapUp);
 dom.shell.addEventListener("pointercancel", onMobileBlankTapUp);
 window.addEventListener("keydown", (event) => {
   if (event.code === "Escape") {
+    if (hasPanelPopout()) {
+      event.preventDefault();
+      if (dom.settingsRoot) dom.settingsRoot.open = false;
+      if (dom.helpGuide) dom.helpGuide.open = false;
+      closePanelPopouts({ restoreFocus: true });
+      return;
+    }
     if (state.paused) void resumeGame();
     else void pauseGame();
     return;

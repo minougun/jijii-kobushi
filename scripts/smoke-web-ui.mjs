@@ -5,17 +5,8 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
-async function loadPlaywright() {
-  try {
-    const module = await import("playwright");
-    return module.default ?? module;
-  } catch {
-    const module = await import("/home/minougun/maguromaru-note/node_modules/playwright/index.js");
-    return module.default ?? module;
-  }
-}
-
-const { chromium } = await loadPlaywright();
+const playwright = await import("playwright");
+const { chromium } = playwright.default ?? playwright;
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 function parseArgs(argv) {
@@ -117,19 +108,62 @@ async function withPage(browser, viewport, test) {
   const page = await browser.newPage({ viewport });
   const pageErrors = [];
   const consoleErrors = [];
+  const networkErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   page.on("console", (message) => {
     if (message.type() === "error") consoleErrors.push(message.text());
   });
-  await test(page, { pageErrors, consoleErrors });
+  page.on("response", (response) => {
+    if (response.status() >= 400) networkErrors.push(`${response.status()} ${response.url()}`);
+  });
+  await test(page, { pageErrors, consoleErrors, networkErrors });
   await page.close();
-  if (pageErrors.length || consoleErrors.length) {
-    throw new Error(`browser errors:\npage=${pageErrors.join("\n") || "none"}\nconsole=${consoleErrors.join("\n") || "none"}`);
+  if (pageErrors.length || consoleErrors.length || networkErrors.length) {
+    throw new Error([
+      "browser errors:",
+      `page=${pageErrors.join("\n") || "none"}`,
+      `console=${consoleErrors.join("\n") || "none"}`,
+      `network=${networkErrors.join("\n") || "none"}`,
+    ].join("\n"));
   }
 }
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+async function openTitle(page) {
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
+  await page.locator("#primaryButton").waitFor({ state: "visible" });
+  const phase = await page.evaluate(() => document.documentElement.dataset.phase);
+  if (phase === "opening") {
+    await page.locator("#primaryButton").click();
+    await page.locator("#openSettingsButton").waitFor({ state: "visible" });
+  }
+}
+
+async function reachPausedBattle(page) {
+  await openTitle(page);
+  await page.locator("#primaryButton").click();
+  for (let attempt = 0; attempt < 24; attempt += 1) {
+    const phase = await page.evaluate(() => document.documentElement.dataset.phase);
+    if (phase === "battle") break;
+    const skipVisible = await page.locator("#skipButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
+    if (skipVisible) {
+      await page.locator("#skipButton").click();
+    } else {
+      const primaryVisible = await page.locator("#primaryButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
+      if (primaryVisible) await page.locator("#primaryButton").click();
+    }
+    await page.waitForTimeout(140);
+  }
+  await page.waitForFunction(() => document.documentElement.dataset.phase === "battle", null, { timeout: 10000 });
+  await page.keyboard.press("Escape");
+  await page.locator("#pauseMenu").waitFor({ state: "visible" });
+}
+
+async function assertStorageFailureAnnounced(page, expected = "保存できませんでした") {
+  await page.waitForFunction((text) => document.querySelector("#srJudgeStatus")?.textContent?.includes(text), expected, { timeout: 2500 });
 }
 
 if (options.pagesStrict && !explicitUrl) assertNoDeletedTrackedFiles();
@@ -170,9 +204,7 @@ try {
         throw new DOMException("forced quota failure", "QuotaExceededError");
       };
     });
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
-    await page.locator("#primaryButton").click();
-    await page.locator("#openSettingsButton").waitFor({ state: "visible" });
+    await openTitle(page);
     await page.locator("#openSettingsButton").click();
     await page.locator("#offsetRange").evaluate((input) => {
       input.value = "80";
@@ -181,8 +213,116 @@ try {
     });
     await page.waitForTimeout(100);
     assert(observed.pageErrors.length === 0, `storage failure leaked pageerror: ${observed.pageErrors.join("\n")}`);
-    const judgeText = await page.locator("#srJudgeStatus").textContent();
-    assert(judgeText.includes("保存できませんでした"), `storage failure was not announced: ${judgeText}`);
+    await assertStorageFailureAnnounced(page);
+  });
+
+  await withPage(browser, { width: 1280, height: 720 }, async (page) => {
+    await page.addInitScript(() => {
+      Storage.prototype.setItem = () => {
+        throw new DOMException("forced save failure", "QuotaExceededError");
+      };
+    });
+    await reachPausedBattle(page);
+    await page.locator("#saveRunButton").click();
+    await assertStorageFailureAnnounced(page);
+    const firstDisabled = await page.locator("#pauseLoadFirstButton").evaluate((button) => button.disabled);
+    assert(firstDisabled, "failed persistent save should not enable first-loop load slot");
+  });
+
+  await withPage(browser, { width: 1280, height: 720 }, async (page) => {
+    await page.addInitScript(() => {
+      Storage.prototype.setItem = () => {
+        throw new DOMException("forced quick save failure", "QuotaExceededError");
+      };
+    });
+    await reachPausedBattle(page);
+    await page.locator("#quickSaveButton").click();
+    await assertStorageFailureAnnounced(page);
+    const label = await page.locator("#quickSaveButton").textContent();
+    assert(!label.includes("保存済み"), `quick save failure showed success label: ${label}`);
+  });
+
+  await withPage(browser, { width: 390, height: 844 }, async (page) => {
+    await page.addInitScript(() => {
+      Storage.prototype.setItem = () => {
+        throw new DOMException("forced portrait save failure", "QuotaExceededError");
+      };
+    });
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.locator("#portraitDismiss").click();
+    await assertStorageFailureAnnounced(page);
+  });
+
+  await withPage(browser, { width: 1280, height: 720 }, async (page) => {
+    await page.addInitScript(() => {
+      Storage.prototype.setItem = () => {
+        throw new DOMException("forced language save failure", "QuotaExceededError");
+      };
+    });
+    await openTitle(page);
+    await page.locator("#openSettingsButton").click();
+    await page.locator("#langEnButton").click();
+    await page.waitForFunction(() => document.querySelector("#srJudgeStatus")?.textContent?.includes("Could not save"), null, { timeout: 2500 });
+  });
+
+  await withPage(browser, { width: 1280, height: 720 }, async (page) => {
+    await page.addInitScript(() => {
+      Storage.prototype.removeItem = () => {
+        throw new DOMException("forced remove failure", "QuotaExceededError");
+      };
+    });
+    page.on("dialog", (dialog) => dialog.accept());
+    await openTitle(page);
+    await page.locator("#openSettingsButton").click();
+    await page.locator("#resetButton").click();
+    await page.waitForFunction(() => document.querySelector("#srJudgeStatus")?.textContent?.includes("記録を削除できませんでした"), null, { timeout: 2500 });
+  });
+
+  await withPage(browser, { width: 1280, height: 720 }, async (page) => {
+    await page.addInitScript(() => {
+      Storage.prototype.getItem = () => {
+        throw new DOMException("forced load failure", "SecurityError");
+      };
+    });
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.locator("#primaryButton").waitFor({ state: "visible" });
+  });
+
+  await withPage(browser, { width: 1280, height: 720 }, async (page) => {
+    await page.addInitScript(() => {
+      localStorage.setItem("jiiKobushi:v1", "{broken-json");
+    });
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.locator("#primaryButton").waitFor({ state: "visible" });
+  });
+
+  await withPage(browser, { width: 1280, height: 720 }, async (page) => {
+    await reachPausedBattle(page);
+    await page.locator("#pauseOffsetButton").click();
+    await page.locator("#settingsRoot, .settings").first().waitFor({ state: "visible" });
+    const settingsHidden = await page.locator(".settings").evaluate((element) => element.getAttribute("aria-hidden"));
+    assert(settingsHidden !== "true", "open settings popout is aria-hidden");
+    await page.keyboard.press("Escape");
+    await page.waitForFunction(() => !document.documentElement.classList.contains("show-settings-popout"));
+    await page.waitForFunction(() => document.activeElement?.id === "pauseOffsetButton", null, { timeout: 1500 });
+    const activeAfterSettings = await page.evaluate(() => document.activeElement?.id);
+    assert(activeAfterSettings === "pauseOffsetButton", `focus did not return to pause offset button: ${activeAfterSettings}`);
+
+    await page.locator("#pauseHelpButton").click();
+    const helpHidden = await page.locator("#helpGuide").evaluate((element) => element.getAttribute("aria-hidden"));
+    assert(helpHidden !== "true", "open help popout is aria-hidden");
+    await page.keyboard.press("Escape");
+    await page.waitForFunction(() => !document.documentElement.classList.contains("show-help-popout"));
+    await page.waitForFunction(() => document.activeElement?.id === "pauseHelpButton", null, { timeout: 1500 });
+    const activeAfterHelp = await page.evaluate(() => document.activeElement?.id);
+    assert(activeAfterHelp === "pauseHelpButton", `focus did not return to pause help button: ${activeAfterHelp}`);
+
+    await page.locator("#pauseSettingsButton").click();
+    await page.keyboard.press("Escape");
+    await page.waitForFunction(() => !document.documentElement.classList.contains("show-settings-popout"));
+    await page.waitForFunction(() => document.activeElement?.id === "pauseSettingsButton", null, { timeout: 1500 });
+    const activeAfterSettingsButton = await page.evaluate(() => document.activeElement?.id);
+    assert(activeAfterSettingsButton === "pauseSettingsButton", `focus did not return to pause settings button: ${activeAfterSettingsButton}`);
   });
 
   await withPage(browser, { width: 1280, height: 720 }, async (page) => {

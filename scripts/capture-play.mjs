@@ -1,5 +1,4 @@
-import pwPkg from "/home/minougun/maguromaru-note/node_modules/playwright/index.js";
-const { chromium } = pwPkg;
+import { chromium } from "playwright";
 
 const URL = process.env.JII_KOBUSHI_URL || "http://localhost:4188/";
 const out = process.argv[2] || "stage1-play.png";
