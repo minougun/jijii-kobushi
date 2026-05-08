@@ -28,9 +28,11 @@
     "test:web-smoke:strict": "node scripts/smoke-web-ui.mjs --pages-strict",
     "test:web-smoke:pages": "node scripts/smoke-web-ui.mjs --base-url=https://minougun.github.io/jijii-kobushi/",
     "capture:commercial-evidence": "node scripts/capture-commercial-evidence.mjs",
+    "capture:ios-store-assets": "node scripts/capture-ios-store-assets.mjs",
     "check:web-commercial-complete": "node scripts/check-web-commercial-complete.mjs",
     "check:local-100": "npm run check:web-commercial-complete && npm run check:switch-local-complete",
     "audit:timing": "node scripts/audit-stage-timing.mjs",
+    "check:ios": "node --check scripts/check-ios-project.mjs && node scripts/check-ios-project.mjs",
     "serve": "node scripts/serve-no-cache.mjs 4188"
   },
   "devDependencies": {

@@ -29,6 +29,16 @@ Then open:
 http://localhost:4188/
 ```
 
+## iOS Prototype
+
+The first iOS port prototype lives in:
+
+```text
+/mnt/c/Users/minou/jii-kobushi/ios
+```
+
+Open `ios/JiiKobushi.xcodeproj` on a Mac with Xcode. It bundles the existing web game into a native Swift/UIKit iPhone app shell and runs it locally in `WKWebView` through a local `jiikobushi://` resource scheme.
+
 ## Checks
 
 ```bash
@@ -36,6 +46,7 @@ cd /mnt/c/Users/minou/jii-kobushi
 npm run check
 npm run simulate:difficulty
 npm run audit:timing
+node scripts/check-ios-project.mjs
 ```
 
 Stage 1 Unity port planning notes:
