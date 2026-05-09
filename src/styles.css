@@ -2333,14 +2333,27 @@ html.show-help-popout .helpGuide[open] {
     overflow: hidden;
   }
 
+  html:is([data-phase="opening"], [data-phase="title"]) .shell {
+    --game-w: 100vw;
+    --game-h: min(62svh, 540px);
+    grid-template-rows: var(--game-h);
+    align-content: start;
+    padding-top: max(10px, env(safe-area-inset-top, 0px));
+  }
+
   html:is([data-phase="opening"], [data-phase="title"]) .gameSurface {
-    grid-row: 2;
+    grid-row: 1;
     width: var(--game-w);
     height: var(--game-h);
     min-height: 0;
     max-height: none;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: auto;
     overflow: hidden;
+  }
+
+  html:is([data-phase="opening"], [data-phase="title"]) canvas {
+    object-fit: cover;
+    object-position: center;
   }
 
   html[data-phase="endingVideo"] .gameSurface {

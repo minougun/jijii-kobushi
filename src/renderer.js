@@ -1,8 +1,15 @@
-import { loopLabel, normalizeLoop, nextNoteLabel } from "./stages.js?v=20260501-0100";
-import { normalizeLang, phaseBadgeLabel, t } from "./i18n.js?v=20260430-1607";
+import { normalizeLoop, nextNoteLabel } from "./stages.js?v=20260501-0100";
+import {
+  localizedDifficulty,
+  localizedEnemyName,
+  localizedLoopLabel,
+  localizedStageTitle,
+  normalizeLang,
+  phaseBadgeLabel,
+  t,
+} from "./i18n.js?v=20260509-reviewfix1";
 
 const CANVAS_FONT = "JiiKobushiNotoSansJP, Noto Sans JP, Hiragino Sans, Yu Gothic, sans-serif";
-const DIFFICULTY_LABELS = { easy: "イージー", normal: "ノーマル", hard: "ハード" };
 const HERO_PALETTE = {
   coat: "#4b2b68",
   robe: "#3c234f",
@@ -91,6 +98,10 @@ export function createRenderer(canvas, ctx, state) {
     next.height = Math.ceil(height);
     return next;
   }
+
+  function readbackContext(canvas) {
+    return canvas.getContext("2d", { willReadFrequently: true });
+  }
   function requestImagegenAtlas() {
     if (imagegenAtlasRequested) return;
     imagegenAtlasRequested = true;
@@ -160,7 +171,7 @@ export function createRenderer(canvas, ctx, state) {
   }
 
   function transparentizeEdgeBackground(canvas, isBackground) {
-    const cropCtx = canvas.getContext("2d");
+    const cropCtx = readbackContext(canvas);
     const imageData = cropCtx.getImageData(0, 0, canvas.width, canvas.height);
     const { data, width, height } = imageData;
     const seen = new Uint8Array(width * height);
@@ -195,7 +206,7 @@ export function createRenderer(canvas, ctx, state) {
   }
 
   function trimTransparentCanvas(canvas, pad = 8) {
-    const cropCtx = canvas.getContext("2d");
+    const cropCtx = readbackContext(canvas);
     const { data, width, height } = cropCtx.getImageData(0, 0, canvas.width, canvas.height);
     let minX = width;
     let minY = height;
@@ -236,7 +247,7 @@ export function createRenderer(canvas, ctx, state) {
     const cropCanvas = document.createElement("canvas");
     cropCanvas.width = Math.ceil(cellW);
     cropCanvas.height = Math.ceil(cellH);
-    const cropCtx = cropCanvas.getContext("2d");
+    const cropCtx = readbackContext(cropCanvas);
     cropCtx.drawImage(chibiCharacterSheetImage, sx, sy, cellW, cellH, 0, 0, cropCanvas.width, cropCanvas.height);
     transparentizeEdgeBackground(cropCanvas, (data, index) => {
       const offset = index * 4;
@@ -261,7 +272,7 @@ export function createRenderer(canvas, ctx, state) {
     const cropCanvas = document.createElement("canvas");
     cropCanvas.width = spec.sw;
     cropCanvas.height = spec.sh;
-    const cropCtx = cropCanvas.getContext("2d");
+    const cropCtx = transparent ? readbackContext(cropCanvas) : cropCanvas.getContext("2d");
     cropCtx.drawImage(imagegenAtlasImage, spec.sx, spec.sy, spec.sw, spec.sh, 0, 0, spec.sw, spec.sh);
     if (transparent) {
       const imageData = cropCtx.getImageData(0, 0, cropCanvas.width, cropCanvas.height);
@@ -2906,8 +2917,10 @@ export function createRenderer(canvas, ctx, state) {
         : normalizeLoop(state.runLoop);
     const doodleLoopUi = ENABLE_WEB_DOODLE_LOOP_SCREEN && currentLoop >= 2 && ["intro", "battle", "rest", "finalReveal"].includes(state.phase);
     ui.setClass(document.documentElement, "doodle-loop", doodleLoopUi);
-    const loopPart = currentLoop > 1 ? ` / ${loopLabel(currentLoop)}` : "";
-    ui.setText(dom.stageLabel, `${state.stage.title} / ${DIFFICULTY_LABELS[state.difficulty] ?? "ノーマル"}${loopPart}`);
+    const loopPart = currentLoop > 1 ? ` / ${localizedLoopLabel(lang, currentLoop)}` : "";
+    const stageTitle = localizedStageTitle(lang, state.stage, state.stage?.title ?? "");
+    const difficulty = localizedDifficulty(lang, state.difficulty, "label", state.difficulty);
+    ui.setText(dom.stageLabel, `${stageTitle} / ${difficulty}${loopPart}`);
     ui.setText(dom.scoreLabel, String(state.totalScore));
     if (dom.phaseBadge) {
       ui.setText(dom.phaseBadge, phaseBadgeLabel(lang, state.phase));
@@ -2938,8 +2951,8 @@ export function createRenderer(canvas, ctx, state) {
       ui.setText(dom.spiritLabel, focusSeconds > 0 ? `見切り ${focusSeconds}s` : t(lang, "hud.spirit"));
     }
     if (dom.enemyNameLabel) {
-      const enemyName = state.stage?.enemy?.name ?? t(lang, "hud.enemyFallback");
-      const comboPart = state.phase === "battle" && state.combo > 0 ? ` ${state.combo}連` : "";
+      const enemyName = localizedEnemyName(lang, state.stage, state.stage?.enemy?.name ?? t(lang, "hud.enemyFallback"));
+      const comboPart = state.phase === "battle" && state.combo > 0 ? (lang === "en" ? ` ${state.combo}x` : ` ${state.combo}連`) : "";
       ui.setText(dom.enemyNameLabel, `${enemyName}${comboPart}`);
     }
     ui.setClass(dom.gameSurface, "novelActive", (state.phase === "intro" || state.phase === "finalReveal") && !dom.overlay.classList.contains("hidden"));

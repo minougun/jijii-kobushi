@@ -33,6 +33,8 @@ const JA = {
     openingTitle: "爺コブシ",
     openingBody: "爺コブシ。\nこの物語は、立石小次郎と、その仲間たちが巻き起こす一大感動巨編である。",
     openingAction: "ゲームへ進む",
+    newGame: "ニューゲーム",
+    startGame: "ゲーム開始",
     titleMain: "孫を取り戻せ",
     titleBoot: "",
     tapStart: "タップで開始",
@@ -86,11 +88,37 @@ const JA = {
     inputOffsetShort: "入力補正",
     settingsShort: "設定",
     returnTitle: "タイトルへ戻る",
+    skipCleared: "クリア済みなのでスキップ",
+    skipDialogue: "会話を送る",
   },
   hud: {
     playerName: "立石小次郎",
     spirit: "気合",
     enemyFallback: "敵",
+  },
+  difficulty: {
+    easy: { label: "イージー", description: "気楽に救出" },
+    normal: { label: "ノーマル", description: "標準勝負" },
+    hard: { label: "ハード", description: "上級者向け" },
+  },
+  stages: {
+    shotengai: { title: "誘拐の朝", enemy: "黒腕章の使い" },
+    warehouse: { title: "港の倉庫", enemy: "金縁フードの見張り" },
+    riverside: { title: "伊藤道場", enemy: "伊藤道場の師範代" },
+    mountain: { title: "峠道", enemy: "X結社 鉄仮面兵" },
+    garage: { title: "改造車庫", enemy: "X結社 改造音響兵" },
+    redgate: { title: "赤門", enemy: "X親衛隊長" },
+    finalhideout: { title: "X結社本部", enemy: "スーパーステロイドX" },
+  },
+  saves: {
+    firstLoop: "1周目",
+    loopPlus: "2周目以降",
+    noSave: "セーブなし",
+    firstNoSave: "1周目セーブなし",
+    loopPlusNoSave: "2周目以降セーブなし",
+  },
+  loop: {
+    nth: "{n}周目",
   },
 };
 
@@ -128,6 +156,8 @@ const EN = {
     openingTitle: "Jii Kobushi",
     openingBody: "Jii Kobushi.\nThis is the grand tale of Kojiro Tateishi and the companions swept into his song...",
     openingAction: "Continue",
+    newGame: "New game",
+    startGame: "Start game",
     titleMain: "Rescue the Grandkid",
     titleBoot: "",
     tapStart: "Tap to start",
@@ -181,11 +211,37 @@ const EN = {
     inputOffsetShort: "Input offset",
     settingsShort: "Settings",
     returnTitle: "Return to title",
+    skipCleared: "Skip cleared stage",
+    skipDialogue: "Skip dialogue",
   },
   hud: {
     playerName: "You",
     spirit: "Spirit",
     enemyFallback: "Enemy",
+  },
+  difficulty: {
+    easy: { label: "Easy", description: "Relaxed rescue" },
+    normal: { label: "Normal", description: "Standard rhythm" },
+    hard: { label: "Hard", description: "Advanced" },
+  },
+  stages: {
+    shotengai: { title: "Kidnapping Morning", enemy: "Black-Armband Agent" },
+    warehouse: { title: "Harbor Warehouse", enemy: "Gold-Trim Hood Guard" },
+    riverside: { title: "Ito Dojo", enemy: "Ito Dojo Senior Disciple" },
+    mountain: { title: "Mountain Pass", enemy: "X Society Iron-Mask Trooper" },
+    garage: { title: "Tuned Garage", enemy: "X Society Audio Engineer" },
+    redgate: { title: "Red Gate", enemy: "X Guard Captain" },
+    finalhideout: { title: "X Society HQ", enemy: "Super Steroid X" },
+  },
+  saves: {
+    firstLoop: "First loop",
+    loopPlus: "Loop 2+",
+    noSave: "No save",
+    firstNoSave: "No first-loop save",
+    loopPlusNoSave: "No loop 2+ save",
+  },
+  loop: {
+    nth: "Loop {n}",
   },
 };
 
@@ -211,4 +267,29 @@ export function phaseBadgeLabel(lang, phase) {
   const L = strings(lang);
   const key = phase in L.phase ? phase : "title";
   return L.phase[key] ?? phase;
+}
+
+function interpolate(template, values = {}) {
+  return String(template).replace(/\{(\w+)\}/g, (_, key) => String(values[key] ?? ""));
+}
+
+export function localizedDifficulty(lang, id, field = "label", fallback = "") {
+  const L = strings(lang);
+  return L.difficulty?.[id]?.[field] ?? fallback;
+}
+
+export function localizedStageTitle(lang, stage, fallback = "") {
+  const L = strings(lang);
+  return L.stages?.[stage?.id]?.title ?? fallback;
+}
+
+export function localizedEnemyName(lang, stage, fallback = "") {
+  const L = strings(lang);
+  return L.stages?.[stage?.id]?.enemy ?? fallback;
+}
+
+export function localizedLoopLabel(lang, loop = 1) {
+  const L = strings(lang);
+  const numeric = Math.max(1, Math.floor(Number(loop) || 1));
+  return interpolate(L.loop?.nth ?? "{n}", { n: numeric });
 }

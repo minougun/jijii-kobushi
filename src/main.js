@@ -1,5 +1,5 @@
 import { createAudioEngine } from "./audio.js?v=20260430-1125";
-import { createRenderer } from "./renderer.js?v=20260504-centerlayout2";
+import { createRenderer } from "./renderer.js?v=20260509-reviewfix1";
 import {
   DIFFICULTIES,
   STAGES,
@@ -14,7 +14,13 @@ import {
   normalizeLoop,
   nextNoteLabel,
 } from "./stages.js?v=20260504-stage3bgm1";
-import { normalizeLang, t } from "./i18n.js?v=20260504-openingcopy1";
+import {
+  localizedDifficulty,
+  localizedLoopLabel,
+  localizedStageTitle,
+  normalizeLang,
+  t,
+} from "./i18n.js?v=20260509-reviewfix1";
 import {
   ENDING_BONUS_FALLBACK_DURATION_MS,
   createEndingBonusChart,
@@ -436,7 +442,7 @@ function refreshTitleOverlay() {
     true,
     t(lang, "overlay.openingTitle"),
     t(lang, "overlay.titleBoot"),
-    hasRunSave ? (lang === "en" ? "New game" : "ニューゲーム") : lang === "en" ? "Start game" : "ゲーム開始",
+    hasRunSave ? t(lang, "overlay.newGame") : t(lang, "overlay.startGame"),
   );
 }
 
@@ -449,6 +455,7 @@ function refreshOpeningOverlay() {
 function updatePortraitHint() {
   if (!dom.portraitHint) return;
   const shouldShow =
+    state.phase === "opening" &&
     !state.portraitHintDismissed &&
     window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches &&
     !window.matchMedia("(display-mode: fullscreen)").matches;
@@ -599,17 +606,22 @@ function saveCurrentRunFromUi(messageTarget = null, { quick = false } = {}) {
 }
 
 function slotLabel(slot) {
-  return slot === RUN_SAVE_SLOTS.firstLoop ? "1周目" : "2周目以降";
+  const lang = normalizeLang(state.uiLang);
+  return slot === RUN_SAVE_SLOTS.firstLoop ? t(lang, "saves.firstLoop") : t(lang, "saves.loopPlus");
 }
 
 function saveSummary(snapshot) {
-  if (!snapshot) return "セーブなし";
+  const lang = normalizeLang(state.uiLang);
+  if (!snapshot) return t(lang, "saves.noSave");
   const stage = getStage(snapshot.stageIndex);
   const savedAt = new Date(snapshot.savedAt);
   const date = Number.isNaN(savedAt.getTime())
     ? ""
     : `${savedAt.getMonth() + 1}/${savedAt.getDate()} ${String(savedAt.getHours()).padStart(2, "0")}:${String(savedAt.getMinutes()).padStart(2, "0")}`;
-  return `${DIFFICULTIES[snapshot.difficulty]?.label ?? "ノーマル"} / ${loopLabel(snapshot.runLoop)} / ${stage?.title ?? "ステージ"}${date ? ` / ${date}` : ""}`;
+  const difficulty = localizedDifficulty(lang, snapshot.difficulty, "label", DIFFICULTIES[snapshot.difficulty]?.label ?? "ノーマル");
+  const loop = localizedLoopLabel(lang, snapshot.runLoop);
+  const title = localizedStageTitle(lang, stage, stage?.title ?? "ステージ");
+  return `${difficulty} / ${loop} / ${title}${date ? ` / ${date}` : ""}`;
 }
 
 function syncSaveSlotUi() {
@@ -618,12 +630,12 @@ function syncSaveSlotUi() {
   for (const button of [dom.loadFirstButton, dom.pauseLoadFirstButton]) {
     if (!button) continue;
     button.disabled = !first;
-    button.textContent = first ? `1周目: ${saveSummary(first)}` : "1周目セーブなし";
+    button.textContent = first ? `${t(normalizeLang(state.uiLang), "saves.firstLoop")}: ${saveSummary(first)}` : t(normalizeLang(state.uiLang), "saves.firstNoSave");
   }
   for (const button of [dom.loadLoopPlusButton, dom.pauseLoadLoopPlusButton]) {
     if (!button) continue;
     button.disabled = !loopPlus;
-    button.textContent = loopPlus ? `2周目以降: ${saveSummary(loopPlus)}` : "2周目以降セーブなし";
+    button.textContent = loopPlus ? `${t(normalizeLang(state.uiLang), "saves.loopPlus")}: ${saveSummary(loopPlus)}` : t(normalizeLang(state.uiLang), "saves.loopPlusNoSave");
   }
   if (dom.titleSaveSlots) {
     dom.titleSaveSlots.hidden = state.phase !== "title" || (!first && !loopPlus);
@@ -715,7 +727,7 @@ function setOverlay(show, title = "", text = "", action = "進む") {
   if (dom.openSettingsButton) dom.openSettingsButton.hidden = !canOpenTitleHelp;
   if (dom.openHelpButton) dom.openHelpButton.hidden = !canOpenTitleHelp;
   dom.skipButton.hidden = state.phase === "finalReveal" ? true : state.phase !== "intro" && state.phase !== "rest" && !canSkipCleared;
-  dom.skipButton.textContent = canSkipCleared ? "クリア済みなのでスキップ" : "会話を送る";
+  dom.skipButton.textContent = canSkipCleared ? t(lang, "chrome.skipCleared") : t(lang, "chrome.skipDialogue");
   syncSaveSlotUi();
   requestRender();
 }
@@ -853,6 +865,7 @@ function setPhase(phase) {
   state.judgeText = "";
   state.inputHint = "ノーツが判定線に重なったら押す";
   if (phase !== "finalReveal") state.finalRevealUnmasked = false;
+  updatePortraitHint();
   requestRender();
 }
 
@@ -2502,6 +2515,12 @@ function syncSettings() {
     const selected = button.dataset.difficulty === state.difficulty;
     button.setAttribute("aria-pressed", String(selected));
     button.setAttribute("aria-checked", String(selected));
+    const label = localizedDifficulty(lang, button.dataset.difficulty, "label");
+    const description = localizedDifficulty(lang, button.dataset.difficulty, "description");
+    const labelNode = button.querySelector("strong");
+    const descriptionNode = button.querySelector("span");
+    if (labelNode && label) labelNode.textContent = label;
+    if (descriptionNode && description) descriptionNode.textContent = description;
   }
   document.documentElement.classList.toggle("muted", !state.audioEnabled);
   if (state.phase === "opening") refreshOpeningOverlay();
