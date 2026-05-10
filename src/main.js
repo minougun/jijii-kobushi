@@ -142,7 +142,59 @@ const ENDING_VIDEO_FIRST_LOOP_SRC = "./assets/video/ending.mp4?v=20260504-anime1
 const ENDING_VIDEO_LOOP_PLUS_SRC = "./assets/video/ending-loop2.mp4?v=20260504-doodle-readable2-lite1";
 const ENDING_BONUS_CLOCK_RESET_MS = 240;
 const ENDING_BONUS_CLOCK_PULL = 0.16;
+const EFFECT_POOL_PREWARM = 64;
+const EFFECT_POOL_LIMIT = 96;
+const PETAL_POOL_PREWARM = 260;
+const PETAL_POOL_LIMIT = 260;
+const MAX_ACTIVE_PETALS = 260;
 let stateReady = false;
+
+function prewarmPool(pool, count, factory) {
+  for (let i = 0; i < count; i += 1) pool.push(factory());
+}
+
+function createEffectState() {
+  return {
+    text: "",
+    x: 0,
+    y: 0,
+    color: "#ffffff",
+    life: 0,
+    maxLife: 0,
+  };
+}
+
+function resetEffectState(fx, text, x, y, color, life) {
+  fx.text = text;
+  fx.x = x;
+  fx.y = y;
+  fx.color = color;
+  fx.life = life;
+  fx.maxLife = life;
+  return fx;
+}
+
+function createPetalState() {
+  return {
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    spin: 0,
+    rotSpeed: 0,
+    sway: 0,
+    wave: 0,
+    layer: 0,
+    size: 0,
+    life: 0,
+    maxLife: 0,
+  };
+}
+
+const effectPool = [];
+const petalPool = [];
+prewarmPool(effectPool, EFFECT_POOL_PREWARM, createEffectState);
+prewarmPool(petalPool, PETAL_POOL_PREWARM, createPetalState);
 
 function storageFailureMessage(action, lang = "ja") {
   if (lang === "en") {
@@ -377,6 +429,80 @@ const state = {
   pixelRatio: 1,
 };
 stateReady = true;
+
+function acquireEffect(text, x, y, color, life) {
+  return resetEffectState(effectPool.pop() ?? createEffectState(), text, x, y, color, life);
+}
+
+function releaseEffect(fx) {
+  if (!fx || effectPool.length >= EFFECT_POOL_LIMIT) return;
+  resetEffectState(fx, "", 0, 0, "#ffffff", 0);
+  effectPool.push(fx);
+}
+
+function releaseActiveEffects() {
+  for (const fx of state.effects) releaseEffect(fx);
+  state.effects.length = 0;
+}
+
+function resetPetalState(petal, burst = false) {
+  const layer = Math.random();
+  const fromTop = !state.reducedMotion && burst && Math.random() < 0.45;
+  petal.x = fromTop ? Math.random() * 980 : 860 + Math.random() * 260;
+  petal.y = fromTop ? -30 - Math.random() * 90 : 10 + Math.random() * 490;
+  petal.vx = state.reducedMotion ? 0 : -1.8 - Math.random() * (burst ? 5.2 : 3.2) - layer * 1.2;
+  petal.vy = state.reducedMotion ? 0 : (fromTop ? 1.4 : 0.18) + Math.random() * (burst ? 1.9 : 1.1);
+  petal.spin = Math.random() * Math.PI;
+  petal.rotSpeed = state.reducedMotion ? 0 : (Math.random() * 0.18 + 0.06) * (Math.random() < 0.5 ? -1 : 1);
+  petal.sway = state.reducedMotion ? 0 : 0.5 + Math.random() * 2.8;
+  petal.wave = Math.random() * Math.PI * 2;
+  petal.layer = layer;
+  petal.size = 5 + Math.random() * (burst ? 14 : 10);
+  petal.life = (burst ? 3100 : 2400) + Math.random() * 1500;
+  petal.maxLife = burst ? 4600 : 3900;
+  return petal;
+}
+
+function acquirePetal(burst = false) {
+  return resetPetalState(petalPool.pop() ?? createPetalState(), burst);
+}
+
+function releasePetal(petal) {
+  if (!petal || petalPool.length >= PETAL_POOL_LIMIT) return;
+  petal.x = 0;
+  petal.y = 0;
+  petal.vx = 0;
+  petal.vy = 0;
+  petal.spin = 0;
+  petal.rotSpeed = 0;
+  petal.sway = 0;
+  petal.wave = 0;
+  petal.layer = 0;
+  petal.size = 0;
+  petal.life = 0;
+  petal.maxLife = 0;
+  petalPool.push(petal);
+}
+
+function releaseActivePetals() {
+  for (const petal of state.petals) releasePetal(petal);
+  state.petals.length = 0;
+}
+
+function trimActivePetals() {
+  const overflow = state.petals.length - MAX_ACTIVE_PETALS;
+  if (overflow <= 0) return;
+  for (let i = 0; i < overflow; i += 1) releasePetal(state.petals[i]);
+  for (let i = overflow; i < state.petals.length; i += 1) {
+    state.petals[i - overflow] = state.petals[i];
+  }
+  state.petals.length -= overflow;
+}
+
+function clearTransientVisuals() {
+  releaseActivePetals();
+  releaseActiveEffects();
+}
 
 function requestRender() {
   renderDirty = true;
@@ -940,8 +1066,7 @@ async function retryCurrentStage() {
   state.focusEffect = null;
   clearCombatMotions();
   state.enemyHit = 0;
-  state.petals = [];
-  state.effects = [];
+  clearTransientVisuals();
   state.shake = 0;
   state.overlaySpeaker = "";
   preloadStageVisuals(state.stageIndex);
@@ -1038,8 +1163,7 @@ function clearActiveRunStateForTitle(lang = normalizeLang(state.uiLang)) {
   state.focusEffect = null;
   clearCombatMotions();
   state.enemyHit = 0;
-  state.petals = [];
-  state.effects = [];
+  clearTransientVisuals();
   state.results = null;
   state.overlaySpeaker = "";
   setPhase("title");
@@ -1098,8 +1222,7 @@ function loadRunSnapshot(slot) {
   state.focusEffect = null;
   clearCombatMotions();
   state.enemyHit = 0;
-  state.petals = [];
-  state.effects = [];
+  clearTransientVisuals();
   state.shake = 0;
   state.results = null;
   state.overlaySpeaker = "";
@@ -1300,7 +1423,7 @@ async function beginBattle() {
   clearCombatMotions();
   state.enemyHit = 0;
   state.lastEnemyCueIndex = -1;
-  state.petals = [];
+  releaseActivePetals();
   const bgmStarted = await startBattleClock(
     state.activeChart,
     state.stage.bpm,
@@ -2181,7 +2304,7 @@ function resolveNote(index, rank, offsetMs = 0, detail = "", mashJudge = null) {
 }
 
 function addEffect(text, x, y, color, life = 760) {
-  state.effects.push({ text, x, y, color, life, maxLife: life });
+  state.effects.push(acquireEffect(text, x, y, color, life));
 }
 
 function triggerSpecialMove(damage) {
@@ -2219,24 +2342,9 @@ function triggerSpiritFocus() {
 function spawnPetals(count, burst = false) {
   const actualCount = state.reducedMotion ? Math.ceil(count * 0.25) : count;
   for (let i = 0; i < actualCount; i += 1) {
-    const layer = Math.random();
-    const fromTop = !state.reducedMotion && burst && Math.random() < 0.45;
-    state.petals.push({
-      x: fromTop ? Math.random() * 980 : 860 + Math.random() * 260,
-      y: fromTop ? -30 - Math.random() * 90 : 10 + Math.random() * 490,
-      vx: state.reducedMotion ? 0 : -1.8 - Math.random() * (burst ? 5.2 : 3.2) - layer * 1.2,
-      vy: state.reducedMotion ? 0 : (fromTop ? 1.4 : 0.18) + Math.random() * (burst ? 1.9 : 1.1),
-      spin: Math.random() * Math.PI,
-      rotSpeed: state.reducedMotion ? 0 : (Math.random() * 0.18 + 0.06) * (Math.random() < 0.5 ? -1 : 1),
-      sway: state.reducedMotion ? 0 : 0.5 + Math.random() * 2.8,
-      wave: Math.random() * Math.PI * 2,
-      layer,
-      size: 5 + Math.random() * (burst ? 14 : 10),
-      life: (burst ? 3100 : 2400) + Math.random() * 1500,
-      maxLife: burst ? 4600 : 3900,
-    });
+    state.petals.push(acquirePetal(burst));
   }
-  if (state.petals.length > 260) state.petals.splice(0, state.petals.length - 260);
+  trimActivePetals();
 }
 
 function onInputDown(event) {
@@ -2369,6 +2477,8 @@ function updateTimedEffects(dt) {
     if (fx.life > 0) {
       state.effects[write] = fx;
       write += 1;
+    } else {
+      releaseEffect(fx);
     }
   }
   state.effects.length = write;
@@ -2387,6 +2497,8 @@ function updatePetals(dt) {
     if (petal.life > 0 && petal.x > -110 && petal.y < 650) {
       state.petals[write] = petal;
       write += 1;
+    } else {
+      releasePetal(petal);
     }
   }
   state.petals.length = write;
