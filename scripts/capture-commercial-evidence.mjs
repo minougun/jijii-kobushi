@@ -157,7 +157,7 @@ try {
 
   await withPage(browser, { width: 390, height: 844 }, async (page) => {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
-    await page.locator("#portraitHint").waitFor({ state: "visible" });
+    await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
     await screenshot(page, "04-mobile-portrait-hint.png");
   });
 

@@ -547,6 +547,14 @@ function isMobileLikeViewport() {
   return window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
 }
 
+function shouldUseDefaultMobileLandscape() {
+  return window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches;
+}
+
+function syncMobileLandscapeDefault() {
+  document.documentElement.classList.toggle("mobileLandscapeDefault", shouldUseDefaultMobileLandscape());
+}
+
 function resetNoteProgress() {
   state.nextUnresolvedIndex = 0;
   state.resolvedNoteCount = 0;
@@ -617,6 +625,7 @@ function updatePortraitHint() {
   if (!dom.portraitHint) return;
   const shouldShow =
     state.phase === "opening" &&
+    !shouldUseDefaultMobileLandscape() &&
     !state.portraitHintDismissed &&
     window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches &&
     !window.matchMedia("(display-mode: fullscreen)").matches;
@@ -629,12 +638,21 @@ function syncViewportVars() {
   document.documentElement.style.setProperty("--app-vh", `${window.innerHeight}px`);
 }
 
-function requestLandscapeOrientation() {
+async function requestLandscapeOrientation() {
   const phoneLike = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+  if (!phoneLike) return;
+  if (!document.fullscreenElement && typeof document.documentElement.requestFullscreen === "function") {
+    try {
+      await document.documentElement.requestFullscreen({ navigationUI: "hide" });
+    } catch {
+    }
+  }
   const lock = window.screen?.orientation?.lock;
-  if (!phoneLike || typeof lock !== "function") return;
-  lock.call(window.screen.orientation, "landscape").catch(() => {
-  });
+  if (typeof lock !== "function") return;
+  try {
+    await lock.call(window.screen.orientation, "landscape");
+  } catch {
+  }
 }
 
 function save() {
@@ -2920,16 +2938,19 @@ if (reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener("ch
 else reducedMotionQuery.addListener?.(handleReducedMotionChange);
 window.addEventListener("resize", () => {
   syncViewportVars();
+  syncMobileLandscapeDefault();
   resizeCanvasForDpr();
   updatePortraitHint();
 });
 window.visualViewport?.addEventListener("resize", () => {
   syncViewportVars();
+  syncMobileLandscapeDefault();
   resizeCanvasForDpr();
   updatePortraitHint();
 });
 window.addEventListener("orientationchange", () => {
   syncViewportVars();
+  syncMobileLandscapeDefault();
   resizeCanvasForDpr();
   updatePortraitHint();
 });
@@ -2952,6 +2973,7 @@ dom.portraitDismiss?.addEventListener("click", () => {
 
 async function boot() {
   syncViewportVars();
+  syncMobileLandscapeDefault();
   syncSettings();
   updatePortraitHint();
   if (dom.helpGuide && !safeGetStorage("jiiKobushi:onboarding:v1", "load")) {

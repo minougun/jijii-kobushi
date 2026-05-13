@@ -1,7 +1,8 @@
 import { execFileSync } from "node:child_process";
 
 const DEFAULT_BASE_URL = "https://minougun.github.io/jijii-kobushi/";
-const EXPECTED_MAIN_TOKEN = "20260513-audioclock1";
+const EXPECTED_MAIN_TOKEN = "20260514-mobilelandscape1";
+const EXPECTED_STYLE_TOKEN = "20260514-mobilelandscape1";
 const EXPECTED_AUDIO_TOKEN = "20260513-audioclock1";
 const EXPECTED_STAGE_TOKEN = "20260513-rhythmstrict1";
 const EXPECTED_RHYTHM_TOKEN = "20260513-mashoffset1";
@@ -34,6 +35,7 @@ assert(version.commit === expectedCommit, `production commit mismatch: expected 
 
 const indexHtml = await fetchText(baseUrl);
 assert(indexHtml.includes(`src/main.js?v=${EXPECTED_MAIN_TOKEN}`), "index.html does not reference the expected main.js cache token");
+assert(indexHtml.includes(`src/styles.css?v=${EXPECTED_STYLE_TOKEN}`), "index.html does not reference the expected styles.css cache token");
 
 const mainUrl = new URL(`src/main.js?v=${EXPECTED_MAIN_TOKEN}`, baseUrl).toString();
 const mainJs = await fetchText(mainUrl);

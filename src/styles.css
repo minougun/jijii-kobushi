@@ -2580,6 +2580,105 @@ html.show-help-popout .helpGuide[open] {
   }
 }
 
+html.mobileLandscapeDefault,
+html.mobileLandscapeDefault body {
+  width: 100%;
+  min-height: 100svh;
+  height: 100svh;
+  overflow: hidden;
+  background: #171717;
+}
+
+html.mobileLandscapeDefault .shell {
+  --rotated-vw: 100svh;
+  --rotated-vh: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--rotated-vw);
+  min-height: var(--rotated-vh);
+  height: var(--rotated-vh);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #171717;
+  transform: rotate(90deg) translateY(-100%);
+  transform-origin: top left;
+}
+
+html.mobileLandscapeDefault .portraitHint:not([hidden]) {
+  display: none;
+}
+
+html.mobileLandscapeDefault:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .shell {
+  --game-w: min(var(--rotated-vw), calc(var(--rotated-vh) * 16 / 9));
+  --game-h: min(var(--rotated-vh), calc(var(--rotated-vw) * 9 / 16));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--game-h);
+  align-content: center;
+  justify-items: center;
+  gap: 0;
+}
+
+html.mobileLandscapeDefault:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell,
+html.mobileLandscapeDefault[data-phase="battle"] .shell {
+  --hud-h: 58px;
+  --tap-pad-h: clamp(98px, 28vw, 118px);
+  --tap-button-size: min(82px, calc(var(--tap-pad-h) - 18px));
+  --game-w: min(var(--rotated-vw), calc((var(--rotated-vh) - var(--hud-h) - var(--tap-pad-h)) * 16 / 9));
+  --game-h: min(calc(var(--rotated-vh) - var(--hud-h) - var(--tap-pad-h)), calc(var(--rotated-vw) * 9 / 16));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--hud-h) var(--game-h) var(--tap-pad-h);
+  align-content: center;
+  justify-items: center;
+  gap: 0;
+}
+
+html.mobileLandscapeDefault:is([data-phase="intro"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .shell {
+  --game-w: min(var(--rotated-vw), calc((var(--rotated-vh) - var(--hud-h)) * 16 / 9));
+  --game-h: min(calc(var(--rotated-vh) - var(--hud-h)), calc(var(--rotated-vw) * 9 / 16));
+  grid-template-rows: var(--hud-h) var(--game-h);
+}
+
+html.mobileLandscapeDefault:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) .gameSurface,
+html.mobileLandscapeDefault:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) .gameSurface {
+  position: relative;
+  top: auto;
+  left: auto;
+  grid-row: auto;
+  width: var(--game-w);
+  height: var(--game-h);
+  min-height: 0;
+  max-width: var(--rotated-vw);
+  max-height: var(--rotated-vh);
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  transform: none;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+html.mobileLandscapeDefault:is([data-phase="opening"], [data-phase="title"], [data-phase="endingVideo"]) canvas,
+html.mobileLandscapeDefault:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"], [data-phase="defeat"], [data-phase="results"]) canvas {
+  display: block !important;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html.mobileLandscapeDefault[data-phase="battle"] .mobileTapPad {
+  grid-row: 3;
+  display: flex;
+  width: var(--tap-button-size);
+  min-height: var(--tap-button-size);
+  align-self: end;
+  justify-self: center;
+  margin-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+}
+
 html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .topbar {
   left: auto;
   width: min(var(--game-w, 100vw), 100vw);
@@ -2814,6 +2913,35 @@ html[data-phase="results"] .resultStageRow {
 
 html[data-phase="defeat"] .settings[open] {
   display: block;
+}
+
+html.mobileLandscapeDefault[data-phase="results"] .shell {
+  --rotated-vw: 100svh;
+  --rotated-vh: 100vw;
+  --hud-h: 58px;
+  --game-w: min(var(--rotated-vw), calc((var(--rotated-vh) - var(--hud-h)) * 16 / 9));
+  --game-h: min(calc(var(--rotated-vh) - var(--hud-h)), calc(var(--rotated-vw) * 9 / 16));
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--rotated-vw);
+  min-height: var(--rotated-vh);
+  height: var(--rotated-vh);
+  display: grid;
+  grid-template-rows: var(--hud-h) var(--game-h);
+  align-content: center;
+  justify-items: center;
+  transform: rotate(90deg) translateY(-100%);
+  transform-origin: top left;
+}
+
+html.mobileLandscapeDefault[data-phase="results"] .gameSurface {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: var(--game-w);
+  height: var(--game-h);
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

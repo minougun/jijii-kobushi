@@ -203,10 +203,19 @@ try {
 
   await withPage(browser, { width: 390, height: 844 }, async (page) => {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
-    const hint = page.locator("#portraitHint");
-    await hint.waitFor({ state: "visible" });
-    const display = await hint.evaluate((element) => getComputedStyle(element).display);
-    assert(display !== "none", "portrait hint is hidden by CSS");
+    await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
+    const shellMetrics = await page.locator(".shell").evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        offsetWidth: element.offsetWidth,
+        offsetHeight: element.offsetHeight,
+        transform: style.transform,
+      };
+    });
+    assert(shellMetrics.offsetWidth > shellMetrics.offsetHeight, `mobile portrait did not use landscape layout: ${JSON.stringify(shellMetrics)}`);
+    assert(shellMetrics.transform !== "none", `mobile landscape shell is not rotated: ${JSON.stringify(shellMetrics)}`);
+    const hintVisible = await page.locator("#portraitHint").evaluate((element) => !element.hidden && getComputedStyle(element).display !== "none");
+    assert(!hintVisible, "portrait hint should not cover default landscape display");
   });
 
   await withPage(browser, { width: 844, height: 390 }, async (page) => {
@@ -263,14 +272,10 @@ try {
   });
 
   await withPage(browser, { width: 390, height: 844 }, async (page) => {
-    await page.addInitScript(() => {
-      Storage.prototype.setItem = () => {
-        throw new DOMException("forced portrait save failure", "QuotaExceededError");
-      };
-    });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
-    await page.locator("#portraitDismiss").click();
-    await assertStorageFailureAnnounced(page);
+    await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
+    const hintVisible = await page.locator("#portraitHint").evaluate((element) => !element.hidden && getComputedStyle(element).display !== "none");
+    assert(!hintVisible, "portrait hint should stay hidden when mobile landscape is default");
   });
 
   await withPage(browser, { width: 1280, height: 720 }, async (page) => {
