@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage6-redgate",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T14:40:54.239Z",
-  "sourceGitCommit": "90a01cee4ea6d075012b3bddbeffd97d3daa3125",
+  "generatedAt": "2026-05-13T15:00:01.788Z",
+  "sourceGitCommit": "ff005841ba76af4fc7bd3aea9f9140929254f429",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
@@ -2461,15 +2461,15 @@
       {
         "id": "easy-0159",
         "type": "hold",
-        "timeMs": 136412,
+        "timeMs": 136646,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 207,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 208,
         "finisher": true
       },
       {
@@ -2729,21 +2729,21 @@
       {
         "id": "normal-0012",
         "type": "hold",
-        "timeMs": 8091,
+        "timeMs": 8443,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 15,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 16,
         "finisher": false
       },
       {
         "id": "normal-0013",
         "type": "tap",
-        "timeMs": 9029,
+        "timeMs": 9146,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -3289,21 +3289,21 @@
       {
         "id": "normal-0052",
         "type": "hold",
-        "timeMs": 38091,
+        "timeMs": 38443,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 79,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 80,
         "finisher": false
       },
       {
         "id": "normal-0053",
         "type": "tap",
-        "timeMs": 39029,
+        "timeMs": 39146,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -3583,21 +3583,21 @@
       {
         "id": "normal-0073",
         "type": "hold",
-        "timeMs": 53091,
+        "timeMs": 53443,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 111,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 112,
         "finisher": false
       },
       {
         "id": "normal-0074",
         "type": "tap",
-        "timeMs": 54029,
+        "timeMs": 54146,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -4157,21 +4157,21 @@
       {
         "id": "normal-0114",
         "type": "hold",
-        "timeMs": 83091,
+        "timeMs": 83443,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 175,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 176,
         "finisher": false
       },
       {
         "id": "normal-0115",
         "type": "tap",
-        "timeMs": 84029,
+        "timeMs": 84146,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -4437,21 +4437,21 @@
       {
         "id": "normal-0134",
         "type": "hold",
-        "timeMs": 98091,
+        "timeMs": 98443,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 207,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 208,
         "finisher": false
       },
       {
         "id": "normal-0135",
         "type": "tap",
-        "timeMs": 99029,
+        "timeMs": 99146,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -4465,7 +4465,7 @@
       {
         "id": "normal-0136",
         "type": "tap",
-        "timeMs": 99263,
+        "timeMs": 99381,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -4479,7 +4479,7 @@
       {
         "id": "normal-0137",
         "type": "tap",
-        "timeMs": 99498,
+        "timeMs": 99615,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -5011,21 +5011,21 @@
       {
         "id": "normal-0175",
         "type": "hold",
-        "timeMs": 128091,
+        "timeMs": 128443,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 271,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 272,
         "finisher": true
       },
       {
         "id": "normal-0176",
         "type": "tap",
-        "timeMs": 129029,
+        "timeMs": 129146,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -5405,21 +5405,21 @@
       {
         "id": "hard-0009",
         "type": "hold",
-        "timeMs": 6451,
+        "timeMs": 6568,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 15,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 16,
         "finisher": false
       },
       {
         "id": "hard-0010",
         "type": "tap",
-        "timeMs": 7154,
+        "timeMs": 7271,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -5433,7 +5433,7 @@
       {
         "id": "hard-0011",
         "type": "tap",
-        "timeMs": 7388,
+        "timeMs": 7506,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -5488,30 +5488,30 @@
       },
       {
         "id": "hard-0015",
-        "type": "hold",
-        "timeMs": 11841,
-        "durationMs": 469,
-        "targetCount": 0,
-        "phraseLabel": "追分決着",
-        "callText": "決着返し",
-        "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 31,
-        "finisher": false
-      },
-      {
-        "id": "hard-0016",
         "type": "tap",
-        "timeMs": 12545,
+        "timeMs": 11607,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
         "callText": "決着返し",
         "responseText": "決着返し",
         "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 33,
+        "phraseRole": "kobushi",
+        "phraseStep": 30,
+        "finisher": false
+      },
+      {
+        "id": "hard-0016",
+        "type": "hold",
+        "timeMs": 12193,
+        "durationMs": 469,
+        "targetCount": 0,
+        "phraseLabel": "追分決着",
+        "callText": "親分の追分",
+        "responseText": "決着返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 32,
         "finisher": false
       },
       {
@@ -5600,30 +5600,30 @@
       },
       {
         "id": "hard-0023",
-        "type": "hold",
-        "timeMs": 17466,
-        "durationMs": 469,
-        "targetCount": 0,
-        "phraseLabel": "追分決着",
-        "callText": "決着返し",
-        "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 47,
-        "finisher": false
-      },
-      {
-        "id": "hard-0024",
         "type": "tap",
-        "timeMs": 18170,
+        "timeMs": 17232,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
         "callText": "決着返し",
         "responseText": "決着返し",
         "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 49,
+        "phraseRole": "kobushi",
+        "phraseStep": 46,
+        "finisher": false
+      },
+      {
+        "id": "hard-0024",
+        "type": "hold",
+        "timeMs": 17818,
+        "durationMs": 469,
+        "targetCount": 0,
+        "phraseLabel": "追分決着",
+        "callText": "親分の追分",
+        "responseText": "決着返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 48,
         "finisher": false
       },
       {
@@ -5712,30 +5712,30 @@
       },
       {
         "id": "hard-0031",
-        "type": "hold",
-        "timeMs": 23209,
-        "durationMs": 469,
-        "targetCount": 0,
-        "phraseLabel": "追分決着",
-        "callText": "決着返し",
-        "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 63,
-        "finisher": false
-      },
-      {
-        "id": "hard-0032",
         "type": "tap",
-        "timeMs": 23912,
+        "timeMs": 22974,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
         "callText": "決着返し",
         "responseText": "決着返し",
         "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 65,
+        "phraseRole": "kobushi",
+        "phraseStep": 62,
+        "finisher": false
+      },
+      {
+        "id": "hard-0032",
+        "type": "hold",
+        "timeMs": 23443,
+        "durationMs": 469,
+        "targetCount": 0,
+        "phraseLabel": "追分決着",
+        "callText": "親分の追分",
+        "responseText": "決着返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 64,
         "finisher": false
       },
       {
@@ -5811,21 +5811,21 @@
       {
         "id": "hard-0038",
         "type": "hold",
-        "timeMs": 28599,
+        "timeMs": 28716,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 79,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 80,
         "finisher": false
       },
       {
         "id": "hard-0039",
         "type": "tap",
-        "timeMs": 29302,
+        "timeMs": 29420,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6025,11 +6025,11 @@
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 111,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 112,
         "finisher": false
       },
       {
@@ -6137,11 +6137,11 @@
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 127,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 128,
         "finisher": false
       },
       {
@@ -6245,21 +6245,21 @@
       {
         "id": "hard-0069",
         "type": "hold",
-        "timeMs": 50982,
+        "timeMs": 51216,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 143,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 144,
         "finisher": false
       },
       {
         "id": "hard-0070",
         "type": "tap",
-        "timeMs": 51685,
+        "timeMs": 51920,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6273,7 +6273,7 @@
       {
         "id": "hard-0071",
         "type": "tap",
-        "timeMs": 52037,
+        "timeMs": 52154,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6287,7 +6287,7 @@
       {
         "id": "hard-0072",
         "type": "tap",
-        "timeMs": 52271,
+        "timeMs": 52388,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6301,7 +6301,7 @@
       {
         "id": "hard-0073",
         "type": "mash",
-        "timeMs": 52506,
+        "timeMs": 52623,
         "durationMs": 1172,
         "targetCount": 7,
         "phraseLabel": "追分決着",
@@ -6315,7 +6315,7 @@
       {
         "id": "hard-0074",
         "type": "tap",
-        "timeMs": 54146,
+        "timeMs": 54263,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6357,21 +6357,21 @@
       {
         "id": "hard-0077",
         "type": "hold",
-        "timeMs": 56607,
+        "timeMs": 56841,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 159,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 160,
         "finisher": false
       },
       {
         "id": "hard-0078",
         "type": "tap",
-        "timeMs": 57310,
+        "timeMs": 57545,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6385,7 +6385,7 @@
       {
         "id": "hard-0079",
         "type": "tap",
-        "timeMs": 57662,
+        "timeMs": 57779,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6473,11 +6473,11 @@
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 175,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 176,
         "finisher": false
       },
       {
@@ -6580,22 +6580,36 @@
       },
       {
         "id": "hard-0093",
-        "type": "hold",
-        "timeMs": 67857,
-        "durationMs": 469,
+        "type": "tap",
+        "timeMs": 67623,
+        "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
         "callText": "決着返し",
         "responseText": "決着返し",
         "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 191,
+        "phraseRole": "kobushi",
+        "phraseStep": 190,
         "finisher": false
       },
       {
         "id": "hard-0094",
+        "type": "hold",
+        "timeMs": 67974,
+        "durationMs": 469,
+        "targetCount": 0,
+        "phraseLabel": "追分決着",
+        "callText": "親分の追分",
+        "responseText": "決着返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 192,
+        "finisher": false
+      },
+      {
+        "id": "hard-0095",
         "type": "tap",
-        "timeMs": 68560,
+        "timeMs": 68677,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6607,9 +6621,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0095",
+        "id": "hard-0096",
         "type": "tap",
-        "timeMs": 68795,
+        "timeMs": 68912,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6621,7 +6635,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0096",
+        "id": "hard-0097",
         "type": "mash",
         "timeMs": 69146,
         "durationMs": 1172,
@@ -6635,7 +6649,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0097",
+        "id": "hard-0098",
         "type": "tap",
         "timeMs": 70787,
         "durationMs": 0,
@@ -6649,7 +6663,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0098",
+        "id": "hard-0099",
         "type": "tap",
         "timeMs": 71021,
         "durationMs": 0,
@@ -6663,7 +6677,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0099",
+        "id": "hard-0100",
         "type": "mash",
         "timeMs": 71373,
         "durationMs": 1172,
@@ -6677,7 +6691,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0100",
+        "id": "hard-0101",
         "type": "tap",
         "timeMs": 73013,
         "durationMs": 0,
@@ -6691,21 +6705,21 @@
         "finisher": false
       },
       {
-        "id": "hard-0101",
+        "id": "hard-0102",
         "type": "hold",
         "timeMs": 73482,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 207,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 208,
         "finisher": false
       },
       {
-        "id": "hard-0102",
+        "id": "hard-0103",
         "type": "tap",
         "timeMs": 74185,
         "durationMs": 0,
@@ -6719,7 +6733,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0103",
+        "id": "hard-0104",
         "type": "tap",
         "timeMs": 74420,
         "durationMs": 0,
@@ -6733,7 +6747,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0104",
+        "id": "hard-0105",
         "type": "tap",
         "timeMs": 74654,
         "durationMs": 0,
@@ -6747,7 +6761,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0105",
+        "id": "hard-0106",
         "type": "mash",
         "timeMs": 74888,
         "durationMs": 1172,
@@ -6761,7 +6775,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0106",
+        "id": "hard-0107",
         "type": "tap",
         "timeMs": 76529,
         "durationMs": 0,
@@ -6775,7 +6789,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0107",
+        "id": "hard-0108",
         "type": "tap",
         "timeMs": 76763,
         "durationMs": 0,
@@ -6789,7 +6803,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0108",
+        "id": "hard-0109",
         "type": "mash",
         "timeMs": 76998,
         "durationMs": 1172,
@@ -6803,7 +6817,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0109",
+        "id": "hard-0110",
         "type": "tap",
         "timeMs": 78638,
         "durationMs": 0,
@@ -6817,23 +6831,37 @@
         "finisher": false
       },
       {
-        "id": "hard-0110",
-        "type": "hold",
-        "timeMs": 79107,
-        "durationMs": 469,
+        "id": "hard-0111",
+        "type": "tap",
+        "timeMs": 78873,
+        "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
         "callText": "決着返し",
         "responseText": "決着返し",
         "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 223,
+        "phraseRole": "kobushi",
+        "phraseStep": 222,
         "finisher": false
       },
       {
-        "id": "hard-0111",
+        "id": "hard-0112",
+        "type": "hold",
+        "timeMs": 79224,
+        "durationMs": 469,
+        "targetCount": 0,
+        "phraseLabel": "追分決着",
+        "callText": "親分の追分",
+        "responseText": "決着返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 224,
+        "finisher": false
+      },
+      {
+        "id": "hard-0113",
         "type": "tap",
-        "timeMs": 79810,
+        "timeMs": 79927,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6845,9 +6873,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0112",
+        "id": "hard-0114",
         "type": "tap",
-        "timeMs": 80045,
+        "timeMs": 80162,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6859,7 +6887,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0113",
+        "id": "hard-0115",
         "type": "mash",
         "timeMs": 80396,
         "durationMs": 1172,
@@ -6873,7 +6901,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0114",
+        "id": "hard-0116",
         "type": "tap",
         "timeMs": 82037,
         "durationMs": 0,
@@ -6887,7 +6915,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0115",
+        "id": "hard-0117",
         "type": "mash",
         "timeMs": 82388,
         "durationMs": 1172,
@@ -6901,7 +6929,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0116",
+        "id": "hard-0118",
         "type": "tap",
         "timeMs": 84029,
         "durationMs": 0,
@@ -6915,7 +6943,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0117",
+        "id": "hard-0119",
         "type": "tap",
         "timeMs": 84263,
         "durationMs": 0,
@@ -6929,23 +6957,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0118",
+        "id": "hard-0120",
         "type": "hold",
-        "timeMs": 84615,
+        "timeMs": 84732,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 239,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 240,
         "finisher": false
       },
       {
-        "id": "hard-0119",
+        "id": "hard-0121",
         "type": "tap",
-        "timeMs": 85318,
+        "timeMs": 85435,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6957,9 +6985,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0120",
+        "id": "hard-0122",
         "type": "tap",
-        "timeMs": 85552,
+        "timeMs": 85670,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -6971,7 +6999,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0121",
+        "id": "hard-0123",
         "type": "mash",
         "timeMs": 86021,
         "durationMs": 1172,
@@ -6985,7 +7013,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0122",
+        "id": "hard-0124",
         "type": "tap",
         "timeMs": 87662,
         "durationMs": 0,
@@ -6999,7 +7027,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0123",
+        "id": "hard-0125",
         "type": "mash",
         "timeMs": 88013,
         "durationMs": 1172,
@@ -7013,7 +7041,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0124",
+        "id": "hard-0126",
         "type": "tap",
         "timeMs": 89654,
         "durationMs": 0,
@@ -7027,7 +7055,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0125",
+        "id": "hard-0127",
         "type": "tap",
         "timeMs": 89888,
         "durationMs": 0,
@@ -7041,23 +7069,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0126",
+        "id": "hard-0128",
         "type": "hold",
-        "timeMs": 90240,
+        "timeMs": 90357,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 255,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 256,
         "finisher": false
       },
       {
-        "id": "hard-0127",
+        "id": "hard-0129",
         "type": "tap",
-        "timeMs": 90943,
+        "timeMs": 91060,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7069,9 +7097,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0128",
+        "id": "hard-0130",
         "type": "tap",
-        "timeMs": 91177,
+        "timeMs": 91295,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7083,9 +7111,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0129",
+        "id": "hard-0131",
         "type": "tap",
-        "timeMs": 91412,
+        "timeMs": 91529,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7097,9 +7125,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0130",
+        "id": "hard-0132",
         "type": "mash",
-        "timeMs": 91646,
+        "timeMs": 91763,
         "durationMs": 1172,
         "targetCount": 7,
         "phraseLabel": "追分決着",
@@ -7111,9 +7139,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0131",
+        "id": "hard-0133",
         "type": "tap",
-        "timeMs": 93287,
+        "timeMs": 93404,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7125,7 +7153,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0132",
+        "id": "hard-0134",
         "type": "mash",
         "timeMs": 93638,
         "durationMs": 1172,
@@ -7139,7 +7167,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0133",
+        "id": "hard-0135",
         "type": "tap",
         "timeMs": 95279,
         "durationMs": 0,
@@ -7153,7 +7181,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0134",
+        "id": "hard-0136",
         "type": "tap",
         "timeMs": 95513,
         "durationMs": 0,
@@ -7167,23 +7195,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0135",
+        "id": "hard-0137",
         "type": "hold",
-        "timeMs": 95865,
+        "timeMs": 95982,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 271,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 272,
         "finisher": false
       },
       {
-        "id": "hard-0136",
+        "id": "hard-0138",
         "type": "tap",
-        "timeMs": 96568,
+        "timeMs": 96685,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7195,9 +7223,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0137",
+        "id": "hard-0139",
         "type": "tap",
-        "timeMs": 96802,
+        "timeMs": 96920,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7209,7 +7237,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0138",
+        "id": "hard-0140",
         "type": "mash",
         "timeMs": 97271,
         "durationMs": 1172,
@@ -7223,7 +7251,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0139",
+        "id": "hard-0141",
         "type": "tap",
         "timeMs": 98912,
         "durationMs": 0,
@@ -7237,7 +7265,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0140",
+        "id": "hard-0142",
         "type": "mash",
         "timeMs": 99146,
         "durationMs": 1172,
@@ -7251,7 +7279,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0141",
+        "id": "hard-0143",
         "type": "tap",
         "timeMs": 100787,
         "durationMs": 0,
@@ -7265,7 +7293,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0142",
+        "id": "hard-0144",
         "type": "tap",
         "timeMs": 101021,
         "durationMs": 0,
@@ -7279,37 +7307,37 @@
         "finisher": false
       },
       {
-        "id": "hard-0143",
-        "type": "hold",
-        "timeMs": 101490,
-        "durationMs": 469,
-        "targetCount": 0,
-        "phraseLabel": "追分決着",
-        "callText": "決着返し",
-        "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 287,
-        "finisher": false
-      },
-      {
-        "id": "hard-0144",
+        "id": "hard-0145",
         "type": "tap",
-        "timeMs": 102193,
+        "timeMs": 101256,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
         "callText": "決着返し",
         "responseText": "決着返し",
         "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 289,
+        "phraseRole": "kobushi",
+        "phraseStep": 286,
         "finisher": false
       },
       {
-        "id": "hard-0145",
+        "id": "hard-0146",
+        "type": "hold",
+        "timeMs": 101607,
+        "durationMs": 469,
+        "targetCount": 0,
+        "phraseLabel": "追分決着",
+        "callText": "親分の追分",
+        "responseText": "決着返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 288,
+        "finisher": false
+      },
+      {
+        "id": "hard-0147",
         "type": "tap",
-        "timeMs": 102427,
+        "timeMs": 102310,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7321,7 +7349,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0146",
+        "id": "hard-0148",
         "type": "mash",
         "timeMs": 102779,
         "durationMs": 1172,
@@ -7335,7 +7363,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0147",
+        "id": "hard-0149",
         "type": "tap",
         "timeMs": 104420,
         "durationMs": 0,
@@ -7349,7 +7377,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0148",
+        "id": "hard-0150",
         "type": "mash",
         "timeMs": 104771,
         "durationMs": 1172,
@@ -7363,7 +7391,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0149",
+        "id": "hard-0151",
         "type": "tap",
         "timeMs": 106412,
         "durationMs": 0,
@@ -7377,7 +7405,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0150",
+        "id": "hard-0152",
         "type": "tap",
         "timeMs": 106646,
         "durationMs": 0,
@@ -7391,23 +7419,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0151",
+        "id": "hard-0153",
         "type": "hold",
-        "timeMs": 106998,
+        "timeMs": 107115,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 303,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 304,
         "finisher": false
       },
       {
-        "id": "hard-0152",
+        "id": "hard-0154",
         "type": "tap",
-        "timeMs": 107701,
+        "timeMs": 107818,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7419,9 +7447,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0153",
+        "id": "hard-0155",
         "type": "tap",
-        "timeMs": 107935,
+        "timeMs": 108052,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7433,7 +7461,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0154",
+        "id": "hard-0156",
         "type": "mash",
         "timeMs": 108404,
         "durationMs": 1172,
@@ -7447,7 +7475,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0155",
+        "id": "hard-0157",
         "type": "tap",
         "timeMs": 110045,
         "durationMs": 0,
@@ -7461,7 +7489,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0156",
+        "id": "hard-0158",
         "type": "mash",
         "timeMs": 110396,
         "durationMs": 1172,
@@ -7475,7 +7503,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0157",
+        "id": "hard-0159",
         "type": "tap",
         "timeMs": 112037,
         "durationMs": 0,
@@ -7489,7 +7517,7 @@
         "finisher": false
       },
       {
-        "id": "hard-0158",
+        "id": "hard-0160",
         "type": "tap",
         "timeMs": 112271,
         "durationMs": 0,
@@ -7503,35 +7531,21 @@
         "finisher": false
       },
       {
-        "id": "hard-0159",
+        "id": "hard-0161",
         "type": "hold",
-        "timeMs": 112623,
+        "timeMs": 112857,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 319,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 320,
         "finisher": false
       },
       {
-        "id": "hard-0160",
-        "type": "tap",
-        "timeMs": 113326,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "追分決着",
-        "callText": "決着返し",
-        "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 321,
-        "finisher": true
-      },
-      {
-        "id": "hard-0161",
+        "id": "hard-0162",
         "type": "tap",
         "timeMs": 113560,
         "durationMs": 0,
@@ -7545,7 +7559,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0162",
+        "id": "hard-0163",
         "type": "tap",
         "timeMs": 113795,
         "durationMs": 0,
@@ -7559,7 +7573,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0163",
+        "id": "hard-0164",
         "type": "mash",
         "timeMs": 114029,
         "durationMs": 1172,
@@ -7573,7 +7587,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0164",
+        "id": "hard-0165",
         "type": "tap",
         "timeMs": 115670,
         "durationMs": 0,
@@ -7587,7 +7601,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0165",
+        "id": "hard-0166",
         "type": "tap",
         "timeMs": 115904,
         "durationMs": 0,
@@ -7601,7 +7615,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0166",
+        "id": "hard-0167",
         "type": "mash",
         "timeMs": 116138,
         "durationMs": 1172,
@@ -7615,7 +7629,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0167",
+        "id": "hard-0168",
         "type": "hold",
         "timeMs": 118013,
         "durationMs": 469,
@@ -7629,7 +7643,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0168",
+        "id": "hard-0169",
         "type": "hold",
         "timeMs": 118716,
         "durationMs": 469,
@@ -7643,7 +7657,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0169",
+        "id": "hard-0170",
         "type": "mash",
         "timeMs": 119537,
         "durationMs": 1172,
@@ -7657,7 +7671,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0170",
+        "id": "hard-0171",
         "type": "tap",
         "timeMs": 121177,
         "durationMs": 0,
@@ -7671,7 +7685,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0171",
+        "id": "hard-0172",
         "type": "tap",
         "timeMs": 121412,
         "durationMs": 0,
@@ -7685,7 +7699,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0172",
+        "id": "hard-0173",
         "type": "mash",
         "timeMs": 121646,
         "durationMs": 1172,
@@ -7699,7 +7713,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0173",
+        "id": "hard-0174",
         "type": "tap",
         "timeMs": 123287,
         "durationMs": 0,
@@ -7713,35 +7727,35 @@
         "finisher": true
       },
       {
-        "id": "hard-0174",
-        "type": "hold",
-        "timeMs": 123756,
-        "durationMs": 469,
-        "targetCount": 0,
-        "phraseLabel": "追分決着",
-        "callText": "決着返し",
-        "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 351,
-        "finisher": true
-      },
-      {
         "id": "hard-0175",
         "type": "tap",
-        "timeMs": 124459,
+        "timeMs": 123521,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
         "callText": "決着返し",
         "responseText": "決着返し",
         "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 353,
+        "phraseRole": "kobushi",
+        "phraseStep": 350,
         "finisher": true
       },
       {
         "id": "hard-0176",
+        "type": "hold",
+        "timeMs": 123990,
+        "durationMs": 469,
+        "targetCount": 0,
+        "phraseLabel": "追分決着",
+        "callText": "親分の追分",
+        "responseText": "決着返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 352,
+        "finisher": true
+      },
+      {
+        "id": "hard-0177",
         "type": "tap",
         "timeMs": 124693,
         "durationMs": 0,
@@ -7755,7 +7769,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0177",
+        "id": "hard-0178",
         "type": "mash",
         "timeMs": 125162,
         "durationMs": 1172,
@@ -7769,7 +7783,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0178",
+        "id": "hard-0179",
         "type": "tap",
         "timeMs": 126802,
         "durationMs": 0,
@@ -7783,7 +7797,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0179",
+        "id": "hard-0180",
         "type": "tap",
         "timeMs": 127037,
         "durationMs": 0,
@@ -7797,7 +7811,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0180",
+        "id": "hard-0181",
         "type": "mash",
         "timeMs": 127271,
         "durationMs": 1172,
@@ -7811,7 +7825,7 @@
         "finisher": true
       },
       {
-        "id": "hard-0181",
+        "id": "hard-0182",
         "type": "tap",
         "timeMs": 128912,
         "durationMs": 0,
@@ -7825,23 +7839,23 @@
         "finisher": true
       },
       {
-        "id": "hard-0182",
+        "id": "hard-0183",
         "type": "hold",
-        "timeMs": 129263,
+        "timeMs": 129498,
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 367,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 368,
         "finisher": true
       },
       {
-        "id": "hard-0183",
+        "id": "hard-0184",
         "type": "tap",
-        "timeMs": 129966,
+        "timeMs": 130201,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7853,9 +7867,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0184",
+        "id": "hard-0185",
         "type": "tap",
-        "timeMs": 130318,
+        "timeMs": 130435,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7867,9 +7881,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0185",
+        "id": "hard-0186",
         "type": "tap",
-        "timeMs": 130552,
+        "timeMs": 130670,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -7881,9 +7895,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0186",
+        "id": "hard-0187",
         "type": "mash",
-        "timeMs": 130787,
+        "timeMs": 130904,
         "durationMs": 1172,
         "targetCount": 7,
         "phraseLabel": "追分決着",
@@ -7895,23 +7909,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0187",
-        "type": "tap",
-        "timeMs": 132427,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "追分決着",
-        "callText": "決着返し",
-        "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "kobushi",
-        "phraseStep": 375,
-        "finisher": true
-      },
-      {
         "id": "hard-0188",
         "type": "tap",
-        "timeMs": 132662,
+        "timeMs": 132545,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "追分決着",
@@ -8041,11 +8041,11 @@
         "durationMs": 469,
         "targetCount": 0,
         "phraseLabel": "追分決着",
-        "callText": "決着返し",
+        "callText": "親分の追分",
         "responseText": "決着返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 399,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 400,
         "finisher": true
       },
       {
@@ -10407,15 +10407,15 @@
           {
             "id": "easy-0159",
             "type": "hold",
-            "timeMs": 136412,
+            "timeMs": 136646,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 207,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 208,
             "finisher": true
           },
           {
@@ -10675,21 +10675,21 @@
           {
             "id": "normal-0012",
             "type": "hold",
-            "timeMs": 8091,
+            "timeMs": 8443,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 15,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 16,
             "finisher": false
           },
           {
             "id": "normal-0013",
             "type": "tap",
-            "timeMs": 9029,
+            "timeMs": 9146,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -11235,21 +11235,21 @@
           {
             "id": "normal-0052",
             "type": "hold",
-            "timeMs": 38091,
+            "timeMs": 38443,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 79,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 80,
             "finisher": false
           },
           {
             "id": "normal-0053",
             "type": "tap",
-            "timeMs": 39029,
+            "timeMs": 39146,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -11529,21 +11529,21 @@
           {
             "id": "normal-0073",
             "type": "hold",
-            "timeMs": 53091,
+            "timeMs": 53443,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 111,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 112,
             "finisher": false
           },
           {
             "id": "normal-0074",
             "type": "tap",
-            "timeMs": 54029,
+            "timeMs": 54146,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -12103,21 +12103,21 @@
           {
             "id": "normal-0114",
             "type": "hold",
-            "timeMs": 83091,
+            "timeMs": 83443,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 175,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 176,
             "finisher": false
           },
           {
             "id": "normal-0115",
             "type": "tap",
-            "timeMs": 84029,
+            "timeMs": 84146,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -12383,21 +12383,21 @@
           {
             "id": "normal-0134",
             "type": "hold",
-            "timeMs": 98091,
+            "timeMs": 98443,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 207,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 208,
             "finisher": false
           },
           {
             "id": "normal-0135",
             "type": "tap",
-            "timeMs": 99029,
+            "timeMs": 99146,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -12411,7 +12411,7 @@
           {
             "id": "normal-0136",
             "type": "tap",
-            "timeMs": 99263,
+            "timeMs": 99381,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -12425,7 +12425,7 @@
           {
             "id": "normal-0137",
             "type": "tap",
-            "timeMs": 99498,
+            "timeMs": 99615,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -12957,21 +12957,21 @@
           {
             "id": "normal-0175",
             "type": "hold",
-            "timeMs": 128091,
+            "timeMs": 128443,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 271,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 272,
             "finisher": true
           },
           {
             "id": "normal-0176",
             "type": "tap",
-            "timeMs": 129029,
+            "timeMs": 129146,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -13351,21 +13351,21 @@
           {
             "id": "hard-0009",
             "type": "hold",
-            "timeMs": 6451,
+            "timeMs": 6568,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 15,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 16,
             "finisher": false
           },
           {
             "id": "hard-0010",
             "type": "tap",
-            "timeMs": 7154,
+            "timeMs": 7271,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -13379,7 +13379,7 @@
           {
             "id": "hard-0011",
             "type": "tap",
-            "timeMs": 7388,
+            "timeMs": 7506,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -13434,30 +13434,30 @@
           },
           {
             "id": "hard-0015",
-            "type": "hold",
-            "timeMs": 11841,
-            "durationMs": 469,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 31,
-            "finisher": false
-          },
-          {
-            "id": "hard-0016",
             "type": "tap",
-            "timeMs": 12545,
+            "timeMs": 11607,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "answer",
-            "phraseStep": 33,
+            "phraseRole": "kobushi",
+            "phraseStep": 30,
+            "finisher": false
+          },
+          {
+            "id": "hard-0016",
+            "type": "hold",
+            "timeMs": 12193,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 32,
             "finisher": false
           },
           {
@@ -13546,30 +13546,30 @@
           },
           {
             "id": "hard-0023",
-            "type": "hold",
-            "timeMs": 17466,
-            "durationMs": 469,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 47,
-            "finisher": false
-          },
-          {
-            "id": "hard-0024",
             "type": "tap",
-            "timeMs": 18170,
+            "timeMs": 17232,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "answer",
-            "phraseStep": 49,
+            "phraseRole": "kobushi",
+            "phraseStep": 46,
+            "finisher": false
+          },
+          {
+            "id": "hard-0024",
+            "type": "hold",
+            "timeMs": 17818,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 48,
             "finisher": false
           },
           {
@@ -13658,30 +13658,30 @@
           },
           {
             "id": "hard-0031",
-            "type": "hold",
-            "timeMs": 23209,
-            "durationMs": 469,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 63,
-            "finisher": false
-          },
-          {
-            "id": "hard-0032",
             "type": "tap",
-            "timeMs": 23912,
+            "timeMs": 22974,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "answer",
-            "phraseStep": 65,
+            "phraseRole": "kobushi",
+            "phraseStep": 62,
+            "finisher": false
+          },
+          {
+            "id": "hard-0032",
+            "type": "hold",
+            "timeMs": 23443,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 64,
             "finisher": false
           },
           {
@@ -13757,21 +13757,21 @@
           {
             "id": "hard-0038",
             "type": "hold",
-            "timeMs": 28599,
+            "timeMs": 28716,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 79,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 80,
             "finisher": false
           },
           {
             "id": "hard-0039",
             "type": "tap",
-            "timeMs": 29302,
+            "timeMs": 29420,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -13971,11 +13971,11 @@
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 111,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 112,
             "finisher": false
           },
           {
@@ -14083,11 +14083,11 @@
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 127,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 128,
             "finisher": false
           },
           {
@@ -14191,21 +14191,21 @@
           {
             "id": "hard-0069",
             "type": "hold",
-            "timeMs": 50982,
+            "timeMs": 51216,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 143,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 144,
             "finisher": false
           },
           {
             "id": "hard-0070",
             "type": "tap",
-            "timeMs": 51685,
+            "timeMs": 51920,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14219,7 +14219,7 @@
           {
             "id": "hard-0071",
             "type": "tap",
-            "timeMs": 52037,
+            "timeMs": 52154,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14233,7 +14233,7 @@
           {
             "id": "hard-0072",
             "type": "tap",
-            "timeMs": 52271,
+            "timeMs": 52388,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14247,7 +14247,7 @@
           {
             "id": "hard-0073",
             "type": "mash",
-            "timeMs": 52506,
+            "timeMs": 52623,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -14261,7 +14261,7 @@
           {
             "id": "hard-0074",
             "type": "tap",
-            "timeMs": 54146,
+            "timeMs": 54263,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14303,21 +14303,21 @@
           {
             "id": "hard-0077",
             "type": "hold",
-            "timeMs": 56607,
+            "timeMs": 56841,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 159,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 160,
             "finisher": false
           },
           {
             "id": "hard-0078",
             "type": "tap",
-            "timeMs": 57310,
+            "timeMs": 57545,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14331,7 +14331,7 @@
           {
             "id": "hard-0079",
             "type": "tap",
-            "timeMs": 57662,
+            "timeMs": 57779,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14419,11 +14419,11 @@
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 175,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 176,
             "finisher": false
           },
           {
@@ -14526,22 +14526,36 @@
           },
           {
             "id": "hard-0093",
-            "type": "hold",
-            "timeMs": 67857,
-            "durationMs": 469,
+            "type": "tap",
+            "timeMs": 67623,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 191,
+            "phraseRole": "kobushi",
+            "phraseStep": 190,
             "finisher": false
           },
           {
             "id": "hard-0094",
+            "type": "hold",
+            "timeMs": 67974,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 192,
+            "finisher": false
+          },
+          {
+            "id": "hard-0095",
             "type": "tap",
-            "timeMs": 68560,
+            "timeMs": 68677,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14553,9 +14567,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0095",
+            "id": "hard-0096",
             "type": "tap",
-            "timeMs": 68795,
+            "timeMs": 68912,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14567,7 +14581,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0096",
+            "id": "hard-0097",
             "type": "mash",
             "timeMs": 69146,
             "durationMs": 1172,
@@ -14581,7 +14595,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0097",
+            "id": "hard-0098",
             "type": "tap",
             "timeMs": 70787,
             "durationMs": 0,
@@ -14595,7 +14609,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0098",
+            "id": "hard-0099",
             "type": "tap",
             "timeMs": 71021,
             "durationMs": 0,
@@ -14609,7 +14623,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0099",
+            "id": "hard-0100",
             "type": "mash",
             "timeMs": 71373,
             "durationMs": 1172,
@@ -14623,7 +14637,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0100",
+            "id": "hard-0101",
             "type": "tap",
             "timeMs": 73013,
             "durationMs": 0,
@@ -14637,21 +14651,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0101",
+            "id": "hard-0102",
             "type": "hold",
             "timeMs": 73482,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 207,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 208,
             "finisher": false
           },
           {
-            "id": "hard-0102",
+            "id": "hard-0103",
             "type": "tap",
             "timeMs": 74185,
             "durationMs": 0,
@@ -14665,7 +14679,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0103",
+            "id": "hard-0104",
             "type": "tap",
             "timeMs": 74420,
             "durationMs": 0,
@@ -14679,7 +14693,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0104",
+            "id": "hard-0105",
             "type": "tap",
             "timeMs": 74654,
             "durationMs": 0,
@@ -14693,7 +14707,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0105",
+            "id": "hard-0106",
             "type": "mash",
             "timeMs": 74888,
             "durationMs": 1172,
@@ -14707,7 +14721,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0106",
+            "id": "hard-0107",
             "type": "tap",
             "timeMs": 76529,
             "durationMs": 0,
@@ -14721,7 +14735,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0107",
+            "id": "hard-0108",
             "type": "tap",
             "timeMs": 76763,
             "durationMs": 0,
@@ -14735,7 +14749,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0108",
+            "id": "hard-0109",
             "type": "mash",
             "timeMs": 76998,
             "durationMs": 1172,
@@ -14749,7 +14763,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0109",
+            "id": "hard-0110",
             "type": "tap",
             "timeMs": 78638,
             "durationMs": 0,
@@ -14763,23 +14777,37 @@
             "finisher": false
           },
           {
-            "id": "hard-0110",
-            "type": "hold",
-            "timeMs": 79107,
-            "durationMs": 469,
+            "id": "hard-0111",
+            "type": "tap",
+            "timeMs": 78873,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 223,
+            "phraseRole": "kobushi",
+            "phraseStep": 222,
             "finisher": false
           },
           {
-            "id": "hard-0111",
+            "id": "hard-0112",
+            "type": "hold",
+            "timeMs": 79224,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 224,
+            "finisher": false
+          },
+          {
+            "id": "hard-0113",
             "type": "tap",
-            "timeMs": 79810,
+            "timeMs": 79927,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14791,9 +14819,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0112",
+            "id": "hard-0114",
             "type": "tap",
-            "timeMs": 80045,
+            "timeMs": 80162,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14805,7 +14833,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0113",
+            "id": "hard-0115",
             "type": "mash",
             "timeMs": 80396,
             "durationMs": 1172,
@@ -14819,7 +14847,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0114",
+            "id": "hard-0116",
             "type": "tap",
             "timeMs": 82037,
             "durationMs": 0,
@@ -14833,7 +14861,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0115",
+            "id": "hard-0117",
             "type": "mash",
             "timeMs": 82388,
             "durationMs": 1172,
@@ -14847,7 +14875,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0116",
+            "id": "hard-0118",
             "type": "tap",
             "timeMs": 84029,
             "durationMs": 0,
@@ -14861,7 +14889,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0117",
+            "id": "hard-0119",
             "type": "tap",
             "timeMs": 84263,
             "durationMs": 0,
@@ -14875,23 +14903,23 @@
             "finisher": false
           },
           {
-            "id": "hard-0118",
+            "id": "hard-0120",
             "type": "hold",
-            "timeMs": 84615,
+            "timeMs": 84732,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 239,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 240,
             "finisher": false
           },
           {
-            "id": "hard-0119",
+            "id": "hard-0121",
             "type": "tap",
-            "timeMs": 85318,
+            "timeMs": 85435,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14903,9 +14931,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0120",
+            "id": "hard-0122",
             "type": "tap",
-            "timeMs": 85552,
+            "timeMs": 85670,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -14917,7 +14945,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0121",
+            "id": "hard-0123",
             "type": "mash",
             "timeMs": 86021,
             "durationMs": 1172,
@@ -14931,7 +14959,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0122",
+            "id": "hard-0124",
             "type": "tap",
             "timeMs": 87662,
             "durationMs": 0,
@@ -14945,7 +14973,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0123",
+            "id": "hard-0125",
             "type": "mash",
             "timeMs": 88013,
             "durationMs": 1172,
@@ -14959,7 +14987,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0124",
+            "id": "hard-0126",
             "type": "tap",
             "timeMs": 89654,
             "durationMs": 0,
@@ -14973,7 +15001,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0125",
+            "id": "hard-0127",
             "type": "tap",
             "timeMs": 89888,
             "durationMs": 0,
@@ -14987,23 +15015,23 @@
             "finisher": false
           },
           {
-            "id": "hard-0126",
+            "id": "hard-0128",
             "type": "hold",
-            "timeMs": 90240,
+            "timeMs": 90357,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 255,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 256,
             "finisher": false
           },
           {
-            "id": "hard-0127",
+            "id": "hard-0129",
             "type": "tap",
-            "timeMs": 90943,
+            "timeMs": 91060,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15015,9 +15043,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0128",
+            "id": "hard-0130",
             "type": "tap",
-            "timeMs": 91177,
+            "timeMs": 91295,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15029,9 +15057,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0129",
+            "id": "hard-0131",
             "type": "tap",
-            "timeMs": 91412,
+            "timeMs": 91529,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15043,9 +15071,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0130",
+            "id": "hard-0132",
             "type": "mash",
-            "timeMs": 91646,
+            "timeMs": 91763,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -15057,9 +15085,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0131",
+            "id": "hard-0133",
             "type": "tap",
-            "timeMs": 93287,
+            "timeMs": 93404,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15071,7 +15099,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0132",
+            "id": "hard-0134",
             "type": "mash",
             "timeMs": 93638,
             "durationMs": 1172,
@@ -15085,7 +15113,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0133",
+            "id": "hard-0135",
             "type": "tap",
             "timeMs": 95279,
             "durationMs": 0,
@@ -15099,7 +15127,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0134",
+            "id": "hard-0136",
             "type": "tap",
             "timeMs": 95513,
             "durationMs": 0,
@@ -15113,23 +15141,23 @@
             "finisher": false
           },
           {
-            "id": "hard-0135",
+            "id": "hard-0137",
             "type": "hold",
-            "timeMs": 95865,
+            "timeMs": 95982,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 271,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 272,
             "finisher": false
           },
           {
-            "id": "hard-0136",
+            "id": "hard-0138",
             "type": "tap",
-            "timeMs": 96568,
+            "timeMs": 96685,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15141,9 +15169,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0137",
+            "id": "hard-0139",
             "type": "tap",
-            "timeMs": 96802,
+            "timeMs": 96920,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15155,7 +15183,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0138",
+            "id": "hard-0140",
             "type": "mash",
             "timeMs": 97271,
             "durationMs": 1172,
@@ -15169,7 +15197,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0139",
+            "id": "hard-0141",
             "type": "tap",
             "timeMs": 98912,
             "durationMs": 0,
@@ -15183,7 +15211,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0140",
+            "id": "hard-0142",
             "type": "mash",
             "timeMs": 99146,
             "durationMs": 1172,
@@ -15197,7 +15225,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0141",
+            "id": "hard-0143",
             "type": "tap",
             "timeMs": 100787,
             "durationMs": 0,
@@ -15211,7 +15239,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0142",
+            "id": "hard-0144",
             "type": "tap",
             "timeMs": 101021,
             "durationMs": 0,
@@ -15225,37 +15253,37 @@
             "finisher": false
           },
           {
-            "id": "hard-0143",
-            "type": "hold",
-            "timeMs": 101490,
-            "durationMs": 469,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 287,
-            "finisher": false
-          },
-          {
-            "id": "hard-0144",
+            "id": "hard-0145",
             "type": "tap",
-            "timeMs": 102193,
+            "timeMs": 101256,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "answer",
-            "phraseStep": 289,
+            "phraseRole": "kobushi",
+            "phraseStep": 286,
             "finisher": false
           },
           {
-            "id": "hard-0145",
+            "id": "hard-0146",
+            "type": "hold",
+            "timeMs": 101607,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 288,
+            "finisher": false
+          },
+          {
+            "id": "hard-0147",
             "type": "tap",
-            "timeMs": 102427,
+            "timeMs": 102310,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15267,7 +15295,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0146",
+            "id": "hard-0148",
             "type": "mash",
             "timeMs": 102779,
             "durationMs": 1172,
@@ -15281,7 +15309,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0147",
+            "id": "hard-0149",
             "type": "tap",
             "timeMs": 104420,
             "durationMs": 0,
@@ -15295,7 +15323,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0148",
+            "id": "hard-0150",
             "type": "mash",
             "timeMs": 104771,
             "durationMs": 1172,
@@ -15309,7 +15337,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0149",
+            "id": "hard-0151",
             "type": "tap",
             "timeMs": 106412,
             "durationMs": 0,
@@ -15323,7 +15351,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0150",
+            "id": "hard-0152",
             "type": "tap",
             "timeMs": 106646,
             "durationMs": 0,
@@ -15337,23 +15365,23 @@
             "finisher": false
           },
           {
-            "id": "hard-0151",
+            "id": "hard-0153",
             "type": "hold",
-            "timeMs": 106998,
+            "timeMs": 107115,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 303,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 304,
             "finisher": false
           },
           {
-            "id": "hard-0152",
+            "id": "hard-0154",
             "type": "tap",
-            "timeMs": 107701,
+            "timeMs": 107818,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15365,9 +15393,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0153",
+            "id": "hard-0155",
             "type": "tap",
-            "timeMs": 107935,
+            "timeMs": 108052,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15379,7 +15407,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0154",
+            "id": "hard-0156",
             "type": "mash",
             "timeMs": 108404,
             "durationMs": 1172,
@@ -15393,7 +15421,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0155",
+            "id": "hard-0157",
             "type": "tap",
             "timeMs": 110045,
             "durationMs": 0,
@@ -15407,7 +15435,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0156",
+            "id": "hard-0158",
             "type": "mash",
             "timeMs": 110396,
             "durationMs": 1172,
@@ -15421,7 +15449,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0157",
+            "id": "hard-0159",
             "type": "tap",
             "timeMs": 112037,
             "durationMs": 0,
@@ -15435,7 +15463,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0158",
+            "id": "hard-0160",
             "type": "tap",
             "timeMs": 112271,
             "durationMs": 0,
@@ -15449,35 +15477,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0159",
+            "id": "hard-0161",
             "type": "hold",
-            "timeMs": 112623,
+            "timeMs": 112857,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 319,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 320,
             "finisher": false
           },
           {
-            "id": "hard-0160",
-            "type": "tap",
-            "timeMs": 113326,
-            "durationMs": 0,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "answer",
-            "phraseStep": 321,
-            "finisher": true
-          },
-          {
-            "id": "hard-0161",
+            "id": "hard-0162",
             "type": "tap",
             "timeMs": 113560,
             "durationMs": 0,
@@ -15491,7 +15505,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0162",
+            "id": "hard-0163",
             "type": "tap",
             "timeMs": 113795,
             "durationMs": 0,
@@ -15505,7 +15519,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0163",
+            "id": "hard-0164",
             "type": "mash",
             "timeMs": 114029,
             "durationMs": 1172,
@@ -15519,7 +15533,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0164",
+            "id": "hard-0165",
             "type": "tap",
             "timeMs": 115670,
             "durationMs": 0,
@@ -15533,7 +15547,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0165",
+            "id": "hard-0166",
             "type": "tap",
             "timeMs": 115904,
             "durationMs": 0,
@@ -15547,7 +15561,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0166",
+            "id": "hard-0167",
             "type": "mash",
             "timeMs": 116138,
             "durationMs": 1172,
@@ -15561,7 +15575,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0167",
+            "id": "hard-0168",
             "type": "hold",
             "timeMs": 118013,
             "durationMs": 469,
@@ -15575,7 +15589,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0168",
+            "id": "hard-0169",
             "type": "hold",
             "timeMs": 118716,
             "durationMs": 469,
@@ -15589,7 +15603,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0169",
+            "id": "hard-0170",
             "type": "mash",
             "timeMs": 119537,
             "durationMs": 1172,
@@ -15603,7 +15617,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0170",
+            "id": "hard-0171",
             "type": "tap",
             "timeMs": 121177,
             "durationMs": 0,
@@ -15617,7 +15631,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0171",
+            "id": "hard-0172",
             "type": "tap",
             "timeMs": 121412,
             "durationMs": 0,
@@ -15631,7 +15645,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0172",
+            "id": "hard-0173",
             "type": "mash",
             "timeMs": 121646,
             "durationMs": 1172,
@@ -15645,7 +15659,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0173",
+            "id": "hard-0174",
             "type": "tap",
             "timeMs": 123287,
             "durationMs": 0,
@@ -15659,35 +15673,35 @@
             "finisher": true
           },
           {
-            "id": "hard-0174",
-            "type": "hold",
-            "timeMs": 123756,
-            "durationMs": 469,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 351,
-            "finisher": true
-          },
-          {
             "id": "hard-0175",
             "type": "tap",
-            "timeMs": 124459,
+            "timeMs": 123521,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "answer",
-            "phraseStep": 353,
+            "phraseRole": "kobushi",
+            "phraseStep": 350,
             "finisher": true
           },
           {
             "id": "hard-0176",
+            "type": "hold",
+            "timeMs": 123990,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 352,
+            "finisher": true
+          },
+          {
+            "id": "hard-0177",
             "type": "tap",
             "timeMs": 124693,
             "durationMs": 0,
@@ -15701,7 +15715,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0177",
+            "id": "hard-0178",
             "type": "mash",
             "timeMs": 125162,
             "durationMs": 1172,
@@ -15715,7 +15729,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0178",
+            "id": "hard-0179",
             "type": "tap",
             "timeMs": 126802,
             "durationMs": 0,
@@ -15729,7 +15743,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0179",
+            "id": "hard-0180",
             "type": "tap",
             "timeMs": 127037,
             "durationMs": 0,
@@ -15743,7 +15757,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0180",
+            "id": "hard-0181",
             "type": "mash",
             "timeMs": 127271,
             "durationMs": 1172,
@@ -15757,7 +15771,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0181",
+            "id": "hard-0182",
             "type": "tap",
             "timeMs": 128912,
             "durationMs": 0,
@@ -15771,23 +15785,23 @@
             "finisher": true
           },
           {
-            "id": "hard-0182",
+            "id": "hard-0183",
             "type": "hold",
-            "timeMs": 129263,
+            "timeMs": 129498,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 367,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 368,
             "finisher": true
           },
           {
-            "id": "hard-0183",
+            "id": "hard-0184",
             "type": "tap",
-            "timeMs": 129966,
+            "timeMs": 130201,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15799,9 +15813,9 @@
             "finisher": true
           },
           {
-            "id": "hard-0184",
+            "id": "hard-0185",
             "type": "tap",
-            "timeMs": 130318,
+            "timeMs": 130435,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15813,9 +15827,9 @@
             "finisher": true
           },
           {
-            "id": "hard-0185",
+            "id": "hard-0186",
             "type": "tap",
-            "timeMs": 130552,
+            "timeMs": 130670,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15827,9 +15841,9 @@
             "finisher": true
           },
           {
-            "id": "hard-0186",
+            "id": "hard-0187",
             "type": "mash",
-            "timeMs": 130787,
+            "timeMs": 130904,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -15841,23 +15855,9 @@
             "finisher": true
           },
           {
-            "id": "hard-0187",
-            "type": "tap",
-            "timeMs": 132427,
-            "durationMs": 0,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "kobushi",
-            "phraseStep": 375,
-            "finisher": true
-          },
-          {
             "id": "hard-0188",
             "type": "tap",
-            "timeMs": 132662,
+            "timeMs": 132545,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -15987,11 +15987,11 @@
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 399,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 400,
             "finisher": true
           },
           {
@@ -16051,7 +16051,7 @@
           "burstTapGapMs": 250,
           "tapRunEvery": 18,
           "tapRunGapMs": 250,
-          "damageScale": 1.83121387283237,
+          "damageScale": 1.8497109826589597,
           "loop": {
             "enemyHpMultiplier": 1.03,
             "playerDamageMultiplier": 0.9803921568627451,
@@ -16094,9 +16094,9 @@
             "enemyAttackMultiplier": 1.12
           },
           "chartSummary": {
-            "noteCount": 198,
+            "noteCount": 200,
             "typeCounts": {
-              "tap": 132,
+              "tap": 134,
               "mash": 40,
               "hold": 26
             },
@@ -16113,7 +16113,7 @@
           "burstTapGapMs": 140,
           "tapRunEvery": 7,
           "tapRunGapMs": 140,
-          "damageScale": 0.7739086294416243,
+          "damageScale": 0.77,
           "loop": {
             "enemyHpMultiplier": 1.0197,
             "playerDamageMultiplier": 0.9803921568627451,
@@ -16125,9 +16125,9 @@
             "enemyAttackMultiplier": 1.0752000000000002
           },
           "chartSummary": {
-            "noteCount": 197,
+            "noteCount": 200,
             "typeCounts": {
-              "tap": 112,
+              "tap": 115,
               "mash": 55,
               "hold": 30
             },
@@ -16995,15 +16995,15 @@
           {
             "id": "easy-0062",
             "type": "hold",
-            "timeMs": 50748,
+            "timeMs": 50982,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 79,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 80,
             "finisher": false
           },
           {
@@ -17317,15 +17317,15 @@
           {
             "id": "easy-0085",
             "type": "hold",
-            "timeMs": 70787,
+            "timeMs": 71021,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 111,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 112,
             "finisher": false
           },
           {
@@ -18723,11 +18723,11 @@
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 15,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 16,
             "finisher": false
           },
           {
@@ -19111,21 +19111,21 @@
           {
             "id": "normal-0040",
             "type": "hold",
-            "timeMs": 29068,
+            "timeMs": 29302,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 63,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 64,
             "finisher": false
           },
           {
             "id": "normal-0041",
             "type": "tap",
-            "timeMs": 29771,
+            "timeMs": 30006,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19236,22 +19236,36 @@
           },
           {
             "id": "normal-0049",
-            "type": "hold",
-            "timeMs": 35982,
-            "durationMs": 469,
+            "type": "tap",
+            "timeMs": 35631,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 79,
+            "phraseRole": "kobushi",
+            "phraseStep": 78,
             "finisher": false
           },
           {
             "id": "normal-0050",
+            "type": "hold",
+            "timeMs": 36216,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 80,
+            "finisher": false
+          },
+          {
+            "id": "normal-0051",
             "type": "tap",
-            "timeMs": 36802,
+            "timeMs": 36920,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19263,7 +19277,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0051",
+            "id": "normal-0052",
             "type": "tap",
             "timeMs": 37271,
             "durationMs": 0,
@@ -19277,7 +19291,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0052",
+            "id": "normal-0053",
             "type": "mash",
             "timeMs": 37857,
             "durationMs": 1172,
@@ -19291,7 +19305,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0053",
+            "id": "normal-0054",
             "type": "tap",
             "timeMs": 39498,
             "durationMs": 0,
@@ -19305,7 +19319,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0054",
+            "id": "normal-0055",
             "type": "tap",
             "timeMs": 39849,
             "durationMs": 0,
@@ -19319,7 +19333,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0055",
+            "id": "normal-0056",
             "type": "mash",
             "timeMs": 40435,
             "durationMs": 1172,
@@ -19333,7 +19347,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0056",
+            "id": "normal-0057",
             "type": "tap",
             "timeMs": 42193,
             "durationMs": 0,
@@ -19347,7 +19361,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0057",
+            "id": "normal-0058",
             "type": "tap",
             "timeMs": 42662,
             "durationMs": 0,
@@ -19361,23 +19375,23 @@
             "finisher": false
           },
           {
-            "id": "normal-0058",
+            "id": "normal-0059",
             "type": "hold",
-            "timeMs": 43248,
+            "timeMs": 43482,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 95,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 96,
             "finisher": false
           },
           {
-            "id": "normal-0059",
+            "id": "normal-0060",
             "type": "tap",
-            "timeMs": 43951,
+            "timeMs": 44185,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19389,9 +19403,9 @@
             "finisher": false
           },
           {
-            "id": "normal-0060",
+            "id": "normal-0061",
             "type": "tap",
-            "timeMs": 44302,
+            "timeMs": 44420,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19403,7 +19417,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0061",
+            "id": "normal-0062",
             "type": "mash",
             "timeMs": 44888,
             "durationMs": 1172,
@@ -19417,7 +19431,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0062",
+            "id": "normal-0063",
             "type": "tap",
             "timeMs": 46646,
             "durationMs": 0,
@@ -19431,7 +19445,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0063",
+            "id": "normal-0064",
             "type": "tap",
             "timeMs": 46881,
             "durationMs": 0,
@@ -19445,7 +19459,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0064",
+            "id": "normal-0065",
             "type": "tap",
             "timeMs": 47115,
             "durationMs": 0,
@@ -19459,7 +19473,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0065",
+            "id": "normal-0066",
             "type": "mash",
             "timeMs": 47466,
             "durationMs": 1172,
@@ -19473,7 +19487,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0066",
+            "id": "normal-0067",
             "type": "tap",
             "timeMs": 49107,
             "durationMs": 0,
@@ -19487,7 +19501,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0067",
+            "id": "normal-0068",
             "type": "tap",
             "timeMs": 49341,
             "durationMs": 0,
@@ -19501,7 +19515,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0068",
+            "id": "normal-0069",
             "type": "tap",
             "timeMs": 49693,
             "durationMs": 0,
@@ -19515,23 +19529,23 @@
             "finisher": false
           },
           {
-            "id": "normal-0069",
+            "id": "normal-0070",
             "type": "hold",
-            "timeMs": 50279,
+            "timeMs": 50396,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 111,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 112,
             "finisher": false
           },
           {
-            "id": "normal-0070",
+            "id": "normal-0071",
             "type": "tap",
-            "timeMs": 50982,
+            "timeMs": 51099,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19543,7 +19557,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0071",
+            "id": "normal-0072",
             "type": "tap",
             "timeMs": 51451,
             "durationMs": 0,
@@ -19557,7 +19571,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0072",
+            "id": "normal-0073",
             "type": "mash",
             "timeMs": 52037,
             "durationMs": 1172,
@@ -19571,7 +19585,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0073",
+            "id": "normal-0074",
             "type": "tap",
             "timeMs": 53677,
             "durationMs": 0,
@@ -19585,7 +19599,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0074",
+            "id": "normal-0075",
             "type": "tap",
             "timeMs": 54146,
             "durationMs": 0,
@@ -19599,7 +19613,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0075",
+            "id": "normal-0076",
             "type": "mash",
             "timeMs": 54732,
             "durationMs": 1172,
@@ -19613,7 +19627,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0076",
+            "id": "normal-0077",
             "type": "tap",
             "timeMs": 56373,
             "durationMs": 0,
@@ -19627,7 +19641,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0077",
+            "id": "normal-0078",
             "type": "hold",
             "timeMs": 57193,
             "durationMs": 469,
@@ -19641,7 +19655,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0078",
+            "id": "normal-0079",
             "type": "hold",
             "timeMs": 57896,
             "durationMs": 469,
@@ -19655,7 +19669,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0079",
+            "id": "normal-0080",
             "type": "tap",
             "timeMs": 58599,
             "durationMs": 0,
@@ -19669,7 +19683,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0080",
+            "id": "normal-0081",
             "type": "tap",
             "timeMs": 58834,
             "durationMs": 0,
@@ -19683,7 +19697,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0081",
+            "id": "normal-0082",
             "type": "mash",
             "timeMs": 59068,
             "durationMs": 1172,
@@ -19697,7 +19711,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0082",
+            "id": "normal-0083",
             "type": "tap",
             "timeMs": 60826,
             "durationMs": 0,
@@ -19711,7 +19725,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0083",
+            "id": "normal-0084",
             "type": "tap",
             "timeMs": 61060,
             "durationMs": 0,
@@ -19725,7 +19739,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0084",
+            "id": "normal-0085",
             "type": "mash",
             "timeMs": 61646,
             "durationMs": 1172,
@@ -19739,7 +19753,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0085",
+            "id": "normal-0086",
             "type": "tap",
             "timeMs": 63404,
             "durationMs": 0,
@@ -19753,7 +19767,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0086",
+            "id": "normal-0087",
             "type": "tap",
             "timeMs": 63873,
             "durationMs": 0,
@@ -19767,23 +19781,37 @@
             "finisher": false
           },
           {
-            "id": "normal-0087",
-            "type": "hold",
-            "timeMs": 64341,
-            "durationMs": 469,
+            "id": "normal-0088",
+            "type": "tap",
+            "timeMs": 64107,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 143,
+            "phraseRole": "kobushi",
+            "phraseStep": 142,
             "finisher": false
           },
           {
-            "id": "normal-0088",
+            "id": "normal-0089",
+            "type": "hold",
+            "timeMs": 64693,
+            "durationMs": 469,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 144,
+            "finisher": false
+          },
+          {
+            "id": "normal-0090",
             "type": "tap",
-            "timeMs": 65162,
+            "timeMs": 65396,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19795,9 +19823,9 @@
             "finisher": false
           },
           {
-            "id": "normal-0089",
+            "id": "normal-0091",
             "type": "tap",
-            "timeMs": 65513,
+            "timeMs": 65631,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19809,7 +19837,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0090",
+            "id": "normal-0092",
             "type": "mash",
             "timeMs": 66099,
             "durationMs": 1172,
@@ -19823,7 +19851,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0091",
+            "id": "normal-0093",
             "type": "tap",
             "timeMs": 67857,
             "durationMs": 0,
@@ -19837,7 +19865,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0092",
+            "id": "normal-0094",
             "type": "tap",
             "timeMs": 68326,
             "durationMs": 0,
@@ -19851,7 +19879,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0093",
+            "id": "normal-0095",
             "type": "mash",
             "timeMs": 68677,
             "durationMs": 1172,
@@ -19865,7 +19893,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0094",
+            "id": "normal-0096",
             "type": "tap",
             "timeMs": 70318,
             "durationMs": 0,
@@ -19879,7 +19907,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0095",
+            "id": "normal-0097",
             "type": "tap",
             "timeMs": 70552,
             "durationMs": 0,
@@ -19893,7 +19921,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0096",
+            "id": "normal-0098",
             "type": "tap",
             "timeMs": 70904,
             "durationMs": 0,
@@ -19907,23 +19935,23 @@
             "finisher": false
           },
           {
-            "id": "normal-0097",
+            "id": "normal-0099",
             "type": "hold",
-            "timeMs": 71490,
+            "timeMs": 71724,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 159,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 160,
             "finisher": false
           },
           {
-            "id": "normal-0098",
+            "id": "normal-0100",
             "type": "tap",
-            "timeMs": 72193,
+            "timeMs": 72427,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -19935,7 +19963,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0099",
+            "id": "normal-0101",
             "type": "tap",
             "timeMs": 72662,
             "durationMs": 0,
@@ -19949,7 +19977,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0100",
+            "id": "normal-0102",
             "type": "mash",
             "timeMs": 73248,
             "durationMs": 1172,
@@ -19963,7 +19991,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0101",
+            "id": "normal-0103",
             "type": "tap",
             "timeMs": 74888,
             "durationMs": 0,
@@ -19977,7 +20005,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0102",
+            "id": "normal-0104",
             "type": "tap",
             "timeMs": 75123,
             "durationMs": 0,
@@ -19991,7 +20019,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0103",
+            "id": "normal-0105",
             "type": "tap",
             "timeMs": 75357,
             "durationMs": 0,
@@ -20005,7 +20033,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0104",
+            "id": "normal-0106",
             "type": "tap",
             "timeMs": 75591,
             "durationMs": 0,
@@ -20019,7 +20047,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0105",
+            "id": "normal-0107",
             "type": "mash",
             "timeMs": 75943,
             "durationMs": 1172,
@@ -20033,7 +20061,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0106",
+            "id": "normal-0108",
             "type": "tap",
             "timeMs": 77584,
             "durationMs": 0,
@@ -20047,7 +20075,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0107",
+            "id": "normal-0109",
             "type": "tap",
             "timeMs": 77935,
             "durationMs": 0,
@@ -20061,23 +20089,23 @@
             "finisher": false
           },
           {
-            "id": "normal-0108",
+            "id": "normal-0110",
             "type": "hold",
-            "timeMs": 78521,
+            "timeMs": 78638,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 175,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 176,
             "finisher": false
           },
           {
-            "id": "normal-0109",
+            "id": "normal-0111",
             "type": "tap",
-            "timeMs": 79224,
+            "timeMs": 79341,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -20089,7 +20117,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0110",
+            "id": "normal-0112",
             "type": "tap",
             "timeMs": 79693,
             "durationMs": 0,
@@ -20103,7 +20131,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0111",
+            "id": "normal-0113",
             "type": "mash",
             "timeMs": 80396,
             "durationMs": 1172,
@@ -20117,7 +20145,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0112",
+            "id": "normal-0114",
             "type": "tap",
             "timeMs": 82037,
             "durationMs": 0,
@@ -20131,7 +20159,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0113",
+            "id": "normal-0115",
             "type": "tap",
             "timeMs": 82271,
             "durationMs": 0,
@@ -20145,7 +20173,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0114",
+            "id": "normal-0116",
             "type": "mash",
             "timeMs": 82857,
             "durationMs": 1172,
@@ -20159,7 +20187,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0115",
+            "id": "normal-0117",
             "type": "tap",
             "timeMs": 84498,
             "durationMs": 0,
@@ -20173,7 +20201,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0116",
+            "id": "normal-0118",
             "type": "tap",
             "timeMs": 84732,
             "durationMs": 0,
@@ -20187,7 +20215,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0117",
+            "id": "normal-0119",
             "type": "tap",
             "timeMs": 84966,
             "durationMs": 0,
@@ -20201,7 +20229,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0118",
+            "id": "normal-0120",
             "type": "hold",
             "timeMs": 85552,
             "durationMs": 469,
@@ -20215,7 +20243,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0119",
+            "id": "normal-0121",
             "type": "hold",
             "timeMs": 86256,
             "durationMs": 469,
@@ -20229,7 +20257,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0120",
+            "id": "normal-0122",
             "type": "tap",
             "timeMs": 86959,
             "durationMs": 0,
@@ -20243,7 +20271,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0121",
+            "id": "normal-0123",
             "type": "tap",
             "timeMs": 87193,
             "durationMs": 0,
@@ -20257,7 +20285,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0122",
+            "id": "normal-0124",
             "type": "mash",
             "timeMs": 87427,
             "durationMs": 1172,
@@ -20271,7 +20299,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0123",
+            "id": "normal-0125",
             "type": "tap",
             "timeMs": 89068,
             "durationMs": 0,
@@ -20285,7 +20313,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0124",
+            "id": "normal-0126",
             "type": "tap",
             "timeMs": 89537,
             "durationMs": 0,
@@ -20299,7 +20327,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0125",
+            "id": "normal-0127",
             "type": "mash",
             "timeMs": 90123,
             "durationMs": 1172,
@@ -20313,7 +20341,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0126",
+            "id": "normal-0128",
             "type": "tap",
             "timeMs": 91763,
             "durationMs": 0,
@@ -20327,7 +20355,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0127",
+            "id": "normal-0129",
             "type": "tap",
             "timeMs": 92232,
             "durationMs": 0,
@@ -20341,21 +20369,21 @@
             "finisher": false
           },
           {
-            "id": "normal-0128",
+            "id": "normal-0130",
             "type": "hold",
-            "timeMs": 92701,
+            "timeMs": 92818,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 207,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 208,
             "finisher": false
           },
           {
-            "id": "normal-0129",
+            "id": "normal-0131",
             "type": "tap",
             "timeMs": 93521,
             "durationMs": 0,
@@ -20369,7 +20397,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0130",
+            "id": "normal-0132",
             "type": "tap",
             "timeMs": 93990,
             "durationMs": 0,
@@ -20383,7 +20411,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0131",
+            "id": "normal-0133",
             "type": "mash",
             "timeMs": 94341,
             "durationMs": 1172,
@@ -20397,7 +20425,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0132",
+            "id": "normal-0134",
             "type": "tap",
             "timeMs": 95982,
             "durationMs": 0,
@@ -20411,7 +20439,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0133",
+            "id": "normal-0135",
             "type": "tap",
             "timeMs": 96216,
             "durationMs": 0,
@@ -20425,7 +20453,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0134",
+            "id": "normal-0136",
             "type": "tap",
             "timeMs": 96568,
             "durationMs": 0,
@@ -20439,7 +20467,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0135",
+            "id": "normal-0137",
             "type": "mash",
             "timeMs": 97154,
             "durationMs": 1172,
@@ -20453,7 +20481,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0136",
+            "id": "normal-0138",
             "type": "tap",
             "timeMs": 98795,
             "durationMs": 0,
@@ -20467,7 +20495,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0137",
+            "id": "normal-0139",
             "type": "tap",
             "timeMs": 99029,
             "durationMs": 0,
@@ -20481,7 +20509,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0138",
+            "id": "normal-0140",
             "type": "tap",
             "timeMs": 99263,
             "durationMs": 0,
@@ -20495,23 +20523,23 @@
             "finisher": false
           },
           {
-            "id": "normal-0139",
+            "id": "normal-0141",
             "type": "hold",
-            "timeMs": 99732,
+            "timeMs": 99966,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 223,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 224,
             "finisher": false
           },
           {
-            "id": "normal-0140",
+            "id": "normal-0142",
             "type": "tap",
-            "timeMs": 100435,
+            "timeMs": 100670,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -20523,7 +20551,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0141",
+            "id": "normal-0143",
             "type": "tap",
             "timeMs": 101021,
             "durationMs": 0,
@@ -20537,7 +20565,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0142",
+            "id": "normal-0144",
             "type": "mash",
             "timeMs": 101607,
             "durationMs": 1172,
@@ -20551,7 +20579,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0143",
+            "id": "normal-0145",
             "type": "tap",
             "timeMs": 103248,
             "durationMs": 0,
@@ -20565,7 +20593,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0144",
+            "id": "normal-0146",
             "type": "tap",
             "timeMs": 103599,
             "durationMs": 0,
@@ -20579,7 +20607,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0145",
+            "id": "normal-0147",
             "type": "mash",
             "timeMs": 104068,
             "durationMs": 1172,
@@ -20593,7 +20621,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0146",
+            "id": "normal-0148",
             "type": "tap",
             "timeMs": 105709,
             "durationMs": 0,
@@ -20607,7 +20635,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0147",
+            "id": "normal-0149",
             "type": "tap",
             "timeMs": 105943,
             "durationMs": 0,
@@ -20621,7 +20649,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0148",
+            "id": "normal-0150",
             "type": "tap",
             "timeMs": 106177,
             "durationMs": 0,
@@ -20635,7 +20663,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0149",
+            "id": "normal-0151",
             "type": "hold",
             "timeMs": 106763,
             "durationMs": 469,
@@ -20649,7 +20677,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0150",
+            "id": "normal-0152",
             "type": "hold",
             "timeMs": 107466,
             "durationMs": 469,
@@ -20663,7 +20691,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0151",
+            "id": "normal-0153",
             "type": "tap",
             "timeMs": 108170,
             "durationMs": 0,
@@ -20677,7 +20705,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0152",
+            "id": "normal-0154",
             "type": "mash",
             "timeMs": 108521,
             "durationMs": 1172,
@@ -20691,7 +20719,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0153",
+            "id": "normal-0155",
             "type": "tap",
             "timeMs": 110162,
             "durationMs": 0,
@@ -20705,7 +20733,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0154",
+            "id": "normal-0156",
             "type": "tap",
             "timeMs": 110396,
             "durationMs": 0,
@@ -20719,7 +20747,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0155",
+            "id": "normal-0157",
             "type": "tap",
             "timeMs": 110748,
             "durationMs": 0,
@@ -20733,7 +20761,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0156",
+            "id": "normal-0158",
             "type": "mash",
             "timeMs": 111216,
             "durationMs": 1172,
@@ -20747,7 +20775,7 @@
             "finisher": false
           },
           {
-            "id": "normal-0157",
+            "id": "normal-0159",
             "type": "tap",
             "timeMs": 112857,
             "durationMs": 0,
@@ -20761,7 +20789,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0158",
+            "id": "normal-0160",
             "type": "tap",
             "timeMs": 113443,
             "durationMs": 0,
@@ -20775,23 +20803,23 @@
             "finisher": true
           },
           {
-            "id": "normal-0159",
+            "id": "normal-0161",
             "type": "hold",
-            "timeMs": 113912,
+            "timeMs": 114146,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 255,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 256,
             "finisher": true
           },
           {
-            "id": "normal-0160",
+            "id": "normal-0162",
             "type": "tap",
-            "timeMs": 114732,
+            "timeMs": 114849,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -20803,7 +20831,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0161",
+            "id": "normal-0163",
             "type": "tap",
             "timeMs": 115201,
             "durationMs": 0,
@@ -20817,7 +20845,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0162",
+            "id": "normal-0164",
             "type": "mash",
             "timeMs": 115787,
             "durationMs": 1172,
@@ -20831,7 +20859,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0163",
+            "id": "normal-0165",
             "type": "tap",
             "timeMs": 117427,
             "durationMs": 0,
@@ -20845,7 +20873,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0164",
+            "id": "normal-0166",
             "type": "tap",
             "timeMs": 117779,
             "durationMs": 0,
@@ -20859,7 +20887,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0165",
+            "id": "normal-0167",
             "type": "mash",
             "timeMs": 118365,
             "durationMs": 1172,
@@ -20873,7 +20901,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0166",
+            "id": "normal-0168",
             "type": "tap",
             "timeMs": 120006,
             "durationMs": 0,
@@ -20887,7 +20915,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0167",
+            "id": "normal-0169",
             "type": "tap",
             "timeMs": 120357,
             "durationMs": 0,
@@ -20901,23 +20929,23 @@
             "finisher": true
           },
           {
-            "id": "normal-0168",
+            "id": "normal-0170",
             "type": "hold",
-            "timeMs": 120943,
+            "timeMs": 121177,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 271,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 272,
             "finisher": true
           },
           {
-            "id": "normal-0169",
+            "id": "normal-0171",
             "type": "tap",
-            "timeMs": 121646,
+            "timeMs": 121881,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -20929,7 +20957,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0170",
+            "id": "normal-0172",
             "type": "tap",
             "timeMs": 122232,
             "durationMs": 0,
@@ -20943,7 +20971,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0171",
+            "id": "normal-0173",
             "type": "mash",
             "timeMs": 122818,
             "durationMs": 1172,
@@ -20957,7 +20985,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0172",
+            "id": "normal-0174",
             "type": "tap",
             "timeMs": 124459,
             "durationMs": 0,
@@ -20971,7 +20999,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0173",
+            "id": "normal-0175",
             "type": "tap",
             "timeMs": 124810,
             "durationMs": 0,
@@ -20985,7 +21013,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0174",
+            "id": "normal-0176",
             "type": "mash",
             "timeMs": 125396,
             "durationMs": 1172,
@@ -20999,7 +21027,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0175",
+            "id": "normal-0177",
             "type": "tap",
             "timeMs": 127154,
             "durationMs": 0,
@@ -21013,7 +21041,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0176",
+            "id": "normal-0178",
             "type": "tap",
             "timeMs": 127388,
             "durationMs": 0,
@@ -21027,7 +21055,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0177",
+            "id": "normal-0179",
             "type": "hold",
             "timeMs": 127974,
             "durationMs": 469,
@@ -21041,7 +21069,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0178",
+            "id": "normal-0180",
             "type": "hold",
             "timeMs": 128677,
             "durationMs": 469,
@@ -21055,7 +21083,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0179",
+            "id": "normal-0181",
             "type": "tap",
             "timeMs": 129381,
             "durationMs": 0,
@@ -21069,7 +21097,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0180",
+            "id": "normal-0182",
             "type": "mash",
             "timeMs": 129732,
             "durationMs": 1172,
@@ -21083,7 +21111,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0181",
+            "id": "normal-0183",
             "type": "tap",
             "timeMs": 131373,
             "durationMs": 0,
@@ -21097,7 +21125,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0182",
+            "id": "normal-0184",
             "type": "tap",
             "timeMs": 131607,
             "durationMs": 0,
@@ -21111,7 +21139,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0183",
+            "id": "normal-0185",
             "type": "tap",
             "timeMs": 131841,
             "durationMs": 0,
@@ -21125,7 +21153,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0184",
+            "id": "normal-0186",
             "type": "mash",
             "timeMs": 132427,
             "durationMs": 1172,
@@ -21139,7 +21167,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0185",
+            "id": "normal-0187",
             "type": "tap",
             "timeMs": 134068,
             "durationMs": 0,
@@ -21153,7 +21181,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0186",
+            "id": "normal-0188",
             "type": "tap",
             "timeMs": 134654,
             "durationMs": 0,
@@ -21167,23 +21195,23 @@
             "finisher": true
           },
           {
-            "id": "normal-0187",
+            "id": "normal-0189",
             "type": "hold",
-            "timeMs": 135240,
+            "timeMs": 135357,
             "durationMs": 469,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 303,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 304,
             "finisher": true
           },
           {
-            "id": "normal-0188",
+            "id": "normal-0190",
             "type": "tap",
-            "timeMs": 135943,
+            "timeMs": 136060,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21195,7 +21223,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0189",
+            "id": "normal-0191",
             "type": "tap",
             "timeMs": 136412,
             "durationMs": 0,
@@ -21209,7 +21237,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0190",
+            "id": "normal-0192",
             "type": "mash",
             "timeMs": 136998,
             "durationMs": 1172,
@@ -21223,7 +21251,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0191",
+            "id": "normal-0193",
             "type": "tap",
             "timeMs": 138638,
             "durationMs": 0,
@@ -21237,7 +21265,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0192",
+            "id": "normal-0194",
             "type": "tap",
             "timeMs": 138873,
             "durationMs": 0,
@@ -21251,7 +21279,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0193",
+            "id": "normal-0195",
             "type": "tap",
             "timeMs": 139107,
             "durationMs": 0,
@@ -21265,7 +21293,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0194",
+            "id": "normal-0196",
             "type": "mash",
             "timeMs": 139576,
             "durationMs": 1172,
@@ -21279,7 +21307,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0195",
+            "id": "normal-0197",
             "type": "tap",
             "timeMs": 141216,
             "durationMs": 0,
@@ -21293,7 +21321,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0196",
+            "id": "normal-0198",
             "type": "tap",
             "timeMs": 141451,
             "durationMs": 0,
@@ -21307,7 +21335,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0197",
+            "id": "normal-0199",
             "type": "tap",
             "timeMs": 141685,
             "durationMs": 0,
@@ -21321,7 +21349,7 @@
             "finisher": true
           },
           {
-            "id": "normal-0198",
+            "id": "normal-0200",
             "type": "hold",
             "timeMs": 142271,
             "durationMs": 469,
@@ -21441,11 +21469,11 @@
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 15,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 16,
             "finisher": false
           },
           {
@@ -21534,22 +21562,36 @@
           },
           {
             "id": "hard-0015",
-            "type": "hold",
-            "timeMs": 11256,
-            "durationMs": 352,
+            "type": "tap",
+            "timeMs": 11021,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 31,
+            "phraseRole": "kobushi",
+            "phraseStep": 30,
             "finisher": false
           },
           {
             "id": "hard-0016",
+            "type": "hold",
+            "timeMs": 11373,
+            "durationMs": 352,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 32,
+            "finisher": false
+          },
+          {
+            "id": "hard-0017",
             "type": "tap",
-            "timeMs": 11841,
+            "timeMs": 11959,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21561,9 +21603,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0017",
+            "id": "hard-0018",
             "type": "tap",
-            "timeMs": 12076,
+            "timeMs": 12193,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21575,9 +21617,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0018",
+            "id": "hard-0019",
             "type": "tap",
-            "timeMs": 12310,
+            "timeMs": 12427,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21589,9 +21631,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0019",
+            "id": "hard-0020",
             "type": "mash",
-            "timeMs": 12545,
+            "timeMs": 12662,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -21603,9 +21645,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0020",
+            "id": "hard-0021",
             "type": "tap",
-            "timeMs": 14185,
+            "timeMs": 14302,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21617,9 +21659,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0021",
+            "id": "hard-0022",
             "type": "mash",
-            "timeMs": 14420,
+            "timeMs": 14537,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -21631,9 +21673,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0022",
+            "id": "hard-0023",
             "type": "tap",
-            "timeMs": 16060,
+            "timeMs": 16177,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21645,31 +21687,17 @@
             "finisher": false
           },
           {
-            "id": "hard-0023",
+            "id": "hard-0024",
             "type": "hold",
-            "timeMs": 16412,
+            "timeMs": 16646,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 47,
-            "finisher": false
-          },
-          {
-            "id": "hard-0024",
-            "type": "tap",
-            "timeMs": 16998,
-            "durationMs": 0,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "answer",
-            "phraseStep": 49,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 48,
             "finisher": false
           },
           {
@@ -21759,21 +21787,21 @@
           {
             "id": "hard-0031",
             "type": "hold",
-            "timeMs": 21568,
+            "timeMs": 21685,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 63,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 64,
             "finisher": false
           },
           {
             "id": "hard-0032",
             "type": "tap",
-            "timeMs": 22154,
+            "timeMs": 22271,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21787,7 +21815,7 @@
           {
             "id": "hard-0033",
             "type": "tap",
-            "timeMs": 22388,
+            "timeMs": 22506,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21842,22 +21870,36 @@
           },
           {
             "id": "hard-0037",
-            "type": "hold",
-            "timeMs": 26607,
-            "durationMs": 352,
+            "type": "tap",
+            "timeMs": 26373,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 79,
+            "phraseRole": "kobushi",
+            "phraseStep": 78,
             "finisher": false
           },
           {
             "id": "hard-0038",
+            "type": "hold",
+            "timeMs": 26724,
+            "durationMs": 352,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 80,
+            "finisher": false
+          },
+          {
+            "id": "hard-0039",
             "type": "tap",
-            "timeMs": 27193,
+            "timeMs": 27310,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21869,9 +21911,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0039",
+            "id": "hard-0040",
             "type": "tap",
-            "timeMs": 27427,
+            "timeMs": 27545,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21883,7 +21925,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0040",
+            "id": "hard-0041",
             "type": "mash",
             "timeMs": 27896,
             "durationMs": 1172,
@@ -21897,7 +21939,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0041",
+            "id": "hard-0042",
             "type": "tap",
             "timeMs": 29537,
             "durationMs": 0,
@@ -21911,7 +21953,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0042",
+            "id": "hard-0043",
             "type": "mash",
             "timeMs": 29888,
             "durationMs": 1172,
@@ -21925,7 +21967,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0043",
+            "id": "hard-0044",
             "type": "tap",
             "timeMs": 31529,
             "durationMs": 0,
@@ -21939,23 +21981,37 @@
             "finisher": false
           },
           {
-            "id": "hard-0044",
-            "type": "hold",
-            "timeMs": 31998,
-            "durationMs": 352,
+            "id": "hard-0045",
+            "type": "tap",
+            "timeMs": 31763,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 95,
+            "phraseRole": "kobushi",
+            "phraseStep": 94,
             "finisher": false
           },
           {
-            "id": "hard-0045",
+            "id": "hard-0046",
+            "type": "hold",
+            "timeMs": 32115,
+            "durationMs": 352,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 96,
+            "finisher": false
+          },
+          {
+            "id": "hard-0047",
             "type": "tap",
-            "timeMs": 32584,
+            "timeMs": 32701,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21967,9 +22023,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0046",
+            "id": "hard-0048",
             "type": "tap",
-            "timeMs": 32818,
+            "timeMs": 32935,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -21981,9 +22037,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0047",
+            "id": "hard-0049",
             "type": "mash",
-            "timeMs": 33052,
+            "timeMs": 33170,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -21995,9 +22051,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0048",
+            "id": "hard-0050",
             "type": "tap",
-            "timeMs": 34693,
+            "timeMs": 34810,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22009,9 +22065,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0049",
+            "id": "hard-0051",
             "type": "tap",
-            "timeMs": 34927,
+            "timeMs": 35045,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22023,9 +22079,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0050",
+            "id": "hard-0052",
             "type": "mash",
-            "timeMs": 35162,
+            "timeMs": 35279,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -22037,35 +22093,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0051",
-            "type": "tap",
-            "timeMs": 36802,
-            "durationMs": 0,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "kobushi",
-            "phraseStep": 109,
-            "finisher": false
-          },
-          {
-            "id": "hard-0052",
+            "id": "hard-0053",
             "type": "hold",
             "timeMs": 37154,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 111,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 112,
             "finisher": false
           },
           {
-            "id": "hard-0053",
+            "id": "hard-0054",
             "type": "tap",
             "timeMs": 37740,
             "durationMs": 0,
@@ -22079,7 +22121,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0054",
+            "id": "hard-0055",
             "type": "tap",
             "timeMs": 37974,
             "durationMs": 0,
@@ -22093,7 +22135,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0055",
+            "id": "hard-0056",
             "type": "tap",
             "timeMs": 38209,
             "durationMs": 0,
@@ -22107,7 +22149,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0056",
+            "id": "hard-0057",
             "type": "mash",
             "timeMs": 38443,
             "durationMs": 1172,
@@ -22121,7 +22163,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0057",
+            "id": "hard-0058",
             "type": "tap",
             "timeMs": 40084,
             "durationMs": 0,
@@ -22135,7 +22177,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0058",
+            "id": "hard-0059",
             "type": "mash",
             "timeMs": 40318,
             "durationMs": 1172,
@@ -22149,23 +22191,37 @@
             "finisher": false
           },
           {
-            "id": "hard-0059",
-            "type": "hold",
-            "timeMs": 42193,
-            "durationMs": 352,
+            "id": "hard-0060",
+            "type": "tap",
+            "timeMs": 41959,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 127,
+            "phraseRole": "kobushi",
+            "phraseStep": 126,
             "finisher": false
           },
           {
-            "id": "hard-0060",
+            "id": "hard-0061",
+            "type": "hold",
+            "timeMs": 42310,
+            "durationMs": 352,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 128,
+            "finisher": false
+          },
+          {
+            "id": "hard-0062",
             "type": "tap",
-            "timeMs": 42779,
+            "timeMs": 42896,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22177,9 +22233,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0061",
+            "id": "hard-0063",
             "type": "tap",
-            "timeMs": 43013,
+            "timeMs": 43131,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22191,9 +22247,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0062",
+            "id": "hard-0064",
             "type": "tap",
-            "timeMs": 43248,
+            "timeMs": 43365,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22205,9 +22261,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0063",
+            "id": "hard-0065",
             "type": "mash",
-            "timeMs": 43482,
+            "timeMs": 43599,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -22219,9 +22275,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0064",
+            "id": "hard-0066",
             "type": "tap",
-            "timeMs": 45123,
+            "timeMs": 45240,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22233,9 +22289,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0065",
+            "id": "hard-0067",
             "type": "mash",
-            "timeMs": 45357,
+            "timeMs": 45474,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -22247,21 +22303,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0066",
-            "type": "tap",
-            "timeMs": 46998,
-            "durationMs": 0,
-            "targetCount": 0,
-            "phraseLabel": "追分決着",
-            "callText": "決着返し",
-            "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "kobushi",
-            "phraseStep": 142,
-            "finisher": false
-          },
-          {
-            "id": "hard-0067",
+            "id": "hard-0068",
             "type": "hold",
             "timeMs": 47349,
             "durationMs": 352,
@@ -22275,7 +22317,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0068",
+            "id": "hard-0069",
             "type": "hold",
             "timeMs": 47935,
             "durationMs": 352,
@@ -22289,7 +22331,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0069",
+            "id": "hard-0070",
             "type": "tap",
             "timeMs": 48521,
             "durationMs": 0,
@@ -22303,7 +22345,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0070",
+            "id": "hard-0071",
             "type": "mash",
             "timeMs": 48756,
             "durationMs": 1172,
@@ -22317,7 +22359,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0071",
+            "id": "hard-0072",
             "type": "tap",
             "timeMs": 50396,
             "durationMs": 0,
@@ -22331,7 +22373,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0072",
+            "id": "hard-0073",
             "type": "mash",
             "timeMs": 50748,
             "durationMs": 1172,
@@ -22345,23 +22387,37 @@
             "finisher": false
           },
           {
-            "id": "hard-0073",
-            "type": "hold",
-            "timeMs": 52623,
-            "durationMs": 352,
+            "id": "hard-0074",
+            "type": "tap",
+            "timeMs": 52388,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 159,
+            "phraseRole": "kobushi",
+            "phraseStep": 158,
             "finisher": false
           },
           {
-            "id": "hard-0074",
+            "id": "hard-0075",
+            "type": "hold",
+            "timeMs": 52857,
+            "durationMs": 352,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 160,
+            "finisher": false
+          },
+          {
+            "id": "hard-0076",
             "type": "tap",
-            "timeMs": 53209,
+            "timeMs": 53443,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22373,9 +22429,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0075",
+            "id": "hard-0077",
             "type": "tap",
-            "timeMs": 53443,
+            "timeMs": 53677,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22387,7 +22443,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0076",
+            "id": "hard-0078",
             "type": "mash",
             "timeMs": 53912,
             "durationMs": 1172,
@@ -22401,7 +22457,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0077",
+            "id": "hard-0079",
             "type": "tap",
             "timeMs": 55552,
             "durationMs": 0,
@@ -22415,7 +22471,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0078",
+            "id": "hard-0080",
             "type": "mash",
             "timeMs": 55904,
             "durationMs": 1172,
@@ -22429,7 +22485,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0079",
+            "id": "hard-0081",
             "type": "tap",
             "timeMs": 57545,
             "durationMs": 0,
@@ -22443,21 +22499,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0080",
+            "id": "hard-0082",
             "type": "hold",
             "timeMs": 58013,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 175,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 176,
             "finisher": false
           },
           {
-            "id": "hard-0081",
+            "id": "hard-0083",
             "type": "tap",
             "timeMs": 58599,
             "durationMs": 0,
@@ -22471,7 +22527,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0082",
+            "id": "hard-0084",
             "type": "tap",
             "timeMs": 58834,
             "durationMs": 0,
@@ -22485,7 +22541,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0083",
+            "id": "hard-0085",
             "type": "mash",
             "timeMs": 59068,
             "durationMs": 1172,
@@ -22499,7 +22555,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0084",
+            "id": "hard-0086",
             "type": "tap",
             "timeMs": 60709,
             "durationMs": 0,
@@ -22513,7 +22569,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0085",
+            "id": "hard-0087",
             "type": "tap",
             "timeMs": 60943,
             "durationMs": 0,
@@ -22527,7 +22583,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0086",
+            "id": "hard-0088",
             "type": "mash",
             "timeMs": 61177,
             "durationMs": 1172,
@@ -22541,21 +22597,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0087",
+            "id": "hard-0089",
             "type": "hold",
             "timeMs": 63052,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 191,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 192,
             "finisher": false
           },
           {
-            "id": "hard-0088",
+            "id": "hard-0090",
             "type": "tap",
             "timeMs": 63638,
             "durationMs": 0,
@@ -22569,7 +22625,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0089",
+            "id": "hard-0091",
             "type": "tap",
             "timeMs": 63873,
             "durationMs": 0,
@@ -22583,7 +22639,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0090",
+            "id": "hard-0092",
             "type": "tap",
             "timeMs": 64107,
             "durationMs": 0,
@@ -22597,7 +22653,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0091",
+            "id": "hard-0093",
             "type": "mash",
             "timeMs": 64341,
             "durationMs": 1172,
@@ -22611,7 +22667,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0092",
+            "id": "hard-0094",
             "type": "tap",
             "timeMs": 65982,
             "durationMs": 0,
@@ -22625,7 +22681,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0093",
+            "id": "hard-0095",
             "type": "mash",
             "timeMs": 66216,
             "durationMs": 1172,
@@ -22639,21 +22695,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0094",
+            "id": "hard-0096",
             "type": "hold",
             "timeMs": 68091,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 207,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 208,
             "finisher": false
           },
           {
-            "id": "hard-0095",
+            "id": "hard-0097",
             "type": "tap",
             "timeMs": 68677,
             "durationMs": 0,
@@ -22667,7 +22723,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0096",
+            "id": "hard-0098",
             "type": "tap",
             "timeMs": 68912,
             "durationMs": 0,
@@ -22681,7 +22737,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0097",
+            "id": "hard-0099",
             "type": "tap",
             "timeMs": 69146,
             "durationMs": 0,
@@ -22695,7 +22751,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0098",
+            "id": "hard-0100",
             "type": "mash",
             "timeMs": 69498,
             "durationMs": 1172,
@@ -22709,7 +22765,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0099",
+            "id": "hard-0101",
             "type": "tap",
             "timeMs": 71138,
             "durationMs": 0,
@@ -22723,7 +22779,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0100",
+            "id": "hard-0102",
             "type": "mash",
             "timeMs": 71373,
             "durationMs": 1172,
@@ -22737,7 +22793,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0101",
+            "id": "hard-0103",
             "type": "tap",
             "timeMs": 73013,
             "durationMs": 0,
@@ -22751,23 +22807,23 @@
             "finisher": false
           },
           {
-            "id": "hard-0102",
+            "id": "hard-0104",
             "type": "hold",
-            "timeMs": 73365,
+            "timeMs": 73482,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 223,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 224,
             "finisher": false
           },
           {
-            "id": "hard-0103",
+            "id": "hard-0105",
             "type": "tap",
-            "timeMs": 73951,
+            "timeMs": 74068,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22779,9 +22835,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0104",
+            "id": "hard-0106",
             "type": "tap",
-            "timeMs": 74185,
+            "timeMs": 74302,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22793,7 +22849,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0105",
+            "id": "hard-0107",
             "type": "mash",
             "timeMs": 74654,
             "durationMs": 1172,
@@ -22807,7 +22863,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0106",
+            "id": "hard-0108",
             "type": "tap",
             "timeMs": 76295,
             "durationMs": 0,
@@ -22821,7 +22877,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0107",
+            "id": "hard-0109",
             "type": "mash",
             "timeMs": 76529,
             "durationMs": 1172,
@@ -22835,7 +22891,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0108",
+            "id": "hard-0110",
             "type": "tap",
             "timeMs": 78170,
             "durationMs": 0,
@@ -22849,23 +22905,23 @@
             "finisher": false
           },
           {
-            "id": "hard-0109",
+            "id": "hard-0111",
             "type": "hold",
-            "timeMs": 78521,
+            "timeMs": 78638,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 239,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 240,
             "finisher": false
           },
           {
-            "id": "hard-0110",
+            "id": "hard-0112",
             "type": "tap",
-            "timeMs": 79107,
+            "timeMs": 79224,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22877,9 +22933,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0111",
+            "id": "hard-0113",
             "type": "tap",
-            "timeMs": 79341,
+            "timeMs": 79459,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22891,7 +22947,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0112",
+            "id": "hard-0114",
             "type": "mash",
             "timeMs": 79693,
             "durationMs": 1172,
@@ -22905,7 +22961,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0113",
+            "id": "hard-0115",
             "type": "tap",
             "timeMs": 81334,
             "durationMs": 0,
@@ -22919,7 +22975,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0114",
+            "id": "hard-0116",
             "type": "mash",
             "timeMs": 81685,
             "durationMs": 1172,
@@ -22933,7 +22989,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0115",
+            "id": "hard-0117",
             "type": "tap",
             "timeMs": 83326,
             "durationMs": 0,
@@ -22947,23 +23003,37 @@
             "finisher": false
           },
           {
-            "id": "hard-0116",
-            "type": "hold",
-            "timeMs": 83795,
-            "durationMs": 352,
+            "id": "hard-0118",
+            "type": "tap",
+            "timeMs": 83560,
+            "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
             "callText": "決着返し",
             "responseText": "決着返し",
             "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 255,
+            "phraseRole": "kobushi",
+            "phraseStep": 254,
             "finisher": false
           },
           {
-            "id": "hard-0117",
+            "id": "hard-0119",
+            "type": "hold",
+            "timeMs": 83912,
+            "durationMs": 352,
+            "targetCount": 0,
+            "phraseLabel": "追分決着",
+            "callText": "親分の追分",
+            "responseText": "決着返し",
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 256,
+            "finisher": false
+          },
+          {
+            "id": "hard-0120",
             "type": "tap",
-            "timeMs": 84381,
+            "timeMs": 84498,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22975,9 +23045,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0118",
+            "id": "hard-0121",
             "type": "tap",
-            "timeMs": 84615,
+            "timeMs": 84732,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -22989,9 +23059,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0119",
+            "id": "hard-0122",
             "type": "mash",
-            "timeMs": 84849,
+            "timeMs": 84966,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -23003,9 +23073,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0120",
+            "id": "hard-0123",
             "type": "tap",
-            "timeMs": 86490,
+            "timeMs": 86607,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -23017,9 +23087,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0121",
+            "id": "hard-0124",
             "type": "tap",
-            "timeMs": 86724,
+            "timeMs": 86841,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -23031,9 +23101,9 @@
             "finisher": false
           },
           {
-            "id": "hard-0122",
+            "id": "hard-0125",
             "type": "mash",
-            "timeMs": 86959,
+            "timeMs": 87076,
             "durationMs": 1172,
             "targetCount": 7,
             "phraseLabel": "追分決着",
@@ -23045,23 +23115,23 @@
             "finisher": false
           },
           {
-            "id": "hard-0123",
+            "id": "hard-0126",
             "type": "hold",
-            "timeMs": 88834,
+            "timeMs": 88951,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 271,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 272,
             "finisher": false
           },
           {
-            "id": "hard-0124",
+            "id": "hard-0127",
             "type": "tap",
-            "timeMs": 89420,
+            "timeMs": 89537,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -23073,7 +23143,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0125",
+            "id": "hard-0128",
             "type": "tap",
             "timeMs": 89771,
             "durationMs": 0,
@@ -23087,7 +23157,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0126",
+            "id": "hard-0129",
             "type": "tap",
             "timeMs": 90006,
             "durationMs": 0,
@@ -23101,7 +23171,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0127",
+            "id": "hard-0130",
             "type": "mash",
             "timeMs": 90240,
             "durationMs": 1172,
@@ -23115,7 +23185,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0128",
+            "id": "hard-0131",
             "type": "tap",
             "timeMs": 91881,
             "durationMs": 0,
@@ -23129,7 +23199,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0129",
+            "id": "hard-0132",
             "type": "mash",
             "timeMs": 92115,
             "durationMs": 1172,
@@ -23143,7 +23213,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0130",
+            "id": "hard-0133",
             "type": "tap",
             "timeMs": 93756,
             "durationMs": 0,
@@ -23157,21 +23227,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0131",
+            "id": "hard-0134",
             "type": "hold",
             "timeMs": 94107,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 287,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 288,
             "finisher": false
           },
           {
-            "id": "hard-0132",
+            "id": "hard-0135",
             "type": "tap",
             "timeMs": 94693,
             "durationMs": 0,
@@ -23185,7 +23255,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0133",
+            "id": "hard-0136",
             "type": "tap",
             "timeMs": 94927,
             "durationMs": 0,
@@ -23199,7 +23269,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0134",
+            "id": "hard-0137",
             "type": "tap",
             "timeMs": 95162,
             "durationMs": 0,
@@ -23213,7 +23283,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0135",
+            "id": "hard-0138",
             "type": "mash",
             "timeMs": 95396,
             "durationMs": 1172,
@@ -23227,7 +23297,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0136",
+            "id": "hard-0139",
             "type": "tap",
             "timeMs": 97037,
             "durationMs": 0,
@@ -23241,7 +23311,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0137",
+            "id": "hard-0140",
             "type": "mash",
             "timeMs": 97271,
             "durationMs": 1172,
@@ -23255,21 +23325,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0138",
+            "id": "hard-0141",
             "type": "hold",
             "timeMs": 99146,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 303,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 304,
             "finisher": false
           },
           {
-            "id": "hard-0139",
+            "id": "hard-0142",
             "type": "tap",
             "timeMs": 99732,
             "durationMs": 0,
@@ -23283,7 +23353,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0140",
+            "id": "hard-0143",
             "type": "tap",
             "timeMs": 99966,
             "durationMs": 0,
@@ -23297,7 +23367,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0141",
+            "id": "hard-0144",
             "type": "mash",
             "timeMs": 100435,
             "durationMs": 1172,
@@ -23311,7 +23381,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0142",
+            "id": "hard-0145",
             "type": "tap",
             "timeMs": 102076,
             "durationMs": 0,
@@ -23325,7 +23395,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0143",
+            "id": "hard-0146",
             "type": "mash",
             "timeMs": 102310,
             "durationMs": 1172,
@@ -23339,7 +23409,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0144",
+            "id": "hard-0147",
             "type": "hold",
             "timeMs": 104302,
             "durationMs": 352,
@@ -23353,7 +23423,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0145",
+            "id": "hard-0148",
             "type": "hold",
             "timeMs": 104888,
             "durationMs": 352,
@@ -23367,7 +23437,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0146",
+            "id": "hard-0149",
             "type": "tap",
             "timeMs": 105474,
             "durationMs": 0,
@@ -23381,7 +23451,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0147",
+            "id": "hard-0150",
             "type": "mash",
             "timeMs": 105709,
             "durationMs": 1172,
@@ -23395,7 +23465,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0148",
+            "id": "hard-0151",
             "type": "tap",
             "timeMs": 107349,
             "durationMs": 0,
@@ -23409,7 +23479,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0149",
+            "id": "hard-0152",
             "type": "mash",
             "timeMs": 107701,
             "durationMs": 1172,
@@ -23423,7 +23493,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0150",
+            "id": "hard-0153",
             "type": "tap",
             "timeMs": 109341,
             "durationMs": 0,
@@ -23437,21 +23507,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0151",
+            "id": "hard-0154",
             "type": "hold",
             "timeMs": 109810,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 335,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 336,
             "finisher": false
           },
           {
-            "id": "hard-0152",
+            "id": "hard-0155",
             "type": "tap",
             "timeMs": 110396,
             "durationMs": 0,
@@ -23465,7 +23535,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0153",
+            "id": "hard-0156",
             "type": "tap",
             "timeMs": 110631,
             "durationMs": 0,
@@ -23479,7 +23549,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0154",
+            "id": "hard-0157",
             "type": "mash",
             "timeMs": 110865,
             "durationMs": 1172,
@@ -23493,7 +23563,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0155",
+            "id": "hard-0158",
             "type": "tap",
             "timeMs": 112506,
             "durationMs": 0,
@@ -23507,7 +23577,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0156",
+            "id": "hard-0159",
             "type": "tap",
             "timeMs": 112740,
             "durationMs": 0,
@@ -23521,7 +23591,7 @@
             "finisher": false
           },
           {
-            "id": "hard-0157",
+            "id": "hard-0160",
             "type": "mash",
             "timeMs": 112974,
             "durationMs": 1172,
@@ -23535,21 +23605,21 @@
             "finisher": false
           },
           {
-            "id": "hard-0158",
+            "id": "hard-0161",
             "type": "hold",
             "timeMs": 114849,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 351,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 352,
             "finisher": true
           },
           {
-            "id": "hard-0159",
+            "id": "hard-0162",
             "type": "tap",
             "timeMs": 115435,
             "durationMs": 0,
@@ -23563,7 +23633,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0160",
+            "id": "hard-0163",
             "type": "tap",
             "timeMs": 115670,
             "durationMs": 0,
@@ -23577,7 +23647,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0161",
+            "id": "hard-0164",
             "type": "tap",
             "timeMs": 115904,
             "durationMs": 0,
@@ -23591,7 +23661,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0162",
+            "id": "hard-0165",
             "type": "mash",
             "timeMs": 116138,
             "durationMs": 1172,
@@ -23605,7 +23675,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0163",
+            "id": "hard-0166",
             "type": "tap",
             "timeMs": 117779,
             "durationMs": 0,
@@ -23619,7 +23689,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0164",
+            "id": "hard-0167",
             "type": "mash",
             "timeMs": 118013,
             "durationMs": 1172,
@@ -23633,21 +23703,21 @@
             "finisher": true
           },
           {
-            "id": "hard-0165",
+            "id": "hard-0168",
             "type": "hold",
             "timeMs": 119888,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 367,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 368,
             "finisher": true
           },
           {
-            "id": "hard-0166",
+            "id": "hard-0169",
             "type": "tap",
             "timeMs": 120474,
             "durationMs": 0,
@@ -23661,7 +23731,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0167",
+            "id": "hard-0170",
             "type": "tap",
             "timeMs": 120709,
             "durationMs": 0,
@@ -23675,7 +23745,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0168",
+            "id": "hard-0171",
             "type": "tap",
             "timeMs": 120943,
             "durationMs": 0,
@@ -23689,7 +23759,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0169",
+            "id": "hard-0172",
             "type": "mash",
             "timeMs": 121177,
             "durationMs": 1172,
@@ -23703,7 +23773,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0170",
+            "id": "hard-0173",
             "type": "tap",
             "timeMs": 122818,
             "durationMs": 0,
@@ -23717,7 +23787,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0171",
+            "id": "hard-0174",
             "type": "mash",
             "timeMs": 123052,
             "durationMs": 1172,
@@ -23731,7 +23801,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0172",
+            "id": "hard-0175",
             "type": "tap",
             "timeMs": 124693,
             "durationMs": 0,
@@ -23745,23 +23815,23 @@
             "finisher": true
           },
           {
-            "id": "hard-0173",
+            "id": "hard-0176",
             "type": "hold",
-            "timeMs": 125162,
+            "timeMs": 125279,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 383,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 384,
             "finisher": true
           },
           {
-            "id": "hard-0174",
+            "id": "hard-0177",
             "type": "tap",
-            "timeMs": 125748,
+            "timeMs": 125865,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -23773,9 +23843,9 @@
             "finisher": true
           },
           {
-            "id": "hard-0175",
+            "id": "hard-0178",
             "type": "tap",
-            "timeMs": 125982,
+            "timeMs": 126099,
             "durationMs": 0,
             "targetCount": 0,
             "phraseLabel": "追分決着",
@@ -23787,7 +23857,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0176",
+            "id": "hard-0179",
             "type": "mash",
             "timeMs": 126451,
             "durationMs": 1172,
@@ -23801,7 +23871,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0177",
+            "id": "hard-0180",
             "type": "tap",
             "timeMs": 128091,
             "durationMs": 0,
@@ -23815,7 +23885,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0178",
+            "id": "hard-0181",
             "type": "mash",
             "timeMs": 128326,
             "durationMs": 1172,
@@ -23829,7 +23899,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0179",
+            "id": "hard-0182",
             "type": "tap",
             "timeMs": 129966,
             "durationMs": 0,
@@ -23843,21 +23913,21 @@
             "finisher": true
           },
           {
-            "id": "hard-0180",
+            "id": "hard-0183",
             "type": "hold",
             "timeMs": 130318,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 399,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 400,
             "finisher": true
           },
           {
-            "id": "hard-0181",
+            "id": "hard-0184",
             "type": "tap",
             "timeMs": 130904,
             "durationMs": 0,
@@ -23871,7 +23941,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0182",
+            "id": "hard-0185",
             "type": "tap",
             "timeMs": 131138,
             "durationMs": 0,
@@ -23885,7 +23955,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0183",
+            "id": "hard-0186",
             "type": "mash",
             "timeMs": 131607,
             "durationMs": 1172,
@@ -23899,7 +23969,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0184",
+            "id": "hard-0187",
             "type": "tap",
             "timeMs": 133248,
             "durationMs": 0,
@@ -23913,7 +23983,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0185",
+            "id": "hard-0188",
             "type": "mash",
             "timeMs": 133482,
             "durationMs": 1172,
@@ -23927,7 +23997,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0186",
+            "id": "hard-0189",
             "type": "tap",
             "timeMs": 135123,
             "durationMs": 0,
@@ -23941,21 +24011,21 @@
             "finisher": true
           },
           {
-            "id": "hard-0187",
+            "id": "hard-0190",
             "type": "hold",
             "timeMs": 135591,
             "durationMs": 352,
             "targetCount": 0,
             "phraseLabel": "追分決着",
-            "callText": "決着返し",
+            "callText": "親分の追分",
             "responseText": "決着返し",
-            "enemyCue": false,
-            "phraseRole": "tame",
-            "phraseStep": 415,
+            "enemyCue": true,
+            "phraseRole": "call",
+            "phraseStep": 416,
             "finisher": true
           },
           {
-            "id": "hard-0188",
+            "id": "hard-0191",
             "type": "tap",
             "timeMs": 136177,
             "durationMs": 0,
@@ -23969,7 +24039,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0189",
+            "id": "hard-0192",
             "type": "tap",
             "timeMs": 136412,
             "durationMs": 0,
@@ -23983,7 +24053,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0190",
+            "id": "hard-0193",
             "type": "mash",
             "timeMs": 136646,
             "durationMs": 1172,
@@ -23997,7 +24067,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0191",
+            "id": "hard-0194",
             "type": "tap",
             "timeMs": 138287,
             "durationMs": 0,
@@ -24011,7 +24081,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0192",
+            "id": "hard-0195",
             "type": "tap",
             "timeMs": 138521,
             "durationMs": 0,
@@ -24025,7 +24095,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0193",
+            "id": "hard-0196",
             "type": "mash",
             "timeMs": 138756,
             "durationMs": 1172,
@@ -24039,7 +24109,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0194",
+            "id": "hard-0197",
             "type": "hold",
             "timeMs": 140631,
             "durationMs": 352,
@@ -24053,7 +24123,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0195",
+            "id": "hard-0198",
             "type": "hold",
             "timeMs": 141216,
             "durationMs": 352,
@@ -24067,7 +24137,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0196",
+            "id": "hard-0199",
             "type": "tap",
             "timeMs": 141802,
             "durationMs": 0,
@@ -24081,7 +24151,7 @@
             "finisher": true
           },
           {
-            "id": "hard-0197",
+            "id": "hard-0200",
             "type": "mash",
             "timeMs": 142037,
             "durationMs": 1172,

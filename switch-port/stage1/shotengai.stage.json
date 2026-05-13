@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage1-shotengai",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T14:40:52.857Z",
-  "sourceGitCommit": "90a01cee4ea6d075012b3bddbeffd97d3daa3125",
+  "generatedAt": "2026-05-13T15:00:00.240Z",
+  "sourceGitCommit": "ff005841ba76af4fc7bd3aea9f9140929254f429",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
@@ -192,8 +192,8 @@
       "chartSummary": {
         "noteCount": 154,
         "typeCounts": {
-          "tap": 103,
-          "hold": 41,
+          "tap": 104,
+          "hold": 40,
           "mash": 10
         },
         "firstMs": 1293,
@@ -218,8 +218,8 @@
       "chartSummary": {
         "noteCount": 176,
         "typeCounts": {
-          "tap": 107,
-          "hold": 55,
+          "tap": 111,
+          "hold": 51,
           "mash": 14
         },
         "firstMs": 1293,
@@ -3299,16 +3299,16 @@
       },
       {
         "id": "normal-0106",
-        "type": "hold",
-        "timeMs": 78338,
-        "durationMs": 682,
+        "type": "tap",
+        "timeMs": 77998,
+        "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
+        "callText": "敵の溜め節",
         "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 113,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 112,
         "finisher": false
       },
       {
@@ -4561,16 +4561,16 @@
       },
       {
         "id": "hard-0042",
-        "type": "hold",
-        "timeMs": 26179,
-        "durationMs": 682,
+        "type": "tap",
+        "timeMs": 26009,
+        "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
+        "callText": "敵の溜め節",
         "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 49,
+        "enemyCue": true,
+        "phraseRole": "kobushi",
+        "phraseStep": 48,
         "finisher": false
       },
       {
@@ -5261,16 +5261,16 @@
       },
       {
         "id": "hard-0092",
-        "type": "hold",
-        "timeMs": 58736,
-        "durationMs": 682,
+        "type": "tap",
+        "timeMs": 58566,
+        "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
+        "callText": "敵の溜め節",
         "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 113,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 112,
         "finisher": false
       },
       {
@@ -5821,16 +5821,16 @@
       },
       {
         "id": "hard-0132",
-        "type": "hold",
-        "timeMs": 83111,
-        "durationMs": 682,
+        "type": "tap",
+        "timeMs": 82941,
+        "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
+        "callText": "敵の溜め節",
         "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 161,
+        "enemyCue": true,
+        "phraseRole": "kobushi",
+        "phraseStep": 160,
         "finisher": false
       },
       {
@@ -6157,16 +6157,16 @@
       },
       {
         "id": "hard-0156",
-        "type": "hold",
-        "timeMs": 99304,
-        "durationMs": 682,
+        "type": "tap",
+        "timeMs": 99134,
+        "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
+        "callText": "敵の溜め節",
         "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "tame",
-        "phraseStep": 193,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 192,
         "finisher": true
       },
       {
