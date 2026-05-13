@@ -37,6 +37,11 @@ const indexHtml = await fetchText(baseUrl);
 assert(indexHtml.includes(`src/main.js?v=${EXPECTED_MAIN_TOKEN}`), "index.html does not reference the expected main.js cache token");
 assert(indexHtml.includes(`src/styles.css?v=${EXPECTED_STYLE_TOKEN}`), "index.html does not reference the expected styles.css cache token");
 
+const stylesCss = await fetchText(new URL(`src/styles.css?v=${EXPECTED_STYLE_TOKEN}`, baseUrl));
+assert(stylesCss.includes("mobileLandscapeDefault"), "styles.css mobile landscape default rules are missing");
+assert(stylesCss.includes("transform: rotate(90deg) translateY(-100%)"), "styles.css mobile landscape rotation is missing");
+assert(stylesCss.includes(".portraitHint:not([hidden])"), "styles.css portrait hint override is missing");
+
 const mainUrl = new URL(`src/main.js?v=${EXPECTED_MAIN_TOKEN}`, baseUrl).toString();
 const mainJs = await fetchText(mainUrl);
 assert(mainJs.includes(`./audio.js?v=${EXPECTED_AUDIO_TOKEN}`), "main.js does not reference the expected audio.js cache token");

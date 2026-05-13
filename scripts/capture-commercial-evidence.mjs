@@ -133,8 +133,13 @@ async function screenshot(page, name) {
   await page.screenshot({ path: path.join(outDir, name), fullPage: false });
 }
 
-async function withPage(browser, viewport, run) {
-  const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
+function pageOptionsFor(optionsOrViewport) {
+  if (optionsOrViewport?.viewport) return optionsOrViewport;
+  return { viewport: optionsOrViewport, deviceScaleFactor: 1 };
+}
+
+async function withPage(browser, optionsOrViewport, run) {
+  const page = await browser.newPage(pageOptionsFor(optionsOrViewport));
   await run(page);
   await page.close();
 }
@@ -155,10 +160,10 @@ try {
     await screenshot(page, "03-help-desktop.png");
   });
 
-  await withPage(browser, { width: 390, height: 844 }, async (page) => {
+  await withPage(browser, { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }, async (page) => {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
-    await screenshot(page, "04-mobile-portrait-hint.png");
+    await screenshot(page, "04-mobile-portrait-landscape-default.png");
   });
 
   await withPage(browser, { width: 844, height: 390 }, async (page) => {

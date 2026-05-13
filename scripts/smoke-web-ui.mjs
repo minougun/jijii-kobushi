@@ -104,8 +104,13 @@ async function startStaticServer({ allowHeadAssetFallback = false } = {}) {
   return { server, url: `http://127.0.0.1:${address.port}/` };
 }
 
-async function withPage(browser, viewport, test) {
-  const page = await browser.newPage({ viewport });
+function pageOptionsFor(optionsOrViewport) {
+  if (optionsOrViewport?.viewport) return optionsOrViewport;
+  return { viewport: optionsOrViewport };
+}
+
+async function withPage(browser, optionsOrViewport, test) {
+  const page = await browser.newPage(pageOptionsFor(optionsOrViewport));
   const pageErrors = [];
   const consoleErrors = [];
   const networkErrors = [];
@@ -130,6 +135,33 @@ async function withPage(browser, viewport, test) {
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+const MOBILE_PORTRAIT_PAGE = {
+  viewport: { width: 390, height: 844 },
+  deviceScaleFactor: 2,
+  isMobile: true,
+  hasTouch: true,
+};
+
+const NARROW_DESKTOP_PAGE = {
+  viewport: { width: 390, height: 844 },
+};
+
+async function assertElementInViewport(page, selector, label = selector) {
+  const box = await page.locator(selector).boundingBox();
+  const viewport = page.viewportSize();
+  assert(box, `${label} has no bounding box`);
+  assert(viewport, `${label}: missing viewport size`);
+  assert(box.width > 0 && box.height > 0, `${label} is not visible: ${JSON.stringify(box)}`);
+  assert(box.x >= -1 && box.y >= -1, `${label} starts outside viewport: ${JSON.stringify(box)}`);
+  assert(box.x + box.width <= viewport.width + 1, `${label} exceeds viewport width: ${JSON.stringify({ box, viewport })}`);
+  assert(box.y + box.height <= viewport.height + 1, `${label} exceeds viewport height: ${JSON.stringify({ box, viewport })}`);
+}
+
+async function assertElementClickable(page, selector, label = selector) {
+  await assertElementInViewport(page, selector, label);
+  await page.locator(selector).click({ trial: true });
 }
 
 function localHeadCommit() {
@@ -181,6 +213,24 @@ async function reachPausedBattle(page) {
   await page.locator("#pauseMenu").waitFor({ state: "visible" });
 }
 
+async function reachMobileBattle(page) {
+  await openTitle(page);
+  await page.locator("#primaryButton").click();
+  for (let attempt = 0; attempt < 24; attempt += 1) {
+    const phase = await page.evaluate(() => document.documentElement.dataset.phase);
+    if (phase === "battle") break;
+    const skipVisible = await page.locator("#skipButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
+    if (skipVisible) {
+      await page.locator("#skipButton").click();
+    } else {
+      const primaryVisible = await page.locator("#primaryButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
+      if (primaryVisible) await page.locator("#primaryButton").click();
+    }
+    await page.waitForTimeout(140);
+  }
+  await page.waitForFunction(() => document.documentElement.dataset.phase === "battle", null, { timeout: 10000 });
+}
+
 async function assertStorageFailureAnnounced(page, expected = "保存できませんでした") {
   await page.waitForFunction((text) => document.querySelector("#srJudgeStatus")?.textContent?.includes(text), expected, { timeout: 2500 });
 }
@@ -201,7 +251,26 @@ try {
     assert(await page.locator("#srJudgeStatus").count() === 1, "sr judge region missing");
   });
 
-  await withPage(browser, { width: 390, height: 844 }, async (page) => {
+  await withPage(browser, MOBILE_PORTRAIT_PAGE, async (page) => {
+    await page.addInitScript(() => {
+      window.__orientationRequests = { fullscreen: 0, lock: 0 };
+      Element.prototype.requestFullscreen = () => {
+        window.__orientationRequests.fullscreen += 1;
+        return Promise.reject(new DOMException("stub fullscreen denied", "NotAllowedError"));
+      };
+      try {
+        Object.defineProperty(screen, "orientation", {
+          configurable: true,
+          value: {
+            lock: () => {
+              window.__orientationRequests.lock += 1;
+              return Promise.reject(new DOMException("stub orientation denied", "NotAllowedError"));
+            },
+          },
+        });
+      } catch {
+      }
+    });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
     const shellMetrics = await page.locator(".shell").evaluate((element) => {
@@ -216,6 +285,21 @@ try {
     assert(shellMetrics.transform !== "none", `mobile landscape shell is not rotated: ${JSON.stringify(shellMetrics)}`);
     const hintVisible = await page.locator("#portraitHint").evaluate((element) => !element.hidden && getComputedStyle(element).display !== "none");
     assert(!hintVisible, "portrait hint should not cover default landscape display");
+    await assertElementClickable(page, "#primaryButton", "mobile opening primary");
+    await page.locator("#primaryButton").click();
+    await page.waitForFunction(() => window.__orientationRequests?.fullscreen === 1 && window.__orientationRequests?.lock === 1);
+    await page.locator("#openSettingsButton").waitFor({ state: "visible" });
+    await assertElementClickable(page, "#openSettingsButton", "mobile title settings");
+    await assertElementClickable(page, "#openHelpButton", "mobile title help");
+    await assertElementClickable(page, "button[data-difficulty='easy']", "mobile difficulty easy");
+    await assertElementClickable(page, "#primaryButton", "mobile title start");
+  });
+
+  await withPage(browser, NARROW_DESKTOP_PAGE, async (page) => {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.waitForFunction(() => document.documentElement.dataset.phase === "opening");
+    const rotated = await page.evaluate(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
+    assert(!rotated, "narrow desktop viewport should not use mobile landscape default");
   });
 
   await withPage(browser, { width: 844, height: 390 }, async (page) => {
@@ -225,6 +309,54 @@ try {
     });
     const box = await page.locator("#mobileTapPad").boundingBox();
     assert(box && box.width >= 80 && box.height >= 80, `mobile tap pad too small: ${JSON.stringify(box)}`);
+  });
+
+  await withPage(browser, MOBILE_PORTRAIT_PAGE, async (page) => {
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
+    await reachMobileBattle(page);
+    await assertElementClickable(page, "#mobileTapPad", "mobile battle tap pad");
+    await page.locator("#mobileTapPad").click();
+    await assertElementClickable(page, "#quickSaveButton", "mobile quick save");
+    await assertElementClickable(page, "#pauseButton", "mobile pause button");
+    await page.locator("#pauseButton").click();
+    await page.locator("#pauseMenu").waitFor({ state: "visible" });
+    await assertElementClickable(page, "#resumeButton", "mobile resume button");
+    await assertElementClickable(page, "#pauseOffsetButton", "mobile pause offset button");
+    await assertElementClickable(page, "#pauseHelpButton", "mobile pause help button");
+    await assertElementClickable(page, "#pauseSettingsButton", "mobile pause settings button");
+    await page.locator("#pauseOffsetButton").click();
+    await assertElementInViewport(page, ".settings", "mobile settings popout");
+    await page.keyboard.press("Escape");
+    await page.locator("#pauseHelpButton").click();
+    await assertElementInViewport(page, "#helpGuide", "mobile help popout");
+    await page.keyboard.press("Escape");
+    await page.evaluate(() => {
+      const pauseMenu = document.querySelector("#pauseMenu");
+      if (pauseMenu) pauseMenu.hidden = true;
+      document.documentElement.dataset.phase = "results";
+      const resultSummary = document.querySelector("#resultSummary");
+      const overlay = document.querySelector("#overlay");
+      const primary = document.querySelector("#primaryButton");
+      if (resultSummary) resultSummary.hidden = false;
+      if (overlay) {
+        overlay.hidden = false;
+        overlay.className = "overlay resultOverlay";
+      }
+      if (primary) {
+        primary.hidden = false;
+        primary.textContent = "次へ";
+      }
+    });
+    await assertElementClickable(page, "#primaryButton", "mobile results primary");
+    await page.evaluate(() => {
+      document.documentElement.dataset.phase = "endingVideo";
+      const layer = document.querySelector("#endingVideoLayer");
+      const skip = document.querySelector("#endingVideoSkip");
+      if (layer) layer.hidden = false;
+      if (skip) skip.hidden = false;
+    });
+    await assertElementClickable(page, "#endingVideoSkip", "mobile ending video skip");
   });
 
   await withPage(browser, { width: 1280, height: 720 }, async (page, observed) => {
@@ -271,7 +403,7 @@ try {
     assert(!label.includes("保存済み"), `quick save failure showed success label: ${label}`);
   });
 
-  await withPage(browser, { width: 390, height: 844 }, async (page) => {
+  await withPage(browser, MOBILE_PORTRAIT_PAGE, async (page) => {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
     const hintVisible = await page.locator("#portraitHint").evaluate((element) => !element.hidden && getComputedStyle(element).display !== "none");

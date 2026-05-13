@@ -9,7 +9,7 @@ const requiredEvidence = [
   "01-op-desktop.png",
   "02-title-desktop.png",
   "03-help-desktop.png",
-  "04-mobile-portrait-hint.png",
+  "04-mobile-portrait-landscape-default.png",
   "05-mobile-landscape-title.png",
   "06-battle-desktop.png",
   "07-pause-help-popout-desktop.png",

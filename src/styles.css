@@ -2679,6 +2679,12 @@ html.mobileLandscapeDefault[data-phase="battle"] .mobileTapPad {
   margin-bottom: max(8px, env(safe-area-inset-bottom, 0px));
 }
 
+html.mobileLandscapeDefault.show-settings-popout .settings[open],
+html.mobileLandscapeDefault.show-help-popout .helpGuide[open] {
+  max-width: calc(100svh - 24px);
+  max-height: calc(100vw - 24px);
+}
+
 html.doodle-loop:is([data-phase="intro"], [data-phase="battle"], [data-phase="rest"], [data-phase="finalReveal"]) .topbar {
   left: auto;
   width: min(var(--game-w, 100vw), 100vw);

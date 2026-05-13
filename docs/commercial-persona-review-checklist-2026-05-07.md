@@ -59,7 +59,7 @@ npm run test:web-smoke:pages
 - `docs/commercial-review-evidence-2026-05-07/01-op-desktop.png`
 - `docs/commercial-review-evidence-2026-05-07/02-title-desktop.png`
 - `docs/commercial-review-evidence-2026-05-07/03-help-desktop.png`
-- `docs/commercial-review-evidence-2026-05-07/04-mobile-portrait-hint.png`
+- `docs/commercial-review-evidence-2026-05-07/04-mobile-portrait-landscape-default.png`
 - `docs/commercial-review-evidence-2026-05-07/05-mobile-landscape-title.png`
 - `docs/commercial-review-evidence-2026-05-07/06-battle-desktop.png`
 - `docs/commercial-review-evidence-2026-05-07/07-pause-help-popout-desktop.png`

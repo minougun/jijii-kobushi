@@ -547,8 +547,17 @@ function isMobileLikeViewport() {
   return window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
 }
 
+function isPhoneLikePortraitViewport() {
+  const shortSide = Math.min(window.innerWidth || 0, window.innerHeight || 0);
+  const touchLike =
+    window.matchMedia("(pointer: coarse)").matches ||
+    window.matchMedia("(hover: none)").matches ||
+    navigator.maxTouchPoints > 0;
+  return window.matchMedia("(orientation: portrait)").matches && touchLike && shortSide <= 540;
+}
+
 function shouldUseDefaultMobileLandscape() {
-  return window.matchMedia("(max-width: 900px) and (orientation: portrait)").matches;
+  return isPhoneLikePortraitViewport();
 }
 
 function syncMobileLandscapeDefault() {
@@ -639,8 +648,7 @@ function syncViewportVars() {
 }
 
 async function requestLandscapeOrientation() {
-  const phoneLike = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
-  if (!phoneLike) return;
+  if (!isPhoneLikePortraitViewport()) return;
   if (!document.fullscreenElement && typeof document.documentElement.requestFullscreen === "function") {
     try {
       await document.documentElement.requestFullscreen({ navigationUI: "hide" });
