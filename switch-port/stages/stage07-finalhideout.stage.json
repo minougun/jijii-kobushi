@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage7-finalhideout",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T13:58:52.346Z",
-  "sourceGitCommit": "0204156c6c7b144ebefe3e599053bde5f6c8ee3b",
+  "generatedAt": "2026-05-13T14:15:49.958Z",
+  "sourceGitCommit": "fec63419ff20758ac6c27262f5db39fed6107206",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
