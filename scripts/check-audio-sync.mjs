@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
-import { STAGES, DIFFICULTIES, getStageChart, normalizeLoop } from "../src/stages.js";
+import { STAGES, DIFFICULTIES, getStageChart, getStageChartTimingAudit, normalizeLoop } from "../src/stages.js";
 import { BGM_TRACKS } from "../src/audio.js";
 
 const SAMPLE_RATE = 500;
@@ -118,6 +118,7 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
   for (const difficulty of Object.keys(DIFFICULTIES)) {
     for (const loop of [1, 2]) {
       const chart = getStageChart(stage, difficulty, loop);
+      const audit = getStageChartTimingAudit(stage, difficulty, loop);
       for (const [index, note] of chart.entries()) {
         const trackTimeMs = note.timeMs + trackOffsetMs;
         const nearestBeatMs = nearestGridMs(trackTimeMs, beatPhaseMs, beatMs);
@@ -146,7 +147,38 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
           chartSubdivisionSupportRatio: chartSubdivisionSupportRatio.toFixed(3),
           beatSupportRatio: beatSupportRatio.toFixed(3),
           timingWarning,
-          droppedFromSpacing: "not_observable_from_post_spacing_chart",
+          droppedFromSpacing: "no",
+        });
+      }
+      for (const [index, note] of audit.droppedNotes.entries()) {
+        const trackTimeMs = note.timeMs + trackOffsetMs;
+        const nearestBeatMs = nearestGridMs(trackTimeMs, beatPhaseMs, beatMs);
+        const nearest16thMs = nearestGridMs(trackTimeMs, subdivisionPhaseMs, sixteenthMs);
+        const barIndex = Math.floor((nearestBeatMs - beatPhaseMs) / (beatMs * 4));
+        const beatInBar = modulo(Math.round((nearestBeatMs - beatPhaseMs) / beatMs), 4);
+        rows.push({
+          stage: stage.id,
+          difficulty,
+          loop: normalizeLoop(loop),
+          noteId: `${difficulty}-l${loop}-drop-${String(index + 1).padStart(4, "0")}`,
+          noteType: note.type,
+          phraseRole: note.phraseRole ?? "",
+          enemyCue: Boolean(note.enemyCue),
+          noteTimeMs: Math.round(note.timeMs),
+          durationMs: Math.round(note.durationMs ?? 0),
+          noteEndMs: Math.round(note.timeMs + (note.durationMs ?? 0)),
+          trackTimeMs: Math.round(trackTimeMs),
+          nearestBeatMs: Math.round(nearestBeatMs),
+          nearest16thMs: Math.round(nearest16thMs),
+          signedBeatOffsetMs: Math.round(signedGridOffset(trackTimeMs, beatPhaseMs, beatMs)),
+          signed16thOffsetMs: Math.round(signedGridOffset(trackTimeMs, subdivisionPhaseMs, sixteenthMs)),
+          signedChartGridOffsetMs: Math.round(signedGridOffset(trackTimeMs, modulo(stage.chartConfig.startMs + trackOffsetMs, chartGridMs), chartGridMs)),
+          barIndex,
+          beatInBar,
+          chartSubdivisionSupportRatio: chartSubdivisionSupportRatio.toFixed(3),
+          beatSupportRatio: beatSupportRatio.toFixed(3),
+          timingWarning,
+          droppedFromSpacing: note.dropReason,
         });
       }
     }
@@ -194,6 +226,15 @@ for (const stage of STAGES) {
     failures.push(`${stage.id}: chart/best subdivision offset ${Math.round(chartToBestSubdivisionOffsetMs)}ms`);
   } else if (Math.abs(chartToBestSubdivisionOffsetMs) > WARN_CHART_TO_BEST_SUBDIVISION_OFFSET_MS) {
     warnings.push(`${stage.id}: chart/best subdivision offset warning ${Math.round(chartToBestSubdivisionOffsetMs)}ms`);
+  }
+  for (const difficulty of Object.keys(DIFFICULTIES)) {
+    for (const loop of [1, 2]) {
+      for (const note of getStageChartTimingAudit(stage, difficulty, loop).droppedNotes) {
+        if (note.enemyCue || note.phraseRole === "call") {
+          failures.push(`${stage.id}/${difficulty}/loop${loop}: dropped anchor note sourceIndex=${note.sourceIndex} reason=${note.dropReason}`);
+        }
+      }
+    }
   }
   const timingWarning = warnings.filter((warning) => warning.startsWith(`${stage.id}:`)).join("; ");
 

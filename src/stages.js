@@ -230,7 +230,34 @@ function makeChart(config) {
     const last = chart.at(-1);
     chart.push(hold(ceilQuantizeAt(last.timeMs + stepMs * 2), quantizeDuration(1260), { phraseLabel: "追分決着", callText: "最後の溜め", responseText: "大団円", enemyCue: true, phraseRole: "tame" }));
   }
-  return markFinisherPhrase(removePreHoldTapOverlap(enforcePlayableSpacing(chart, burstTapGapMs, ceilQuantizeAt, gridMs ? baseStepMs : Infinity), preHoldTapClearanceMs));
+  const indexedChart = chart.map((note, sourceIndex) => ({ ...note, __sourceIndex: sourceIndex }));
+  const spacedChart = enforcePlayableSpacing(indexedChart, burstTapGapMs, ceilQuantizeAt, gridMs ? baseStepMs : Infinity);
+  const cleanedChart = removePreHoldTapOverlap(spacedChart, preHoldTapClearanceMs);
+  const finalChart = stripChartAuditSources(markFinisherPhrase(cleanedChart));
+  Object.defineProperty(finalChart, "timingAudit", {
+    value: {
+      droppedNotes: [
+        ...droppedNotesBetween(indexedChart, spacedChart, "playable-spacing"),
+        ...droppedNotesBetween(spacedChart, cleanedChart, "pre-hold-overlap"),
+      ],
+    },
+  });
+  return finalChart;
+}
+
+function stripChartAuditSources(chart) {
+  return chart.map(({ __sourceIndex, ...note }) => note);
+}
+
+function droppedNotesBetween(before, after, reason) {
+  const kept = new Set(after.map((note) => note.__sourceIndex));
+  return before
+    .filter((note) => !kept.has(note.__sourceIndex))
+    .map(({ __sourceIndex, ...note }) => ({
+      ...note,
+      sourceIndex: __sourceIndex,
+      dropReason: reason,
+    }));
 }
 
 function noteEndMs(note) {
@@ -243,30 +270,56 @@ function recoveryAfter(note, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS) {
   return tapRecoveryMs;
 }
 
+function isAnchorNote(note) {
+  return Boolean(note.enemyCue || note.phraseRole === "call");
+}
+
+function nextAllowedAfter(chart, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS) {
+  const last = chart.at(-1);
+  return last ? noteEndMs(last) + recoveryAfter(last, tapRecoveryMs) : -Infinity;
+}
+
 function enforcePlayableSpacing(chart, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS, snapStart = Math.round, maxShiftMs = Infinity) {
   let nextAllowedAt = -Infinity;
-  return chart.flatMap((note) => {
-    const minStartMs = Math.max(note.timeMs, Math.round(nextAllowedAt));
-    const snappedStartMs = snapStart(minStartMs);
-    if (snappedStartMs - note.timeMs > maxShiftMs) return [];
+  const spaced = [];
+  for (const note of chart) {
+    let minStartMs = Math.max(note.timeMs, Math.round(nextAllowedAt));
+    let snappedStartMs = snapStart(minStartMs);
+    if (snappedStartMs - note.timeMs > maxShiftMs && isAnchorNote(note)) {
+      while (spaced.length && snappedStartMs - note.timeMs > maxShiftMs) {
+        if (isAnchorNote(spaced.at(-1))) break;
+        spaced.pop();
+        nextAllowedAt = nextAllowedAfter(spaced, tapRecoveryMs);
+        minStartMs = Math.max(note.timeMs, Math.round(nextAllowedAt));
+        snappedStartMs = snapStart(minStartMs);
+      }
+    }
+    if (snappedStartMs - note.timeMs > maxShiftMs) continue;
     const adjusted = {
       ...note,
       timeMs: snappedStartMs,
     };
+    spaced.push(adjusted);
     nextAllowedAt = noteEndMs(adjusted) + recoveryAfter(adjusted, tapRecoveryMs);
-    return adjusted;
-  });
+  }
+  return spaced;
 }
 
 function removePreHoldTapOverlap(chart, clearanceMs = PRE_HOLD_TAP_CLEARANCE_MS) {
   if (!clearanceMs || clearanceMs <= 0) return chart;
   const cleaned = [];
   for (const note of chart) {
+    let dropCurrent = false;
     if (note.type === "hold") {
       while (cleaned.at(-1)?.type === "tap" && note.timeMs - noteEndMs(cleaned.at(-1)) < clearanceMs) {
+        if (isAnchorNote(cleaned.at(-1))) {
+          dropCurrent = true;
+          break;
+        }
         cleaned.pop();
       }
     }
+    if (dropCurrent) continue;
     cleaned.push(note);
   }
   return cleaned;
@@ -608,6 +661,10 @@ export function getEnemyHp(stage) {
 export function getStageChart(stage, difficulty = "normal", loop = 1) {
   const charts = normalizeLoop(loop) >= 2 ? stage.loopPlusChartsByDifficulty : stage.chartsByDifficulty;
   return charts?.[difficulty] ?? charts?.normal ?? stage.chartsByDifficulty?.[difficulty] ?? stage.chartsByDifficulty?.normal ?? stage.chart;
+}
+
+export function getStageChartTimingAudit(stage, difficulty = "normal", loop = 1) {
+  return getStageChart(stage, difficulty, loop).timingAudit ?? { droppedNotes: [] };
 }
 
 export function damageScaleForDifficulty(stage, difficulty = "normal", loop = 1) {
