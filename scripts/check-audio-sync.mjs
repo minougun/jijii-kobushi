@@ -33,7 +33,8 @@ function decodeEnvelope(trackPath) {
     ["-v", "error", "-i", trackPath, "-ac", "1", "-ar", String(SAMPLE_RATE), "-f", "f32le", "pipe:1"],
     { encoding: "buffer", maxBuffer: 128 * 1024 * 1024 },
   );
-  if (result.status !== 0) throw new Error(result.stderr.toString() || `ffmpeg failed: ${trackPath}`);
+  if (result.error) throw new Error(`ffmpeg failed for ${trackPath}: ${result.error.message}`);
+  if (result.status !== 0) throw new Error(result.stderr?.toString() || `ffmpeg failed: ${trackPath}`);
   const count = Math.floor(result.stdout.length / 4);
   const samples = new Float32Array(count);
   for (let i = 0; i < count; i += 1) samples[i] = Math.abs(result.stdout.readFloatLE(i * 4));
