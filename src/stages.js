@@ -172,6 +172,8 @@ function makeChart(config) {
     count,
     startMs,
     stepMs,
+    baseStepMs = stepMs,
+    slotStep,
     quantizeDivisions = 0,
     holdDurationMs,
     burstDurationMs: burstSpanMs,
@@ -184,7 +186,8 @@ function makeChart(config) {
     preHoldTapClearanceMs = PRE_HOLD_TAP_CLEARANCE_MS,
     finale = false,
   } = config;
-  const gridMs = quantizeDivisions > 0 ? stepMs / quantizeDivisions : 0;
+  const gridMs = quantizeDivisions > 0 ? baseStepMs / quantizeDivisions : 0;
+  const slotsPerNote = slotStep ?? quantizeDivisions;
   const quantizeAt = (timeMs) => {
     if (!gridMs) return Math.round(timeMs);
     return Math.round(startMs + Math.round((timeMs - startMs) / gridMs) * gridMs);
@@ -195,13 +198,18 @@ function makeChart(config) {
   };
   const quantizeDuration = (durationMs, maxMs = Infinity) => {
     if (!gridMs) return Math.round(durationMs);
-    const rounded = Math.max(Math.round(gridMs), Math.round(Math.max(1, Math.round(durationMs / gridMs)) * gridMs));
-    return Math.min(maxMs, rounded);
+    const units = Math.max(1, Math.round(durationMs / gridMs));
+    const maxUnits = Number.isFinite(maxMs) ? Math.max(1, Math.floor(maxMs / gridMs)) : units;
+    return Math.round(Math.min(units, maxUnits) * gridMs);
+  };
+  const timeAtIndex = (index) => {
+    if (!gridMs) return startMs + index * stepMs;
+    return startMs + Math.round(index * slotsPerNote) * gridMs;
   };
   const chart = [];
   for (let i = 0; i < count; i += 1) {
     const phraseItem = phraseItemFor(config, i);
-    const at = quantizeAt(startMs + i * stepMs + (phraseItem?.nudgeMs ?? 0));
+    const at = quantizeAt(timeAtIndex(i) + (phraseItem?.nudgeMs ?? 0));
     const noteType =
       i === 0
         ? "tap"
@@ -214,15 +222,15 @@ function makeChart(config) {
     } else {
       chart.push(tap(at, noteMetaFromPhrase(phraseItem, i)));
       if (tapRunEvery && i > 0 && i % tapRunEvery === tapRunEvery - 1) {
-        chart.push(tap(at + tapRunGapMs, { ...noteMetaFromPhrase(phraseItem, i), phraseRole: "kobushi" }));
+        chart.push(tap(ceilQuantizeAt(at + tapRunGapMs), { ...noteMetaFromPhrase(phraseItem, i), phraseRole: "kobushi" }));
       }
     }
   }
   if (finale) {
     const last = chart.at(-1);
-    chart.push(hold(last.timeMs + stepMs * 2, quantizeDuration(1260), { phraseLabel: "追分決着", callText: "最後の溜め", responseText: "大団円", enemyCue: true, phraseRole: "tame" }));
+    chart.push(hold(ceilQuantizeAt(last.timeMs + stepMs * 2), quantizeDuration(1260), { phraseLabel: "追分決着", callText: "最後の溜め", responseText: "大団円", enemyCue: true, phraseRole: "tame" }));
   }
-  return markFinisherPhrase(removePreHoldTapOverlap(enforcePlayableSpacing(chart, burstTapGapMs, ceilQuantizeAt), preHoldTapClearanceMs));
+  return markFinisherPhrase(removePreHoldTapOverlap(enforcePlayableSpacing(chart, burstTapGapMs, ceilQuantizeAt, gridMs ? baseStepMs : Infinity), preHoldTapClearanceMs));
 }
 
 function noteEndMs(note) {
@@ -235,13 +243,15 @@ function recoveryAfter(note, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS) {
   return tapRecoveryMs;
 }
 
-function enforcePlayableSpacing(chart, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS, snapStart = Math.round) {
+function enforcePlayableSpacing(chart, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS, snapStart = Math.round, maxShiftMs = Infinity) {
   let nextAllowedAt = -Infinity;
-  return chart.map((note) => {
+  return chart.flatMap((note) => {
     const minStartMs = Math.max(note.timeMs, Math.round(nextAllowedAt));
+    const snappedStartMs = snapStart(minStartMs);
+    if (snappedStartMs - note.timeMs > maxShiftMs) return [];
     const adjusted = {
       ...note,
-      timeMs: snapStart(minStartMs),
+      timeMs: snappedStartMs,
     };
     nextAllowedAt = noteEndMs(adjusted) + recoveryAfter(adjusted, tapRecoveryMs);
     return adjusted;
@@ -506,12 +516,14 @@ const HP_BY_STAGE = {
 
 function chartConfigForDifficulty(config, difficulty) {
   const density = DIFFICULTIES[difficulty].density;
-  const baseSpan = (config.count - 1) * config.stepMs;
   const count = Math.max(24, Math.round(config.count * density));
+  const baseSlots = (config.count - 1) * (config.quantizeDivisions || 1);
   return {
     ...config,
     count,
-    stepMs: Math.round(baseSpan / Math.max(1, count - 1)),
+    baseCount: config.count,
+    baseStepMs: config.stepMs,
+    slotStep: baseSlots / Math.max(1, count - 1),
     holdDurationMs: Math.round(config.holdDurationMs * (difficulty === "easy" ? 1.08 : difficulty === "hard" ? 0.9 : 1)),
     burstDurationMs: Math.min(MAX_MASH_DURATION_MS, Math.round(config.burstDurationMs * (difficulty === "easy" ? 1.12 : difficulty === "hard" ? 1.02 : 1.08)) + MASH_DURATION_BONUS_MS),
     burstTapTarget: Math.max(3, Math.min(MAX_MASH_TARGET_COUNT, config.burstTapTarget + (difficulty === "easy" ? -2 : difficulty === "hard" ? 0 : -1))),
@@ -528,13 +540,13 @@ function chartConfigForLoop(config, difficulty, loop = 1) {
   const loopLevel = loopDifficultyLevel(loop);
   if (loopLevel <= 0) return config;
   const boost = difficulty === "hard" ? 1.08 : difficulty === "normal" ? 1.06 : 1.04;
-  const baseSpan = (config.count - 1) * config.stepMs;
   const count = Math.max(24, Math.round(config.count * boost));
+  const baseSlots = ((config.baseCount ?? config.count) - 1) * (config.quantizeDivisions || 1);
   const tapGapScale = difficulty === "hard" ? 0.9 : difficulty === "normal" ? 0.92 : 0.94;
   return {
     ...config,
     count,
-    stepMs: Math.round(baseSpan / Math.max(1, count - 1)),
+    slotStep: baseSlots / Math.max(1, count - 1),
     holdDurationMs: Math.round(config.holdDurationMs * (difficulty === "hard" ? 0.95 : 0.97)),
     burstDurationMs: Math.min(MAX_MASH_DURATION_MS, Math.round(config.burstDurationMs * (difficulty === "hard" ? 0.98 : 1))),
     burstTapGapMs: Math.max(110, Math.round(config.burstTapGapMs * tapGapScale)),

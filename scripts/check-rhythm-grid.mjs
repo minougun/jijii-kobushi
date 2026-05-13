@@ -15,29 +15,6 @@ function nearestStepRatioOffsetMs(stepMs, beatMs) {
   );
 }
 
-function chartConfigForDifficulty(config, difficulty) {
-  const density = DIFFICULTIES[difficulty].density;
-  const baseSpan = (config.count - 1) * config.stepMs;
-  const count = Math.max(24, Math.round(config.count * density));
-  return {
-    ...config,
-    count,
-    stepMs: Math.round(baseSpan / Math.max(1, count - 1)),
-  };
-}
-
-function chartConfigForLoop(config, difficulty, loop) {
-  if (loop <= 1) return config;
-  const boost = difficulty === "hard" ? 1.08 : difficulty === "normal" ? 1.06 : 1.04;
-  const baseSpan = (config.count - 1) * config.stepMs;
-  const count = Math.max(24, Math.round(config.count * boost));
-  return {
-    ...config,
-    count,
-    stepMs: Math.round(baseSpan / Math.max(1, count - 1)),
-  };
-}
-
 const summaries = [];
 
 for (const stage of STAGES) {
@@ -53,22 +30,28 @@ for (const stage of STAGES) {
   );
 
   for (const difficulty of Object.keys(DIFFICULTIES)) {
-    const difficultyConfig = chartConfigForDifficulty(chartConfig, difficulty);
     for (const loop of [1, 2]) {
-      const loopConfig = chartConfigForLoop(difficultyConfig, difficulty, loop);
-      const gridMs = loopConfig.stepMs / chartConfig.quantizeDivisions;
+      const gridMs = chartConfig.stepMs / chartConfig.quantizeDivisions;
       const chart = getStageChart(stage, difficulty, loop);
-      const maxOffsetMs = chart.reduce(
-        (maxOffset, note) =>
-          Math.max(
-            maxOffset,
-            nearestGridOffsetMs(note.timeMs, chartConfig.startMs, gridMs),
-          ),
-        0,
-      );
+      const baseSpanMs = (chartConfig.count - 1) * chartConfig.stepMs;
+      const maxDurationMs = chart.reduce((maxDuration, note) => Math.max(maxDuration, note.durationMs ?? 0), 0);
+      const lastEndMs = chart.at(-1).timeMs + (chart.at(-1).durationMs ?? 0);
+      const allowedTailMs = maxDurationMs + chartConfig.stepMs * (chartConfig.finale ? 4 : 2) + MAX_GRID_OFFSET_MS;
+      let maxOffsetMs = 0;
+      for (const note of chart) {
+        maxOffsetMs = Math.max(maxOffsetMs, nearestGridOffsetMs(note.timeMs, chartConfig.startMs, gridMs));
+        if (note.durationMs) {
+          maxOffsetMs = Math.max(maxOffsetMs, nearestGridOffsetMs(note.durationMs, 0, gridMs));
+          maxOffsetMs = Math.max(maxOffsetMs, nearestGridOffsetMs(note.timeMs + note.durationMs, chartConfig.startMs, gridMs));
+        }
+      }
       assert.ok(
         maxOffsetMs <= MAX_GRID_OFFSET_MS,
         `${stage.id}/${difficulty}/loop${loop}: max grid offset ${maxOffsetMs.toFixed(2)}ms`,
+      );
+      assert.ok(
+        lastEndMs <= chartConfig.startMs + baseSpanMs + allowedTailMs,
+        `${stage.id}/${difficulty}/loop${loop}: chart ends too late (${lastEndMs}ms)`,
       );
       summaries.push(`${stage.id}/${difficulty}/loop${loop}:${maxOffsetMs.toFixed(2)}ms`);
     }
