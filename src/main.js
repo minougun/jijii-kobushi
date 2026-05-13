@@ -428,6 +428,34 @@ const state = {
   endingBonus: null,
   pixelRatio: 1,
 };
+
+Object.defineProperty(window, "__JII_KOBUSHI_DIAGNOSTICS__", {
+  configurable: false,
+  enumerable: false,
+  value: Object.freeze({
+    snapshot() {
+      const audioNow = audio.now();
+      const currentBattleMs = currentMs();
+      return {
+        phase: state.phase,
+        stageId: state.stage?.id ?? "",
+        difficulty: state.difficulty,
+        runLoop: normalizeLoop(state.runLoop),
+        battleClockReady: state.battleClockReady,
+        battleStartAt: state.battleStartAt,
+        audioNow,
+        currentMs: currentBattleMs,
+        expectedCurrentMs: state.battleClockReady ? (audioNow - state.battleStartAt) * 1000 + state.bgmCorrectionMs : currentBattleMs,
+        bgmCorrectionMs: state.bgmCorrectionMs,
+        bgmDriftMs: state.bgmDriftMs,
+        bgmSync: audio.bgmSyncStatus(),
+        inputOffsetMs: state.inputOffsetMs,
+        noteCount: state.activeChart?.length ?? 0,
+        nextUnresolvedIndex: state.nextUnresolvedIndex,
+      };
+    },
+  }),
+});
 stateReady = true;
 
 function acquireEffect(text, x, y, color, life) {

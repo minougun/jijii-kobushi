@@ -756,11 +756,21 @@ export function createAudioEngine() {
         playing: sync.playing,
         rawDriftMs: Math.round(sync.rawDriftMs),
         correctionMs: Math.round(sync.correctionMs),
-        correctionLocked: sync.correctionLocked,
-        samples: sync.samples,
-        lastError: engine.lastBgmError,
-      };
-    },
+      correctionLocked: sync.correctionLocked,
+      samples: sync.samples,
+      lastError: engine.lastBgmError,
+      clockSource: "AudioContext",
+      ctxNow: engine.ctx?.currentTime ?? null,
+      startAt: sync.startAt,
+      mediaStartSeconds: sync.mediaStartSeconds,
+      playRequestedAt: sync.playRequestedAt,
+      playResolvedAt: sync.playResolvedAt,
+      scheduledLeadMs:
+        sync.playRequestedAt == null || sync.playResolvedAt == null
+          ? null
+          : Math.round((sync.playResolvedAt - sync.playRequestedAt) * 1000),
+    };
+  },
     now() {
       const ctx = ensure();
       return ctx && ctx.state === "running" ? ctx.currentTime : performance.now() / 1000;
