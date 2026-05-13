@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { STAGES, DIFFICULTIES, getStageChart, getStageChartTimingAudit, normalizeLoop } from "../src/stages.js";
 import { BGM_TRACKS } from "../src/audio.js";
@@ -11,6 +11,30 @@ const MIN_BEAT_SUPPORT_RATIO_WARN = 0.9;
 const MAX_CHART_TO_BEST_SUBDIVISION_OFFSET_MS = 50;
 const WARN_CHART_TO_BEST_SUBDIVISION_OFFSET_MS = 35;
 const MAX_STEP_DRIFT_MS = 0.001;
+const EXPECTED_CSV_HEADERS = [
+  "stage",
+  "difficulty",
+  "loop",
+  "noteId",
+  "noteType",
+  "phraseRole",
+  "enemyCue",
+  "noteTimeMs",
+  "durationMs",
+  "noteEndMs",
+  "trackTimeMs",
+  "nearestBeatMs",
+  "nearestSubdivisionMs",
+  "signedBeatOffsetMs",
+  "signedSubdivisionOffsetMs",
+  "signedChartGridOffsetMs",
+  "barIndex",
+  "beatInBar",
+  "chartSubdivisionSupportRatio",
+  "beatSupportRatio",
+  "timingWarning",
+  "droppedFromSpacing",
+];
 
 function parseArgs(argv) {
   const options = { csv: "" };
@@ -106,6 +130,30 @@ function nearestGridMs(timeMs, phaseMs, gridMs) {
 function csvEscape(value) {
   const text = String(value ?? "");
   return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+}
+
+function assertExpectedCsvHeaders(headers) {
+  const actual = headers.join(",");
+  const expected = EXPECTED_CSV_HEADERS.join(",");
+  if (actual !== expected) {
+    throw new Error(`unexpected audio sync CSV header:\nactual:   ${actual}\nexpected: ${expected}`);
+  }
+}
+
+function writeGithubStepSummary(warnings) {
+  if (!process.env.GITHUB_STEP_SUMMARY) return;
+  const lines = [
+    "## Audio Sync Machine Audit",
+    "",
+    `Timing warnings: ${warnings.length}`,
+    "",
+  ];
+  if (warnings.length) {
+    lines.push(...warnings.map((warning) => `- ${warning}`), "");
+  } else {
+    lines.push("No timing warnings.", "");
+  }
+  appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join("\n")}\n`);
 }
 
 function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSupportRatio, beatSupportRatio, timingWarning) {
@@ -247,6 +295,7 @@ for (const stage of STAGES) {
 if (options.csv) {
   mkdirSync(dirname(options.csv), { recursive: true });
   const headers = Object.keys(rows[0] ?? {});
+  assertExpectedCsvHeaders(headers);
   const csv = [
     headers.join(","),
     ...rows.map((row) => headers.map((header) => csvEscape(row[header])).join(",")),
@@ -257,7 +306,9 @@ if (options.csv) {
 console.log("audio sync machine audit");
 for (const summary of summaries) console.log(summary);
 for (const warning of warnings) console.warn(`warning: ${warning}`);
+console.log(`timing warnings=${warnings.length}`);
 if (options.csv) console.log(`csv=${options.csv} rows=${rows.length}`);
+writeGithubStepSummary(warnings);
 
 if (failures.length) {
   throw new Error(`audio sync machine audit failed:\n${failures.join("\n")}`);
