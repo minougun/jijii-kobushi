@@ -44,17 +44,18 @@ export function judgeTap(note, inputAtMs, inputOffsetMs = 0, windowBonusMs = 0) 
   return { rank, offsetMs };
 }
 
-export function judgeMash(note, tapTimesMs) {
+export function judgeMash(note, tapTimesMs, inputOffsetMs = 0) {
   const start = note.timeMs - MASH_INPUT_GRACE_MS;
   const end = note.timeMs + note.durationMs + MASH_INPUT_GRACE_MS;
   let count = 0;
   let lastCounted = -Infinity;
 
   for (const time of tapTimesMs) {
-    if (time < start || time > end) continue;
-    if (time - lastCounted < 70) continue;
+    const adjustedAt = time + inputOffsetMs;
+    if (adjustedAt < start || adjustedAt > end) continue;
+    if (adjustedAt - lastCounted < 70) continue;
     count += 1;
-    lastCounted = time;
+    lastCounted = adjustedAt;
   }
 
   let rank = "miss";

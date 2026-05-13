@@ -1,4 +1,4 @@
-import { normalizeLoop, nextNoteLabel } from "./stages.js?v=20260501-0100";
+import { normalizeLoop, nextNoteLabel } from "./stages.js?v=20260513-rhythmstrict1";
 import {
   localizedDifficulty,
   localizedEnemyName,

@@ -1,5 +1,5 @@
 import { createAudioEngine } from "./audio.js?v=20260430-1125";
-import { createRenderer } from "./renderer.js?v=20260509-reviewfix1";
+import { createRenderer } from "./renderer.js?v=20260513-rhythmstrict1";
 import {
   DIFFICULTIES,
   STAGES,
@@ -13,7 +13,7 @@ import {
   loopPlayerDamageMultiplier,
   normalizeLoop,
   nextNoteLabel,
-} from "./stages.js?v=20260504-stage3bgm1";
+} from "./stages.js?v=20260513-rhythmstrict1";
 import {
   localizedDifficulty,
   localizedLoopLabel,
@@ -43,7 +43,7 @@ import {
   noteDamage,
   noteSpirit,
   rankScore,
-} from "./rhythm.js?v=20260430-1532";
+} from "./rhythm.js?v=20260513-mashoffset1";
 
 const STORAGE_KEY = "jiiKobushi:v1";
 const RUN_SAVE_SLOTS = {
@@ -1843,7 +1843,7 @@ function updateEndingBonus() {
     const endMs = entry.note.timeMs + (entry.note.durationMs ?? 0);
     const missAt = endMs + (entry.note.type === "mash" ? MASH_INPUT_GRACE_MS : INPUT_GRACE_MS);
     if (entry.note.type === "mash" && videoMs > missAt) {
-      const result = judgeMash(entry.note, entry.mashTaps);
+      const result = judgeMash(entry.note, entry.mashTaps, state.inputOffsetMs);
       resolveEndingBonusNote(i, result, `${result.count}/${result.targetCount}`);
       continue;
     }
@@ -1926,7 +1926,7 @@ function mashEndingBonus(event) {
     return;
   }
   found.entry.mashTaps.push(videoMs);
-  const count = judgeMash(found.entry.note, found.entry.mashTaps).count;
+  const count = judgeMash(found.entry.note, found.entry.mashTaps, state.inputOffsetMs).count;
   bonus.lastJudge = `連打 ${count}/${found.entry.note.targetCount}`;
   bonus.lastOffsetMs = 0;
   bonus.pulseUntil = performance.now() + (state.reducedMotion ? 0 : 80);
@@ -2104,9 +2104,9 @@ function appendMashTapIfActive(timeMs) {
   const mash = findActiveMash(timeMs);
   if (!mash) return false;
   if (!mash.entry.mashTaps) mash.entry.mashTaps = [];
-  const before = judgeMash(mash.entry.note, mash.entry.mashTaps);
-  mash.entry.mashTaps.push(timeMs + state.inputOffsetMs);
-  const after = judgeMash(mash.entry.note, mash.entry.mashTaps);
+  const before = judgeMash(mash.entry.note, mash.entry.mashTaps, state.inputOffsetMs);
+  mash.entry.mashTaps.push(timeMs);
+  const after = judgeMash(mash.entry.note, mash.entry.mashTaps, state.inputOffsetMs);
   const lang = normalizeLang(state.uiLang);
   const progress = `${after.count}/${after.targetCount}`;
   mash.entry.mashLiveCount = after.count;
@@ -2454,7 +2454,7 @@ function updateNotes() {
     if (timeMs > missAt) {
       if (state.hold?.index === i) state.hold = null;
       if (note.type === "mash") {
-        const judged = judgeMash(note, entry.mashTaps ?? []);
+        const judged = judgeMash(note, entry.mashTaps ?? [], state.inputOffsetMs);
         resolveNote(i, judged.rank, 0, mashFeedbackText(judged), judged);
       } else {
         resolveNote(i, "miss");

@@ -28,6 +28,8 @@ const mashNote = { timeMs: 3000, durationMs: 500, targetCount: 5 };
 const tapsPerfect = [3000, 3080, 3160, 3240, 3320].map((t) => t + 20);
 assert.equal(judgeMash(mashNote, tapsPerfect).rank, "perfect");
 assert.equal(judgeMash(mashNote, tapsPerfect).count, 5);
+assert.equal(judgeMash(mashNote, [2860, 2930, 3000, 3070, 3140], 60).rank, "perfect");
+assert.equal(judgeMash(mashNote, [2860, 2930, 3000, 3070, 3140]).count, 4);
 assert.ok(mashStrikeMultiplier("perfect", 6, 5) > 1.2);
 assert.equal(judgeMash(mashNote, [2920, 2990, 3060, 3130, 3200]).rank, "perfect");
 assert.equal(judgeMash(mashNote, [2920, 2980, 3040, 3100, 3160, 3220, 3280]).count, 4);

@@ -307,7 +307,7 @@ const STAGE_TEMPLATES = [
       coat: "#1f2937",
       accent: "#c2482d",
     },
-    chartConfig: { count: 165, startMs: 1293, stepMs: 682, quantizeDivisions: 4, holdDurationMs: 682, burstDurationMs: 682, burstTapTarget: 5, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
+    chartConfig: { count: 165, startMs: 1293, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 682, burstDurationMs: 682, burstTapTarget: 5, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
     bgm: { cue: "恋患い", track: "koiwazurai", gain: 0.74, overlay: "kane", lead: 220, tone: "warm", variation: "原曲" },
   },
   {
@@ -338,7 +338,7 @@ const STAGE_TEMPLATES = [
       coat: "#273449",
       accent: "#d8a83f",
     },
-    chartConfig: { count: 208, startMs: 1151, stepMs: 706, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 7, burstEvery: 20, phrase: "minatoNagashi" },
+    chartConfig: { count: 208, startMs: 1151, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 7, burstEvery: 20, phrase: "minatoNagashi" },
     bgm: { cue: "朧", track: "oboro", gain: 0.8, overlay: "kane", lead: 220, tone: "warm", variation: "港" },
   },
   {
@@ -357,7 +357,7 @@ const STAGE_TEMPLATES = [
     restLine: "溜め、揺り、返し。猛特訓の果て、小次郎はついに奥義を知る。爺コブシは、演歌を知る相手の内側へ響く内部破壊の拳だった。",
     clearLine: "爺コブシ・内部破壊は完成した。小次郎は裕太の名を叫び、秘密結社Xの足取りを追って峠道へ走る。",
     enemy: { name: "伊藤道場の師範代", attackPower: 1, kind: "captain", coat: "#3a3148", accent: "#f2bd52" },
-    chartConfig: { count: 158, startMs: 1114, stepMs: 706, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
+    chartConfig: { count: 158, startMs: 1114, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
     bgm: { cue: "静寂 道場", track: "shizima", gain: 0.78, overlay: "low", lead: 220, tone: "night", variation: "道場" },
   },
   {
@@ -376,7 +376,7 @@ const STAGE_TEMPLATES = [
     restLine: "内部破壊の爺コブシは、鉄仮面の腹へ鈍く響いた。追跡兵は膝をつき、山向こうの改造車庫を指さす。",
     clearLine: "秘密結社Xは、改造車庫で奇妙な音響兵器を作っているらしい。小次郎は峠を越える。",
     enemy: { name: "X結社 鉄仮面兵", attackPower: 1, kind: "maskedHeavy", coat: "#24382e", accent: "#9fd57b" },
-    chartConfig: { count: 223, startMs: 1097, stepMs: 632, quantizeDivisions: 4, holdDurationMs: 632, burstDurationMs: 632, burstTapTarget: 6, holdEvery: 6, burstEvery: 20, phrase: "yoruYuri" },
+    chartConfig: { count: 223, startMs: 1097, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 632, burstDurationMs: 632, burstTapTarget: 6, holdEvery: 6, burstEvery: 20, phrase: "yoruYuri" },
     bgm: { cue: "花暦 一回戦", track: "hanagoyomi", gain: 0.78, overlay: "low", lead: 196, tone: "night", remix: "toge", variation: "一回戦" },
   },
   {
@@ -395,7 +395,7 @@ const STAGE_TEMPLATES = [
     restLine: "音響兵の機材は火花を散らして止まった。車庫の奥には、赤い門へ続く地図が残されている。",
     clearLine: "赤門は秘密結社Xの外門。そこを抜ければ、裕太をさらった親玉に近づける。",
     enemy: { name: "X結社 改造音響兵", attackPower: 2, kind: "scientist", coat: "#252528", accent: "#ffcf5a" },
-    chartConfig: { count: 252, startMs: 922, stepMs: 545, quantizeDivisions: 6, holdDurationMs: 364, burstDurationMs: 727, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "hayashiKakeai" },
+    chartConfig: { count: 252, startMs: 922, stepBeatRatio: 1.5, quantizeDivisions: 6, holdDurationMs: 364, burstDurationMs: 727, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "hayashiKakeai" },
     bgm: { cue: "大正戦 車庫", track: "taishoroman", gain: 0.84, overlay: "heavy", lead: 349.23, tone: "battle", remix: "garage", variation: "車庫リミックス" },
   },
   {
@@ -414,7 +414,7 @@ const STAGE_TEMPLATES = [
     restLine: "赤門がきしみ、ゆっくりと開く。奥にはX結社本部の黒い建物が見えた。",
     clearLine: "本部の最上階で待つのは、スーパーステロイドX。裕太を取り戻す最後の一曲が始まる。",
     enemy: { name: "X親衛隊長", attackPower: 2, kind: "elite", coat: "#3c1f1f", accent: "#e0c45a" },
-    chartConfig: { count: 302, startMs: 943, stepMs: 469, quantizeDivisions: 4, holdDurationMs: 469, burstDurationMs: 938, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "oiwakeFinal" },
+    chartConfig: { count: 302, startMs: 943, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 469, burstDurationMs: 938, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "oiwakeFinal" },
     bgm: { cue: "天の下", track: "amenoshita", gain: 0.86, overlay: "solemn", lead: 246.94, tone: "final", variation: "赤門" },
   },
   {
@@ -444,10 +444,26 @@ const STAGE_TEMPLATES = [
     ],
     clearLine: "裕太は小次郎の腕の中で泣き笑いした。爺コブシは戻った。長谷川の無茶な芝居も、ここで幕を下ろした。",
     enemy: { name: "スーパーステロイドX", attackPower: 2, kind: "steroidBoss", coat: "#22415c", accent: "#f6d95f" },
-    chartConfig: { count: 260, startMs: 885, stepMs: 600, quantizeDivisions: 6, holdDurationMs: 400, burstDurationMs: 800, burstTapTarget: 7, holdEvery: 5, burstEvery: 17, finale: true, phrase: "oiwakeFinal" },
+    chartConfig: { count: 260, startMs: 885, stepBeatRatio: 1.5, quantizeDivisions: 6, holdDurationMs: 400, burstDurationMs: 800, burstTapTarget: 7, holdEvery: 5, burstEvery: 17, finale: true, phrase: "oiwakeFinal" },
     bgm: { cue: "最終決戦", track: "epicbattle", gain: 0.88, overlay: "final", lead: 440, tone: "boss", remix: "boss", variation: "ラスボス戦" },
   },
 ];
+
+function chartStepMsFor(stage) {
+  return (60000 / stage.bpm) * (stage.chartConfig.stepBeatRatio ?? 1);
+}
+
+function resolveStageTemplate(stage) {
+  return {
+    ...stage,
+    chartConfig: {
+      ...stage.chartConfig,
+      stepMs: chartStepMsFor(stage),
+    },
+  };
+}
+
+const RESOLVED_STAGE_TEMPLATES = STAGE_TEMPLATES.map(resolveStageTemplate);
 
 export const DIFFICULTIES = {
   easy: { id: "easy", label: "イージー", description: "拍を広く取る", density: 0.72, damageFactor: 1.6, burstTapGapMs: 250, tapRunEvery: 18, tapRunGapMs: 250 },
@@ -570,7 +586,7 @@ function makeLoopPlusChartsByDifficulty(config) {
   );
 }
 
-export const STAGES = STAGE_TEMPLATES.map((stage) => ({
+export const STAGES = RESOLVED_STAGE_TEMPLATES.map((stage) => ({
   ...stage,
   enemy: {
     ...stage.enemy,

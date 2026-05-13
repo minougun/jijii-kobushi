@@ -137,30 +137,48 @@ function gridScore(onset, bpm, phaseMs) {
 function findBeatPhase(onset, bpm) {
   const beatMs = 60000 / bpm;
   let best = { phaseMs: 0, score: -Infinity };
-  for (let phaseMs = 0; phaseMs < beatMs; phaseMs += 10) {
+  for (let phaseMs = 0; phaseMs < beatMs; phaseMs += 5) {
     const score = gridScore(onset, bpm, phaseMs);
     if (score > best.score) best = { phaseMs, score };
   }
   return best;
 }
 
+function signedGridOffset(timeMs, phaseMs, gridMs) {
+  const gridIndex = Math.round((timeMs - phaseMs) / gridMs);
+  return timeMs - (phaseMs + gridIndex * gridMs);
+}
+
+function summarizeOffsets(offsets) {
+  const abs = offsets.map((offset) => Math.abs(offset)).sort((a, b) => a - b);
+  return {
+    p50: Math.round(quantile(abs, 0.5)),
+    p90: Math.round(quantile(abs, 0.9)),
+    p99: Math.round(quantile(abs, 0.99)),
+    max: Math.round(abs.at(-1) ?? 0),
+    within25: Math.round((abs.filter((offset) => offset <= 25).length / Math.max(1, abs.length)) * 100),
+    within40: Math.round((abs.filter((offset) => offset <= 40).length / Math.max(1, abs.length)) * 100),
+  };
+}
+
 function noteGridStats(stage, difficulty, phaseMs, loop = 1) {
   const chart = getStageChart(stage, difficulty, loop);
-  const subdivisionMs = 60000 / stage.bpm / 4;
+  const beatMs = 60000 / stage.bpm;
+  const subdivisionMs = beatMs / 4;
   const trackOffsetMs = (stage.bgm?.startSeconds ?? 0) * 1000;
-  const offsets = chart
+  const trackTimes = chart
     .flatMap((note) => (note.type === "hold" ? [note.timeMs, note.timeMs + note.durationMs] : [note.timeMs]))
-    .map((timeMs) => {
-      const trackTimeMs = timeMs + trackOffsetMs;
-      const beatIndex = Math.round((trackTimeMs - phaseMs) / subdivisionMs);
-      return Math.abs(trackTimeMs - (phaseMs + beatIndex * subdivisionMs));
-    })
-    .sort((a, b) => a - b);
+    .map((timeMs) => timeMs + trackOffsetMs);
+  const beatOffsets = trackTimes.map((timeMs) => signedGridOffset(timeMs, phaseMs, beatMs));
+  const subdivisionOffsets = trackTimes.map((timeMs) => signedGridOffset(timeMs, phaseMs, subdivisionMs));
+  const firstTrackMs = (chart[0]?.timeMs ?? 0) + trackOffsetMs;
+  const firstBeatOffset = signedGridOffset(firstTrackMs, phaseMs, beatMs);
+  const firstSubdivisionOffset = signedGridOffset(firstTrackMs, phaseMs, subdivisionMs);
   return {
-    p50: Math.round(quantile(offsets, 0.5)),
-    p90: Math.round(quantile(offsets, 0.9)),
-    within60: Math.round((offsets.filter((offset) => offset <= 60).length / offsets.length) * 100),
-    within120: Math.round((offsets.filter((offset) => offset <= 120).length / offsets.length) * 100),
+    beat: summarizeOffsets(beatOffsets),
+    subdivision: summarizeOffsets(subdivisionOffsets),
+    firstBeatOffset: Math.round(firstBeatOffset),
+    firstSubdivisionOffset: Math.round(firstSubdivisionOffset),
   };
 }
 
@@ -201,7 +219,7 @@ for (const stage of STAGES) {
   const beat = findBeatPhase(onset, stage.bpm);
   const parts = ["easy", "normal", "hard"].map((difficulty) => {
     const s = noteGridStats(stage, difficulty, beat.phaseMs);
-    return `${difficulty}<=120=${s.within120}%`;
+    return `${difficulty} subP90=${s.subdivision.p90}ms subMax=${s.subdivision.max}ms <=25=${s.subdivision.within25}% <=40=${s.subdivision.within40}% firstBeat=${s.firstBeatOffset}ms`;
   });
   console.log(
     `${stage.id.padEnd(14)} bpm=${String(stage.bpm).padStart(3)} phase=${String(Math.round(beat.phaseMs)).padStart(4)}ms trackDur=${trackSeconds.toFixed(1)}s ${parts.join(" | ")} track=${trackPath}`,
