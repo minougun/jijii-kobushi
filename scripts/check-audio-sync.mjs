@@ -111,7 +111,7 @@ function csvEscape(value) {
 function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSupportRatio, beatSupportRatio, timingWarning) {
   const rows = [];
   const beatMs = 60000 / stage.bpm;
-  const sixteenthMs = beatMs / 4;
+  const subdivisionMs = beatMs / (stage.chartConfig.quantizeDivisions || 1);
   const chartGridMs = stage.chartConfig.stepMs / (stage.chartConfig.quantizeDivisions || 1);
   const trackOffsetMs = (stage.bgm?.startSeconds ?? 0) * 1000;
 
@@ -122,7 +122,7 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
       for (const [index, note] of chart.entries()) {
         const trackTimeMs = note.timeMs + trackOffsetMs;
         const nearestBeatMs = nearestGridMs(trackTimeMs, beatPhaseMs, beatMs);
-        const nearest16thMs = nearestGridMs(trackTimeMs, subdivisionPhaseMs, sixteenthMs);
+        const nearestSubdivisionMs = nearestGridMs(trackTimeMs, subdivisionPhaseMs, subdivisionMs);
         const barIndex = Math.floor((nearestBeatMs - beatPhaseMs) / (beatMs * 4));
         const beatInBar = modulo(Math.round((nearestBeatMs - beatPhaseMs) / beatMs), 4);
         rows.push({
@@ -138,9 +138,9 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
           noteEndMs: Math.round(note.timeMs + (note.durationMs ?? 0)),
           trackTimeMs: Math.round(trackTimeMs),
           nearestBeatMs: Math.round(nearestBeatMs),
-          nearest16thMs: Math.round(nearest16thMs),
+          nearestSubdivisionMs: Math.round(nearestSubdivisionMs),
           signedBeatOffsetMs: Math.round(signedGridOffset(trackTimeMs, beatPhaseMs, beatMs)),
-          signed16thOffsetMs: Math.round(signedGridOffset(trackTimeMs, subdivisionPhaseMs, sixteenthMs)),
+          signedSubdivisionOffsetMs: Math.round(signedGridOffset(trackTimeMs, subdivisionPhaseMs, subdivisionMs)),
           signedChartGridOffsetMs: Math.round(signedGridOffset(trackTimeMs, modulo(stage.chartConfig.startMs + trackOffsetMs, chartGridMs), chartGridMs)),
           barIndex,
           beatInBar,
@@ -153,7 +153,7 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
       for (const [index, note] of audit.droppedNotes.entries()) {
         const trackTimeMs = note.timeMs + trackOffsetMs;
         const nearestBeatMs = nearestGridMs(trackTimeMs, beatPhaseMs, beatMs);
-        const nearest16thMs = nearestGridMs(trackTimeMs, subdivisionPhaseMs, sixteenthMs);
+        const nearestSubdivisionMs = nearestGridMs(trackTimeMs, subdivisionPhaseMs, subdivisionMs);
         const barIndex = Math.floor((nearestBeatMs - beatPhaseMs) / (beatMs * 4));
         const beatInBar = modulo(Math.round((nearestBeatMs - beatPhaseMs) / beatMs), 4);
         rows.push({
@@ -169,9 +169,9 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
           noteEndMs: Math.round(note.timeMs + (note.durationMs ?? 0)),
           trackTimeMs: Math.round(trackTimeMs),
           nearestBeatMs: Math.round(nearestBeatMs),
-          nearest16thMs: Math.round(nearest16thMs),
+          nearestSubdivisionMs: Math.round(nearestSubdivisionMs),
           signedBeatOffsetMs: Math.round(signedGridOffset(trackTimeMs, beatPhaseMs, beatMs)),
-          signed16thOffsetMs: Math.round(signedGridOffset(trackTimeMs, subdivisionPhaseMs, sixteenthMs)),
+          signedSubdivisionOffsetMs: Math.round(signedGridOffset(trackTimeMs, subdivisionPhaseMs, subdivisionMs)),
           signedChartGridOffsetMs: Math.round(signedGridOffset(trackTimeMs, modulo(stage.chartConfig.startMs + trackOffsetMs, chartGridMs), chartGridMs)),
           barIndex,
           beatInBar,
