@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage3-riverside",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T14:15:49.157Z",
-  "sourceGitCommit": "fec63419ff20758ac6c27262f5db39fed6107206",
+  "generatedAt": "2026-05-13T14:40:53.651Z",
+  "sourceGitCommit": "90a01cee4ea6d075012b3bddbeffd97d3daa3125",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",

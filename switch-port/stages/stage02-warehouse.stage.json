@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage2-warehouse",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T14:15:48.934Z",
-  "sourceGitCommit": "fec63419ff20758ac6c27262f5db39fed6107206",
+  "generatedAt": "2026-05-13T14:40:53.462Z",
+  "sourceGitCommit": "90a01cee4ea6d075012b3bddbeffd97d3daa3125",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
