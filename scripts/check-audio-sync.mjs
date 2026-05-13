@@ -6,7 +6,10 @@ import { BGM_TRACKS } from "../src/audio.js";
 
 const SAMPLE_RATE = 500;
 const MIN_SUBDIVISION_SUPPORT_RATIO = 0.9;
-const MAX_CHART_TO_BEST_SUBDIVISION_OFFSET_MS = 75;
+const MIN_BEAT_SUPPORT_RATIO_FAIL = 0.65;
+const MIN_BEAT_SUPPORT_RATIO_WARN = 0.9;
+const MAX_CHART_TO_BEST_SUBDIVISION_OFFSET_MS = 50;
+const WARN_CHART_TO_BEST_SUBDIVISION_OFFSET_MS = 35;
 const MAX_STEP_DRIFT_MS = 0.001;
 
 function parseArgs(argv) {
@@ -104,7 +107,7 @@ function csvEscape(value) {
   return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
-function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSupportRatio) {
+function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSupportRatio, beatSupportRatio, timingWarning) {
   const rows = [];
   const beatMs = 60000 / stage.bpm;
   const sixteenthMs = beatMs / 4;
@@ -140,7 +143,9 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
           barIndex,
           beatInBar,
           chartSubdivisionSupportRatio: chartSubdivisionSupportRatio.toFixed(3),
-          droppedFromSpacing: "",
+          beatSupportRatio: beatSupportRatio.toFixed(3),
+          timingWarning,
+          droppedFromSpacing: "not_observable_from_post_spacing_chart",
         });
       }
     }
@@ -151,6 +156,7 @@ function makeRows(stage, beatPhaseMs, subdivisionPhaseMs, chartSubdivisionSuppor
 const options = parseArgs(process.argv.slice(2));
 const rows = [];
 const failures = [];
+const warnings = [];
 const summaries = [];
 
 for (const stage of STAGES) {
@@ -178,14 +184,22 @@ for (const stage of STAGES) {
   if (subdivisionSupportRatio < MIN_SUBDIVISION_SUPPORT_RATIO) {
     failures.push(`${stage.id}: subdivision support ${(subdivisionSupportRatio * 100).toFixed(1)}%`);
   }
+  if (beatSupportRatio < MIN_BEAT_SUPPORT_RATIO_FAIL) {
+    failures.push(`${stage.id}: beat support ${(beatSupportRatio * 100).toFixed(1)}%`);
+  } else if (beatSupportRatio < MIN_BEAT_SUPPORT_RATIO_WARN) {
+    warnings.push(`${stage.id}: beat support warning ${(beatSupportRatio * 100).toFixed(1)}%`);
+  }
   if (Math.abs(chartToBestSubdivisionOffsetMs) > MAX_CHART_TO_BEST_SUBDIVISION_OFFSET_MS) {
     failures.push(`${stage.id}: chart/best subdivision offset ${Math.round(chartToBestSubdivisionOffsetMs)}ms`);
+  } else if (Math.abs(chartToBestSubdivisionOffsetMs) > WARN_CHART_TO_BEST_SUBDIVISION_OFFSET_MS) {
+    warnings.push(`${stage.id}: chart/best subdivision offset warning ${Math.round(chartToBestSubdivisionOffsetMs)}ms`);
   }
+  const timingWarning = warnings.filter((warning) => warning.startsWith(`${stage.id}:`)).join("; ");
 
   summaries.push(
-    `${stage.id.padEnd(14)} bpm=${stage.bpm} step=${stage.chartConfig.stepMs.toFixed(3)}ms subSupport=${(subdivisionSupportRatio * 100).toFixed(1)}% beatSupport=${(beatSupportRatio * 100).toFixed(1)}% chartBestSubOffset=${Math.round(chartToBestSubdivisionOffsetMs)}ms track=${trackPath}`,
+    `${stage.id.padEnd(14)} bpm=${stage.bpm} step=${stage.chartConfig.stepMs.toFixed(3)}ms subSupport=${(subdivisionSupportRatio * 100).toFixed(1)}% beatSupport=${(beatSupportRatio * 100).toFixed(1)}% chartBestSubOffset=${Math.round(chartToBestSubdivisionOffsetMs)}ms${timingWarning ? " WARN" : ""} track=${trackPath}`,
   );
-  rows.push(...makeRows(stage, bestBeat.phaseMs, bestSubdivision.phaseMs, subdivisionSupportRatio));
+  rows.push(...makeRows(stage, bestBeat.phaseMs, bestSubdivision.phaseMs, subdivisionSupportRatio, beatSupportRatio, timingWarning));
 }
 
 if (options.csv) {
@@ -200,6 +214,7 @@ if (options.csv) {
 
 console.log("audio sync machine audit");
 for (const summary of summaries) console.log(summary);
+for (const warning of warnings) console.warn(`warning: ${warning}`);
 if (options.csv) console.log(`csv=${options.csv} rows=${rows.length}`);
 
 if (failures.length) {

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check src/i18n.js && node --check src/rhythm.js && node --check src/stages.js && node --check src/audio.js && node --check src/ending-bonus.js && node --check src/renderer.js && node --check src/main.js && node --check scripts/ending-bonus-simulation.mjs && node --check scripts/export-switch-stage-results.mjs && node --check scripts/export-switch-ending-bonus.mjs && node --check scripts/check-rhythm-grid.mjs && node --check scripts/check-audio-sync.mjs && node --check scripts/check-runtime-audio-clock.mjs && node --check scripts/check-production-cache.mjs && node scripts/check-data-integrity.mjs && node scripts/rhythm-unit.mjs && node scripts/check-rhythm-grid.mjs",
+    "check": "node --check src/i18n.js && node --check src/rhythm.js && node --check src/stages.js && node --check src/audio.js && node --check src/ending-bonus.js && node --check src/renderer.js && node --check src/main.js && node --check scripts/ending-bonus-simulation.mjs && node --check scripts/export-switch-stage-results.mjs && node --check scripts/export-switch-ending-bonus.mjs && node --check scripts/check-rhythm-grid.mjs && node --check scripts/check-audio-sync.mjs && node --check scripts/check-runtime-audio-clock.mjs && node --check scripts/check-production-cache.mjs && node --check scripts/check-input-offset-integration.mjs && node scripts/check-data-integrity.mjs && node scripts/rhythm-unit.mjs && node scripts/check-rhythm-grid.mjs && npm run check:timing-machine",
     "export:switch-stage1": "node scripts/export-switch-stage1.mjs",
     "validate:switch-stage1": "node scripts/validate-switch-stage1-export.mjs switch-port/stage1/shotengai.stage.json",
     "run:switch-stage1": "node scripts/run-switch-stage1-portable.mjs switch-port/stage1/shotengai.stage.json",
@@ -35,7 +35,8 @@
     "check:audio-sync": "node scripts/check-audio-sync.mjs --csv docs/qa/audio-sync-machine-audit.csv",
     "check:runtime-clock": "node scripts/check-runtime-audio-clock.mjs",
     "check:production-cache": "node scripts/check-production-cache.mjs",
-    "check:timing-machine": "npm run check:audio-sync && npm run check:runtime-clock",
+    "check:input-offset": "node scripts/check-input-offset-integration.mjs",
+    "check:timing-machine": "npm run check:audio-sync && npm run check:runtime-clock && npm run check:input-offset",
     "check:ios": "node --check scripts/check-ios-project.mjs && node scripts/check-ios-project.mjs",
     "serve": "node scripts/serve-no-cache.mjs 4188"
   },

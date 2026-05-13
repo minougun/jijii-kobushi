@@ -1,4 +1,4 @@
-import { createAudioEngine } from "./audio.js?v=20260430-1125";
+import { createAudioEngine } from "./audio.js?v=20260513-audioclock1";
 import { createRenderer } from "./renderer.js?v=20260513-rhythmstrict1";
 import {
   DIFFICULTIES,
@@ -436,6 +436,8 @@ Object.defineProperty(window, "__JII_KOBUSHI_DIAGNOSTICS__", {
     snapshot() {
       const audioNow = audio.now();
       const currentBattleMs = currentMs();
+      const bgmSync = audio.bgmSyncStatus();
+      const bgmChartMediaPositionMs = bgmSync?.chartMediaPositionMs ?? null;
       return {
         phase: state.phase,
         stageId: state.stage?.id ?? "",
@@ -446,9 +448,14 @@ Object.defineProperty(window, "__JII_KOBUSHI_DIAGNOSTICS__", {
         audioNow,
         currentMs: currentBattleMs,
         expectedCurrentMs: state.battleClockReady ? (audioNow - state.battleStartAt) * 1000 + state.bgmCorrectionMs : currentBattleMs,
+        bgmChartMediaPositionMs,
+        battleToBgmMediaDeltaMs:
+          state.battleClockReady && bgmChartMediaPositionMs != null
+            ? Math.round(currentBattleMs - bgmChartMediaPositionMs)
+            : null,
         bgmCorrectionMs: state.bgmCorrectionMs,
         bgmDriftMs: state.bgmDriftMs,
-        bgmSync: audio.bgmSyncStatus(),
+        bgmSync,
         inputOffsetMs: state.inputOffsetMs,
         noteCount: state.activeChart?.length ?? 0,
         nextUnresolvedIndex: state.nextUnresolvedIndex,

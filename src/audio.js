@@ -152,7 +152,7 @@ export function createAudioEngine() {
     };
   }
 
-  function measureBgmDrift() {
+  function lockScheduledBgmCorrection() {
     const sync = engine.bgmSync;
     if (!sync) return 0;
     sync.rawDriftMs = 0;
@@ -305,7 +305,7 @@ export function createAudioEngine() {
     }
     const stopTimer = window.setTimeout(() => stopBgm(), Math.max(0, (actualStartAt - ctx.currentTime) * 1000) + durationMs + 900);
     engine.bgmTimers = [stopTimer];
-    measureBgmDrift();
+    lockScheduledBgmCorrection();
     engine.lastBgmError = "";
     return true;
   }
@@ -746,31 +746,37 @@ export function createAudioEngine() {
     menuCue,
     stopBgm,
     bgmCorrectionMs() {
-      return measureBgmDrift();
+      return lockScheduledBgmCorrection();
     },
     bgmSyncStatus() {
       const sync = engine.bgmSync;
       if (!sync) return null;
+      const ctxNow = engine.ctx?.currentTime ?? null;
+      const chartMediaPositionMs = ctxNow == null ? null : (ctxNow - sync.startAt) * 1000;
+      const absoluteMediaPositionMs = chartMediaPositionMs == null ? null : chartMediaPositionMs + sync.mediaStartSeconds * 1000;
       return {
         trackId: sync.trackId,
         playing: sync.playing,
         rawDriftMs: Math.round(sync.rawDriftMs),
         correctionMs: Math.round(sync.correctionMs),
-      correctionLocked: sync.correctionLocked,
-      samples: sync.samples,
-      lastError: engine.lastBgmError,
-      clockSource: "AudioContext",
-      ctxNow: engine.ctx?.currentTime ?? null,
-      startAt: sync.startAt,
-      mediaStartSeconds: sync.mediaStartSeconds,
-      playRequestedAt: sync.playRequestedAt,
-      playResolvedAt: sync.playResolvedAt,
-      scheduledLeadMs:
-        sync.playRequestedAt == null || sync.playResolvedAt == null
-          ? null
-          : Math.round((sync.playResolvedAt - sync.playRequestedAt) * 1000),
-    };
-  },
+        correctionLocked: sync.correctionLocked,
+        samples: sync.samples,
+        lastError: engine.lastBgmError,
+        clockSource: "AudioContext",
+        driftMeasurement: "scheduled-buffer-source-position",
+        ctxNow,
+        startAt: sync.startAt,
+        mediaStartSeconds: sync.mediaStartSeconds,
+        chartMediaPositionMs: chartMediaPositionMs == null ? null : Math.round(chartMediaPositionMs),
+        absoluteMediaPositionMs: absoluteMediaPositionMs == null ? null : Math.round(absoluteMediaPositionMs),
+        playRequestedAt: sync.playRequestedAt,
+        playResolvedAt: sync.playResolvedAt,
+        scheduledLeadMs:
+          sync.playRequestedAt == null || sync.playResolvedAt == null
+            ? null
+            : Math.round((sync.playResolvedAt - sync.playRequestedAt) * 1000),
+      };
+    },
     now() {
       const ctx = ensure();
       return ctx && ctx.state === "running" ? ctx.currentTime : performance.now() / 1000;
