@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage7-finalhideout",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T13:33:23.829Z",
-  "sourceGitCommit": "b6b0b9670a4d1a738e75a451e60145f4a6d44272",
+  "generatedAt": "2026-05-13T13:58:52.346Z",
+  "sourceGitCommit": "0204156c6c7b144ebefe3e599053bde5f6c8ee3b",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
@@ -150,7 +150,7 @@
   "chartConfig": {
     "count": 260,
     "startMs": 885,
-    "stepMs": 600,
+    "stepBeatRatio": 1.5,
     "quantizeDivisions": 6,
     "holdDurationMs": 400,
     "burstDurationMs": 800,
@@ -158,7 +158,8 @@
     "holdEvery": 5,
     "burstEvery": 17,
     "finale": true,
-    "phrase": "oiwakeFinal"
+    "phrase": "oiwakeFinal",
+    "stepMs": 600
   },
   "difficulty": {
     "easy": {

@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage1-shotengai",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T13:33:22.178Z",
-  "sourceGitCommit": "b6b0b9670a4d1a738e75a451e60145f4a6d44272",
+  "generatedAt": "2026-05-13T13:58:50.760Z",
+  "sourceGitCommit": "0204156c6c7b144ebefe3e599053bde5f6c8ee3b",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",
@@ -137,14 +137,15 @@
   "chartConfig": {
     "count": 165,
     "startMs": 1293,
-    "stepMs": 682,
+    "stepBeatRatio": 1,
     "quantizeDivisions": 4,
     "holdDurationMs": 682,
     "burstDurationMs": 682,
     "burstTapTarget": 5,
     "holdEvery": 8,
     "burstEvery": 18,
-    "phrase": "tameKobushi"
+    "phrase": "tameKobushi",
+    "stepMs": 681.8181818181819
   },
   "difficulty": {
     "easy": {
@@ -156,7 +157,7 @@
       "burstTapGapMs": 250,
       "tapRunEvery": 18,
       "tapRunGapMs": 250,
-      "damageScale": 2.217543859649123,
+      "damageScale": 2.16140350877193,
       "loop1": {
         "enemyHpMultiplier": 1,
         "playerDamageMultiplier": 1,
@@ -170,7 +171,7 @@
           "mash": 7
         },
         "firstMs": 1293,
-        "lastEndMs": 113141
+        "lastEndMs": 113111
       }
     },
     "normal": {
@@ -189,14 +190,14 @@
         "enemyAttackMultiplier": 1
       },
       "chartSummary": {
-        "noteCount": 158,
+        "noteCount": 154,
         "typeCounts": {
-          "tap": 107,
+          "tap": 103,
           "hold": 41,
           "mash": 10
         },
         "firstMs": 1293,
-        "lastEndMs": 113141
+        "lastEndMs": 113111
       }
     },
     "hard": {
@@ -208,21 +209,21 @@
       "burstTapGapMs": 140,
       "tapRunEvery": 7,
       "tapRunGapMs": 140,
-      "damageScale": 0.6505882352941177,
+      "damageScale": 0.6737500000000001,
       "loop1": {
         "enemyHpMultiplier": 1,
         "playerDamageMultiplier": 1,
         "enemyAttackMultiplier": 1
       },
       "chartSummary": {
-        "noteCount": 187,
+        "noteCount": 176,
         "typeCounts": {
-          "tap": 118,
+          "tap": 107,
           "hold": 55,
           "mash": 14
         },
         "firstMs": 1293,
-        "lastEndMs": 113482
+        "lastEndMs": 113282
       }
     }
   },
@@ -245,7 +246,7 @@
       {
         "id": "easy-0002",
         "type": "hold",
-        "timeMs": 2316,
+        "timeMs": 2486,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -259,7 +260,7 @@
       {
         "id": "easy-0003",
         "type": "tap",
-        "timeMs": 3339,
+        "timeMs": 3509,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -273,7 +274,7 @@
       {
         "id": "easy-0004",
         "type": "tap",
-        "timeMs": 4362,
+        "timeMs": 4361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -287,7 +288,7 @@
       {
         "id": "easy-0005",
         "type": "tap",
-        "timeMs": 5044,
+        "timeMs": 5043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -301,7 +302,7 @@
       {
         "id": "easy-0006",
         "type": "hold",
-        "timeMs": 6067,
+        "timeMs": 6236,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -315,7 +316,7 @@
       {
         "id": "easy-0007",
         "type": "tap",
-        "timeMs": 7090,
+        "timeMs": 7259,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -329,8 +330,8 @@
       {
         "id": "easy-0008",
         "type": "mash",
-        "timeMs": 8113,
-        "durationMs": 1194,
+        "timeMs": 8111,
+        "durationMs": 1193,
         "targetCount": 4,
         "phraseLabel": "溜め泣き",
         "callText": "泣き返し",
@@ -343,7 +344,7 @@
       {
         "id": "easy-0009",
         "type": "tap",
-        "timeMs": 9818,
+        "timeMs": 9986,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -357,7 +358,7 @@
       {
         "id": "easy-0010",
         "type": "hold",
-        "timeMs": 10841,
+        "timeMs": 10838,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -371,7 +372,7 @@
       {
         "id": "easy-0011",
         "type": "tap",
-        "timeMs": 11864,
+        "timeMs": 11861,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -385,7 +386,7 @@
       {
         "id": "easy-0012",
         "type": "tap",
-        "timeMs": 12887,
+        "timeMs": 12713,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -399,7 +400,7 @@
       {
         "id": "easy-0013",
         "type": "tap",
-        "timeMs": 13569,
+        "timeMs": 13736,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -413,7 +414,7 @@
       {
         "id": "easy-0014",
         "type": "hold",
-        "timeMs": 14592,
+        "timeMs": 14588,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -427,7 +428,7 @@
       {
         "id": "easy-0015",
         "type": "tap",
-        "timeMs": 15615,
+        "timeMs": 15611,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -441,7 +442,7 @@
       {
         "id": "easy-0016",
         "type": "tap",
-        "timeMs": 16638,
+        "timeMs": 16463,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -455,7 +456,7 @@
       {
         "id": "easy-0017",
         "type": "hold",
-        "timeMs": 17661,
+        "timeMs": 17486,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -469,7 +470,7 @@
       {
         "id": "easy-0018",
         "type": "tap",
-        "timeMs": 18684,
+        "timeMs": 18509,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -483,7 +484,7 @@
       {
         "id": "easy-0019",
         "type": "tap",
-        "timeMs": 19366,
+        "timeMs": 19361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -497,7 +498,7 @@
       {
         "id": "easy-0020",
         "type": "tap",
-        "timeMs": 20389,
+        "timeMs": 20213,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -511,7 +512,7 @@
       {
         "id": "easy-0021",
         "type": "hold",
-        "timeMs": 21412,
+        "timeMs": 21236,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -525,7 +526,7 @@
       {
         "id": "easy-0022",
         "type": "tap",
-        "timeMs": 22435,
+        "timeMs": 22259,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -539,8 +540,8 @@
       {
         "id": "easy-0023",
         "type": "mash",
-        "timeMs": 23117,
-        "durationMs": 1194,
+        "timeMs": 23111,
+        "durationMs": 1193,
         "targetCount": 4,
         "phraseLabel": "溜め泣き",
         "callText": "泣き返し",
@@ -553,7 +554,7 @@
       {
         "id": "easy-0024",
         "type": "tap",
-        "timeMs": 25163,
+        "timeMs": 24986,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -567,7 +568,7 @@
       {
         "id": "easy-0025",
         "type": "hold",
-        "timeMs": 26186,
+        "timeMs": 26179,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -581,7 +582,7 @@
       {
         "id": "easy-0026",
         "type": "tap",
-        "timeMs": 27209,
+        "timeMs": 27202,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -595,7 +596,7 @@
       {
         "id": "easy-0027",
         "type": "tap",
-        "timeMs": 27891,
+        "timeMs": 28054,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -609,7 +610,7 @@
       {
         "id": "easy-0028",
         "type": "tap",
-        "timeMs": 28914,
+        "timeMs": 28736,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -623,7 +624,7 @@
       {
         "id": "easy-0029",
         "type": "hold",
-        "timeMs": 29937,
+        "timeMs": 29929,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -637,7 +638,7 @@
       {
         "id": "easy-0030",
         "type": "tap",
-        "timeMs": 30960,
+        "timeMs": 30952,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -651,7 +652,7 @@
       {
         "id": "easy-0031",
         "type": "tap",
-        "timeMs": 31642,
+        "timeMs": 31804,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -665,7 +666,7 @@
       {
         "id": "easy-0032",
         "type": "hold",
-        "timeMs": 32665,
+        "timeMs": 32486,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -679,7 +680,7 @@
       {
         "id": "easy-0033",
         "type": "tap",
-        "timeMs": 33688,
+        "timeMs": 33679,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -693,7 +694,7 @@
       {
         "id": "easy-0034",
         "type": "tap",
-        "timeMs": 34711,
+        "timeMs": 34702,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -707,7 +708,7 @@
       {
         "id": "easy-0035",
         "type": "tap",
-        "timeMs": 35052,
+        "timeMs": 35043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -721,7 +722,7 @@
       {
         "id": "easy-0036",
         "type": "tap",
-        "timeMs": 35393,
+        "timeMs": 35554,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -735,7 +736,7 @@
       {
         "id": "easy-0037",
         "type": "hold",
-        "timeMs": 36416,
+        "timeMs": 36577,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -749,7 +750,7 @@
       {
         "id": "easy-0038",
         "type": "tap",
-        "timeMs": 37439,
+        "timeMs": 37600,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -763,8 +764,8 @@
       {
         "id": "easy-0039",
         "type": "mash",
-        "timeMs": 38462,
-        "durationMs": 1194,
+        "timeMs": 38452,
+        "durationMs": 1193,
         "targetCount": 4,
         "phraseLabel": "溜め泣き",
         "callText": "泣き返し",
@@ -777,7 +778,7 @@
       {
         "id": "easy-0040",
         "type": "tap",
-        "timeMs": 40167,
+        "timeMs": 40327,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -791,7 +792,7 @@
       {
         "id": "easy-0041",
         "type": "hold",
-        "timeMs": 41190,
+        "timeMs": 41179,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -805,7 +806,7 @@
       {
         "id": "easy-0042",
         "type": "tap",
-        "timeMs": 42213,
+        "timeMs": 42202,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -819,7 +820,7 @@
       {
         "id": "easy-0043",
         "type": "tap",
-        "timeMs": 43236,
+        "timeMs": 43054,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -833,7 +834,7 @@
       {
         "id": "easy-0044",
         "type": "tap",
-        "timeMs": 43918,
+        "timeMs": 44077,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -847,7 +848,7 @@
       {
         "id": "easy-0045",
         "type": "hold",
-        "timeMs": 44941,
+        "timeMs": 44929,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -861,7 +862,7 @@
       {
         "id": "easy-0046",
         "type": "tap",
-        "timeMs": 45964,
+        "timeMs": 45952,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -875,7 +876,7 @@
       {
         "id": "easy-0047",
         "type": "tap",
-        "timeMs": 46987,
+        "timeMs": 46804,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -889,7 +890,7 @@
       {
         "id": "easy-0048",
         "type": "hold",
-        "timeMs": 47669,
+        "timeMs": 47827,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -903,7 +904,7 @@
       {
         "id": "easy-0049",
         "type": "tap",
-        "timeMs": 48692,
+        "timeMs": 48850,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -917,7 +918,7 @@
       {
         "id": "easy-0050",
         "type": "tap",
-        "timeMs": 49715,
+        "timeMs": 49702,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -931,7 +932,7 @@
       {
         "id": "easy-0051",
         "type": "tap",
-        "timeMs": 50738,
+        "timeMs": 50554,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -945,7 +946,7 @@
       {
         "id": "easy-0052",
         "type": "hold",
-        "timeMs": 51761,
+        "timeMs": 51577,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -959,7 +960,7 @@
       {
         "id": "easy-0053",
         "type": "tap",
-        "timeMs": 52784,
+        "timeMs": 52600,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -973,8 +974,8 @@
       {
         "id": "easy-0054",
         "type": "mash",
-        "timeMs": 53466,
-        "durationMs": 1194,
+        "timeMs": 53452,
+        "durationMs": 1193,
         "targetCount": 4,
         "phraseLabel": "溜め泣き",
         "callText": "泣き返し",
@@ -987,7 +988,7 @@
       {
         "id": "easy-0055",
         "type": "tap",
-        "timeMs": 55512,
+        "timeMs": 55327,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1001,7 +1002,7 @@
       {
         "id": "easy-0056",
         "type": "hold",
-        "timeMs": 56194,
+        "timeMs": 56179,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1015,7 +1016,7 @@
       {
         "id": "easy-0057",
         "type": "tap",
-        "timeMs": 57217,
+        "timeMs": 57202,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1029,7 +1030,7 @@
       {
         "id": "easy-0058",
         "type": "tap",
-        "timeMs": 58240,
+        "timeMs": 58395,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1043,7 +1044,7 @@
       {
         "id": "easy-0059",
         "type": "tap",
-        "timeMs": 59263,
+        "timeMs": 59077,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1057,7 +1058,7 @@
       {
         "id": "easy-0060",
         "type": "hold",
-        "timeMs": 60286,
+        "timeMs": 60270,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1071,7 +1072,7 @@
       {
         "id": "easy-0061",
         "type": "tap",
-        "timeMs": 61309,
+        "timeMs": 61293,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1085,7 +1086,7 @@
       {
         "id": "easy-0062",
         "type": "tap",
-        "timeMs": 61991,
+        "timeMs": 62145,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1099,7 +1100,7 @@
       {
         "id": "easy-0063",
         "type": "hold",
-        "timeMs": 63014,
+        "timeMs": 62827,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1113,7 +1114,7 @@
       {
         "id": "easy-0064",
         "type": "tap",
-        "timeMs": 64037,
+        "timeMs": 64020,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1127,7 +1128,7 @@
       {
         "id": "easy-0065",
         "type": "tap",
-        "timeMs": 64719,
+        "timeMs": 64702,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1141,7 +1142,7 @@
       {
         "id": "easy-0066",
         "type": "tap",
-        "timeMs": 65742,
+        "timeMs": 65895,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1155,7 +1156,7 @@
       {
         "id": "easy-0067",
         "type": "hold",
-        "timeMs": 66765,
+        "timeMs": 66918,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1169,7 +1170,7 @@
       {
         "id": "easy-0068",
         "type": "tap",
-        "timeMs": 67788,
+        "timeMs": 67941,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1183,8 +1184,8 @@
       {
         "id": "easy-0069",
         "type": "mash",
-        "timeMs": 68811,
-        "durationMs": 1194,
+        "timeMs": 68793,
+        "durationMs": 1193,
         "targetCount": 4,
         "phraseLabel": "溜め泣き",
         "callText": "泣き返し",
@@ -1197,7 +1198,7 @@
       {
         "id": "easy-0070",
         "type": "tap",
-        "timeMs": 70516,
+        "timeMs": 70668,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1211,7 +1212,7 @@
       {
         "id": "easy-0071",
         "type": "hold",
-        "timeMs": 71539,
+        "timeMs": 71520,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1225,7 +1226,7 @@
       {
         "id": "easy-0072",
         "type": "tap",
-        "timeMs": 72562,
+        "timeMs": 72543,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1239,7 +1240,7 @@
       {
         "id": "easy-0073",
         "type": "tap",
-        "timeMs": 73585,
+        "timeMs": 73395,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1253,7 +1254,7 @@
       {
         "id": "easy-0074",
         "type": "tap",
-        "timeMs": 74267,
+        "timeMs": 74418,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1267,7 +1268,7 @@
       {
         "id": "easy-0075",
         "type": "hold",
-        "timeMs": 75290,
+        "timeMs": 75270,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1281,7 +1282,7 @@
       {
         "id": "easy-0076",
         "type": "tap",
-        "timeMs": 76313,
+        "timeMs": 76293,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1295,7 +1296,7 @@
       {
         "id": "easy-0077",
         "type": "tap",
-        "timeMs": 77336,
+        "timeMs": 77145,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1309,7 +1310,7 @@
       {
         "id": "easy-0078",
         "type": "hold",
-        "timeMs": 78018,
+        "timeMs": 78168,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1323,7 +1324,7 @@
       {
         "id": "easy-0079",
         "type": "tap",
-        "timeMs": 79041,
+        "timeMs": 79191,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1337,7 +1338,7 @@
       {
         "id": "easy-0080",
         "type": "tap",
-        "timeMs": 80064,
+        "timeMs": 80043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1351,7 +1352,7 @@
       {
         "id": "easy-0081",
         "type": "tap",
-        "timeMs": 81087,
+        "timeMs": 80895,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1365,7 +1366,7 @@
       {
         "id": "easy-0082",
         "type": "hold",
-        "timeMs": 82110,
+        "timeMs": 81918,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1379,7 +1380,7 @@
       {
         "id": "easy-0083",
         "type": "tap",
-        "timeMs": 83133,
+        "timeMs": 82941,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1393,8 +1394,8 @@
       {
         "id": "easy-0084",
         "type": "mash",
-        "timeMs": 83815,
-        "durationMs": 1194,
+        "timeMs": 83793,
+        "durationMs": 1193,
         "targetCount": 4,
         "phraseLabel": "溜め泣き",
         "callText": "泣き返し",
@@ -1407,7 +1408,7 @@
       {
         "id": "easy-0085",
         "type": "tap",
-        "timeMs": 85861,
+        "timeMs": 85668,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1421,7 +1422,7 @@
       {
         "id": "easy-0086",
         "type": "hold",
-        "timeMs": 86543,
+        "timeMs": 86520,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1435,7 +1436,7 @@
       {
         "id": "easy-0087",
         "type": "tap",
-        "timeMs": 87566,
+        "timeMs": 87543,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1449,7 +1450,7 @@
       {
         "id": "easy-0088",
         "type": "tap",
-        "timeMs": 88589,
+        "timeMs": 88395,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1463,7 +1464,7 @@
       {
         "id": "easy-0089",
         "type": "tap",
-        "timeMs": 89612,
+        "timeMs": 89418,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1477,7 +1478,7 @@
       {
         "id": "easy-0090",
         "type": "hold",
-        "timeMs": 90635,
+        "timeMs": 90611,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1491,7 +1492,7 @@
       {
         "id": "easy-0091",
         "type": "tap",
-        "timeMs": 91658,
+        "timeMs": 91634,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1505,7 +1506,7 @@
       {
         "id": "easy-0092",
         "type": "tap",
-        "timeMs": 92340,
+        "timeMs": 92486,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1519,7 +1520,7 @@
       {
         "id": "easy-0093",
         "type": "hold",
-        "timeMs": 93363,
+        "timeMs": 93168,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1533,7 +1534,7 @@
       {
         "id": "easy-0094",
         "type": "tap",
-        "timeMs": 94386,
+        "timeMs": 94361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1547,7 +1548,7 @@
       {
         "id": "easy-0095",
         "type": "tap",
-        "timeMs": 95068,
+        "timeMs": 95043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1561,7 +1562,7 @@
       {
         "id": "easy-0096",
         "type": "tap",
-        "timeMs": 96091,
+        "timeMs": 96236,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1575,7 +1576,7 @@
       {
         "id": "easy-0097",
         "type": "hold",
-        "timeMs": 97114,
+        "timeMs": 96918,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1589,7 +1590,7 @@
       {
         "id": "easy-0098",
         "type": "tap",
-        "timeMs": 98137,
+        "timeMs": 98111,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1603,8 +1604,8 @@
       {
         "id": "easy-0099",
         "type": "mash",
-        "timeMs": 99160,
-        "durationMs": 1194,
+        "timeMs": 98963,
+        "durationMs": 1193,
         "targetCount": 4,
         "phraseLabel": "溜め泣き",
         "callText": "泣き返し",
@@ -1617,7 +1618,7 @@
       {
         "id": "easy-0100",
         "type": "tap",
-        "timeMs": 100865,
+        "timeMs": 100838,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1631,7 +1632,7 @@
       {
         "id": "easy-0101",
         "type": "hold",
-        "timeMs": 101888,
+        "timeMs": 101861,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1645,7 +1646,7 @@
       {
         "id": "easy-0102",
         "type": "tap",
-        "timeMs": 102911,
+        "timeMs": 102884,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1659,7 +1660,7 @@
       {
         "id": "easy-0103",
         "type": "tap",
-        "timeMs": 103252,
+        "timeMs": 103225,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1673,7 +1674,7 @@
       {
         "id": "easy-0104",
         "type": "tap",
-        "timeMs": 103593,
+        "timeMs": 103736,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1687,7 +1688,7 @@
       {
         "id": "easy-0105",
         "type": "tap",
-        "timeMs": 104616,
+        "timeMs": 104588,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1701,7 +1702,7 @@
       {
         "id": "easy-0106",
         "type": "hold",
-        "timeMs": 105639,
+        "timeMs": 105611,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1715,7 +1716,7 @@
       {
         "id": "easy-0107",
         "type": "tap",
-        "timeMs": 106662,
+        "timeMs": 106634,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1729,7 +1730,7 @@
       {
         "id": "easy-0108",
         "type": "tap",
-        "timeMs": 107685,
+        "timeMs": 107486,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1743,7 +1744,7 @@
       {
         "id": "easy-0109",
         "type": "hold",
-        "timeMs": 108367,
+        "timeMs": 108338,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1757,7 +1758,7 @@
       {
         "id": "easy-0110",
         "type": "tap",
-        "timeMs": 109390,
+        "timeMs": 109361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1771,7 +1772,7 @@
       {
         "id": "easy-0111",
         "type": "tap",
-        "timeMs": 110413,
+        "timeMs": 110213,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1785,7 +1786,7 @@
       {
         "id": "easy-0112",
         "type": "tap",
-        "timeMs": 111436,
+        "timeMs": 111236,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1799,7 +1800,7 @@
       {
         "id": "easy-0113",
         "type": "hold",
-        "timeMs": 112118,
+        "timeMs": 112088,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1813,7 +1814,7 @@
       {
         "id": "easy-0114",
         "type": "tap",
-        "timeMs": 113141,
+        "timeMs": 113111,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1843,7 +1844,7 @@
       {
         "id": "normal-0002",
         "type": "hold",
-        "timeMs": 1975,
+        "timeMs": 2145,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1857,7 +1858,7 @@
       {
         "id": "normal-0003",
         "type": "tap",
-        "timeMs": 2998,
+        "timeMs": 3168,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1871,7 +1872,7 @@
       {
         "id": "normal-0004",
         "type": "tap",
-        "timeMs": 3339,
+        "timeMs": 3509,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1885,7 +1886,7 @@
       {
         "id": "normal-0005",
         "type": "tap",
-        "timeMs": 4021,
+        "timeMs": 4020,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1899,7 +1900,7 @@
       {
         "id": "normal-0006",
         "type": "hold",
-        "timeMs": 4703,
+        "timeMs": 4702,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1913,7 +1914,7 @@
       {
         "id": "normal-0007",
         "type": "tap",
-        "timeMs": 5726,
+        "timeMs": 5725,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1927,7 +1928,7 @@
       {
         "id": "normal-0008",
         "type": "mash",
-        "timeMs": 6067,
+        "timeMs": 6236,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -1940,22 +1941,8 @@
       },
       {
         "id": "normal-0009",
-        "type": "tap",
-        "timeMs": 7602,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 9,
-        "finisher": false
-      },
-      {
-        "id": "normal-0010",
         "type": "hold",
-        "timeMs": 8113,
+        "timeMs": 8111,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1967,9 +1954,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0011",
+        "id": "normal-0010",
         "type": "tap",
-        "timeMs": 9136,
+        "timeMs": 9134,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1981,9 +1968,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0012",
+        "id": "normal-0011",
         "type": "tap",
-        "timeMs": 9477,
+        "timeMs": 9645,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -1995,9 +1982,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0013",
+        "id": "normal-0012",
         "type": "tap",
-        "timeMs": 10159,
+        "timeMs": 10327,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2009,9 +1996,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0014",
+        "id": "normal-0013",
         "type": "hold",
-        "timeMs": 10841,
+        "timeMs": 11009,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2023,9 +2010,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0015",
+        "id": "normal-0014",
         "type": "tap",
-        "timeMs": 11864,
+        "timeMs": 12032,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2037,9 +2024,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0016",
+        "id": "normal-0015",
         "type": "tap",
-        "timeMs": 12205,
+        "timeMs": 12373,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2051,9 +2038,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0017",
+        "id": "normal-0016",
         "type": "hold",
-        "timeMs": 12887,
+        "timeMs": 13054,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2065,9 +2052,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0018",
+        "id": "normal-0017",
         "type": "tap",
-        "timeMs": 13910,
+        "timeMs": 14077,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2079,9 +2066,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0019",
+        "id": "normal-0018",
         "type": "tap",
-        "timeMs": 14251,
+        "timeMs": 14418,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2093,9 +2080,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0020",
+        "id": "normal-0019",
         "type": "tap",
-        "timeMs": 14933,
+        "timeMs": 14929,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2107,9 +2094,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0021",
+        "id": "normal-0020",
         "type": "hold",
-        "timeMs": 15615,
+        "timeMs": 15611,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2121,9 +2108,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0022",
+        "id": "normal-0021",
         "type": "tap",
-        "timeMs": 16638,
+        "timeMs": 16634,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2135,9 +2122,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0023",
+        "id": "normal-0022",
         "type": "mash",
-        "timeMs": 16979,
+        "timeMs": 17145,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -2149,23 +2136,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0024",
-        "type": "tap",
-        "timeMs": 18514,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 25,
-        "finisher": false
-      },
-      {
-        "id": "normal-0025",
+        "id": "normal-0023",
         "type": "hold",
-        "timeMs": 19025,
+        "timeMs": 19020,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2177,9 +2150,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0026",
+        "id": "normal-0024",
         "type": "tap",
-        "timeMs": 20048,
+        "timeMs": 20043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2191,9 +2164,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0027",
+        "id": "normal-0025",
         "type": "tap",
-        "timeMs": 20389,
+        "timeMs": 20384,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2205,9 +2178,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0028",
+        "id": "normal-0026",
         "type": "tap",
-        "timeMs": 20730,
+        "timeMs": 20725,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2219,9 +2192,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0029",
+        "id": "normal-0027",
         "type": "tap",
-        "timeMs": 21071,
+        "timeMs": 21236,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2233,9 +2206,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0030",
+        "id": "normal-0028",
         "type": "hold",
-        "timeMs": 21753,
+        "timeMs": 21918,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2247,9 +2220,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0031",
+        "id": "normal-0029",
         "type": "tap",
-        "timeMs": 22776,
+        "timeMs": 22941,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2261,9 +2234,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0032",
+        "id": "normal-0030",
         "type": "tap",
-        "timeMs": 23117,
+        "timeMs": 23282,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2275,9 +2248,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0033",
+        "id": "normal-0031",
         "type": "hold",
-        "timeMs": 23799,
+        "timeMs": 23793,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2289,9 +2262,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0034",
+        "id": "normal-0032",
         "type": "tap",
-        "timeMs": 24822,
+        "timeMs": 24816,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2303,9 +2276,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0035",
+        "id": "normal-0033",
         "type": "tap",
-        "timeMs": 25163,
+        "timeMs": 25327,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2317,9 +2290,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0036",
+        "id": "normal-0034",
         "type": "tap",
-        "timeMs": 25845,
+        "timeMs": 25838,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2331,9 +2304,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0037",
+        "id": "normal-0035",
         "type": "hold",
-        "timeMs": 26527,
+        "timeMs": 26520,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2345,9 +2318,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0038",
+        "id": "normal-0036",
         "type": "tap",
-        "timeMs": 27550,
+        "timeMs": 27543,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2359,9 +2332,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0039",
+        "id": "normal-0037",
         "type": "mash",
-        "timeMs": 27891,
+        "timeMs": 28054,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -2373,9 +2346,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0040",
+        "id": "normal-0038",
         "type": "tap",
-        "timeMs": 29426,
+        "timeMs": 29588,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2387,9 +2360,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0041",
+        "id": "normal-0039",
         "type": "hold",
-        "timeMs": 30108,
+        "timeMs": 30270,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2401,23 +2374,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0042",
+        "id": "normal-0040",
         "type": "tap",
-        "timeMs": 31131,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 43,
-        "finisher": false
-      },
-      {
-        "id": "normal-0043",
-        "type": "tap",
-        "timeMs": 31472,
+        "timeMs": 31293,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2429,9 +2388,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0044",
+        "id": "normal-0041",
         "type": "tap",
-        "timeMs": 31983,
+        "timeMs": 32145,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2443,9 +2402,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0045",
+        "id": "normal-0042",
         "type": "hold",
-        "timeMs": 32665,
+        "timeMs": 32827,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2457,9 +2416,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0046",
+        "id": "normal-0043",
         "type": "tap",
-        "timeMs": 33688,
+        "timeMs": 33850,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2471,9 +2430,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0047",
+        "id": "normal-0044",
         "type": "tap",
-        "timeMs": 34029,
+        "timeMs": 34191,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2485,9 +2444,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0048",
+        "id": "normal-0045",
         "type": "hold",
-        "timeMs": 34711,
+        "timeMs": 34702,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2499,9 +2458,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0049",
+        "id": "normal-0046",
         "type": "tap",
-        "timeMs": 35734,
+        "timeMs": 35725,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2513,9 +2472,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0050",
+        "id": "normal-0047",
         "type": "tap",
-        "timeMs": 36075,
+        "timeMs": 36236,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2527,9 +2486,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0051",
+        "id": "normal-0048",
         "type": "tap",
-        "timeMs": 36757,
+        "timeMs": 36918,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2541,9 +2500,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0052",
+        "id": "normal-0049",
         "type": "hold",
-        "timeMs": 37439,
+        "timeMs": 37429,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2555,9 +2514,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0053",
+        "id": "normal-0050",
         "type": "tap",
-        "timeMs": 38462,
+        "timeMs": 38452,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2569,9 +2528,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0054",
+        "id": "normal-0051",
         "type": "mash",
-        "timeMs": 38803,
+        "timeMs": 38793,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -2583,9 +2542,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0055",
+        "id": "normal-0052",
         "type": "tap",
-        "timeMs": 40338,
+        "timeMs": 40327,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2597,9 +2556,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0056",
+        "id": "normal-0053",
         "type": "hold",
-        "timeMs": 40849,
+        "timeMs": 40838,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2611,9 +2570,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0057",
+        "id": "normal-0054",
         "type": "tap",
-        "timeMs": 41872,
+        "timeMs": 41861,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2625,9 +2584,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0058",
+        "id": "normal-0055",
         "type": "tap",
-        "timeMs": 42213,
+        "timeMs": 42202,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2639,9 +2598,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0059",
+        "id": "normal-0056",
         "type": "tap",
-        "timeMs": 42895,
+        "timeMs": 43054,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2653,9 +2612,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0060",
+        "id": "normal-0057",
         "type": "hold",
-        "timeMs": 43577,
+        "timeMs": 43736,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2667,9 +2626,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0061",
+        "id": "normal-0058",
         "type": "tap",
-        "timeMs": 44600,
+        "timeMs": 44759,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2681,9 +2640,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0062",
+        "id": "normal-0059",
         "type": "tap",
-        "timeMs": 44941,
+        "timeMs": 45100,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2695,9 +2654,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0063",
+        "id": "normal-0060",
         "type": "hold",
-        "timeMs": 45623,
+        "timeMs": 45611,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2709,9 +2668,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0064",
+        "id": "normal-0061",
         "type": "tap",
-        "timeMs": 46646,
+        "timeMs": 46634,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2723,9 +2682,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0065",
+        "id": "normal-0062",
         "type": "tap",
-        "timeMs": 46987,
+        "timeMs": 47145,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2737,9 +2696,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0066",
+        "id": "normal-0063",
         "type": "tap",
-        "timeMs": 47669,
+        "timeMs": 47827,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2751,9 +2710,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0067",
+        "id": "normal-0064",
         "type": "hold",
-        "timeMs": 48351,
+        "timeMs": 48338,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2765,9 +2724,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0068",
+        "id": "normal-0065",
         "type": "tap",
-        "timeMs": 49374,
+        "timeMs": 49361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2779,9 +2738,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0069",
+        "id": "normal-0066",
         "type": "mash",
-        "timeMs": 49715,
+        "timeMs": 49702,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -2793,9 +2752,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0070",
+        "id": "normal-0067",
         "type": "tap",
-        "timeMs": 51250,
+        "timeMs": 51236,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2807,9 +2766,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0071",
+        "id": "normal-0068",
         "type": "hold",
-        "timeMs": 51761,
+        "timeMs": 51918,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2821,9 +2780,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0072",
+        "id": "normal-0069",
         "type": "tap",
-        "timeMs": 52784,
+        "timeMs": 52941,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2835,9 +2794,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0073",
+        "id": "normal-0070",
         "type": "tap",
-        "timeMs": 53125,
+        "timeMs": 53282,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2849,9 +2808,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0074",
+        "id": "normal-0071",
         "type": "tap",
-        "timeMs": 53807,
+        "timeMs": 53793,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2863,9 +2822,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0075",
+        "id": "normal-0072",
         "type": "hold",
-        "timeMs": 54489,
+        "timeMs": 54645,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2877,9 +2836,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0076",
+        "id": "normal-0073",
         "type": "tap",
-        "timeMs": 55512,
+        "timeMs": 55668,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2891,9 +2850,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0077",
+        "id": "normal-0074",
         "type": "tap",
-        "timeMs": 55853,
+        "timeMs": 56009,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2905,9 +2864,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0078",
+        "id": "normal-0075",
         "type": "hold",
-        "timeMs": 56535,
+        "timeMs": 56520,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2919,9 +2878,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0079",
+        "id": "normal-0076",
         "type": "tap",
-        "timeMs": 57558,
+        "timeMs": 57543,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2933,9 +2892,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0080",
+        "id": "normal-0077",
         "type": "tap",
-        "timeMs": 57899,
+        "timeMs": 58054,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2947,9 +2906,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0081",
+        "id": "normal-0078",
         "type": "tap",
-        "timeMs": 58240,
+        "timeMs": 58395,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2961,9 +2920,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0082",
+        "id": "normal-0079",
         "type": "tap",
-        "timeMs": 58581,
+        "timeMs": 58736,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2975,9 +2934,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0083",
+        "id": "normal-0080",
         "type": "hold",
-        "timeMs": 59263,
+        "timeMs": 59418,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -2989,9 +2948,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0084",
+        "id": "normal-0081",
         "type": "tap",
-        "timeMs": 60286,
+        "timeMs": 60441,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3003,9 +2962,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0085",
+        "id": "normal-0082",
         "type": "mash",
-        "timeMs": 60627,
+        "timeMs": 60782,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -3017,9 +2976,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0086",
+        "id": "normal-0083",
         "type": "tap",
-        "timeMs": 62162,
+        "timeMs": 62316,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3031,9 +2990,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0087",
+        "id": "normal-0084",
         "type": "hold",
-        "timeMs": 62673,
+        "timeMs": 62827,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3045,9 +3004,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0088",
+        "id": "normal-0085",
         "type": "tap",
-        "timeMs": 63696,
+        "timeMs": 63850,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3059,9 +3018,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0089",
+        "id": "normal-0086",
         "type": "tap",
-        "timeMs": 64037,
+        "timeMs": 64191,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3073,9 +3032,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0090",
+        "id": "normal-0087",
         "type": "tap",
-        "timeMs": 64719,
+        "timeMs": 64702,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3087,9 +3046,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0091",
+        "id": "normal-0088",
         "type": "hold",
-        "timeMs": 65401,
+        "timeMs": 65554,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3101,9 +3060,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0092",
+        "id": "normal-0089",
         "type": "tap",
-        "timeMs": 66424,
+        "timeMs": 66577,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3115,9 +3074,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0093",
+        "id": "normal-0090",
         "type": "tap",
-        "timeMs": 66765,
+        "timeMs": 66918,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3129,9 +3088,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0094",
+        "id": "normal-0091",
         "type": "hold",
-        "timeMs": 67447,
+        "timeMs": 67429,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3143,9 +3102,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0095",
+        "id": "normal-0092",
         "type": "tap",
-        "timeMs": 68470,
+        "timeMs": 68452,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3157,9 +3116,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0096",
+        "id": "normal-0093",
         "type": "tap",
-        "timeMs": 68811,
+        "timeMs": 68793,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3171,9 +3130,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0097",
+        "id": "normal-0094",
         "type": "tap",
-        "timeMs": 69493,
+        "timeMs": 69645,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3185,9 +3144,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0098",
+        "id": "normal-0095",
         "type": "hold",
-        "timeMs": 70175,
+        "timeMs": 70327,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3199,9 +3158,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0099",
+        "id": "normal-0096",
         "type": "tap",
-        "timeMs": 71198,
+        "timeMs": 71350,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3213,9 +3172,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0100",
+        "id": "normal-0097",
         "type": "mash",
-        "timeMs": 71539,
+        "timeMs": 71691,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -3227,9 +3186,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0101",
+        "id": "normal-0098",
         "type": "tap",
-        "timeMs": 73074,
+        "timeMs": 73225,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3241,9 +3200,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0102",
+        "id": "normal-0099",
         "type": "hold",
-        "timeMs": 73585,
+        "timeMs": 73736,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3255,9 +3214,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0103",
+        "id": "normal-0100",
         "type": "tap",
-        "timeMs": 74608,
+        "timeMs": 74759,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3269,9 +3228,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0104",
+        "id": "normal-0101",
         "type": "tap",
-        "timeMs": 74949,
+        "timeMs": 75100,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3283,9 +3242,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0105",
+        "id": "normal-0102",
         "type": "tap",
-        "timeMs": 75631,
+        "timeMs": 75611,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3297,9 +3256,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0106",
+        "id": "normal-0103",
         "type": "hold",
-        "timeMs": 76313,
+        "timeMs": 76293,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3311,9 +3270,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0107",
+        "id": "normal-0104",
         "type": "tap",
-        "timeMs": 77336,
+        "timeMs": 77316,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3325,9 +3284,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0108",
+        "id": "normal-0105",
         "type": "tap",
-        "timeMs": 77677,
+        "timeMs": 77657,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3339,9 +3298,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0109",
+        "id": "normal-0106",
         "type": "hold",
-        "timeMs": 78359,
+        "timeMs": 78338,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3353,9 +3312,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0110",
+        "id": "normal-0107",
         "type": "tap",
-        "timeMs": 79382,
+        "timeMs": 79361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3367,9 +3326,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0111",
+        "id": "normal-0108",
         "type": "tap",
-        "timeMs": 79723,
+        "timeMs": 79702,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3381,9 +3340,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0112",
+        "id": "normal-0109",
         "type": "tap",
-        "timeMs": 80405,
+        "timeMs": 80554,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3395,9 +3354,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0113",
+        "id": "normal-0110",
         "type": "hold",
-        "timeMs": 81087,
+        "timeMs": 81236,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3409,9 +3368,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0114",
+        "id": "normal-0111",
         "type": "tap",
-        "timeMs": 82110,
+        "timeMs": 82259,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3423,9 +3382,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0115",
+        "id": "normal-0112",
         "type": "mash",
-        "timeMs": 82451,
+        "timeMs": 82600,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -3437,9 +3396,9 @@
         "finisher": false
       },
       {
-        "id": "normal-0116",
+        "id": "normal-0113",
         "type": "tap",
-        "timeMs": 83986,
+        "timeMs": 84134,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3451,9 +3410,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0117",
+        "id": "normal-0114",
         "type": "hold",
-        "timeMs": 84497,
+        "timeMs": 84645,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3465,9 +3424,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0118",
+        "id": "normal-0115",
         "type": "tap",
-        "timeMs": 85520,
+        "timeMs": 85668,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3479,9 +3438,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0119",
+        "id": "normal-0116",
         "type": "tap",
-        "timeMs": 85861,
+        "timeMs": 86009,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3493,9 +3452,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0120",
+        "id": "normal-0117",
         "type": "tap",
-        "timeMs": 86543,
+        "timeMs": 86520,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3507,9 +3466,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0121",
+        "id": "normal-0118",
         "type": "hold",
-        "timeMs": 87225,
+        "timeMs": 87202,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3521,9 +3480,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0122",
+        "id": "normal-0119",
         "type": "tap",
-        "timeMs": 88248,
+        "timeMs": 88225,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3535,9 +3494,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0123",
+        "id": "normal-0120",
         "type": "tap",
-        "timeMs": 88589,
+        "timeMs": 88736,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3549,9 +3508,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0124",
+        "id": "normal-0121",
         "type": "hold",
-        "timeMs": 89271,
+        "timeMs": 89418,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3563,9 +3522,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0125",
+        "id": "normal-0122",
         "type": "tap",
-        "timeMs": 90294,
+        "timeMs": 90441,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3577,9 +3536,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0126",
+        "id": "normal-0123",
         "type": "tap",
-        "timeMs": 90635,
+        "timeMs": 90782,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3591,9 +3550,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0127",
+        "id": "normal-0124",
         "type": "tap",
-        "timeMs": 91317,
+        "timeMs": 91293,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3605,9 +3564,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0128",
+        "id": "normal-0125",
         "type": "hold",
-        "timeMs": 91999,
+        "timeMs": 92145,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3619,9 +3578,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0129",
+        "id": "normal-0126",
         "type": "tap",
-        "timeMs": 93022,
+        "timeMs": 93168,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3633,9 +3592,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0130",
+        "id": "normal-0127",
         "type": "mash",
-        "timeMs": 93363,
+        "timeMs": 93509,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -3647,9 +3606,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0131",
+        "id": "normal-0128",
         "type": "tap",
-        "timeMs": 94898,
+        "timeMs": 95043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3661,9 +3620,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0132",
+        "id": "normal-0129",
         "type": "hold",
-        "timeMs": 95409,
+        "timeMs": 95554,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3675,9 +3634,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0133",
+        "id": "normal-0130",
         "type": "tap",
-        "timeMs": 96432,
+        "timeMs": 96577,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3689,9 +3648,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0134",
+        "id": "normal-0131",
         "type": "tap",
-        "timeMs": 96773,
+        "timeMs": 96918,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3703,9 +3662,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0135",
+        "id": "normal-0132",
         "type": "tap",
-        "timeMs": 97114,
+        "timeMs": 97259,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3717,9 +3676,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0136",
+        "id": "normal-0133",
         "type": "tap",
-        "timeMs": 97455,
+        "timeMs": 97600,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3731,9 +3690,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0137",
+        "id": "normal-0134",
         "type": "hold",
-        "timeMs": 98137,
+        "timeMs": 98111,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3745,9 +3704,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0138",
+        "id": "normal-0135",
         "type": "tap",
-        "timeMs": 99160,
+        "timeMs": 99134,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3759,9 +3718,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0139",
+        "id": "normal-0136",
         "type": "tap",
-        "timeMs": 99501,
+        "timeMs": 99645,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3773,9 +3732,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0140",
+        "id": "normal-0137",
         "type": "hold",
-        "timeMs": 100183,
+        "timeMs": 100327,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3787,9 +3746,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0141",
+        "id": "normal-0138",
         "type": "tap",
-        "timeMs": 101206,
+        "timeMs": 101350,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3801,9 +3760,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0142",
+        "id": "normal-0139",
         "type": "tap",
-        "timeMs": 101547,
+        "timeMs": 101691,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3815,9 +3774,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0143",
+        "id": "normal-0140",
         "type": "tap",
-        "timeMs": 102229,
+        "timeMs": 102202,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3829,9 +3788,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0144",
+        "id": "normal-0141",
         "type": "hold",
-        "timeMs": 102911,
+        "timeMs": 103054,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3843,9 +3802,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0145",
+        "id": "normal-0142",
         "type": "tap",
-        "timeMs": 103934,
+        "timeMs": 104077,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3857,9 +3816,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0146",
+        "id": "normal-0143",
         "type": "mash",
-        "timeMs": 104275,
+        "timeMs": 104418,
         "durationMs": 1023,
         "targetCount": 5,
         "phraseLabel": "溜め泣き",
@@ -3871,9 +3830,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0147",
+        "id": "normal-0144",
         "type": "tap",
-        "timeMs": 105810,
+        "timeMs": 105952,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3885,9 +3844,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0148",
+        "id": "normal-0145",
         "type": "hold",
-        "timeMs": 106492,
+        "timeMs": 106634,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3899,23 +3858,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0149",
+        "id": "normal-0146",
         "type": "tap",
-        "timeMs": 107515,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 155,
-        "finisher": true
-      },
-      {
-        "id": "normal-0150",
-        "type": "tap",
-        "timeMs": 107856,
+        "timeMs": 107827,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3927,9 +3872,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0151",
+        "id": "normal-0147",
         "type": "tap",
-        "timeMs": 108367,
+        "timeMs": 108338,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3941,9 +3886,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0152",
+        "id": "normal-0148",
         "type": "hold",
-        "timeMs": 109049,
+        "timeMs": 109020,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3955,9 +3900,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0153",
+        "id": "normal-0149",
         "type": "tap",
-        "timeMs": 110072,
+        "timeMs": 110043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3969,9 +3914,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0154",
+        "id": "normal-0150",
         "type": "tap",
-        "timeMs": 110413,
+        "timeMs": 110554,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3983,9 +3928,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0155",
+        "id": "normal-0151",
         "type": "hold",
-        "timeMs": 111095,
+        "timeMs": 111236,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -3997,9 +3942,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0156",
+        "id": "normal-0152",
         "type": "tap",
-        "timeMs": 112118,
+        "timeMs": 112259,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4011,9 +3956,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0157",
+        "id": "normal-0153",
         "type": "tap",
-        "timeMs": 112459,
+        "timeMs": 112600,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4025,9 +3970,9 @@
         "finisher": true
       },
       {
-        "id": "normal-0158",
+        "id": "normal-0154",
         "type": "tap",
-        "timeMs": 113141,
+        "timeMs": 113111,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4057,7 +4002,7 @@
       {
         "id": "hard-0002",
         "type": "hold",
-        "timeMs": 1975,
+        "timeMs": 1804,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4071,7 +4016,7 @@
       {
         "id": "hard-0003",
         "type": "tap",
-        "timeMs": 2998,
+        "timeMs": 2827,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4085,7 +4030,7 @@
       {
         "id": "hard-0004",
         "type": "tap",
-        "timeMs": 3169,
+        "timeMs": 2998,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4099,7 +4044,7 @@
       {
         "id": "hard-0005",
         "type": "tap",
-        "timeMs": 3339,
+        "timeMs": 3338,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4113,7 +4058,7 @@
       {
         "id": "hard-0006",
         "type": "hold",
-        "timeMs": 4021,
+        "timeMs": 4020,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4127,21 +4072,7 @@
       {
         "id": "hard-0007",
         "type": "tap",
-        "timeMs": 5044,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 6,
-        "finisher": false
-      },
-      {
-        "id": "hard-0008",
-        "type": "tap",
-        "timeMs": 5215,
+        "timeMs": 5043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4153,9 +4084,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0009",
+        "id": "hard-0008",
         "type": "mash",
-        "timeMs": 5385,
+        "timeMs": 5213,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -4167,9 +4098,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0010",
+        "id": "hard-0009",
         "type": "hold",
-        "timeMs": 6920,
+        "timeMs": 6748,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4181,9 +4112,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0011",
+        "id": "hard-0010",
         "type": "tap",
-        "timeMs": 7943,
+        "timeMs": 7770,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4195,9 +4126,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0012",
+        "id": "hard-0011",
         "type": "tap",
-        "timeMs": 8113,
+        "timeMs": 8111,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4209,9 +4140,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0013",
+        "id": "hard-0012",
         "type": "hold",
-        "timeMs": 8454,
+        "timeMs": 8452,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4223,9 +4154,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0014",
+        "id": "hard-0013",
         "type": "tap",
-        "timeMs": 9477,
+        "timeMs": 9475,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4237,9 +4168,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0015",
+        "id": "hard-0014",
         "type": "tap",
-        "timeMs": 9648,
+        "timeMs": 9645,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4251,9 +4182,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0016",
+        "id": "hard-0015",
         "type": "hold",
-        "timeMs": 10159,
+        "timeMs": 9986,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4265,9 +4196,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0017",
+        "id": "hard-0016",
         "type": "tap",
-        "timeMs": 11182,
+        "timeMs": 11009,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4279,9 +4210,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0018",
+        "id": "hard-0017",
         "type": "tap",
-        "timeMs": 11353,
+        "timeMs": 11179,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4293,9 +4224,23 @@
         "finisher": false
       },
       {
+        "id": "hard-0018",
+        "type": "tap",
+        "timeMs": 11520,
+        "durationMs": 0,
+        "targetCount": 0,
+        "phraseLabel": "溜め泣き",
+        "callText": "泣き返し",
+        "responseText": "泣き返し",
+        "enemyCue": false,
+        "phraseRole": "kobushi",
+        "phraseStep": 20,
+        "finisher": false
+      },
+      {
         "id": "hard-0019",
         "type": "tap",
-        "timeMs": 11523,
+        "timeMs": 11861,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4308,22 +4253,8 @@
       },
       {
         "id": "hard-0020",
-        "type": "tap",
-        "timeMs": 11864,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "kobushi",
-        "phraseStep": 20,
-        "finisher": false
-      },
-      {
-        "id": "hard-0021",
         "type": "hold",
-        "timeMs": 12205,
+        "timeMs": 12202,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4335,23 +4266,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0022",
-        "type": "tap",
-        "timeMs": 13228,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 22,
-        "finisher": false
-      },
-      {
-        "id": "hard-0023",
+        "id": "hard-0021",
         "type": "mash",
-        "timeMs": 13399,
+        "timeMs": 13225,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -4363,9 +4280,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0024",
+        "id": "hard-0022",
         "type": "hold",
-        "timeMs": 14933,
+        "timeMs": 14759,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4377,9 +4294,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0025",
+        "id": "hard-0023",
         "type": "tap",
-        "timeMs": 15956,
+        "timeMs": 15782,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4391,9 +4308,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0026",
+        "id": "hard-0024",
         "type": "tap",
-        "timeMs": 16127,
+        "timeMs": 15952,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4405,9 +4322,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0027",
+        "id": "hard-0025",
         "type": "tap",
-        "timeMs": 16297,
+        "timeMs": 16123,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4419,9 +4336,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0028",
+        "id": "hard-0026",
         "type": "hold",
-        "timeMs": 16638,
+        "timeMs": 16463,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4433,9 +4350,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0029",
+        "id": "hard-0027",
         "type": "tap",
-        "timeMs": 17661,
+        "timeMs": 17486,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4447,9 +4364,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0030",
+        "id": "hard-0028",
+        "type": "tap",
+        "timeMs": 17657,
+        "durationMs": 0,
+        "targetCount": 0,
+        "phraseLabel": "溜め泣き",
+        "callText": "敵の溜め節",
+        "responseText": "泣き返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 32,
+        "finisher": false
+      },
+      {
+        "id": "hard-0029",
         "type": "hold",
-        "timeMs": 18002,
+        "timeMs": 18168,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4461,23 +4392,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0031",
+        "id": "hard-0030",
         "type": "tap",
-        "timeMs": 19025,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 34,
-        "finisher": false
-      },
-      {
-        "id": "hard-0032",
-        "type": "tap",
-        "timeMs": 19196,
+        "timeMs": 19191,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4489,9 +4406,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0033",
+        "id": "hard-0031",
         "type": "tap",
-        "timeMs": 19366,
+        "timeMs": 19361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4503,9 +4420,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0034",
+        "id": "hard-0032",
         "type": "tap",
-        "timeMs": 19707,
+        "timeMs": 19702,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4517,9 +4434,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0035",
+        "id": "hard-0033",
         "type": "hold",
-        "timeMs": 20048,
+        "timeMs": 20043,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4531,9 +4448,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0036",
+        "id": "hard-0034",
         "type": "tap",
-        "timeMs": 21071,
+        "timeMs": 21066,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4545,9 +4462,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0037",
+        "id": "hard-0035",
         "type": "mash",
-        "timeMs": 21242,
+        "timeMs": 21236,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -4559,23 +4476,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0038",
-        "type": "tap",
-        "timeMs": 22776,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 41,
-        "finisher": false
-      },
-      {
-        "id": "hard-0039",
+        "id": "hard-0036",
         "type": "hold",
-        "timeMs": 23117,
+        "timeMs": 22941,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4587,9 +4490,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0040",
+        "id": "hard-0037",
         "type": "tap",
-        "timeMs": 24140,
+        "timeMs": 23963,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4601,9 +4504,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0041",
+        "id": "hard-0038",
         "type": "tap",
-        "timeMs": 24311,
+        "timeMs": 24304,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4615,9 +4518,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0042",
+        "id": "hard-0039",
         "type": "hold",
-        "timeMs": 24822,
+        "timeMs": 24645,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4629,9 +4532,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0043",
+        "id": "hard-0040",
         "type": "tap",
-        "timeMs": 25845,
+        "timeMs": 25668,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4643,9 +4546,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0044",
+        "id": "hard-0041",
         "type": "tap",
-        "timeMs": 26016,
+        "timeMs": 25838,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4657,9 +4560,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0045",
+        "id": "hard-0042",
         "type": "hold",
-        "timeMs": 26357,
+        "timeMs": 26179,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4671,9 +4574,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0046",
+        "id": "hard-0043",
         "type": "tap",
-        "timeMs": 27380,
+        "timeMs": 27202,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4685,9 +4588,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0047",
+        "id": "hard-0044",
         "type": "tap",
-        "timeMs": 27550,
+        "timeMs": 27373,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4699,9 +4602,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0048",
+        "id": "hard-0045",
         "type": "tap",
-        "timeMs": 27891,
+        "timeMs": 27713,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4713,9 +4616,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0049",
+        "id": "hard-0046",
         "type": "hold",
-        "timeMs": 28232,
+        "timeMs": 28395,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4727,23 +4630,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0050",
-        "type": "tap",
-        "timeMs": 29255,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 54,
-        "finisher": false
-      },
-      {
-        "id": "hard-0051",
+        "id": "hard-0047",
         "type": "mash",
-        "timeMs": 29426,
+        "timeMs": 29418,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -4755,9 +4644,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0052",
+        "id": "hard-0048",
         "type": "hold",
-        "timeMs": 31131,
+        "timeMs": 30952,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4769,9 +4658,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0053",
+        "id": "hard-0049",
         "type": "tap",
-        "timeMs": 32154,
+        "timeMs": 31975,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4783,9 +4672,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0054",
+        "id": "hard-0050",
         "type": "tap",
-        "timeMs": 32324,
+        "timeMs": 32486,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4797,9 +4686,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0055",
+        "id": "hard-0051",
         "type": "hold",
-        "timeMs": 33006,
+        "timeMs": 32827,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4811,9 +4700,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0056",
+        "id": "hard-0052",
         "type": "tap",
-        "timeMs": 34029,
+        "timeMs": 33850,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4825,9 +4714,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0057",
+        "id": "hard-0053",
+        "type": "tap",
+        "timeMs": 34020,
+        "durationMs": 0,
+        "targetCount": 0,
+        "phraseLabel": "溜め泣き",
+        "callText": "敵の溜め節",
+        "responseText": "泣き返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 64,
+        "finisher": false
+      },
+      {
+        "id": "hard-0054",
         "type": "hold",
-        "timeMs": 34370,
+        "timeMs": 34361,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4839,9 +4742,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0058",
+        "id": "hard-0055",
         "type": "tap",
-        "timeMs": 35393,
+        "timeMs": 35384,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4853,9 +4756,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0059",
+        "id": "hard-0056",
         "type": "tap",
-        "timeMs": 35564,
+        "timeMs": 35554,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4867,9 +4770,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0060",
+        "id": "hard-0057",
         "type": "tap",
-        "timeMs": 36075,
+        "timeMs": 35895,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4881,9 +4784,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0061",
+        "id": "hard-0058",
         "type": "hold",
-        "timeMs": 36416,
+        "timeMs": 36577,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4895,23 +4798,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0062",
-        "type": "tap",
-        "timeMs": 37439,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 70,
-        "finisher": false
-      },
-      {
-        "id": "hard-0063",
+        "id": "hard-0059",
         "type": "mash",
-        "timeMs": 37610,
+        "timeMs": 37600,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -4923,9 +4812,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0064",
+        "id": "hard-0060",
         "type": "hold",
-        "timeMs": 39315,
+        "timeMs": 39134,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4937,9 +4826,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0065",
+        "id": "hard-0061",
         "type": "tap",
-        "timeMs": 40338,
+        "timeMs": 40157,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4951,9 +4840,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0066",
+        "id": "hard-0062",
         "type": "tap",
-        "timeMs": 40508,
+        "timeMs": 40327,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4965,9 +4854,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0067",
+        "id": "hard-0063",
         "type": "tap",
-        "timeMs": 40679,
+        "timeMs": 40668,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4979,9 +4868,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0068",
+        "id": "hard-0064",
         "type": "hold",
-        "timeMs": 41190,
+        "timeMs": 41179,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -4993,23 +4882,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0069",
+        "id": "hard-0065",
         "type": "tap",
-        "timeMs": 42213,
+        "timeMs": 42202,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
+        "callText": "敵の溜め節",
         "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 79,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 80,
         "finisher": false
       },
       {
-        "id": "hard-0070",
+        "id": "hard-0066",
         "type": "hold",
-        "timeMs": 42554,
+        "timeMs": 42543,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5021,9 +4910,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0071",
+        "id": "hard-0067",
         "type": "tap",
-        "timeMs": 43577,
+        "timeMs": 43566,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5035,9 +4924,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0072",
+        "id": "hard-0068",
         "type": "tap",
-        "timeMs": 43748,
+        "timeMs": 43736,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5049,9 +4938,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0073",
+        "id": "hard-0069",
         "type": "tap",
-        "timeMs": 43918,
+        "timeMs": 43907,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5063,9 +4952,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0074",
+        "id": "hard-0070",
         "type": "tap",
-        "timeMs": 44089,
+        "timeMs": 44077,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5077,9 +4966,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0075",
+        "id": "hard-0071",
         "type": "hold",
-        "timeMs": 44600,
+        "timeMs": 44418,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5091,9 +4980,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0076",
+        "id": "hard-0072",
         "type": "tap",
-        "timeMs": 45623,
+        "timeMs": 45441,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5105,9 +4994,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0077",
+        "id": "hard-0073",
         "type": "mash",
-        "timeMs": 45794,
+        "timeMs": 45611,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -5119,9 +5008,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0078",
+        "id": "hard-0074",
         "type": "hold",
-        "timeMs": 47328,
+        "timeMs": 47145,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5133,9 +5022,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0079",
+        "id": "hard-0075",
         "type": "tap",
-        "timeMs": 48351,
+        "timeMs": 48168,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5147,9 +5036,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0080",
+        "id": "hard-0076",
         "type": "tap",
-        "timeMs": 48692,
+        "timeMs": 48679,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5161,9 +5050,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0081",
+        "id": "hard-0077",
         "type": "hold",
-        "timeMs": 49033,
+        "timeMs": 49020,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5175,9 +5064,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0082",
+        "id": "hard-0078",
         "type": "tap",
-        "timeMs": 50056,
+        "timeMs": 50043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5189,9 +5078,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0083",
+        "id": "hard-0079",
         "type": "tap",
-        "timeMs": 50227,
+        "timeMs": 50213,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5203,9 +5092,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0084",
+        "id": "hard-0080",
         "type": "hold",
-        "timeMs": 50738,
+        "timeMs": 50554,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5217,9 +5106,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0085",
+        "id": "hard-0081",
         "type": "tap",
-        "timeMs": 51761,
+        "timeMs": 51577,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5231,9 +5120,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0086",
+        "id": "hard-0082",
         "type": "tap",
-        "timeMs": 51932,
+        "timeMs": 51748,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5245,9 +5134,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0087",
+        "id": "hard-0083",
         "type": "tap",
-        "timeMs": 52102,
+        "timeMs": 52088,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5259,9 +5148,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0088",
+        "id": "hard-0084",
         "type": "hold",
-        "timeMs": 52784,
+        "timeMs": 52770,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5273,23 +5162,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0089",
-        "type": "tap",
-        "timeMs": 53807,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 102,
-        "finisher": false
-      },
-      {
-        "id": "hard-0090",
+        "id": "hard-0085",
         "type": "mash",
-        "timeMs": 53978,
+        "timeMs": 53793,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -5301,9 +5176,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0091",
+        "id": "hard-0086",
         "type": "hold",
-        "timeMs": 55512,
+        "timeMs": 55327,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5315,9 +5190,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0092",
+        "id": "hard-0087",
         "type": "tap",
-        "timeMs": 56535,
+        "timeMs": 56350,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5329,9 +5204,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0093",
+        "id": "hard-0088",
         "type": "tap",
-        "timeMs": 56876,
+        "timeMs": 56861,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5343,9 +5218,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0094",
+        "id": "hard-0089",
         "type": "hold",
-        "timeMs": 57217,
+        "timeMs": 57202,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5357,9 +5232,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0095",
+        "id": "hard-0090",
         "type": "tap",
-        "timeMs": 58240,
+        "timeMs": 58225,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5371,9 +5246,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0096",
+        "id": "hard-0091",
         "type": "tap",
-        "timeMs": 58411,
+        "timeMs": 58395,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5385,23 +5260,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0097",
-        "type": "tap",
-        "timeMs": 58581,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "敵の溜め節",
-        "responseText": "泣き返し",
-        "enemyCue": true,
-        "phraseRole": "call",
-        "phraseStep": 112,
-        "finisher": false
-      },
-      {
-        "id": "hard-0098",
+        "id": "hard-0092",
         "type": "hold",
-        "timeMs": 58922,
+        "timeMs": 58736,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5413,9 +5274,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0099",
+        "id": "hard-0093",
         "type": "tap",
-        "timeMs": 59945,
+        "timeMs": 59759,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5427,9 +5288,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0100",
+        "id": "hard-0094",
         "type": "tap",
-        "timeMs": 60116,
+        "timeMs": 59929,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5441,9 +5302,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0101",
+        "id": "hard-0095",
         "type": "tap",
-        "timeMs": 60286,
+        "timeMs": 60270,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5455,9 +5316,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0102",
+        "id": "hard-0096",
         "type": "hold",
-        "timeMs": 60968,
+        "timeMs": 60952,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5469,23 +5330,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0103",
+        "id": "hard-0097",
         "type": "tap",
-        "timeMs": 61991,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 118,
-        "finisher": false
-      },
-      {
-        "id": "hard-0104",
-        "type": "tap",
-        "timeMs": 62162,
+        "timeMs": 61975,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5497,9 +5344,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0105",
+        "id": "hard-0098",
         "type": "mash",
-        "timeMs": 62332,
+        "timeMs": 62145,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -5511,9 +5358,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0106",
+        "id": "hard-0099",
         "type": "hold",
-        "timeMs": 63867,
+        "timeMs": 63679,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5525,9 +5372,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0107",
+        "id": "hard-0100",
         "type": "tap",
-        "timeMs": 64890,
+        "timeMs": 64702,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5539,9 +5386,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0108",
+        "id": "hard-0101",
         "type": "tap",
-        "timeMs": 65060,
+        "timeMs": 65043,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5553,9 +5400,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0109",
+        "id": "hard-0102",
+        "type": "tap",
+        "timeMs": 65213,
+        "durationMs": 0,
+        "targetCount": 0,
+        "phraseLabel": "溜め泣き",
+        "callText": "泣き返し",
+        "responseText": "泣き返し",
+        "enemyCue": false,
+        "phraseRole": "kobushi",
+        "phraseStep": 125,
+        "finisher": false
+      },
+      {
+        "id": "hard-0103",
         "type": "hold",
-        "timeMs": 65401,
+        "timeMs": 65554,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5567,23 +5428,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0110",
+        "id": "hard-0104",
         "type": "tap",
-        "timeMs": 66424,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 127,
-        "finisher": false
-      },
-      {
-        "id": "hard-0111",
-        "type": "tap",
-        "timeMs": 66595,
+        "timeMs": 66577,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5595,9 +5442,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0112",
+        "id": "hard-0105",
         "type": "hold",
-        "timeMs": 67106,
+        "timeMs": 66918,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5609,9 +5456,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0113",
+        "id": "hard-0106",
         "type": "tap",
-        "timeMs": 68129,
+        "timeMs": 67941,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5623,9 +5470,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0114",
+        "id": "hard-0107",
         "type": "tap",
-        "timeMs": 68300,
+        "timeMs": 68111,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5637,9 +5484,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0115",
+        "id": "hard-0108",
         "type": "tap",
-        "timeMs": 68470,
+        "timeMs": 68452,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5651,23 +5498,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0116",
-        "type": "tap",
-        "timeMs": 68811,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "kobushi",
-        "phraseStep": 132,
-        "finisher": false
-      },
-      {
-        "id": "hard-0117",
+        "id": "hard-0109",
         "type": "hold",
-        "timeMs": 69152,
+        "timeMs": 68963,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5679,9 +5512,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0118",
+        "id": "hard-0110",
         "type": "tap",
-        "timeMs": 70175,
+        "timeMs": 69986,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5693,9 +5526,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0119",
+        "id": "hard-0111",
         "type": "mash",
-        "timeMs": 70346,
+        "timeMs": 70157,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -5707,9 +5540,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0120",
+        "id": "hard-0112",
         "type": "hold",
-        "timeMs": 71880,
+        "timeMs": 71691,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5721,9 +5554,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0121",
+        "id": "hard-0113",
         "type": "tap",
-        "timeMs": 72903,
+        "timeMs": 72713,
+        "durationMs": 0,
+        "targetCount": 0,
+        "phraseLabel": "溜め泣き",
+        "callText": "泣き返し",
+        "responseText": "泣き返し",
+        "enemyCue": false,
+        "phraseRole": "kobushi",
+        "phraseStep": 139,
+        "finisher": false
+      },
+      {
+        "id": "hard-0114",
+        "type": "tap",
+        "timeMs": 72884,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5735,9 +5582,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0122",
+        "id": "hard-0115",
         "type": "tap",
-        "timeMs": 73074,
+        "timeMs": 73054,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5749,9 +5596,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0123",
+        "id": "hard-0116",
         "type": "hold",
-        "timeMs": 73585,
+        "timeMs": 73395,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5763,9 +5610,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0124",
+        "id": "hard-0117",
         "type": "tap",
-        "timeMs": 74608,
+        "timeMs": 74418,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5777,9 +5624,23 @@
         "finisher": false
       },
       {
-        "id": "hard-0125",
+        "id": "hard-0118",
+        "type": "tap",
+        "timeMs": 74588,
+        "durationMs": 0,
+        "targetCount": 0,
+        "phraseLabel": "溜め泣き",
+        "callText": "敵の溜め節",
+        "responseText": "泣き返し",
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 144,
+        "finisher": false
+      },
+      {
+        "id": "hard-0119",
         "type": "hold",
-        "timeMs": 74949,
+        "timeMs": 74929,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5791,9 +5652,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0126",
+        "id": "hard-0120",
         "type": "tap",
-        "timeMs": 75972,
+        "timeMs": 75952,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5805,9 +5666,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0127",
+        "id": "hard-0121",
         "type": "tap",
-        "timeMs": 76143,
+        "timeMs": 76123,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5819,9 +5680,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0128",
+        "id": "hard-0122",
         "type": "tap",
-        "timeMs": 76313,
+        "timeMs": 76293,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5833,9 +5694,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0129",
+        "id": "hard-0123",
         "type": "tap",
-        "timeMs": 76654,
+        "timeMs": 76463,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5847,9 +5708,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0130",
+        "id": "hard-0124",
         "type": "hold",
-        "timeMs": 76995,
+        "timeMs": 77145,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5861,23 +5722,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0131",
-        "type": "tap",
-        "timeMs": 78018,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 150,
-        "finisher": false
-      },
-      {
-        "id": "hard-0132",
+        "id": "hard-0125",
         "type": "mash",
-        "timeMs": 78189,
+        "timeMs": 78168,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -5889,23 +5736,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0133",
-        "type": "tap",
-        "timeMs": 79723,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 153,
-        "finisher": false
-      },
-      {
-        "id": "hard-0134",
+        "id": "hard-0126",
         "type": "hold",
-        "timeMs": 80064,
+        "timeMs": 79873,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5917,9 +5750,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0135",
+        "id": "hard-0127",
         "type": "tap",
-        "timeMs": 81087,
+        "timeMs": 80895,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5931,9 +5764,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0136",
+        "id": "hard-0128",
         "type": "tap",
-        "timeMs": 81258,
+        "timeMs": 81236,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5945,9 +5778,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0137",
+        "id": "hard-0129",
         "type": "hold",
-        "timeMs": 81769,
+        "timeMs": 81577,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5959,9 +5792,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0138",
+        "id": "hard-0130",
         "type": "tap",
-        "timeMs": 82792,
+        "timeMs": 82600,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5973,9 +5806,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0139",
+        "id": "hard-0131",
         "type": "tap",
-        "timeMs": 82963,
+        "timeMs": 82770,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -5987,9 +5820,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0140",
+        "id": "hard-0132",
         "type": "hold",
-        "timeMs": 83304,
+        "timeMs": 83111,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6001,9 +5834,9 @@
         "finisher": false
       },
       {
-        "id": "hard-0141",
+        "id": "hard-0133",
         "type": "tap",
-        "timeMs": 84327,
+        "timeMs": 84134,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6015,9 +5848,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0142",
+        "id": "hard-0134",
         "type": "tap",
-        "timeMs": 84497,
+        "timeMs": 84304,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6029,9 +5862,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0143",
+        "id": "hard-0135",
         "type": "tap",
-        "timeMs": 84838,
+        "timeMs": 84645,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6043,9 +5876,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0144",
+        "id": "hard-0136",
         "type": "hold",
-        "timeMs": 85179,
+        "timeMs": 85327,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6057,23 +5890,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0145",
-        "type": "tap",
-        "timeMs": 86202,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 166,
-        "finisher": true
-      },
-      {
-        "id": "hard-0146",
+        "id": "hard-0137",
         "type": "mash",
-        "timeMs": 86373,
+        "timeMs": 86350,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -6085,9 +5904,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0147",
+        "id": "hard-0138",
         "type": "hold",
-        "timeMs": 88078,
+        "timeMs": 87884,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6099,9 +5918,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0148",
+        "id": "hard-0139",
         "type": "tap",
-        "timeMs": 89101,
+        "timeMs": 88907,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6113,9 +5932,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0149",
+        "id": "hard-0140",
         "type": "tap",
-        "timeMs": 89271,
+        "timeMs": 89418,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6127,9 +5946,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0150",
+        "id": "hard-0141",
         "type": "hold",
-        "timeMs": 89953,
+        "timeMs": 89929,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6141,23 +5960,23 @@
         "finisher": true
       },
       {
-        "id": "hard-0151",
+        "id": "hard-0142",
         "type": "tap",
-        "timeMs": 90976,
+        "timeMs": 90952,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
+        "callText": "敵の溜め節",
         "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 175,
+        "enemyCue": true,
+        "phraseRole": "call",
+        "phraseStep": 176,
         "finisher": true
       },
       {
-        "id": "hard-0152",
+        "id": "hard-0143",
         "type": "hold",
-        "timeMs": 91317,
+        "timeMs": 91293,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6169,9 +5988,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0153",
+        "id": "hard-0144",
         "type": "tap",
-        "timeMs": 92340,
+        "timeMs": 92316,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6183,9 +6002,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0154",
+        "id": "hard-0145",
         "type": "tap",
-        "timeMs": 92511,
+        "timeMs": 92486,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6197,9 +6016,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0155",
+        "id": "hard-0146",
         "type": "tap",
-        "timeMs": 93022,
+        "timeMs": 92827,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6211,9 +6030,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0156",
+        "id": "hard-0147",
         "type": "hold",
-        "timeMs": 93363,
+        "timeMs": 93338,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6225,9 +6044,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0157",
+        "id": "hard-0148",
         "type": "tap",
-        "timeMs": 94386,
+        "timeMs": 94361,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6239,9 +6058,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0158",
+        "id": "hard-0149",
         "type": "mash",
-        "timeMs": 94557,
+        "timeMs": 94532,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -6253,9 +6072,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0159",
+        "id": "hard-0150",
         "type": "hold",
-        "timeMs": 96262,
+        "timeMs": 96066,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6267,9 +6086,23 @@
         "finisher": true
       },
       {
-        "id": "hard-0160",
+        "id": "hard-0151",
         "type": "tap",
-        "timeMs": 97285,
+        "timeMs": 97088,
+        "durationMs": 0,
+        "targetCount": 0,
+        "phraseLabel": "溜め泣き",
+        "callText": "泣き返し",
+        "responseText": "泣き返し",
+        "enemyCue": false,
+        "phraseRole": "answer",
+        "phraseStep": 187,
+        "finisher": true
+      },
+      {
+        "id": "hard-0152",
+        "type": "tap",
+        "timeMs": 97259,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6281,9 +6114,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0161",
+        "id": "hard-0153",
         "type": "tap",
-        "timeMs": 97455,
+        "timeMs": 97429,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6295,9 +6128,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0162",
+        "id": "hard-0154",
         "type": "tap",
-        "timeMs": 97626,
+        "timeMs": 97600,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6309,9 +6142,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0163",
+        "id": "hard-0155",
         "type": "hold",
-        "timeMs": 98137,
+        "timeMs": 98111,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6323,23 +6156,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0164",
-        "type": "tap",
-        "timeMs": 99160,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 191,
-        "finisher": true
-      },
-      {
-        "id": "hard-0165",
+        "id": "hard-0156",
         "type": "hold",
-        "timeMs": 99501,
+        "timeMs": 99304,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6351,9 +6170,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0166",
+        "id": "hard-0157",
         "type": "tap",
-        "timeMs": 100524,
+        "timeMs": 100327,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6365,9 +6184,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0167",
+        "id": "hard-0158",
         "type": "tap",
-        "timeMs": 100695,
+        "timeMs": 100498,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6379,9 +6198,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0168",
+        "id": "hard-0159",
         "type": "tap",
-        "timeMs": 100865,
+        "timeMs": 100668,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6393,9 +6212,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0169",
+        "id": "hard-0160",
         "type": "tap",
-        "timeMs": 101036,
+        "timeMs": 100838,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6407,9 +6226,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0170",
+        "id": "hard-0161",
         "type": "hold",
-        "timeMs": 101547,
+        "timeMs": 101520,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6421,23 +6240,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0171",
-        "type": "tap",
-        "timeMs": 102570,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 198,
-        "finisher": true
-      },
-      {
-        "id": "hard-0172",
+        "id": "hard-0162",
         "type": "mash",
-        "timeMs": 102741,
+        "timeMs": 102543,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -6449,9 +6254,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0173",
+        "id": "hard-0163",
         "type": "hold",
-        "timeMs": 104275,
+        "timeMs": 104077,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6463,9 +6268,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0174",
+        "id": "hard-0164",
         "type": "tap",
-        "timeMs": 105298,
+        "timeMs": 105100,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6477,9 +6282,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0175",
+        "id": "hard-0165",
         "type": "tap",
-        "timeMs": 105639,
+        "timeMs": 105611,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6491,9 +6296,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0176",
+        "id": "hard-0166",
         "type": "hold",
-        "timeMs": 105980,
+        "timeMs": 105952,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6505,9 +6310,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0177",
+        "id": "hard-0167",
         "type": "tap",
-        "timeMs": 107003,
+        "timeMs": 106975,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6519,9 +6324,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0178",
+        "id": "hard-0168",
         "type": "tap",
-        "timeMs": 107174,
+        "timeMs": 107145,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6533,9 +6338,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0179",
+        "id": "hard-0169",
         "type": "hold",
-        "timeMs": 107685,
+        "timeMs": 107486,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6547,9 +6352,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0180",
+        "id": "hard-0170",
         "type": "tap",
-        "timeMs": 108708,
+        "timeMs": 108509,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6561,9 +6366,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0181",
+        "id": "hard-0171",
         "type": "tap",
-        "timeMs": 108879,
+        "timeMs": 108679,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6575,9 +6380,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0182",
+        "id": "hard-0172",
         "type": "tap",
-        "timeMs": 109049,
+        "timeMs": 109020,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6589,9 +6394,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0183",
+        "id": "hard-0173",
         "type": "hold",
-        "timeMs": 109731,
+        "timeMs": 109702,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6603,23 +6408,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0184",
-        "type": "tap",
-        "timeMs": 110754,
-        "durationMs": 0,
-        "targetCount": 0,
-        "phraseLabel": "溜め泣き",
-        "callText": "泣き返し",
-        "responseText": "泣き返し",
-        "enemyCue": false,
-        "phraseRole": "answer",
-        "phraseStep": 214,
-        "finisher": true
-      },
-      {
-        "id": "hard-0185",
+        "id": "hard-0174",
         "type": "mash",
-        "timeMs": 110925,
+        "timeMs": 110725,
         "durationMs": 1023,
         "targetCount": 6,
         "phraseLabel": "溜め泣き",
@@ -6631,9 +6422,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0186",
+        "id": "hard-0175",
         "type": "hold",
-        "timeMs": 112459,
+        "timeMs": 112259,
         "durationMs": 682,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",
@@ -6645,9 +6436,9 @@
         "finisher": true
       },
       {
-        "id": "hard-0187",
+        "id": "hard-0176",
         "type": "tap",
-        "timeMs": 113482,
+        "timeMs": 113282,
         "durationMs": 0,
         "targetCount": 0,
         "phraseLabel": "溜め泣き",

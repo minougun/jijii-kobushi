@@ -29,9 +29,9 @@
         "clear": true,
         "score": 9800,
         "rank": "S",
-        "maxCombo": 164,
+        "maxCombo": 165,
         "stats": {
-          "perfect": 164,
+          "perfect": 165,
           "good": 0,
           "bad": 0,
           "miss": 0
@@ -95,12 +95,12 @@
     "steady": {
       "easy": {
         "clear": true,
-        "score": 8968,
+        "score": 8935,
         "rank": "S",
-        "maxCombo": 164,
+        "maxCombo": 165,
         "stats": {
-          "perfect": 99,
-          "good": 65,
+          "perfect": 97,
+          "good": 68,
           "bad": 0,
           "miss": 0
         },
@@ -139,12 +139,12 @@
       },
       "hard": {
         "clear": true,
-        "score": 8888,
+        "score": 8880,
         "rank": "S",
         "maxCombo": 274,
         "stats": {
-          "perfect": 155,
-          "good": 119,
+          "perfect": 154,
+          "good": 120,
           "bad": 0,
           "miss": 0
         },
@@ -163,25 +163,25 @@
     "early": {
       "easy": {
         "clear": false,
-        "score": 1653,
+        "score": 1643,
         "rank": "C",
         "maxCombo": 2,
         "stats": {
           "perfect": 23,
           "good": 0,
           "bad": 51,
-          "miss": 90
+          "miss": 91
         },
         "missByType": {
-          "tap": 69,
-          "hold": 21,
+          "tap": 71,
+          "hold": 20,
           "mash": 0
         },
         "hp": {
           "remaining": 0,
           "max": 12
         },
-        "hpDamageTaken": 180
+        "hpDamageTaken": 182
       },
       "normal": {
         "clear": false,
@@ -217,8 +217,8 @@
           "miss": 155
         },
         "missByType": {
-          "tap": 120,
-          "hold": 35,
+          "tap": 125,
+          "hold": 30,
           "mash": 0
         },
         "hp": {
@@ -231,25 +231,25 @@
     "late": {
       "easy": {
         "clear": false,
-        "score": 1653,
+        "score": 1643,
         "rank": "C",
         "maxCombo": 2,
         "stats": {
           "perfect": 23,
           "good": 0,
           "bad": 51,
-          "miss": 90
+          "miss": 91
         },
         "missByType": {
-          "tap": 69,
-          "hold": 21,
+          "tap": 71,
+          "hold": 20,
           "mash": 0
         },
         "hp": {
           "remaining": 0,
           "max": 12
         },
-        "hpDamageTaken": 180
+        "hpDamageTaken": 182
       },
       "normal": {
         "clear": false,
@@ -285,8 +285,8 @@
           "miss": 155
         },
         "missByType": {
-          "tap": 120,
-          "hold": 35,
+          "tap": 125,
+          "hold": 30,
           "mash": 0
         },
         "hp": {
@@ -299,11 +299,11 @@
     "mash-weak": {
       "easy": {
         "clear": true,
-        "score": 7391,
+        "score": 7397,
         "rank": "A",
         "maxCombo": 8,
         "stats": {
-          "perfect": 141,
+          "perfect": 142,
           "good": 0,
           "bad": 0,
           "miss": 23
@@ -367,11 +367,11 @@
     "mash-heavy": {
       "easy": {
         "clear": true,
-        "score": 9505,
+        "score": 9507,
         "rank": "S",
-        "maxCombo": 164,
+        "maxCombo": 165,
         "stats": {
-          "perfect": 141,
+          "perfect": 142,
           "good": 23,
           "bad": 0,
           "miss": 0
@@ -441,9 +441,9 @@
             "clear": true,
             "score": 9800,
             "rank": "S",
-            "maxCombo": 164,
+            "maxCombo": 165,
             "stats": {
-              "perfect": 164,
+              "perfect": 165,
               "good": 0,
               "bad": 0,
               "miss": 0
@@ -507,12 +507,12 @@
         "steady": {
           "easy": {
             "clear": true,
-            "score": 8968,
+            "score": 8935,
             "rank": "S",
-            "maxCombo": 164,
+            "maxCombo": 165,
             "stats": {
-              "perfect": 99,
-              "good": 65,
+              "perfect": 97,
+              "good": 68,
               "bad": 0,
               "miss": 0
             },
@@ -551,12 +551,12 @@
           },
           "hard": {
             "clear": true,
-            "score": 8888,
+            "score": 8880,
             "rank": "S",
             "maxCombo": 274,
             "stats": {
-              "perfect": 155,
-              "good": 119,
+              "perfect": 154,
+              "good": 120,
               "bad": 0,
               "miss": 0
             },
@@ -575,25 +575,25 @@
         "early": {
           "easy": {
             "clear": false,
-            "score": 1653,
+            "score": 1643,
             "rank": "C",
             "maxCombo": 2,
             "stats": {
               "perfect": 23,
               "good": 0,
               "bad": 51,
-              "miss": 90
+              "miss": 91
             },
             "missByType": {
-              "tap": 69,
-              "hold": 21,
+              "tap": 71,
+              "hold": 20,
               "mash": 0
             },
             "hp": {
               "remaining": 0,
               "max": 12
             },
-            "hpDamageTaken": 180
+            "hpDamageTaken": 182
           },
           "normal": {
             "clear": false,
@@ -629,8 +629,8 @@
               "miss": 155
             },
             "missByType": {
-              "tap": 120,
-              "hold": 35,
+              "tap": 125,
+              "hold": 30,
               "mash": 0
             },
             "hp": {
@@ -643,25 +643,25 @@
         "late": {
           "easy": {
             "clear": false,
-            "score": 1653,
+            "score": 1643,
             "rank": "C",
             "maxCombo": 2,
             "stats": {
               "perfect": 23,
               "good": 0,
               "bad": 51,
-              "miss": 90
+              "miss": 91
             },
             "missByType": {
-              "tap": 69,
-              "hold": 21,
+              "tap": 71,
+              "hold": 20,
               "mash": 0
             },
             "hp": {
               "remaining": 0,
               "max": 12
             },
-            "hpDamageTaken": 180
+            "hpDamageTaken": 182
           },
           "normal": {
             "clear": false,
@@ -697,8 +697,8 @@
               "miss": 155
             },
             "missByType": {
-              "tap": 120,
-              "hold": 35,
+              "tap": 125,
+              "hold": 30,
               "mash": 0
             },
             "hp": {
@@ -711,11 +711,11 @@
         "mash-weak": {
           "easy": {
             "clear": true,
-            "score": 7391,
+            "score": 7397,
             "rank": "A",
             "maxCombo": 8,
             "stats": {
-              "perfect": 141,
+              "perfect": 142,
               "good": 0,
               "bad": 0,
               "miss": 23
@@ -779,11 +779,11 @@
         "mash-heavy": {
           "easy": {
             "clear": true,
-            "score": 9505,
+            "score": 9507,
             "rank": "S",
-            "maxCombo": 164,
+            "maxCombo": 165,
             "stats": {
-              "perfect": 141,
+              "perfect": 142,
               "good": 23,
               "bad": 0,
               "miss": 0
@@ -853,9 +853,9 @@
             "clear": true,
             "score": 9800,
             "rank": "S",
-            "maxCombo": 168,
+            "maxCombo": 170,
             "stats": {
-              "perfect": 168,
+              "perfect": 170,
               "good": 0,
               "bad": 0,
               "miss": 0
@@ -875,9 +875,9 @@
             "clear": true,
             "score": 9800,
             "rank": "S",
-            "maxCombo": 208,
+            "maxCombo": 209,
             "stats": {
-              "perfect": 208,
+              "perfect": 209,
               "good": 0,
               "bad": 0,
               "miss": 0
@@ -897,9 +897,9 @@
             "clear": true,
             "score": 9800,
             "rank": "S",
-            "maxCombo": 288,
+            "maxCombo": 281,
             "stats": {
-              "perfect": 288,
+              "perfect": 281,
               "good": 0,
               "bad": 0,
               "miss": 0
@@ -919,12 +919,12 @@
         "steady": {
           "easy": {
             "clear": true,
-            "score": 9000,
+            "score": 9034,
             "rank": "S",
-            "maxCombo": 168,
+            "maxCombo": 170,
             "stats": {
-              "perfect": 104,
-              "good": 64,
+              "perfect": 108,
+              "good": 62,
               "bad": 0,
               "miss": 0
             },
@@ -941,12 +941,12 @@
           },
           "normal": {
             "clear": true,
-            "score": 8770,
+            "score": 8815,
             "rank": "S",
-            "maxCombo": 208,
+            "maxCombo": 209,
             "stats": {
-              "perfect": 106,
-              "good": 102,
+              "perfect": 111,
+              "good": 98,
               "bad": 0,
               "miss": 0
             },
@@ -963,12 +963,12 @@
           },
           "hard": {
             "clear": true,
-            "score": 8852,
+            "score": 8814,
             "rank": "S",
-            "maxCombo": 288,
+            "maxCombo": 281,
             "stats": {
-              "perfect": 158,
-              "good": 130,
+              "perfect": 149,
+              "good": 132,
               "bad": 0,
               "miss": 0
             },
@@ -987,39 +987,17 @@
         "early": {
           "easy": {
             "clear": false,
-            "score": 1643,
+            "score": 1624,
             "rank": "C",
             "maxCombo": 2,
             "stats": {
               "perfect": 24,
               "good": 0,
               "bad": 50,
-              "miss": 94
+              "miss": 96
             },
             "missByType": {
-              "tap": 72,
-              "hold": 22,
-              "mash": 0
-            },
-            "hp": {
-              "remaining": 0,
-              "max": 12
-            },
-            "hpDamageTaken": 210.56000000000023
-          },
-          "normal": {
-            "clear": false,
-            "score": 1700,
-            "rank": "C",
-            "maxCombo": 2,
-            "stats": {
-              "perfect": 33,
-              "good": 0,
-              "bad": 57,
-              "miss": 118
-            },
-            "missByType": {
-              "tap": 92,
+              "tap": 70,
               "hold": 26,
               "mash": 0
             },
@@ -1027,67 +1005,67 @@
               "remaining": 0,
               "max": 12
             },
-            "hpDamageTaken": 264.32000000000045
+            "hpDamageTaken": 215.04000000000025
           },
-          "hard": {
+          "normal": {
             "clear": false,
-            "score": 1719,
+            "score": 1722,
             "rank": "C",
             "maxCombo": 2,
             "stats": {
-              "perfect": 46,
+              "perfect": 33,
               "good": 0,
-              "bad": 81,
-              "miss": 161
+              "bad": 60,
+              "miss": 116
             },
             "missByType": {
-              "tap": 133,
-              "hold": 28,
+              "tap": 94,
+              "hold": 22,
               "mash": 0
             },
             "hp": {
               "remaining": 0,
               "max": 12
             },
-            "hpDamageTaken": 346.21439999999916
+            "hpDamageTaken": 259.84000000000043
+          },
+          "hard": {
+            "clear": false,
+            "score": 1725,
+            "rank": "C",
+            "maxCombo": 2,
+            "stats": {
+              "perfect": 46,
+              "good": 0,
+              "bad": 76,
+              "miss": 159
+            },
+            "missByType": {
+              "tap": 138,
+              "hold": 21,
+              "mash": 0
+            },
+            "hp": {
+              "remaining": 0,
+              "max": 12
+            },
+            "hpDamageTaken": 341.9135999999992
           }
         },
         "late": {
           "easy": {
             "clear": false,
-            "score": 1643,
+            "score": 1624,
             "rank": "C",
             "maxCombo": 2,
             "stats": {
               "perfect": 24,
               "good": 0,
               "bad": 50,
-              "miss": 94
+              "miss": 96
             },
             "missByType": {
-              "tap": 72,
-              "hold": 22,
-              "mash": 0
-            },
-            "hp": {
-              "remaining": 0,
-              "max": 12
-            },
-            "hpDamageTaken": 210.56000000000023
-          },
-          "normal": {
-            "clear": false,
-            "score": 1700,
-            "rank": "C",
-            "maxCombo": 2,
-            "stats": {
-              "perfect": 33,
-              "good": 0,
-              "bad": 57,
-              "miss": 118
-            },
-            "missByType": {
-              "tap": 92,
+              "tap": 70,
               "hold": 26,
               "mash": 0
             },
@@ -1095,39 +1073,61 @@
               "remaining": 0,
               "max": 12
             },
-            "hpDamageTaken": 264.32000000000045
+            "hpDamageTaken": 215.04000000000025
           },
-          "hard": {
+          "normal": {
             "clear": false,
-            "score": 1719,
+            "score": 1722,
             "rank": "C",
             "maxCombo": 2,
             "stats": {
-              "perfect": 46,
+              "perfect": 33,
               "good": 0,
-              "bad": 81,
-              "miss": 161
+              "bad": 60,
+              "miss": 116
             },
             "missByType": {
-              "tap": 133,
-              "hold": 28,
+              "tap": 94,
+              "hold": 22,
               "mash": 0
             },
             "hp": {
               "remaining": 0,
               "max": 12
             },
-            "hpDamageTaken": 346.21439999999916
+            "hpDamageTaken": 259.84000000000043
+          },
+          "hard": {
+            "clear": false,
+            "score": 1725,
+            "rank": "C",
+            "maxCombo": 2,
+            "stats": {
+              "perfect": 46,
+              "good": 0,
+              "bad": 76,
+              "miss": 159
+            },
+            "missByType": {
+              "tap": 138,
+              "hold": 21,
+              "mash": 0
+            },
+            "hp": {
+              "remaining": 0,
+              "max": 12
+            },
+            "hpDamageTaken": 341.9135999999992
           }
         },
         "mash-weak": {
           "easy": {
             "clear": true,
-            "score": 7371,
+            "score": 7382,
             "rank": "A",
             "maxCombo": 8,
             "stats": {
-              "perfect": 144,
+              "perfect": 146,
               "good": 0,
               "bad": 0,
               "miss": 24
@@ -1145,11 +1145,11 @@
           },
           "normal": {
             "clear": true,
-            "score": 7240,
+            "score": 7245,
             "rank": "A",
             "maxCombo": 7,
             "stats": {
-              "perfect": 175,
+              "perfect": 176,
               "good": 0,
               "bad": 0,
               "miss": 33
@@ -1167,11 +1167,11 @@
           },
           "hard": {
             "clear": true,
-            "score": 7224,
+            "score": 7197,
             "rank": "A",
             "maxCombo": 8,
             "stats": {
-              "perfect": 242,
+              "perfect": 235,
               "good": 0,
               "bad": 0,
               "miss": 46
@@ -1191,11 +1191,11 @@
         "mash-heavy": {
           "easy": {
             "clear": true,
-            "score": 9500,
+            "score": 9504,
             "rank": "S",
-            "maxCombo": 168,
+            "maxCombo": 170,
             "stats": {
-              "perfect": 144,
+              "perfect": 146,
               "good": 24,
               "bad": 0,
               "miss": 0
@@ -1213,11 +1213,11 @@
           },
           "normal": {
             "clear": true,
-            "score": 9467,
+            "score": 9468,
             "rank": "S",
-            "maxCombo": 208,
+            "maxCombo": 209,
             "stats": {
-              "perfect": 175,
+              "perfect": 176,
               "good": 33,
               "bad": 0,
               "miss": 0
@@ -1235,11 +1235,11 @@
           },
           "hard": {
             "clear": true,
-            "score": 9465,
+            "score": 9456,
             "rank": "S",
-            "maxCombo": 288,
+            "maxCombo": 281,
             "stats": {
-              "perfect": 242,
+              "perfect": 235,
               "good": 46,
               "bad": 0,
               "miss": 0
