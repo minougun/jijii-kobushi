@@ -172,6 +172,7 @@ function makeChart(config) {
     count,
     startMs,
     stepMs,
+    quantizeDivisions = 0,
     holdDurationMs,
     burstDurationMs: burstSpanMs,
     burstTapTarget: burstTapHint,
@@ -183,19 +184,33 @@ function makeChart(config) {
     preHoldTapClearanceMs = PRE_HOLD_TAP_CLEARANCE_MS,
     finale = false,
   } = config;
+  const gridMs = quantizeDivisions > 0 ? stepMs / quantizeDivisions : 0;
+  const quantizeAt = (timeMs) => {
+    if (!gridMs) return Math.round(timeMs);
+    return Math.round(startMs + Math.round((timeMs - startMs) / gridMs) * gridMs);
+  };
+  const ceilQuantizeAt = (timeMs) => {
+    if (!gridMs) return Math.round(timeMs);
+    return Math.round(startMs + Math.ceil((timeMs - startMs) / gridMs) * gridMs);
+  };
+  const quantizeDuration = (durationMs, maxMs = Infinity) => {
+    if (!gridMs) return Math.round(durationMs);
+    const rounded = Math.max(Math.round(gridMs), Math.round(Math.max(1, Math.round(durationMs / gridMs)) * gridMs));
+    return Math.min(maxMs, rounded);
+  };
   const chart = [];
   for (let i = 0; i < count; i += 1) {
     const phraseItem = phraseItemFor(config, i);
-    const at = Math.round(startMs + i * stepMs + (phraseItem?.nudgeMs ?? 0));
+    const at = quantizeAt(startMs + i * stepMs + (phraseItem?.nudgeMs ?? 0));
     const noteType =
       i === 0
         ? "tap"
         : phraseItem?.type ?? (i % burstEvery === 0 ? "mash" : i % holdEvery === 0 ? "hold" : "tap");
     if (noteType === "mash") {
       const target = Math.min(MAX_MASH_TARGET_COUNT, Math.max(3, burstTapHint + (i % (burstEvery * 2) === 0 ? 0 : 1)));
-      chart.push(mash(at, burstSpanMs, target, noteMetaFromPhrase(phraseItem, i)));
+      chart.push(mash(at, quantizeDuration(burstSpanMs, MAX_MASH_DURATION_MS), target, noteMetaFromPhrase(phraseItem, i)));
     } else if (noteType === "hold") {
-      chart.push(hold(at, holdDurationMs, noteMetaFromPhrase(phraseItem, i)));
+      chart.push(hold(at, quantizeDuration(holdDurationMs), noteMetaFromPhrase(phraseItem, i)));
     } else {
       chart.push(tap(at, noteMetaFromPhrase(phraseItem, i)));
       if (tapRunEvery && i > 0 && i % tapRunEvery === tapRunEvery - 1) {
@@ -205,9 +220,9 @@ function makeChart(config) {
   }
   if (finale) {
     const last = chart.at(-1);
-    chart.push(hold(last.timeMs + stepMs * 2, 1260, { phraseLabel: "追分決着", callText: "最後の溜め", responseText: "大団円", enemyCue: true, phraseRole: "tame" }));
+    chart.push(hold(last.timeMs + stepMs * 2, quantizeDuration(1260), { phraseLabel: "追分決着", callText: "最後の溜め", responseText: "大団円", enemyCue: true, phraseRole: "tame" }));
   }
-  return markFinisherPhrase(removePreHoldTapOverlap(enforcePlayableSpacing(chart, burstTapGapMs), preHoldTapClearanceMs));
+  return markFinisherPhrase(removePreHoldTapOverlap(enforcePlayableSpacing(chart, burstTapGapMs, ceilQuantizeAt), preHoldTapClearanceMs));
 }
 
 function noteEndMs(note) {
@@ -220,12 +235,13 @@ function recoveryAfter(note, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS) {
   return tapRecoveryMs;
 }
 
-function enforcePlayableSpacing(chart, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS) {
+function enforcePlayableSpacing(chart, tapRecoveryMs = DEFAULT_BURST_TAP_GAP_MS, snapStart = Math.round) {
   let nextAllowedAt = -Infinity;
   return chart.map((note) => {
+    const minStartMs = Math.max(note.timeMs, Math.round(nextAllowedAt));
     const adjusted = {
       ...note,
-      timeMs: Math.max(note.timeMs, Math.round(nextAllowedAt)),
+      timeMs: snapStart(minStartMs),
     };
     nextAllowedAt = noteEndMs(adjusted) + recoveryAfter(adjusted, tapRecoveryMs);
     return adjusted;
@@ -258,7 +274,7 @@ const STAGE_TEMPLATES = [
     id: "shotengai",
     title: "誘拐の朝",
     locationName: "うさぎ公園",
-    bpm: 78,
+    bpm: 88,
     travelMs: 8000,
     palette: {
       sky: "#dff0d6",
@@ -281,14 +297,14 @@ const STAGE_TEMPLATES = [
       coat: "#1f2937",
       accent: "#c2482d",
     },
-    chartConfig: { count: 144, startMs: 1200, stepMs: 780, holdDurationMs: 760, burstDurationMs: 760, burstTapTarget: 5, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
+    chartConfig: { count: 165, startMs: 1293, stepMs: 682, quantizeDivisions: 4, holdDurationMs: 682, burstDurationMs: 682, burstTapTarget: 5, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
     bgm: { cue: "恋患い", track: "koiwazurai", gain: 0.74, overlay: "kane", lead: 220, tone: "warm", variation: "原曲" },
   },
   {
     id: "warehouse",
     title: "港の倉庫",
     locationName: "港の倉庫",
-    bpm: 86,
+    bpm: 85,
     travelMs: 10000,
     palette: {
       sky: "#cbd6dd",
@@ -312,7 +328,7 @@ const STAGE_TEMPLATES = [
       coat: "#273449",
       accent: "#d8a83f",
     },
-    chartConfig: { count: 210, startMs: 1100, stepMs: 700, holdDurationMs: 700, burstDurationMs: 840, burstTapTarget: 6, holdEvery: 7, burstEvery: 20, phrase: "minatoNagashi" },
+    chartConfig: { count: 208, startMs: 1151, stepMs: 706, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 7, burstEvery: 20, phrase: "minatoNagashi" },
     bgm: { cue: "朧", track: "oboro", gain: 0.8, overlay: "kane", lead: 220, tone: "warm", variation: "港" },
   },
   {
@@ -331,14 +347,14 @@ const STAGE_TEMPLATES = [
     restLine: "溜め、揺り、返し。猛特訓の果て、小次郎はついに奥義を知る。爺コブシは、演歌を知る相手の内側へ響く内部破壊の拳だった。",
     clearLine: "爺コブシ・内部破壊は完成した。小次郎は裕太の名を叫び、秘密結社Xの足取りを追って峠道へ走る。",
     enemy: { name: "伊藤道場の師範代", attackPower: 1, kind: "captain", coat: "#3a3148", accent: "#f2bd52" },
-    chartConfig: { count: 153, startMs: 1120, stepMs: 730, holdDurationMs: 720, burstDurationMs: 820, burstTapTarget: 6, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
+    chartConfig: { count: 158, startMs: 1114, stepMs: 706, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
     bgm: { cue: "静寂 道場", track: "shizima", gain: 0.78, overlay: "low", lead: 220, tone: "night", variation: "道場" },
   },
   {
     id: "mountain",
     title: "峠道",
     locationName: "峠道",
-    bpm: 90,
+    bpm: 95,
     travelMs: 11000,
     palette: { sky: "#162335", far: "#445b50", mid: "#263d35", road: "#171717", accent: "#9fd57b" },
     introLines: [
@@ -350,14 +366,14 @@ const STAGE_TEMPLATES = [
     restLine: "内部破壊の爺コブシは、鉄仮面の腹へ鈍く響いた。追跡兵は膝をつき、山向こうの改造車庫を指さす。",
     clearLine: "秘密結社Xは、改造車庫で奇妙な音響兵器を作っているらしい。小次郎は峠を越える。",
     enemy: { name: "X結社 鉄仮面兵", attackPower: 1, kind: "maskedHeavy", coat: "#24382e", accent: "#9fd57b" },
-    chartConfig: { count: 210, startMs: 1020, stepMs: 672, holdDurationMs: 660, burstDurationMs: 800, burstTapTarget: 6, holdEvery: 6, burstEvery: 20, phrase: "yoruYuri" },
+    chartConfig: { count: 223, startMs: 1097, stepMs: 632, quantizeDivisions: 4, holdDurationMs: 632, burstDurationMs: 632, burstTapTarget: 6, holdEvery: 6, burstEvery: 20, phrase: "yoruYuri" },
     bgm: { cue: "花暦 一回戦", track: "hanagoyomi", gain: 0.78, overlay: "low", lead: 196, tone: "night", remix: "toge", variation: "一回戦" },
   },
   {
     id: "garage",
     title: "改造車庫",
     locationName: "改造車庫",
-    bpm: 94,
+    bpm: 165,
     travelMs: 12000,
     palette: { sky: "#2b2029", far: "#8e3140", mid: "#49272e", road: "#1d1518", accent: "#ffcf5a" },
     introLines: [
@@ -369,14 +385,14 @@ const STAGE_TEMPLATES = [
     restLine: "音響兵の機材は火花を散らして止まった。車庫の奥には、赤い門へ続く地図が残されている。",
     clearLine: "赤門は秘密結社Xの外門。そこを抜ければ、裕太をさらった親玉に近づける。",
     enemy: { name: "X結社 改造音響兵", attackPower: 2, kind: "scientist", coat: "#252528", accent: "#ffcf5a" },
-    chartConfig: { count: 215, startMs: 980, stepMs: 640, holdDurationMs: 640, burstDurationMs: 780, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "hayashiKakeai" },
+    chartConfig: { count: 252, startMs: 922, stepMs: 545, quantizeDivisions: 6, holdDurationMs: 364, burstDurationMs: 727, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "hayashiKakeai" },
     bgm: { cue: "大正戦 車庫", track: "taishoroman", gain: 0.84, overlay: "heavy", lead: 349.23, tone: "battle", remix: "garage", variation: "車庫リミックス" },
   },
   {
     id: "redgate",
     title: "赤門",
     locationName: "赤門",
-    bpm: 98,
+    bpm: 128,
     travelMs: 13000,
     palette: { sky: "#1d1717", far: "#703333", mid: "#3a2020", road: "#120f0f", accent: "#e0c45a" },
     introLines: [
@@ -388,14 +404,14 @@ const STAGE_TEMPLATES = [
     restLine: "赤門がきしみ、ゆっくりと開く。奥にはX結社本部の黒い建物が見えた。",
     clearLine: "本部の最上階で待つのは、スーパーステロイドX。裕太を取り戻す最後の一曲が始まる。",
     enemy: { name: "X親衛隊長", attackPower: 2, kind: "elite", coat: "#3c1f1f", accent: "#e0c45a" },
-    chartConfig: { count: 230, startMs: 900, stepMs: 616, holdDurationMs: 620, burstDurationMs: 760, burstTapTarget: 7, holdEvery: 5, burstEvery: 18, phrase: "oiwakeFinal" },
+    chartConfig: { count: 302, startMs: 943, stepMs: 469, quantizeDivisions: 4, holdDurationMs: 469, burstDurationMs: 938, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "oiwakeFinal" },
     bgm: { cue: "天の下", track: "amenoshita", gain: 0.86, overlay: "solemn", lead: 246.94, tone: "final", variation: "赤門" },
   },
   {
     id: "finalhideout",
     title: "X結社本部",
     locationName: "X結社本部",
-    bpm: 100,
+    bpm: 150,
     travelMs: 14000,
     palette: { sky: "#11111a", far: "#33223f", mid: "#17151f", road: "#0b0b10", accent: "#f6d95f" },
     introLines: [
@@ -418,7 +434,7 @@ const STAGE_TEMPLATES = [
     ],
     clearLine: "裕太は小次郎の腕の中で泣き笑いした。爺コブシは戻った。長谷川の無茶な芝居も、ここで幕を下ろした。",
     enemy: { name: "スーパーステロイドX", attackPower: 2, kind: "steroidBoss", coat: "#22415c", accent: "#f6d95f" },
-    chartConfig: { count: 260, startMs: 880, stepMs: 600, holdDurationMs: 620, burstDurationMs: 760, burstTapTarget: 7, holdEvery: 5, burstEvery: 17, finale: true, phrase: "oiwakeFinal" },
+    chartConfig: { count: 260, startMs: 885, stepMs: 600, quantizeDivisions: 6, holdDurationMs: 400, burstDurationMs: 800, burstTapTarget: 7, holdEvery: 5, burstEvery: 17, finale: true, phrase: "oiwakeFinal" },
     bgm: { cue: "最終決戦", track: "epicbattle", gain: 0.88, overlay: "final", lead: 440, tone: "boss", remix: "boss", variation: "ラスボス戦" },
   },
 ];

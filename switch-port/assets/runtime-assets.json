@@ -4,7 +4,7 @@
   "exportId": "switch-runtime-assets",
   "source": {
     "webUrl": "https://minougun.github.io/jijii-kobushi/",
-    "localRepo": "/mnt/c/Users/minou/jii-kobushi",
+    "localRepo": "/mnt/c/Users/minou/jijii-kobushi",
     "scannedFiles": [
       "index.html",
       "src/audio.js",
