@@ -360,7 +360,7 @@ const STAGE_TEMPLATES = [
       coat: "#1f2937",
       accent: "#c2482d",
     },
-    chartConfig: { count: 165, startMs: 1293, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 682, burstDurationMs: 682, burstTapTarget: 5, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
+    chartConfig: { count: 165, startMs: 1319, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 682, burstDurationMs: 682, burstTapTarget: 5, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
     bgm: { cue: "恋患い", track: "koiwazurai", gain: 0.74, overlay: "kane", lead: 220, tone: "warm", variation: "原曲" },
   },
   {
@@ -391,7 +391,7 @@ const STAGE_TEMPLATES = [
       coat: "#273449",
       accent: "#d8a83f",
     },
-    chartConfig: { count: 208, startMs: 1151, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 7, burstEvery: 20, phrase: "minatoNagashi" },
+    chartConfig: { count: 208, startMs: 1187, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 7, burstEvery: 20, phrase: "minatoNagashi" },
     bgm: { cue: "朧", track: "oboro", gain: 0.8, overlay: "kane", lead: 220, tone: "warm", variation: "港" },
   },
   {
@@ -410,7 +410,7 @@ const STAGE_TEMPLATES = [
     restLine: "溜め、揺り、返し。猛特訓の果て、小次郎はついに奥義を知る。爺コブシは、演歌を知る相手の内側へ響く内部破壊の拳だった。",
     clearLine: "爺コブシ・内部破壊は完成した。小次郎は裕太の名を叫び、秘密結社Xの足取りを追って峠道へ走る。",
     enemy: { name: "伊藤道場の師範代", attackPower: 1, kind: "captain", coat: "#3a3148", accent: "#f2bd52" },
-    chartConfig: { count: 158, startMs: 1114, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
+    chartConfig: { count: 158, startMs: 1087, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 706, burstDurationMs: 706, burstTapTarget: 6, holdEvery: 8, burstEvery: 18, phrase: "tameKobushi" },
     bgm: { cue: "静寂 道場", track: "shizima", gain: 0.78, overlay: "low", lead: 220, tone: "night", variation: "道場" },
   },
   {
@@ -467,7 +467,7 @@ const STAGE_TEMPLATES = [
     restLine: "赤門がきしみ、ゆっくりと開く。奥にはX結社本部の黒い建物が見えた。",
     clearLine: "本部の最上階で待つのは、スーパーステロイドX。裕太を取り戻す最後の一曲が始まる。",
     enemy: { name: "X親衛隊長", attackPower: 2, kind: "elite", coat: "#3c1f1f", accent: "#e0c45a" },
-    chartConfig: { count: 302, startMs: 943, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 469, burstDurationMs: 938, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "oiwakeFinal" },
+    chartConfig: { count: 302, startMs: 894, stepBeatRatio: 1, quantizeDivisions: 4, holdDurationMs: 469, burstDurationMs: 938, burstTapTarget: 7, holdEvery: 6, burstEvery: 20, phrase: "oiwakeFinal" },
     bgm: { cue: "天の下", track: "amenoshita", gain: 0.86, overlay: "solemn", lead: 246.94, tone: "final", variation: "赤門" },
   },
   {

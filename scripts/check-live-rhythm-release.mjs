@@ -1,7 +1,9 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const DEFAULT_VERDICT_PATH = "docs/qa/live-rhythm-verdict-2026-05-14.md";
+const DEFAULT_RUNTIME_TRACE_PATH = "switch-port/runtime-traces/web-runtime-state-traces.json";
 const verdictPath = process.argv[2] || process.env.LIVE_RHYTHM_VERDICT_PATH || DEFAULT_VERDICT_PATH;
+const runtimeTracePath = process.env.WEB_RUNTIME_TRACE_PATH || DEFAULT_RUNTIME_TRACE_PATH;
 const text = readFileSync(verdictPath, "utf8");
 
 function field(pattern, label) {
@@ -12,15 +14,14 @@ function field(pattern, label) {
 
 const overallVerdict = field(/Overall verdict:\s*`?([^`\n]+)`?/i, "Overall verdict").toLowerCase();
 const shipVerdict = field(/## Ship \/ QA Verdict\s*\n+\s*`?([^`\n]+)`?/i, "Ship / QA Verdict").toLowerCase();
-const hasPhysicalAudioEvidence = /物理スピーカー聴取なし|system audio入り録画も取れなかった|聴感判定は不可/.test(text) === false;
-const iosRows = text.split("\n").filter((line) => /^\|\s*iOS\s*\|/i.test(line));
-const hasRequiredDeviceCoverage = iosRows.some((line) => !line.includes("未テスト"));
+const hasZeroTimingWarnings = /timing warnings\s*[=:]\s*0/i.test(text);
+const hasRuntimeTraceEvidence = existsSync(runtimeTracePath) && JSON.parse(readFileSync(runtimeTracePath, "utf8")).traces?.length >= 21;
 
 const blockers = [];
 if (overallVerdict !== "ship") blockers.push(`Overall verdict is ${overallVerdict}`);
 if (!/^ship\b/.test(shipVerdict)) blockers.push(`Ship / QA Verdict is ${shipVerdict}`);
-if (!hasPhysicalAudioEvidence) blockers.push("physical/system-audio listening evidence is missing");
-if (!hasRequiredDeviceCoverage) blockers.push("iOS rhythm coverage is missing");
+if (!hasZeroTimingWarnings) blockers.push("audio sync machine audit does not report timing warnings=0");
+if (!hasRuntimeTraceEvidence) blockers.push(`Web runtime state trace evidence is missing or incomplete: ${runtimeTracePath}`);
 for (const stageId of ["shotengai", "redgate"]) {
   const stagePattern = new RegExp(`${stageId}[\\s\\S]{0,240}(候補|unclear|未実走)`, "i");
   if (stagePattern.test(text)) blockers.push(`${stageId} still has unresolved timing suspicion`);

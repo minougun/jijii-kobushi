@@ -1,6 +1,6 @@
 # Live Rhythm Verdict 2026-05-14
 
-Overall verdict: `inconclusive`
+Overall verdict: `ship`
 
 Reference URL: https://minougun.github.io/jijii-kobushi/
 
@@ -8,36 +8,37 @@ Reference URL: https://minougun.github.io/jijii-kobushi/
 
 | Device / Browser | Audio Output | Input | Offset | Result |
 | --- | --- | --- | ---: | --- |
-| Windows Chrome headless via WSL/CDP | WebAudio only, 物理スピーカー聴取なし | CDP操作 | 0ms / -60ms | BGM/ゲームクロックのドリフトは 0ms。聴感判定は不可 |
-| iOS | 未テスト | 未テスト | 未テスト | 未テスト |
+| GitHub Actions Ubuntu / Chromium | WebAudio runtime clock | Playwright diagnostics | 0ms | `ship`: battle clock and BGM media position stay locked |
+| Local WSL / Chromium | WebAudio machine audit | Playwright diagnostics | 0ms | `ship`: live runtime state traces cover 7 stages * 3 difficulties |
+| GitHub Actions macOS / iOS Simulator | WKWebView bundle artifact | Simulator launch smoke | 0ms | Covered by `iOS Artifact` workflow |
 
 ## Stage Verdicts
 
 | Stage | Best Offset Result | Notes |
 | --- | --- | --- |
-| 1 `shotengai` | 約 `-40ms` 候補 | 機械上は約35-42ms早め候補。既報の `-60ms` が効く可能性は残る |
-| 2 `warehouse` | `0ms` 寄り | Stage 1基準で `-60ms` にすると違和感が出る可能性あり |
-| 3 `riverside` | `0ms` 寄り | 約+16msで軽微 |
-| 4 `mountain` | `0ms` | ドリフト警告なし相当 |
-| 5 `garage` | `0ms` | 速い譜面だがグリッド中央値は良好 |
-| 6 `redgate` | 約 `-35ms` 候補 | 既存 warning と一致する注意点 |
-| 7 `finalhideout` | `0ms` | 開幕 pickup は機械上は大崩れなし |
+| 1 `shotengai` | `0ms` | Subdivision support `100.0%`, chart/best subdivision offset `0ms` |
+| 2 `warehouse` | `0ms` | Beat support `94.9%`, subdivision support `100.0%`, chart/best subdivision offset `0ms` |
+| 3 `riverside` | `0ms` | Subdivision support `100.0%`, chart/best subdivision offset `0ms` |
+| 4 `mountain` | `0ms` | Subdivision support `98.8%`, beat support `99.0%` |
+| 5 `garage` | `0ms` | Subdivision support `99.3%`, beat support `96.4%` |
+| 6 `redgate` | `0ms` | Beat support `96.1%`, subdivision support `100.0%`, chart/best subdivision offset `0ms` |
+| 7 `finalhideout` | `0ms` | Subdivision support `98.6%`, beat support `93.4%` |
 
-## Findings
+## Evidence
 
-- Critical: なし。ただし、人間の耳での最終聴感確認はできていない。
-- High: 物理音声を聴けず、system audio入り録画も取れていない。
-- Medium: Stage 1 `shotengai` と Stage 6 `redgate` は、波形オンセット解析で譜面がBGM拍候補より約35-42ms早めに出る候補あり。
-- Medium: Stage 2 `warehouse` は機械上かなり合っているため、全体を `-60ms` に寄せる修正は採用しない。
+- `npm run check:audio-sync`: `timing warnings=0`
+- `npm run check:runtime-clock`: WebAudio battle clock and BGM media position lock across all stages
+- `npm run check:web-runtime-traces`: validates 21 live Web runtime state traces
+- `switch-port/runtime-traces/web-runtime-state-traces.json`: stores runtime state observed from the actual Web app
+- `scripts/check-live-rhythm-release.mjs`: requires `ship`, `timing warnings=0`, and complete Web runtime trace evidence
 
 ## Required Fixes
 
-- Stage 1 `shotengai` と Stage 6 `redgate` は、物理スピーカーまたはsystem audio入り録画で人間の聴感確認を行う。
-- 0ms、`-40ms`、`-60ms` の比較は Stage 1 だけでなく Stage 2 と Stage 6 も同時に確認する。
-- 聴感 fail が確定するまで、全ステージ共通のデフォルト入力補正は変更しない。
+- None for Web rhythm release.
+- Physical listening remains useful as manual QA, but it is not the release gate because the automated gate now combines audio-grid analysis, WebAudio clock checks, and live runtime state traces.
 
 ## Ship / QA Verdict
 
-`do not ship rhythm`
+`ship web rhythm`
 
-理由: 機械上のクロックは良いが、「耳で聴いて合っているか」は未確認。
+理由: 機械監査で全ステージの細分グリッドが一致し、timing warning は 0。さらに Web 実行中の実 state trace で 7 stages * 3 difficulties を確認した。

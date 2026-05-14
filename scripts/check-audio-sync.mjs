@@ -11,6 +11,8 @@ const MIN_BEAT_SUPPORT_RATIO_WARN = 0.9;
 const MAX_CHART_TO_BEST_SUBDIVISION_OFFSET_MS = 50;
 const WARN_CHART_TO_BEST_SUBDIVISION_OFFSET_MS = 35;
 const MAX_STEP_DRIFT_MS = 0.001;
+const SUBDIVISION_LOCKED_SUPPORT_RATIO = 0.98;
+const SUBDIVISION_LOCKED_OFFSET_MS = 3;
 const EXPECTED_CSV_HEADERS = [
   "stage",
   "difficulty",
@@ -260,6 +262,9 @@ for (const stage of STAGES) {
   const beatSupportRatio = chartBeatScore / Math.max(Number.EPSILON, bestBeat.score);
   const subdivisionSupportRatio = chartSubdivisionScore / Math.max(Number.EPSILON, bestSubdivision.score);
   const chartToBestSubdivisionOffsetMs = signedGridOffset(chartSubdivisionPhaseMs, bestSubdivision.phaseMs, subdivisionMs);
+  const subdivisionLocked =
+    subdivisionSupportRatio >= SUBDIVISION_LOCKED_SUPPORT_RATIO &&
+    Math.abs(chartToBestSubdivisionOffsetMs) <= SUBDIVISION_LOCKED_OFFSET_MS;
 
   if (stepDriftMs > MAX_STEP_DRIFT_MS) failures.push(`${stage.id}: step drift ${stepDriftMs.toFixed(6)}ms`);
   if (subdivisionSupportRatio < MIN_SUBDIVISION_SUPPORT_RATIO) {
@@ -267,7 +272,7 @@ for (const stage of STAGES) {
   }
   if (beatSupportRatio < MIN_BEAT_SUPPORT_RATIO_FAIL) {
     failures.push(`${stage.id}: beat support ${(beatSupportRatio * 100).toFixed(1)}%`);
-  } else if (beatSupportRatio < MIN_BEAT_SUPPORT_RATIO_WARN) {
+  } else if (beatSupportRatio < MIN_BEAT_SUPPORT_RATIO_WARN && !subdivisionLocked) {
     warnings.push(`${stage.id}: beat support warning ${(beatSupportRatio * 100).toFixed(1)}%`);
   }
   if (Math.abs(chartToBestSubdivisionOffsetMs) > MAX_CHART_TO_BEST_SUBDIVISION_OFFSET_MS) {

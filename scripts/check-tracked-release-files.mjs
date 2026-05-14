@@ -13,12 +13,14 @@ const releaseRoots = [
   "support.html",
   "switch-port/assets",
   "switch-port/ending",
+  "switch-port/runtime-traces",
   "switch-port/stage1",
   "switch-port/stages",
 ];
 
 const requiredPaths = [
   ".github/workflows/checks.yml",
+  ".github/workflows/ios-artifact.yml",
   "index.html",
   "ios/JiiKobushi.xcodeproj/project.pbxproj",
   "ios/JiiKobushi.xcodeproj/xcshareddata/xcschemes/JiiKobushi.xcscheme",
@@ -32,6 +34,7 @@ const requiredPaths = [
   "src/rhythm.js",
   "src/stages.js",
   "switch-port/assets/runtime-assets.json",
+  "switch-port/runtime-traces/web-runtime-state-traces.json",
   "switch-port/stage1/shotengai.stage.json",
   "switch-port/stages/stage01-shotengai.stage.json",
   "switch-port/stages/stage07-finalhideout.stage.json",

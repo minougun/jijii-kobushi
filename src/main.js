@@ -13,7 +13,7 @@ import {
   loopPlayerDamageMultiplier,
   normalizeLoop,
   nextNoteLabel,
-} from "./stages.js?v=20260513-rhythmstrict1";
+} from "./stages.js?v=20260514-rhythmalign1";
 import {
   localizedDifficulty,
   localizedLoopLabel,
@@ -429,6 +429,86 @@ const state = {
   pixelRatio: 1,
 };
 
+function diagnosticMashTaps(note) {
+  const count = Math.max(0, note.targetCount ?? 0);
+  if (count === 0) return [];
+  const start = note.timeMs - MASH_INPUT_GRACE_MS + 10 - state.inputOffsetMs;
+  const availableMs = note.durationMs + MASH_INPUT_GRACE_MS * 2 - 20;
+  const safeGap = Math.max(72, Math.floor(availableMs / Math.max(1, count)));
+  return Array.from({ length: count }, (_, index) => start + index * safeGap);
+}
+
+function withDiagnosticRandom(callback) {
+  const nativeRandom = Math.random;
+  Math.random = () => 0.5;
+  try {
+    return callback();
+  } finally {
+    Math.random = nativeRandom;
+  }
+}
+
+function diagnosticResolveNextPerfect() {
+  if (state.phase !== "battle") return { resolved: false, phase: state.phase };
+  const index = state.noteStates.findIndex((entry) => !entry.resolved);
+  if (index < 0) return { resolved: false, phase: state.phase, done: true };
+  const entry = state.noteStates[index];
+  const note = entry.note;
+  state.battleTimeMs = note.timeMs;
+  if (note.type === "tap") {
+    const inputAtMs = note.timeMs - state.inputOffsetMs;
+    const result = judgeTap(note, inputAtMs, state.inputOffsetMs, activeJudgementBonusMs());
+    withDiagnosticRandom(() => resolveNote(index, result.rank, result.offsetMs, timingFeedback(result.offsetMs)));
+  } else if (note.type === "hold") {
+    const downAtMs = note.timeMs - state.inputOffsetMs;
+    const upAtMs = note.timeMs + note.durationMs - state.inputOffsetMs;
+    const result = judgeHold(note, downAtMs, upAtMs, state.inputOffsetMs, activeJudgementBonusMs());
+    withDiagnosticRandom(() => resolveNote(index, result.rank, result.offsetMs, holdFeedback(result)));
+  } else if (note.type === "mash") {
+    const taps = diagnosticMashTaps(note);
+    const result = judgeMash(note, taps, state.inputOffsetMs);
+    withDiagnosticRandom(() => resolveNote(index, result.rank, result.offsetMs, mashFeedbackText(result), result));
+  } else {
+    throw new Error(`Unsupported diagnostic note type: ${note.type}`);
+  }
+  return {
+    resolved: true,
+    phase: state.phase,
+    index,
+    noteType: note.type,
+    rank: entry.rank,
+    enemyHp: Math.max(0, Math.round(state.enemyHp)),
+    hp: Math.max(0, Math.round(state.hp)),
+  };
+}
+
+function diagnosticRuntimeState() {
+  return {
+    phase: state.phase,
+    stageId: state.stage?.id ?? "",
+    difficulty: state.difficulty,
+    runLoop: normalizeLoop(state.runLoop),
+    hp: Math.max(0, Math.round(state.hp)),
+    maxHp: state.maxHp,
+    enemyHp: Math.max(0, Math.round(state.enemyHp)),
+    enemyMaxHp: state.enemyMaxHp,
+    combo: state.combo,
+    maxCombo: state.maxCombo,
+    comboBonusDamage: Number(state.comboBonusDamage.toFixed(3)),
+    spirit: Math.round(state.spirit),
+    spiritFocusCount: state.spiritFocusCount,
+    spiritGuardUsedCount: state.spiritGuardUsedCount,
+    resolvedNoteCount: state.resolvedNoteCount,
+    noteCount: state.noteStates.length,
+    nextUnresolvedIndex: state.nextUnresolvedIndex,
+    stageClearedByHp: state.stageClearedByHp,
+    result:
+      state.noteStates.length > 0 && ["battle", "rest", "results", "ending", "finalReveal"].includes(state.phase)
+        ? buildCurrentStageResult()
+        : null,
+  };
+}
+
 Object.defineProperty(window, "__JII_KOBUSHI_DIAGNOSTICS__", {
   configurable: false,
   enumerable: false,
@@ -461,6 +541,8 @@ Object.defineProperty(window, "__JII_KOBUSHI_DIAGNOSTICS__", {
         nextUnresolvedIndex: state.nextUnresolvedIndex,
       };
     },
+    resolveNextPerfect: diagnosticResolveNextPerfect,
+    runtimeState: diagnosticRuntimeState,
   }),
 });
 stateReady = true;

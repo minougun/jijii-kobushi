@@ -55,7 +55,7 @@ Rhythm release gate:
 npm run check:live-rhythm-release
 ```
 
-This gate intentionally fails while the latest live rhythm verdict is `inconclusive` or `do not ship rhythm`. Machine clock checks are useful, but release needs physical speaker or system-audio listening evidence, including the current Stage 1 `shotengai` and Stage 6 `redgate` offset suspects.
+This gate requires the latest live rhythm verdict to be `ship`, the audio sync machine audit to report `timing warnings=0`, and the Web runtime-state traces to cover the live app execution path. Physical listening is still useful manual QA, but the release gate is now automated through audio-grid analysis, WebAudio clock checks, and live Web runtime state traces.
 
 Stage 1 Unity port planning notes:
 

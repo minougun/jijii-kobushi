@@ -53,6 +53,13 @@ fi
 codesign --verify --deep --strict "$app_path"
 
 booted_device="$(xcrun simctl list devices booted | awk -F '[()]' '/Booted/ { print $2; exit }')"
+if [[ -z "$booted_device" && "${IOS_BOOT_SIMULATOR:-0}" == "1" ]]; then
+  booted_device="$(xcrun simctl list devices available | awk -F '[()]' '/iPhone/ && /Shutdown/ { print $2; exit }')"
+  if [[ -n "$booted_device" ]]; then
+    xcrun simctl boot "$booted_device" || true
+    xcrun simctl bootstatus "$booted_device" -b
+  fi
+fi
 if [[ -z "$booted_device" ]]; then
   if [[ "${IOS_ALLOW_RELEASE_UNSAFE_SKIP_SIM_LAUNCH:-0}" == "1" ]]; then
     echo "iOS simulator install/launch skipped because no booted simulator was found."
