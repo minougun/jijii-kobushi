@@ -12,8 +12,8 @@
   },
   "timing": {
     "countInMs": 3000,
-    "firstNoteBattleMs": 1114,
-    "firstNoteVirtualMs": 4114,
+    "firstNoteBattleMs": 1087,
+    "firstNoteVirtualMs": 4087,
     "windowsMs": {
       "perfect": 60,
       "good": 120,
