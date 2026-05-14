@@ -1,9 +1,10 @@
 import { execFileSync } from "node:child_process";
 
 const DEFAULT_BASE_URL = "https://minougun.github.io/jijii-kobushi/";
-const EXPECTED_MAIN_TOKEN = "20260514-phoneinput1";
+const EXPECTED_MAIN_TOKEN = "20260514-hitlinecue1";
 const EXPECTED_STYLE_TOKEN = "20260514-phoneinput1";
-const EXPECTED_AUDIO_TOKEN = "20260513-audioclock1";
+const EXPECTED_AUDIO_TOKEN = "20260514-hitlinecue1";
+const EXPECTED_RENDERER_TOKEN = "20260514-hitlinecue1";
 const EXPECTED_STAGE_TOKEN = "20260514-rhythmalign1";
 const EXPECTED_RHYTHM_TOKEN = "20260513-mashoffset1";
 
@@ -45,6 +46,7 @@ assert(stylesCss.includes(".portraitHint:not([hidden])"), "styles.css portrait h
 const mainUrl = new URL(`src/main.js?v=${EXPECTED_MAIN_TOKEN}`, baseUrl).toString();
 const mainJs = await fetchText(mainUrl);
 assert(mainJs.includes(`./audio.js?v=${EXPECTED_AUDIO_TOKEN}`), "main.js does not reference the expected audio.js cache token");
+assert(mainJs.includes(`./renderer.js?v=${EXPECTED_RENDERER_TOKEN}`), "main.js does not reference the expected renderer.js cache token");
 assert(mainJs.includes(`./stages.js?v=${EXPECTED_STAGE_TOKEN}`), "main.js does not reference the expected stages.js cache token");
 assert(mainJs.includes(`./rhythm.js?v=${EXPECTED_RHYTHM_TOKEN}`), "main.js does not reference the expected rhythm.js cache token");
 assert(mainJs.includes("__JII_KOBUSHI_DIAGNOSTICS__"), "main.js diagnostics hook is missing");

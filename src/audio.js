@@ -625,22 +625,18 @@ export function createAudioEngine() {
     return endBeat;
   }
 
-  function scheduleNoteCue(note, startAt, bpm) {
+  function scheduleNoteCue(note, startAt) {
     const t = startAt + note.timeMs / 1000;
-    const beat = 60 / bpm;
-    const pickup = Math.max(0.22, beat * 0.75);
     if (note.type === "tap") {
-      countTick(t - pickup, false);
+      countTick(t, false);
       return;
     }
     if (note.type === "hold") {
-      countTick(t - pickup, false);
-      wood(t, 0.16);
+      countTick(t, false);
       wood(t + note.durationMs / 1000, 0.2);
       return;
     }
     if (note.type === "mash") {
-      countTick(t - pickup, false);
       const durS = note.durationMs / 1000;
       const steps = Math.min(14, Math.max(4, Math.floor(note.durationMs / 130)));
       for (let s = 0; s <= steps; s += 1) {
@@ -688,7 +684,7 @@ export function createAudioEngine() {
         const note = chart[cueState.nextNoteIndex];
         const noteStart = startAt + note.timeMs / 1000;
         if (noteStart > horizon) break;
-        scheduleNoteCue(note, startAt, bpm);
+        scheduleNoteCue(note, startAt);
         cueState.nextNoteIndex += 1;
       }
       const doneAt = startAt + durationMs / 1000 + 1.2;

@@ -35,7 +35,8 @@ Reference URL: https://minougun.github.io/jijii-kobushi/
 ## Required Fixes
 
 - None for Web rhythm release.
-- Physical listening remains useful as manual QA, but it is not the release gate because the automated gate now combines audio-grid analysis, WebAudio clock checks, and live runtime state traces.
+- A physical-play feedback pass found that the old per-note pickup sounds and `合図` lane made the player unsure whether to follow audio or visuals. Follow-up fix: note cue sounds now land on the hit line, the audio row is subdued as a guide, and the UI copy names the gold judgment line as the input target.
+- Physical listening remains useful as manual QA, but the release gate is automated through audio-grid analysis, WebAudio clock checks, and live runtime state traces.
 
 ## Ship / QA Verdict
 

@@ -39,6 +39,7 @@ const REQUIRED_RENDERER_DOM_SYNC_TOKENS = [
 ];
 const REQUIRED_MAIN_UI_TOKENS = ['if (state.stageIndex === 0) return "語り";'];
 const REQUIRED_AUDIO_CLOCK_TOKENS = ['ctx && ctx.state === "running" ? ctx.currentTime : performance.now() / 1000'];
+const FORBIDDEN_AUDIO_NOTE_CUE_TOKENS = ["t - pickup", "countTick(t -"];
 
 function gitObjectExists(filePath) {
   const repoPath = filePath.replaceAll("\\", "/");
@@ -134,6 +135,12 @@ const audioSource = readFileSync("src/audio.js", "utf8");
 const audioErrors = REQUIRED_AUDIO_CLOCK_TOKENS
   .filter((token) => !audioSource.includes(token))
   .map((token) => `audio clock fallback missing ${token}`);
+for (const token of FORBIDDEN_AUDIO_NOTE_CUE_TOKENS) {
+  if (audioSource.includes(token)) audioErrors.push(`audio note cues must land on the hit line, found ${token}`);
+}
+if (!audioSource.includes("countTick(t, false)")) {
+  audioErrors.push("tap/hold cue sounds must be scheduled on the hit line");
+}
 if (audioErrors.length) {
   for (const error of audioErrors) console.error(error);
   process.exit(1);

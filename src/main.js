@@ -1,5 +1,5 @@
-import { createAudioEngine } from "./audio.js?v=20260513-audioclock1";
-import { createRenderer } from "./renderer.js?v=20260513-rhythmstrict1";
+import { createAudioEngine } from "./audio.js?v=20260514-hitlinecue1";
+import { createRenderer } from "./renderer.js?v=20260514-hitlinecue1";
 import {
   DIFFICULTIES,
   STAGES,
@@ -128,6 +128,8 @@ let quickSaveFeedbackTimer = 0;
 let quickSaveLockedUntil = 0;
 const INPUT_GRACE_MS = WINDOWS_MS.bad + 60;
 const COUNT_IN_LEAD_SECONDS = 3.0;
+const JUDGEMENT_LINE_TEXT = "金の判定線だけ見る";
+const JUDGEMENT_LINE_HINT = "音は目安。ノーツが金の線に重なった瞬間に押す";
 const DEFAULT_DIFFICULTY = "normal";
 const PLAYER_MAX_HP = 12;
 const MOBILE_DPR_CAP = 1.35;
@@ -406,8 +408,8 @@ const state = {
   enemyHit: 0,
   lastEnemyCueIndex: -1,
   petals: [],
-  judgeText: "合図を聞いて拍に乗る",
-  inputHint: "ノーツが判定線に重なったら押す",
+  judgeText: JUDGEMENT_LINE_TEXT,
+  inputHint: JUDGEMENT_LINE_HINT,
   effects: [],
   shake: 0,
   audioEnabled: saved?.settings?.audioEnabled ?? true,
@@ -1136,7 +1138,7 @@ function setPhase(phase) {
   state.mashFeedback = null;
   state.spaceHeld = false;
   state.judgeText = "";
-  state.inputHint = "ノーツが判定線に重なったら押す";
+  state.inputHint = JUDGEMENT_LINE_HINT;
   if (phase !== "finalReveal") state.finalRevealUnmasked = false;
   updatePortraitHint();
   requestRender();
@@ -1183,8 +1185,8 @@ function startGame({ continueLoop = false } = {}) {
 
 function showTitleFromOpening() {
   setPhase("title");
-  state.phaseLabel = "聞いて押す";
-  state.judgeText = "合図を聞いて拍に乗る";
+  state.phaseLabel = "見て押す";
+  state.judgeText = JUDGEMENT_LINE_TEXT;
   state.inputHint = t(normalizeLang(state.uiLang), "overlay.tapStart");
   refreshTitleOverlay();
 }
@@ -1314,7 +1316,7 @@ function clearActiveRunStateForTitle(lang = normalizeLang(state.uiLang)) {
   state.results = null;
   state.overlaySpeaker = "";
   setPhase("title");
-  state.phaseLabel = "聞いて押す";
+  state.phaseLabel = "見て押す";
   state.judgeText = t(lang, "overlay.returnedTitle");
   state.inputHint = t(lang, "overlay.tapStart");
   const hasRunSave = Boolean(state.runSaves.firstLoop || state.runSaves.loopPlus);
@@ -1579,8 +1581,8 @@ async function beginBattle() {
     session,
   );
   if (bgmStarted || !state.stage.bgm?.track || !state.audioEnabled) {
-    state.judgeText = "金の判定線を見る";
-    state.inputHint = "ノーツが判定線に重なったら押す";
+    state.judgeText = JUDGEMENT_LINE_TEXT;
+    state.inputHint = JUDGEMENT_LINE_HINT;
   }
 }
 
@@ -2577,7 +2579,7 @@ function updateNotes() {
   if (activeMash) {
     state.inputHint = t(langHint, "sync.inputMashActive");
   } else if (state.nextNote) {
-    state.inputHint = state.nextNote.enemyCue ? `${state.nextNote.callText ?? "敵の節"}を返す` : `${nextNoteLabel(state.nextNote)} を待つ`;
+    state.inputHint = `金の線に来たら${nextNoteLabel(state.nextNote)}`;
   }
 
   const nextEntry = state.noteStates[state.nextUnresolvedIndex];

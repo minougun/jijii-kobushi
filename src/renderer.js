@@ -2104,11 +2104,11 @@ export function createRenderer(canvas, ctx, state) {
     for (let x = stripX + 24; x < stripX + stripW; x += 54) {
       c.fillRect(x, stripY + 8, 2, stripH - 16);
     }
-    c.fillStyle = "rgba(246, 217, 95, 0.18)";
+    c.fillStyle = "rgba(255, 247, 210, 0.06)";
     c.fillRect(stripX + 8, callY - 15, stripW - 16, 30);
-    c.fillStyle = "rgba(255, 247, 210, 0.08)";
+    c.fillStyle = "rgba(246, 217, 95, 0.14)";
     c.fillRect(stripX + 8, repeatY - 22, stripW - 16, 44);
-    c.strokeStyle = "rgba(255, 247, 210, 0.4)";
+    c.strokeStyle = "rgba(246, 217, 95, 0.62)";
     c.lineWidth = 2;
     c.beginPath();
     c.moveTo(stripX + 12, repeatY);
@@ -2153,7 +2153,7 @@ export function createRenderer(canvas, ctx, state) {
       if (!note) return "曲が始まるまで待つ";
       if (note.type === "hold") return "押し続けて、白い「離す」で離す";
       if (note.type === "mash") return "赤い枠の間、連打する";
-      return "金の線に重なったら押す";
+      return "音は目安。金の線に重なった瞬間";
     };
     const trackXForTime = (timeMs) => {
       const dt = timeMs - state.battleTimeMs;
@@ -2223,7 +2223,7 @@ export function createRenderer(canvas, ctx, state) {
       ctx.font = `600 ${actionText.length >= 3 ? (isMobilePortrait ? 24 : 19) : (isMobilePortrait ? 30 : 24)}px ${CANVAS_FONT}`;
       ctx.fillText(actionText, buttonX + buttonW / 2, buttonY + 62);
       ctx.font = `600 ${isMobilePortrait ? 11 : 10}px ${CANVAS_FONT}`;
-      ctx.fillText("拍", buttonX + buttonW / 2, buttonY + (isMobilePortrait ? 92 : 88));
+      ctx.fillText("金の線", buttonX + buttonW / 2, buttonY + (isMobilePortrait ? 92 : 88));
       ctx.restore();
     } else {
       ctx.fillText(showRhythmGuide ? "次の操作" : "次", panelX + 18, panelY + 26);
@@ -2231,9 +2231,6 @@ export function createRenderer(canvas, ctx, state) {
       ctx.fillText(next ? nextNoteLabel(next) : "待機", panelX + 18, panelY + 56);
     }
     if (showRhythmGuide) {
-      ctx.font = `500 12px ${CANVAS_FONT}`;
-      ctx.fillText(nextActionHint(next), panelX + 18, panelY + 78);
-
       ctx.save();
       ctx.translate(portraitCx, portraitCy);
       if (!state.reducedMotion) ctx.rotate(Math.sin(state.elapsed / 280) * 0.04);
@@ -2252,9 +2249,9 @@ export function createRenderer(canvas, ctx, state) {
       ctx.font = `600 18px ${CANVAS_FONT}`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText("金の線", 0, -5);
+      ctx.fillText("この線", 0, -5);
       ctx.font = `600 13px ${CANVAS_FONT}`;
-      ctx.fillText("で押す", 0, 18);
+      ctx.fillText("だけ見る", 0, 18);
       ctx.restore();
     }
 
@@ -2263,23 +2260,29 @@ export function createRenderer(canvas, ctx, state) {
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
     if (showRhythmGuide) {
-      ctx.fillText("合図", stripX + 12, callY);
+      ctx.globalAlpha = 0.72;
+      ctx.fillText("音", stripX + 12, callY);
+      ctx.globalAlpha = 1;
       ctx.fillText("入力", stripX + 12, repeatY);
     }
 
-    const callText = next?.enemyCue ? "相手の合図" : next?.phraseLabel ?? "曲の拍";
+    const callText = next?.enemyCue ? "相手の節" : "予告音は目安";
     const callW = Math.min(isMobilePortrait ? 176 : 210, Math.max(isMobilePortrait ? 90 : 108, 18 + callText.length * 14));
     const callX = stripX + (showRhythmGuide ? 66 : 24);
-    ctx.fillStyle = next?.enemyCue ? "#ef5b4f" : "rgba(255, 247, 210, 0.78)";
-    ctx.beginPath();
-    ctx.roundRect(callX, callY - 13, callW, 26, 5);
-    ctx.fill();
-    ctx.strokeStyle = "#171717";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = next?.enemyCue ? "#fff7d2" : "#171717";
-    ctx.textAlign = "center";
-    ctx.fillText(callText, callX + callW / 2, callY + 1);
+    if (next?.enemyCue || showRhythmGuide) {
+      ctx.globalAlpha = next?.enemyCue ? 1 : 0.68;
+      ctx.fillStyle = next?.enemyCue ? "#ef5b4f" : "rgba(255, 247, 210, 0.58)";
+      ctx.beginPath();
+      ctx.roundRect(callX, callY - 13, callW, 26, 5);
+      ctx.fill();
+      ctx.strokeStyle = next?.enemyCue ? "#171717" : "rgba(23, 23, 23, 0.46)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = next?.enemyCue ? "#fff7d2" : "#171717";
+      ctx.textAlign = "center";
+      ctx.fillText(callText, callX + callW / 2, callY + 1);
+      ctx.globalAlpha = 1;
+    }
 
     if (showRhythmGuide && next?.responseText) {
       ctx.globalAlpha = 0.82;
@@ -2305,7 +2308,7 @@ export function createRenderer(canvas, ctx, state) {
     ctx.fillStyle = "#fff7d2";
     ctx.font = `600 12px ${CANVAS_FONT}`;
     ctx.textAlign = "center";
-    if (showRhythmGuide) ctx.fillText("ここで押す", hitX, stripY + stripH + 13);
+    if (showRhythmGuide) ctx.fillText("判定線", hitX, stripY + stripH + 13);
 
     if (state.noteStates?.length) {
       ctx.save();
@@ -2453,8 +2456,8 @@ export function createRenderer(canvas, ctx, state) {
             ? t(langCanvas, "sync.inputMash")
         : next?.type === "tap" && denseGap != null && denseGap < 300
               ? t(langCanvas, "sync.inputTapDense")
-              : "金の線に来たらタップ";
-    if (showRhythmGuide || state.mashFeedback) {
+              : "音は目安。金の線に来たらタップ";
+    if (showRhythmGuide || state.mashFeedback || !isMobilePortrait) {
       ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";
       ctx.fillStyle = "#171717";

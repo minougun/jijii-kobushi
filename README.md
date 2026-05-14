@@ -73,8 +73,8 @@ Stage 1 Unity port planning notes:
 - Select `イージー`, `ノーマル`, or `ハード` on the title screen before starting. Enemy HP is shared per stage; difficulty changes how fine and dense the kobushi taps are. Saved best scores are difficulty-specific.
 - Movement is automatic.
 - Stage intros advance directly into battle; there is no pre-battle walking-only travel wait.
-- In battle, press when the marker moving from the right overlaps the gold judgment line. Audio cues remain active as support.
-- 戦闘中は、右から流れるマーカーが金の判定線に重なった瞬間に入力します。音の合図は補助として機能します。
+- In battle, press when the marker moving from the right overlaps the gold judgment line. Sound is only a guide; the gold line is the input target.
+- 戦闘中は、右から流れるマーカーが金の判定線に重なった瞬間に入力します。音は目安で、入力基準は金の線です。
 - The tap/judgment bar is displayed inside the game screen, not as a separate panel below it.
 - Cleared stages can be skipped from their intro overlay. Skipped stages use the saved best score in the final result.
 - The game has 7 stages, 6 enka/kayo core MP3 tracks, and 1 boss-only battle track. Reused tracks stay at natural `1.0x` from the beginning; stage variation comes from gain, cue overlays, light WebAudio tone filtering, and remix layers rather than different start offsets. The final stage intentionally leaves the enka frame for a final boss battle cue.
