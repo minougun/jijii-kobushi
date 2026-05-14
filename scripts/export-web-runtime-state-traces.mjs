@@ -221,6 +221,50 @@ function checkOnlySourceCommit() {
   return null;
 }
 
+function traceKey(trace) {
+  return `${trace.stageId}/${trace.difficulty}/loop${trace.loop}`;
+}
+
+function traceSummary(trace) {
+  return {
+    key: traceKey(trace),
+    beforePhase: trace.before?.phase,
+    noteCount: trace.before?.noteCount,
+    resolvedNoteCount: trace.after?.resolvedNoteCount,
+    afterPhase: trace.after?.phase,
+    resultScore: trace.after?.result?.score,
+    resultRank: trace.after?.result?.rank,
+    eventCount: trace.events?.length,
+  };
+}
+
+function assertCheckPayload(existing, fresh) {
+  assert(existing.schemaVersion === fresh.schemaVersion, "runtime trace schemaVersion changed");
+  assert(existing.gameId === fresh.gameId, "runtime trace gameId changed");
+  assert(existing.exportId === fresh.exportId, "runtime trace exportId changed");
+  assert(existing.sourceGitCommit, "runtime trace sourceGitCommit is missing");
+  assert(existing.sourceWorktreeDirty === false, "runtime trace sourceWorktreeDirty must be false");
+  assert((existing.sourceDirtyFiles ?? []).length === 0, "runtime trace sourceDirtyFiles must be empty");
+  assert(sourceMatchesCommit(existing.sourceGitCommit, sourceFiles), "runtime trace source files differ from sourceGitCommit");
+  assert(existing.traces?.length === fresh.traces?.length, "runtime trace count changed");
+  assert(existing.traces?.length >= 21, "runtime trace coverage is below release minimum");
+
+  const existingByKey = new Map(existing.traces.map((trace) => [traceKey(trace), traceSummary(trace)]));
+  for (const trace of fresh.traces) {
+    const summary = traceSummary(trace);
+    const expected = existingByKey.get(summary.key);
+    assert(expected, `runtime trace is missing ${summary.key}`);
+    assert(expected.noteCount === summary.noteCount, `${summary.key}: noteCount changed`);
+    assert(expected.resolvedNoteCount === summary.resolvedNoteCount, `${summary.key}: resolvedNoteCount changed`);
+    assert(expected.resultScore === summary.resultScore, `${summary.key}: result score changed`);
+    assert(expected.resultRank === summary.resultRank, `${summary.key}: result rank changed`);
+    assert(summary.beforePhase === "battle", `${summary.key}: fresh trace did not start in battle`);
+    assert(summary.afterPhase !== "defeat", `${summary.key}: fresh trace reached defeat`);
+    assert(summary.resultScore > 0, `${summary.key}: fresh trace has no positive score`);
+    assert(summary.eventCount > 0, `${summary.key}: fresh trace has no events`);
+  }
+}
+
 async function buildPayload(sourceGitCommit = gitCommit()) {
   const dirtyFiles = gitDirtyFiles(sourceFiles);
   assertCleanSource(dirtyFiles);
@@ -266,7 +310,7 @@ const content = `${JSON.stringify(payload, null, 2)}\n`;
 if (CHECK_ONLY) {
   if (!existsSync(outputPath)) throw new Error(`Missing Web runtime trace output: ${outputPath}`);
   const existing = readFileSync(outputPath, "utf8");
-  if (existing !== content) throw new Error(`Outdated Web runtime trace output: ${outputPath}`);
+  assertCheckPayload(JSON.parse(existing), payload);
 } else {
   mkdirSync(path.dirname(outputPath), { recursive: true });
   writeFileSync(outputPath, content);
