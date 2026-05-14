@@ -56,6 +56,15 @@ export function chartCueTimelineFor(chart, startAt = 0) {
   );
 }
 
+export function cueTimelineByNoteIndexFor(chart, startAt = 0) {
+  const byNoteIndex = new Map();
+  for (const cue of chartCueTimelineFor(chart, startAt)) {
+    if (!byNoteIndex.has(cue.noteIndex)) byNoteIndex.set(cue.noteIndex, []);
+    byNoteIndex.get(cue.noteIndex).push(cue);
+  }
+  return byNoteIndex;
+}
+
 export function createAudioEngine() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const engine = {
@@ -665,8 +674,8 @@ export function createAudioEngine() {
     return endBeat;
   }
 
-  function scheduleNoteCue(note, startAt) {
-    for (const cue of noteCueTimelineFor(note, startAt)) {
+  function scheduleNoteCues(cues) {
+    for (const cue of cues) {
       if (cue.sound === "countTick") countTick(cue.time, false);
       else if (cue.sound === "wood") wood(cue.time, cue.gain);
     }
@@ -691,6 +700,7 @@ export function createAudioEngine() {
     if (!ctx) return bgmStartedPromise;
     const token = engine.cueScheduleToken;
     const beat = 60 / bpm;
+    const cuesByNoteIndex = cueTimelineByNoteIndexFor(chart, startAt);
     const cueState = {
       countInScheduled: false,
       nextNoteIndex: 0,
@@ -710,7 +720,7 @@ export function createAudioEngine() {
         const note = chart[cueState.nextNoteIndex];
         const noteStart = startAt + note.timeMs / 1000;
         if (noteStart > horizon) break;
-        scheduleNoteCue(note, startAt);
+        scheduleNoteCues(cuesByNoteIndex.get(cueState.nextNoteIndex) ?? []);
         cueState.nextNoteIndex += 1;
       }
       const doneAt = startAt + durationMs / 1000 + 1.2;
