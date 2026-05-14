@@ -206,42 +206,30 @@ async function openTitle(page) {
   }
 }
 
-async function reachPausedBattle(page) {
-  await openTitle(page);
-  await page.locator("#primaryButton").click();
-  for (let attempt = 0; attempt < 24; attempt += 1) {
-    const phase = await page.evaluate(() => document.documentElement.dataset.phase);
-    if (phase === "battle") break;
-    const skipVisible = await page.locator("#skipButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
-    if (skipVisible) {
-      await page.locator("#skipButton").click();
-    } else {
-      const primaryVisible = await page.locator("#primaryButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
-      if (primaryVisible) await page.locator("#primaryButton").click();
-    }
-    await page.waitForTimeout(140);
-  }
-  await page.waitForFunction(() => document.documentElement.dataset.phase === "battle", null, { timeout: 10000 });
-  await page.keyboard.press("Escape");
-  await page.locator("#pauseMenu").waitFor({ state: "visible" });
+async function isVisibleButton(page, selector) {
+  return page.locator(selector).evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
 }
 
-async function reachMobileBattle(page) {
+async function reachBattle(page) {
   await openTitle(page);
   await page.locator("#primaryButton").click();
   for (let attempt = 0; attempt < 24; attempt += 1) {
     const phase = await page.evaluate(() => document.documentElement.dataset.phase);
     if (phase === "battle") break;
-    const skipVisible = await page.locator("#skipButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
-    if (skipVisible) {
+    if (await isVisibleButton(page, "#skipButton")) {
       await page.locator("#skipButton").click();
-    } else {
-      const primaryVisible = await page.locator("#primaryButton").evaluate((button) => !button.hidden && getComputedStyle(button).display !== "none").catch(() => false);
-      if (primaryVisible) await page.locator("#primaryButton").click();
+    } else if (await isVisibleButton(page, "#primaryButton")) {
+      await page.locator("#primaryButton").click();
     }
     await page.waitForTimeout(140);
   }
   await page.waitForFunction(() => document.documentElement.dataset.phase === "battle", null, { timeout: 10000 });
+}
+
+async function reachPausedBattle(page) {
+  await reachBattle(page);
+  await page.keyboard.press("Escape");
+  await page.locator("#pauseMenu").waitFor({ state: "visible" });
 }
 
 async function assertStorageFailureAnnounced(page, expected = "保存できませんでした") {
@@ -275,7 +263,7 @@ async function runWebKitMobileSmoke() {
       await page.goto(baseUrl, { waitUntil: "networkidle" });
       await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
       await assertElementClickable(page, "#primaryButton", "webkit mobile opening primary");
-      await reachMobileBattle(page);
+      await reachBattle(page);
       await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
       await assertElementClickable(page, "#mobileTapPad", "webkit mobile battle tap pad");
       await assertElementClickable(page, "#pauseButton", "webkit mobile pause button");
@@ -422,7 +410,7 @@ try {
   await withPage(browser, MOBILE_PORTRAIT_PAGE, async (page) => {
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
-    await reachMobileBattle(page);
+    await reachBattle(page);
     await assertElementClickable(page, "#mobileTapPad", "mobile battle tap pad");
     await page.locator("#mobileTapPad").click();
     await assertElementClickable(page, "#quickSaveButton", "mobile quick save");
