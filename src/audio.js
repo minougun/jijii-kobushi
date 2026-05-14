@@ -44,6 +44,18 @@ export function noteCueTimelineFor(note, startAt = 0) {
   return [];
 }
 
+export function chartCueTimelineFor(chart, startAt = 0) {
+  return chart.flatMap((note, noteIndex) =>
+    noteCueTimelineFor(note, startAt).map((cue) => ({
+      ...cue,
+      noteIndex,
+      noteType: note.type,
+      noteTimeMs: note.timeMs,
+      noteDurationMs: note.durationMs ?? 0,
+    })),
+  );
+}
+
 export function createAudioEngine() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const engine = {

@@ -1,5 +1,5 @@
 import { DIFFICULTIES, STAGES, validateStages } from "../src/stages.js";
-import { noteCueTimelineFor } from "../src/audio.js";
+import { chartCueTimelineFor } from "../src/audio.js";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -147,13 +147,23 @@ if (audioErrors.length) {
 
 const cueTimelineErrors = [];
 for (const chart of chartVariants) {
-  for (const note of chart.chart) {
+  const cuesByNoteIndex = new Map();
+  for (const cue of chartCueTimelineFor(chart.chart, 0)) {
+    if (!cuesByNoteIndex.has(cue.noteIndex)) cuesByNoteIndex.set(cue.noteIndex, []);
+    cuesByNoteIndex.get(cue.noteIndex).push(cue);
+  }
+  for (const [noteIndex, note] of chart.chart.entries()) {
     const hitTime = note.timeMs / 1000;
     const endTime = hitTime + (note.durationMs ?? 0) / 1000;
-    const cues = noteCueTimelineFor(note, 0);
+    const cues = cuesByNoteIndex.get(noteIndex) ?? [];
     if (!cues.length) {
       cueTimelineErrors.push(`${chart.id}: ${note.type} note at ${note.timeMs}ms has no cue`);
       continue;
+    }
+    for (const cue of cues) {
+      if (cue.noteType !== note.type || cue.noteTimeMs !== note.timeMs || cue.noteDurationMs !== (note.durationMs ?? 0)) {
+        cueTimelineErrors.push(`${chart.id}: cue metadata drifted from note at ${note.timeMs}ms`);
+      }
     }
     if (note.type === "tap") {
       const offHit = cues.filter((cue) => Math.abs(cue.time - hitTime) > CUE_TIME_EPSILON_SECONDS);
