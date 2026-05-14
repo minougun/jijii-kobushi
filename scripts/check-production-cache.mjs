@@ -1,10 +1,10 @@
 import { execFileSync } from "node:child_process";
 
 const DEFAULT_BASE_URL = "https://minougun.github.io/jijii-kobushi/";
-const EXPECTED_MAIN_TOKEN = "20260514-hitlinecue1";
+const EXPECTED_MAIN_TOKEN = "20260514-cuetimeline1";
 const EXPECTED_STYLE_TOKEN = "20260514-phoneinput1";
-const EXPECTED_AUDIO_TOKEN = "20260514-hitlinecue1";
-const EXPECTED_RENDERER_TOKEN = "20260514-hitlinecue1";
+const EXPECTED_AUDIO_TOKEN = "20260514-cuetimeline1";
+const EXPECTED_RENDERER_TOKEN = "20260514-cuetimeline1";
 const EXPECTED_STAGE_TOKEN = "20260514-rhythmalign1";
 const EXPECTED_RHYTHM_TOKEN = "20260513-mashoffset1";
 

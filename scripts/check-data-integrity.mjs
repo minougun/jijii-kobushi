@@ -1,4 +1,5 @@
 import { DIFFICULTIES, STAGES, validateStages } from "../src/stages.js";
+import { noteCueTimelineFor } from "../src/audio.js";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -40,6 +41,7 @@ const REQUIRED_RENDERER_DOM_SYNC_TOKENS = [
 const REQUIRED_MAIN_UI_TOKENS = ['if (state.stageIndex === 0) return "語り";'];
 const REQUIRED_AUDIO_CLOCK_TOKENS = ['ctx && ctx.state === "running" ? ctx.currentTime : performance.now() / 1000'];
 const FORBIDDEN_AUDIO_NOTE_CUE_TOKENS = ["t - pickup", "countTick(t -"];
+const CUE_TIME_EPSILON_SECONDS = 0.000001;
 
 function gitObjectExists(filePath) {
   const repoPath = filePath.replaceAll("\\", "/");
@@ -138,11 +140,44 @@ const audioErrors = REQUIRED_AUDIO_CLOCK_TOKENS
 for (const token of FORBIDDEN_AUDIO_NOTE_CUE_TOKENS) {
   if (audioSource.includes(token)) audioErrors.push(`audio note cues must land on the hit line, found ${token}`);
 }
-if (!audioSource.includes("countTick(t, false)")) {
-  audioErrors.push("tap/hold cue sounds must be scheduled on the hit line");
-}
 if (audioErrors.length) {
   for (const error of audioErrors) console.error(error);
+  process.exit(1);
+}
+
+const cueTimelineErrors = [];
+for (const chart of chartVariants) {
+  for (const note of chart.chart) {
+    const hitTime = note.timeMs / 1000;
+    const endTime = hitTime + (note.durationMs ?? 0) / 1000;
+    const cues = noteCueTimelineFor(note, 0);
+    if (!cues.length) {
+      cueTimelineErrors.push(`${chart.id}: ${note.type} note at ${note.timeMs}ms has no cue`);
+      continue;
+    }
+    if (note.type === "tap") {
+      const offHit = cues.filter((cue) => Math.abs(cue.time - hitTime) > CUE_TIME_EPSILON_SECONDS);
+      if (offHit.length) cueTimelineErrors.push(`${chart.id}: tap cue is not on hit line at ${note.timeMs}ms`);
+    } else if (note.type === "hold") {
+      const hasStartCue = cues.some((cue) => cue.role === "holdStart" && Math.abs(cue.time - hitTime) <= CUE_TIME_EPSILON_SECONDS);
+      const hasReleaseCue = cues.some((cue) => cue.role === "holdRelease" && Math.abs(cue.time - endTime) <= CUE_TIME_EPSILON_SECONDS);
+      if (!hasStartCue) cueTimelineErrors.push(`${chart.id}: hold start cue is not on hit line at ${note.timeMs}ms`);
+      if (!hasReleaseCue) cueTimelineErrors.push(`${chart.id}: hold release cue is not on release line at ${note.timeMs}ms`);
+      for (const cue of cues) {
+        if (cue.time < hitTime - CUE_TIME_EPSILON_SECONDS || cue.time > endTime + CUE_TIME_EPSILON_SECONDS) {
+          cueTimelineErrors.push(`${chart.id}: hold cue is outside hit/release window at ${note.timeMs}ms`);
+        }
+      }
+    } else if (note.type === "mash") {
+      const outsideWindow = cues.filter(
+        (cue) => cue.time < hitTime - CUE_TIME_EPSILON_SECONDS || cue.time > endTime + CUE_TIME_EPSILON_SECONDS,
+      );
+      if (outsideWindow.length) cueTimelineErrors.push(`${chart.id}: mash cue is outside mash window at ${note.timeMs}ms`);
+    }
+  }
+}
+if (cueTimelineErrors.length) {
+  for (const error of cueTimelineErrors) console.error(error);
   process.exit(1);
 }
 

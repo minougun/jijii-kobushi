@@ -2451,13 +2451,17 @@ export function createRenderer(canvas, ctx, state) {
       : state.hold
           ? "長押し中。白い「離す」が金の線に来たら離す"
         : next?.type === "hold"
-          ? "金の「長押」で押し続け、白い「離す」で離す"
+          ? state.stageIndex === 0
+            ? "金の「長押」で押し続け、白い「離す」で離す"
+            : "長押し、白い「離す」で離す"
         : next?.type === "mash"
             ? t(langCanvas, "sync.inputMash")
         : next?.type === "tap" && denseGap != null && denseGap < 300
               ? t(langCanvas, "sync.inputTapDense")
-              : "音は目安。金の線に来たらタップ";
-    if (showRhythmGuide || state.mashFeedback || !isMobilePortrait) {
+              : state.stageIndex === 0
+                ? "音は目安。金の線に来たらタップ"
+                : "金の線に来たらタップ";
+    if (showRhythmGuide || state.mashFeedback || (!isMobilePortrait && state.stageIndex === 0)) {
       ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";
       ctx.fillStyle = "#171717";

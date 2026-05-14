@@ -16,6 +16,34 @@ const MAX_BGM_CORRECTION_MS = 500;
 const CUE_LOOKAHEAD_SECONDS = 3.6;
 const CUE_SCHEDULE_INTERVAL_MS = 550;
 
+export function noteCueTimelineFor(note, startAt = 0) {
+  const hitTime = startAt + note.timeMs / 1000;
+  if (note.type === "tap") {
+    return [{ sound: "countTick", role: "hit", time: hitTime }];
+  }
+  if (note.type === "hold") {
+    return [
+      { sound: "countTick", role: "holdStart", time: hitTime },
+      { sound: "wood", role: "holdRelease", time: hitTime + note.durationMs / 1000, gain: 0.2 },
+    ];
+  }
+  if (note.type === "mash") {
+    const durS = note.durationMs / 1000;
+    const steps = Math.min(14, Math.max(4, Math.floor(note.durationMs / 130)));
+    const cues = [];
+    for (let s = 0; s <= steps; s += 1) {
+      cues.push({
+        sound: "wood",
+        role: "mashWindow",
+        time: hitTime + durS * (s / steps),
+        gain: 0.085 + (s / steps) * 0.06,
+      });
+    }
+    return cues;
+  }
+  return [];
+}
+
 export function createAudioEngine() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const engine = {
@@ -626,23 +654,9 @@ export function createAudioEngine() {
   }
 
   function scheduleNoteCue(note, startAt) {
-    const t = startAt + note.timeMs / 1000;
-    if (note.type === "tap") {
-      countTick(t, false);
-      return;
-    }
-    if (note.type === "hold") {
-      countTick(t, false);
-      wood(t + note.durationMs / 1000, 0.2);
-      return;
-    }
-    if (note.type === "mash") {
-      const durS = note.durationMs / 1000;
-      const steps = Math.min(14, Math.max(4, Math.floor(note.durationMs / 130)));
-      for (let s = 0; s <= steps; s += 1) {
-        const g = 0.085 + (s / steps) * 0.06;
-        wood(t + durS * (s / steps), g);
-      }
+    for (const cue of noteCueTimelineFor(note, startAt)) {
+      if (cue.sound === "countTick") countTick(cue.time, false);
+      else if (cue.sound === "wood") wood(cue.time, cue.gain);
     }
   }
 
