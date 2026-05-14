@@ -24,9 +24,11 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install dependencies
         run: npm ci
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
       - name: Check web game
         run: npm run check
+        env:
+          JII_KOBUSHI_REQUIRE_WEBKIT: "1"
       - name: Check iOS project structure
         run: npm run check:ios

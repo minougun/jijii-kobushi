@@ -549,11 +549,15 @@ function isMobileLikeViewport() {
 
 function isPhoneLikePortraitViewport() {
   const shortSide = Math.min(window.innerWidth || 0, window.innerHeight || 0);
-  const touchLike =
-    window.matchMedia("(pointer: coarse)").matches ||
-    window.matchMedia("(hover: none)").matches ||
-    navigator.maxTouchPoints > 0;
-  return window.matchMedia("(orientation: portrait)").matches && touchLike && shortSide <= 540;
+  const coarsePrimary = window.matchMedia("(pointer: coarse)").matches;
+  const noHoverPrimary = window.matchMedia("(hover: none)").matches;
+  const fineHoverPrimary = window.matchMedia("(pointer: fine)").matches && window.matchMedia("(hover: hover)").matches;
+  return (
+    window.matchMedia("(orientation: portrait)").matches &&
+    shortSide <= 540 &&
+    (coarsePrimary || noHoverPrimary) &&
+    !fineHoverPrimary
+  );
 }
 
 function shouldUseDefaultMobileLandscape() {
@@ -2944,24 +2948,17 @@ const handleReducedMotionChange = (event) => {
 };
 if (reducedMotionQuery.addEventListener) reducedMotionQuery.addEventListener("change", handleReducedMotionChange);
 else reducedMotionQuery.addListener?.(handleReducedMotionChange);
-window.addEventListener("resize", () => {
+function handleViewportChange() {
   syncViewportVars();
   syncMobileLandscapeDefault();
   resizeCanvasForDpr();
   updatePortraitHint();
-});
-window.visualViewport?.addEventListener("resize", () => {
-  syncViewportVars();
-  syncMobileLandscapeDefault();
-  resizeCanvasForDpr();
-  updatePortraitHint();
-});
-window.addEventListener("orientationchange", () => {
-  syncViewportVars();
-  syncMobileLandscapeDefault();
-  resizeCanvasForDpr();
-  updatePortraitHint();
-});
+}
+
+window.addEventListener("resize", handleViewportChange);
+window.visualViewport?.addEventListener("resize", handleViewportChange);
+window.screen?.orientation?.addEventListener?.("change", handleViewportChange);
+window.addEventListener("orientationchange", handleViewportChange);
 
 dom.langJaButton?.addEventListener("click", () => {
   state.uiLang = "ja";

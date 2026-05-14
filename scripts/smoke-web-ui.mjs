@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const playwright = await import("playwright");
-const { chromium } = playwright.default ?? playwright;
+const { chromium, devices, webkit } = playwright.default ?? playwright;
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 function parseArgs(argv) {
@@ -148,6 +148,19 @@ const NARROW_DESKTOP_PAGE = {
   viewport: { width: 390, height: 844 },
 };
 
+const TOUCH_DESKTOP_NARROW_PAGE = {
+  viewport: { width: 500, height: 900 },
+  isMobile: false,
+  hasTouch: true,
+};
+
+const IPHONE_WEBKIT_PAGE = devices["iPhone 13"] ?? {
+  viewport: { width: 390, height: 844 },
+  deviceScaleFactor: 3,
+  isMobile: true,
+  hasTouch: true,
+};
+
 async function assertElementInViewport(page, selector, label = selector) {
   const box = await page.locator(selector).boundingBox();
   const viewport = page.viewportSize();
@@ -235,6 +248,43 @@ async function assertStorageFailureAnnounced(page, expected = "保存できま�
   await page.waitForFunction((text) => document.querySelector("#srJudgeStatus")?.textContent?.includes(text), expected, { timeout: 2500 });
 }
 
+async function runWebKitMobileSmoke() {
+  let browser = null;
+  try {
+    browser = await webkit.launch();
+  } catch (error) {
+    if (process.env.JII_KOBUSHI_REQUIRE_WEBKIT === "1") throw error;
+    console.warn(`webkit mobile smoke skipped: ${error.message}`);
+    return;
+  }
+  try {
+    await withPage(browser, IPHONE_WEBKIT_PAGE, async (page) => {
+      await page.addInitScript(() => {
+        Object.defineProperty(Element.prototype, "requestFullscreen", {
+          configurable: true,
+          value: undefined,
+        });
+        try {
+          Object.defineProperty(screen, "orientation", {
+            configurable: true,
+            value: {},
+          });
+        } catch {
+        }
+      });
+      await page.goto(baseUrl, { waitUntil: "networkidle" });
+      await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
+      await assertElementClickable(page, "#primaryButton", "webkit mobile opening primary");
+      await reachMobileBattle(page);
+      await page.waitForFunction(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
+      await assertElementClickable(page, "#mobileTapPad", "webkit mobile battle tap pad");
+      await assertElementClickable(page, "#pauseButton", "webkit mobile pause button");
+    });
+  } finally {
+    await browser.close();
+  }
+}
+
 if (options.pagesStrict && !explicitUrl) assertNoDeletedTrackedFiles();
 const local = explicitUrl ? null : await startStaticServer({ allowHeadAssetFallback: options.allowHeadAssetFallback });
 const baseUrl = explicitUrl || local.url;
@@ -300,6 +350,64 @@ try {
     await page.waitForFunction(() => document.documentElement.dataset.phase === "opening");
     const rotated = await page.evaluate(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
     assert(!rotated, "narrow desktop viewport should not use mobile landscape default");
+  });
+
+  await withPage(browser, TOUCH_DESKTOP_NARROW_PAGE, async (page) => {
+    await page.addInitScript(() => {
+      const nativeMatchMedia = window.matchMedia.bind(window);
+      window.matchMedia = (query) => {
+        const normalized = String(query).replace(/\s+/g, "");
+        const forcedMatches = new Map([
+          ["(pointer:coarse)", false],
+          ["(hover:none)", false],
+          ["(pointer:fine)", true],
+          ["(hover:hover)", true],
+        ]);
+        if (!forcedMatches.has(normalized)) return nativeMatchMedia(query);
+        return {
+          matches: forcedMatches.get(normalized),
+          media: query,
+          onchange: null,
+          addListener: () => {},
+          removeListener: () => {},
+          addEventListener: () => {},
+          removeEventListener: () => {},
+          dispatchEvent: () => true,
+        };
+      };
+      Object.defineProperty(navigator, "maxTouchPoints", {
+        configurable: true,
+        get: () => 10,
+      });
+      window.__orientationRequests = { fullscreen: 0, lock: 0 };
+      Element.prototype.requestFullscreen = () => {
+        window.__orientationRequests.fullscreen += 1;
+        return Promise.resolve();
+      };
+      try {
+        Object.defineProperty(screen, "orientation", {
+          configurable: true,
+          value: {
+            lock: () => {
+              window.__orientationRequests.lock += 1;
+              return Promise.resolve();
+            },
+          },
+        });
+      } catch {
+      }
+    });
+    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await page.waitForFunction(() => document.documentElement.dataset.phase === "opening");
+    const rotated = await page.evaluate(() => document.documentElement.classList.contains("mobileLandscapeDefault"));
+    assert(!rotated, "touch desktop narrow viewport should not use mobile landscape default");
+    await page.locator("#primaryButton").click();
+    await page.waitForTimeout(100);
+    const requests = await page.evaluate(() => window.__orientationRequests);
+    assert(
+      requests.fullscreen === 0 && requests.lock === 0,
+      `touch desktop should not request fullscreen/orientation lock: ${JSON.stringify(requests)}`,
+    );
   });
 
   await withPage(browser, { width: 844, height: 390 }, async (page) => {
@@ -488,6 +596,8 @@ try {
     await page.keyboard.press("Enter");
     await page.keyboard.press("Escape");
   });
+
+  await runWebKitMobileSmoke();
 
   console.log(`web ui smoke ok: ${baseUrl}`);
 } finally {
