@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "gameId": "jii-kobushi",
   "exportId": "web-runtime-state-traces",
-  "sourceGitCommit": "fc96d1a7390e595fbd18003cc264387ff08c9a71",
+  "sourceGitCommit": "f513c1ea4c260b0d366c30e3444f09a01bfbe0e6",
   "sourceFiles": [
     "src/main.js",
     "src/rhythm.js",
