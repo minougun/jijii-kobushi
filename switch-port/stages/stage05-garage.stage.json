@@ -3,8 +3,8 @@
   "gameId": "jii-kobushi",
   "exportId": "switch-stage5-garage",
   "exportToolVersion": 1,
-  "generatedAt": "2026-05-13T15:00:01.547Z",
-  "sourceGitCommit": "ff005841ba76af4fc7bd3aea9f9140929254f429",
+  "generatedAt": "2026-05-14T08:09:29.341Z",
+  "sourceGitCommit": "527d383757b60fbb7ef9c9381f2213fb929bc6ed",
   "sourceFiles": [
     "src/stages.js",
     "src/rhythm.js",

@@ -35,6 +35,7 @@ const outputPath = join(
   "exports",
   "switch-stage1-shotengai.stage.json",
 );
+const mirroredOutputPath = join(repoRoot, "switch-port", "stage1", "shotengai.stage.json");
 
 const EXPORT_TOOL_VERSION = 1;
 const GAME_ID = "jii-kobushi";
@@ -72,6 +73,16 @@ function gitDirtyFiles(files) {
   } catch {
     return [];
   }
+}
+
+function assertCleanWebTraceSource(files, dirtyFiles) {
+  if (process.env.REQUIRE_CLEAN_WEB_TRACES !== "1") return;
+  if (dirtyFiles.length > 0) {
+    throw new Error(
+      `Refusing release Stage 1 export from dirty Web source:\n${dirtyFiles.map((file) => `- ${file}`).join("\n")}`,
+    );
+  }
+  console.log(`clean Stage 1 Web source ok: ${files.join(", ")}`);
 }
 
 function typeCounts(chart) {
@@ -209,6 +220,7 @@ function buildExport() {
     "src/main.js",
   ];
   const sourceDirtyFiles = gitDirtyFiles(sourceFiles);
+  assertCleanWebTraceSource(sourceFiles, sourceDirtyFiles);
 
   return {
     schemaVersion: 1,
@@ -297,6 +309,9 @@ function buildExport() {
 }
 
 const payload = buildExport();
-mkdirSync(dirname(outputPath), { recursive: true });
-writeFileSync(outputPath, `${JSON.stringify(payload, null, 2)}\n`);
-console.log(outputPath);
+const content = `${JSON.stringify(payload, null, 2)}\n`;
+for (const path of [outputPath, mirroredOutputPath]) {
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, content);
+  console.log(path);
+}

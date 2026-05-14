@@ -69,6 +69,22 @@ node scripts/check-ios-project.mjs
 
 This verifies the Xcode project references the web bundle, app icon catalog, privacy manifest, and local resource scheme files. It does not replace an Xcode simulator or device run.
 
+For merge/release gate checks, use:
+
+```bash
+REQUIRE_TRACKED_IOS_FILES=1 scripts/check-ios-port.sh
+```
+
+`check-ios-port.sh` first rejects untracked iOS/release-critical files so a clone or CI run cannot silently miss project files. On a Mac with Xcode it then builds the simulator `.app`, verifies the bundle contains the web resources, runs `codesign --verify --deep --strict`, installs the app into a booted simulator, and launches it.
+
+For non-release environments that cannot run Xcode, use:
+
+```bash
+REQUIRE_TRACKED_IOS_FILES=1 IOS_ALLOW_RELEASE_UNSAFE_SKIP_XCODE_ARTIFACTS=1 scripts/check-ios-port.sh
+```
+
+That mode is only a structural checkpoint. It is not release evidence for the `.app` / codesign / simulator gate.
+
 To generate local screenshot drafts:
 
 ```bash

@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { spawnSync } from "node:child_process";
 
 const ROOT = process.cwd();
 const requiredPaths = [
@@ -30,6 +31,11 @@ const requiredPaths = [
 const missing = requiredPaths.filter((relativePath) => !existsSync(join(ROOT, relativePath)));
 if (missing.length > 0) {
   throw new Error(`Missing iOS project dependency paths:\n${missing.map((path) => `- ${path}`).join("\n")}`);
+}
+
+if (process.env.REQUIRE_TRACKED_IOS_FILES === "1") {
+  assertTrackedPaths(requiredPaths);
+  assertNoUntrackedUnder(["ios", "support.html", "privacy.html"]);
 }
 
 const project = readFileSync(join(ROOT, "ios/JiiKobushi.xcodeproj/project.pbxproj"), "utf8");
@@ -86,6 +92,43 @@ if (!privacyPage.includes("サーバー送信を使用していません")) thro
 if (!supportPage.includes("入力補正")) throw new Error("Support page is missing input offset help");
 
 console.log("iOS project structure OK");
+
+function git(args) {
+  const result = spawnSync("git", args, {
+    cwd: ROOT,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  if (result.status !== 0) {
+    throw new Error(`git ${args.join(" ")} failed:\n${result.stderr || result.stdout}`);
+  }
+  return result.stdout;
+}
+
+function assertTrackedPaths(paths) {
+  const missingFromIndex = [];
+  for (const relativePath of paths) {
+    const result = spawnSync("git", ["ls-files", "--error-unmatch", relativePath], {
+      cwd: ROOT,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    if (result.status !== 0) missingFromIndex.push(relativePath);
+  }
+  if (missingFromIndex.length > 0) {
+    throw new Error(`iOS release files are not tracked:\n${missingFromIndex.map((path) => `- ${path}`).join("\n")}`);
+  }
+}
+
+function assertNoUntrackedUnder(paths) {
+  const status = git(["status", "--porcelain=v1", "--untracked-files=all", "--", ...paths])
+    .split("\n")
+    .filter(Boolean);
+  const untracked = status.filter((line) => line.startsWith("?? "));
+  if (untracked.length > 0) {
+    throw new Error(`untracked iOS release files would be missing after clone:\n${untracked.join("\n")}`);
+  }
+}
 
 function filesUnder(...roots) {
   const files = [];

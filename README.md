@@ -49,6 +49,14 @@ npm run audit:timing
 node scripts/check-ios-project.mjs
 ```
 
+Rhythm release gate:
+
+```bash
+npm run check:live-rhythm-release
+```
+
+This gate intentionally fails while the latest live rhythm verdict is `inconclusive` or `do not ship rhythm`. Machine clock checks are useful, but release needs physical speaker or system-audio listening evidence, including the current Stage 1 `shotengai` and Stage 6 `redgate` offset suspects.
+
 Stage 1 Unity port planning notes:
 
 - `/mnt/c/Users/minou/jii-kobushi/switch-port/stage1/pseudocode-csharp.md`

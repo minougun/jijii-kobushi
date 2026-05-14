@@ -61,6 +61,16 @@ function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
+function assertCleanTraceInput(payload, stageFile) {
+  if (process.env.REQUIRE_CLEAN_WEB_TRACES !== "1") return;
+  if (!payload.sourceGitCommit) {
+    throw new Error(`${stageFile}: missing sourceGitCommit for release trace export`);
+  }
+  if (payload.sourceWorktreeDirty !== false || payload.sourceDirtyFiles?.length) {
+    throw new Error(`${stageFile}: release trace export requires clean Web source metadata`);
+  }
+}
+
 function pick(pattern, index) {
   return pattern[index % pattern.length];
 }
@@ -249,6 +259,7 @@ if (!stageFiles.length) {
 
 for (const stageFile of stageFiles) {
   const payload = readJson(join(inputDir, stageFile));
+  assertCleanTraceInput(payload, stageFile);
   const outputFile = stageFile.replace(".stage.json", ".expected-results.json");
   const outputPath = join(outputDir, outputFile);
   const content = `${JSON.stringify(buildExpected(payload, stageFile), null, 2)}\n`;

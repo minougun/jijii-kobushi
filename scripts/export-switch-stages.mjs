@@ -67,6 +67,20 @@ function gitDirtyFiles(files) {
   }
 }
 
+function assertCleanWebTraceSource(files, dirtyFiles) {
+  if (process.env.REQUIRE_CLEAN_WEB_TRACES !== "1") return;
+  if (dirtyFiles.length > 0) {
+    throw new Error(
+      `Refusing release trace export from dirty Web source:\n${dirtyFiles.map((file) => `- ${file}`).join("\n")}`,
+    );
+  }
+  const untracked = gitDirtyFiles(["switch-port/traces"]).filter((line) => line.startsWith("?? "));
+  if (untracked.length > 0) {
+    throw new Error(`Refusing release trace export with untracked trace files:\n${untracked.join("\n")}`);
+  }
+  console.log(`clean Web trace source ok: ${files.join(", ")}`);
+}
+
 function typeCounts(chart) {
   return chart.reduce((acc, note) => {
     acc[note.type] = (acc[note.type] ?? 0) + 1;
@@ -208,6 +222,7 @@ function buildStageExport(stage, index) {
     "src/main.js",
   ];
   const sourceDirtyFiles = gitDirtyFiles(sourceFiles);
+  assertCleanWebTraceSource(sourceFiles, sourceDirtyFiles);
 
   return {
     schemaVersion: 1,
