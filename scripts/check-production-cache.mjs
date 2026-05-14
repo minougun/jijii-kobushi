@@ -1,8 +1,8 @@
 import { execFileSync } from "node:child_process";
 
 const DEFAULT_BASE_URL = "https://minougun.github.io/jijii-kobushi/";
-const EXPECTED_MAIN_TOKEN = "20260514-mobilelandscape1";
-const EXPECTED_STYLE_TOKEN = "20260514-mobilelandscape1";
+const EXPECTED_MAIN_TOKEN = "20260514-phoneinput1";
+const EXPECTED_STYLE_TOKEN = "20260514-phoneinput1";
 const EXPECTED_AUDIO_TOKEN = "20260513-audioclock1";
 const EXPECTED_STAGE_TOKEN = "20260513-rhythmstrict1";
 const EXPECTED_RHYTHM_TOKEN = "20260513-mashoffset1";
@@ -49,6 +49,8 @@ assert(mainJs.includes(`./stages.js?v=${EXPECTED_STAGE_TOKEN}`), "main.js does n
 assert(mainJs.includes(`./rhythm.js?v=${EXPECTED_RHYTHM_TOKEN}`), "main.js does not reference the expected rhythm.js cache token");
 assert(mainJs.includes("__JII_KOBUSHI_DIAGNOSTICS__"), "main.js diagnostics hook is missing");
 assert(mainJs.includes("battleToBgmMediaDeltaMs"), "main.js BGM media-position diagnostic is missing");
+assert(mainJs.includes("fineHoverPrimary"), "main.js primary-input phone predicate is missing");
+assert(!mainJs.includes("navigator.maxTouchPoints > 0"), "main.js still uses maxTouchPoints as a phone predicate OR condition");
 
 const audioJs = await fetchText(new URL(`src/audio.js?v=${EXPECTED_AUDIO_TOKEN}`, baseUrl));
 assert(audioJs.includes("bgmSyncStatus()"), "audio.js BGM sync status is missing");
