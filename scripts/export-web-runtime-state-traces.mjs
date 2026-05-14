@@ -52,6 +52,31 @@ function gitCommit() {
   return git(["rev-parse", "HEAD"]);
 }
 
+function gitFileAtCommit(commit, relativePath) {
+  try {
+    return execFileSync("git", ["show", `${commit}:${relativePath}`], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+      maxBuffer: 80 * 1024 * 1024,
+    });
+  } catch {
+    return null;
+  }
+}
+
+function workingFile(relativePath) {
+  return readFileSync(path.join(repoRoot, relativePath), "utf8");
+}
+
+function sourceMatchesCommit(commit, files) {
+  if (!commit) return false;
+  return files.every((file) => {
+    const committed = gitFileAtCommit(commit, file);
+    return committed !== null && committed === workingFile(file);
+  });
+}
+
 function gitDirtyFiles(files) {
   return git(["status", "--short", "--", ...files])
     .split("\n")
@@ -187,7 +212,16 @@ async function captureRuntimeTrace(page, baseUrl, stageIndex, difficulty, loop) 
   };
 }
 
-async function buildPayload() {
+function checkOnlySourceCommit() {
+  if (!CHECK_ONLY || !existsSync(outputPath)) return null;
+  const existing = JSON.parse(readFileSync(outputPath, "utf8"));
+  if (sourceMatchesCommit(existing.sourceGitCommit, sourceFiles)) {
+    return existing.sourceGitCommit;
+  }
+  return null;
+}
+
+async function buildPayload(sourceGitCommit = gitCommit()) {
   const dirtyFiles = gitDirtyFiles(sourceFiles);
   assertCleanSource(dirtyFiles);
   const local = await startStaticServer();
@@ -209,7 +243,7 @@ async function buildPayload() {
       schemaVersion: 1,
       gameId: "jii-kobushi",
       exportId: "web-runtime-state-traces",
-      sourceGitCommit: gitCommit(),
+      sourceGitCommit,
       sourceFiles,
       sourceWorktreeDirty: dirtyFiles.length > 0,
       sourceDirtyFiles: dirtyFiles,
@@ -226,7 +260,7 @@ async function buildPayload() {
   }
 }
 
-const payload = await buildPayload();
+const payload = await buildPayload(checkOnlySourceCommit() ?? gitCommit());
 const content = `${JSON.stringify(payload, null, 2)}\n`;
 
 if (CHECK_ONLY) {
